@@ -1,51 +1,24 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AIフォームオートフィル</title>
+    <title>FormPilot Vault - Multilingual form autofill</title>
     <link rel="stylesheet" href="style.css">
-  <!-- Pendo / Novus install: start -->
-<script>
-  (function(apiKey) {
-    (function(p, e, n, d, o) {
-      var v, w, x, y, z;
-      o = p[d] = p[d] || {};
-      o._q = o._q || [];
-      v = ['initialize', 'identify', 'updateOptions', 'pageLoad', 'track'];
-      for (w = 0, x = v.length; w < x; ++w) (function(method) {
-        o[method] = o[method] || function() {
-          o._q[method === 'initialize' ? 'unshift' : 'push']([method].concat([].slice.call(arguments, 0)));
-        };
-      })(v[w]);
-      y = e.createElement(n);
-      y.async = true;
-      y.src = 'https://cdn.pendo.io/agent/static/' + apiKey + '/pendo.js';
-      z = e.getElementsByTagName(n)[0];
-      z.parentNode.insertBefore(y, z);
-    })(window, document, 'script', 'pendo');
-
-    pendo.initialize({
-      visitor: { id: "formpilot-public-demo" },
-      account: { id: "formpilot-vault" }
-    });
-  })("b147308a-8db6-4ecb-ba89-29c921a8ca58");
-</script>
-<!-- Pendo / Novus install: end -->
-</head>
+  </head>
   <body>
     <header class="hero">
       <nav class="topbar">
         <strong data-i18n-ja="AIフォームオートフィル" data-i18n-en="AI Form Autofill">AIフォームオートフィル</strong>
         <div class="topbar-actions">
-          <button class="lang-button active" type="button" data-lang="ja">日本語</button>
-          <button class="lang-button" type="button" data-lang="en">English</button>
+          <button class="lang-button" type="button" data-lang="ja">日本語</button>
+          <button class="lang-button active" type="button" data-lang="en">English</button>
           <a href="#pricing" data-i18n-ja="料金" data-i18n-en="Pricing">料金</a>
           <a href="privacy.html" data-i18n-ja="プライバシー" data-i18n-en="Privacy">プライバシー</a>
         </div>
       </nav>
 
-      <section class="lang-panel active" data-lang-panel="ja">
+      <section class="lang-panel" data-lang-panel="ja">
         <div class="hero-grid">
           <section class="hero-copy">
             <p class="eyebrow">Chrome拡張MVP</p>
@@ -60,17 +33,6 @@
             <img src="assets/product-preview.png" alt="AIフォームオートフィルで入力されたサンプルフォーム">
           </figure>
         </div>
-
-        <section class="demo-strip" aria-label="自動再生デモ">
-          <div class="demo-copy">
-            <p class="eyebrow">2分デモ</p>
-            <h2>開くだけで、流れが分かります</h2>
-            <p>LP、拡張機能、実ブラウザ入力、公開フォーム検証、課金画面までを順番に流します。自動再生のため音は出ません。</p>
-          </div>
-          <video class="demo-video" autoplay muted loop playsinline controls poster="assets/hackathon-lp-ja-desktop.png">
-            <source src="assets/autoplay-demo-ja.mp4" type="video/mp4">
-          </video>
-        </section>
 
         <section class="judge-strip" id="proof">
           <h2>30秒で確認できます</h2>
@@ -117,7 +79,7 @@
         </section>
       </section>
 
-      <section class="lang-panel" data-lang-panel="en">
+      <section class="lang-panel active" data-lang-panel="en">
         <div class="hero-grid">
           <section class="hero-copy">
             <p class="eyebrow">Chrome extension MVP</p>
@@ -129,20 +91,9 @@
             </div>
           </section>
           <figure class="preview">
-            <img src="assets/product-preview-en.png" alt="Sample form filled by AI Form Autofill">
+            <img src="assets/product-preview.png" alt="Sample form filled by AI Form Autofill">
           </figure>
         </div>
-
-        <section class="demo-strip" aria-label="Autoplay demo">
-          <div class="demo-copy">
-            <p class="eyebrow">2-minute demo</p>
-            <h2>Open the page and the flow starts playing.</h2>
-            <p>The demo cycles through the landing page, extension popup, real browser fill, public form probes, and checkout path. It is muted so autoplay works reliably.</p>
-          </div>
-          <video class="demo-video" autoplay muted loop playsinline controls poster="assets/hackathon-lp-en-desktop.png">
-            <source src="assets/autoplay-demo-en.mp4" type="video/mp4">
-          </video>
-        </section>
 
         <section class="judge-strip" id="proof-en">
           <h2>Verify it in 30 seconds</h2>
@@ -196,24 +147,24 @@
         <div class="pricing-grid">
           <article>
             <h3>Free</h3>
-            <p class="price">0円</p>
+            <p class="price" data-i18n-ja="0円" data-i18n-en="Free">Free</p>
             <p data-i18n-ja="月5回、基本プロフィール1つ。" data-i18n-en="5 fills per month, 1 basic profile.">月5回、基本プロフィール1つ。</p>
           </article>
           <article class="paid-plan">
             <h3>Plus</h3>
-            <p class="price">580円/月から</p>
+            <p class="price" data-i18n-ja="580円/月から" data-i18n-en="From ¥580/month">From ¥580/month</p>
             <p data-i18n-ja="無制限入力、複数プロフィール、サイト別学習。" data-i18n-en="Unlimited fills, multiple profiles, site memory.">無制限入力、複数プロフィール、サイト別学習。</p>
             <button class="checkout-button" type="button" data-plan="plus">Plusで始める</button>
           </article>
           <article class="paid-plan">
             <h3>Pro</h3>
-            <p class="price">1,480円/月から</p>
+            <p class="price" data-i18n-ja="1,480円/月から" data-i18n-en="From ¥1,480/month">From ¥1,480/month</p>
             <p data-i18n-ja="会社プロフィール、住所複数、入力履歴。" data-i18n-en="Company profile, multiple addresses, fill history.">会社プロフィール、住所複数、入力履歴。</p>
             <button class="checkout-button" type="button" data-plan="pro">Proで始める</button>
           </article>
           <article class="paid-plan">
             <h3>Team</h3>
-            <p class="price">1,500円/人/月から</p>
+            <p class="price" data-i18n-ja="1,500円/人/月から" data-i18n-en="From ¥1,500/user/month">From ¥1,500/user/month</p>
             <p data-i18n-ja="チームプロフィール、共有テンプレート、監査ログ。" data-i18n-en="Team profiles, shared templates, audit log.">チームプロフィール、共有テンプレート、監査ログ。</p>
             <button class="checkout-button" type="button" data-plan="team">Teamで始める</button>
           </article>

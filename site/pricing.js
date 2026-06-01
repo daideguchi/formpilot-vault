@@ -1,19 +1,12 @@
 const CHECKOUT_ENDPOINT = "/api/stripe/checkout-session";
 const LICENSE_KEY_STORAGE = "afa_license_key";
+const LANGUAGE_STORAGE = "afa_site_language";
 
 const checkoutStatus = document.getElementById("checkoutStatus");
-let activeLanguage = "ja";
+let activeLanguage = "en";
 
 for (const button of document.querySelectorAll(".checkout-button")) {
   button.addEventListener("click", () => startCheckout(button));
-}
-
-for (const link of document.querySelectorAll('a[href="#proof"], a[href="#proof-en"]')) {
-  link.addEventListener("click", () => trackProductEvent("view_proof"));
-}
-
-for (const link of document.querySelectorAll('a[href="#pricing"]')) {
-  link.addEventListener("click", () => trackProductEvent("view_pricing"));
 }
 
 for (const button of document.querySelectorAll("[data-lang]")) {
@@ -25,12 +18,11 @@ if (query.get("license_key")) {
   localStorage.setItem(LICENSE_KEY_STORAGE, query.get("license_key"));
 }
 
-setLanguage(document.documentElement.lang === "en" ? "en" : "ja");
+setLanguage(resolveInitialLanguage());
 
 async function startCheckout(button) {
   const plan = button.dataset.plan;
   const license_key = getOrCreateLicenseKey();
-  trackProductEvent("click_start_plan", { plan });
 
   setStatus(activeLanguage === "ja"
     ? `${plan.toUpperCase()}の決済ページを準備しています。`
@@ -74,9 +66,12 @@ function setButtonsDisabled(disabled) {
 }
 
 function setLanguage(language) {
-  activeLanguage = language === "en" ? "en" : "ja";
+  activeLanguage = normalizeLanguage(language);
+  localStorage.setItem(LANGUAGE_STORAGE, activeLanguage);
   document.documentElement.lang = activeLanguage;
-  trackProductEvent("switch_language", { language: activeLanguage });
+  document.title = activeLanguage === "ja"
+    ? "AIフォームオートフィル"
+    : "FormPilot Vault - Multilingual form autofill";
 
   for (const panel of document.querySelectorAll("[data-lang-panel]")) {
     panel.classList.toggle("active", panel.dataset.langPanel === activeLanguage);
@@ -99,16 +94,19 @@ function setLanguage(language) {
   }
 }
 
-function capitalize(value = "") {
-  return value.charAt(0).toUpperCase() + value.slice(1);
+function resolveInitialLanguage() {
+  const queryLanguage = new URLSearchParams(location.search).get("lang");
+  if (queryLanguage) return queryLanguage;
+  const savedLanguage = localStorage.getItem(LANGUAGE_STORAGE);
+  if (savedLanguage) return savedLanguage;
+  const browserLanguages = navigator.languages?.length ? navigator.languages : [navigator.language];
+  return browserLanguages.some((language) => /^ja\b/i.test(language || "")) ? "ja" : "en";
 }
 
-function trackProductEvent(name, properties = {}) {
-  const tracker = globalThis.pendo;
-  if (tracker && typeof tracker.track === "function") {
-    tracker.track(name, {
-      product: "formpilot-vault",
-      ...properties
-    });
-  }
+function normalizeLanguage(language = "") {
+  return /^ja\b/i.test(language) ? "ja" : "en";
+}
+
+function capitalize(value = "") {
+  return value.charAt(0).toUpperCase() + value.slice(1);
 }

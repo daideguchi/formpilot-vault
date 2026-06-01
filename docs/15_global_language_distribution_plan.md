@@ -84,3 +84,5 @@ Freeは月5回のままにします。世界配信では、Freeを広く撒き�
 初回提出は世界配信で進めます。Chrome Web Storeの配信地域は全155地域、package localeは21 locale、Primary languageは英語です。
 
 提出を遅らせるほど損なので、Store Listingの全言語翻訳は公開後に追加します。MVP時点では、拡張UIとフォーム理解を先に世界対応させ、英語のStore Listingで世界公開します。
+
+公開LPも同じ方針です。非日本語ブラウザでは英語を初期表示し、日本語ユーザーには `?lang=ja` と言語ボタンで日本語を出します。これにより、Chrome Web Storeから来た世界ユーザーが最初に日本語だけを見る状態を避けます。
