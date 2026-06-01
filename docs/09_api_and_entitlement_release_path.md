@@ -1,7 +1,7 @@
 # API / Entitlement Release Path
 
 作成日: 2026-06-01
-状態: `mvp_api_scaffolded`
+状態: `vercel_live_with_stripe_bridge`
 
 ## 目的
 
@@ -19,6 +19,7 @@ Chrome拡張にAPIキーや課金秘密情報を入れず、リリース時に�
   - 2026-06-06まではAzure DeepSeek V4へ送る
   - 2026-06-07以降はCloudflare Workers AIへ送る
   - AIの返答を `field_id -> semantic_key` のJSONへ正規化する
+  - live providerの環境変数が未投入/障害の場合、`rules_fallback` としてローカルのフォーム理解ルールでsemantic keyを返す
 
 安全条件:
 
@@ -29,6 +30,7 @@ Chrome拡張にAPIキーや課金秘密情報を入れず、リリース時に�
 ### Entitlement API
 
 - 実装: `api/entitlement/entitlement.js`
+- Stripe metadata source: `api/entitlement/stripe-source.js`
 - ローカル起動: `npm run dev:entitlement`
 - endpoints:
   - `POST /api/stripe/checkout-session`
@@ -38,8 +40,45 @@ Chrome拡張にAPIキーや課金秘密情報を入れず、リリース時に�
 - 役割:
   - Stripe Checkout Sessionをsubscription modeで作成する
   - Free/Plus/Pro/Teamの権利を返す
-  - Stripe webhookからlicense entitlementを更新する
-  - Stripe署名を `STRIPE_WEBHOOK_SECRET` で検証する
+- Stripe webhookからlicense entitlementを更新する
+- Stripe署名を `STRIPE_WEBHOOK_SECRET` で検証する
+- Vercel本番では `FORMPILOT_STRIPE_BRIDGE_BASE_URL` がある場合、Kurogane側のStripe本番ブリッジへ中継する
+
+### Cloudflare Worker
+
+- 実装: `api/worker/worker.mjs`
+- 設定: `wrangler.toml`
+- D1 migration: `api/worker/migrations/0001_entitlements.sql`
+- endpoints:
+  - `GET /api/health`
+  - `POST /api/schema/infer`
+  - `POST /api/stripe/checkout-session`
+  - `POST /api/stripe/webhook`
+  - `GET/POST /api/entitlement/check`
+- 静的サイト: `site/` をWorkers Static Assetsで配信する
+- D1: `entitlements` tableにlicense状態を保存する
+- AI: `env.AI.run()` bindingがあればCloudflare Workers AIを直接呼ぶ
+
+### Vercel production API
+
+- 生成: `npm run build:vercel-app`
+- deploy先: `https://formpilot-vault-api.vercel.app/`
+- 生成スクリプト: `scripts/build-vercel-app.mjs`
+- endpoints:
+  - `GET /api/health`
+  - `POST /api/schema/infer`
+  - `POST /api/stripe/checkout-session`
+  - `POST /api/entitlement/check`
+  - `POST /api/stripe/webhook`
+- 本番環境変数:
+  - `FORMPILOT_STRIPE_BRIDGE_BASE_URL=https://kurogane-edge-core-lp.vercel.app/api/formpilot`
+  - `PUBLIC_SITE_URL=https://formpilot-vault-api.vercel.app`
+  - `ENTITLEMENT_SOURCE=stripe_bridge`
+- 2026-06-01確認:
+  - `/api/health` は `entitlement_source: stripe_bridge`
+  - `/api/schema/infer` はAzure未投入時に `rules_fallback` で `person.email.primary` を返す
+  - `/api/stripe/checkout-session` はStripe Checkout URLを返す
+  - `/api/entitlement/check` は購入前licenseをFree/月5回で返す
 
 ### Extension接続
 
@@ -66,6 +105,21 @@ Chrome拡張にAPIキーや課金秘密情報を入れず、リリース時に�
   - Pro: 1,480円/月
   - Team: 1,500円/人/月
 - 出力された `STRIPE_PLAN_PRICE_MAP` と `STRIPE_PRICE_PLAN_MAP` を本番環境変数へ入れる
+- 2026-06-01時点では、FormPilot専用の独立Stripe商品/price id作成は未実行。
+- ただし本番課金導線は、Kurogane Vercel runtimeのStripe live secretを使うFormPilot専用ブリッジでCheckout Session作成まで成功。
+
+### Store / Public Pages
+
+- LP: `site/index.html`
+- Pricing JS: `site/pricing.js`
+- Checkout success: `site/success.html`
+- Privacy draft: `site/privacy.html`
+- Terms draft: `site/terms.html`
+- Store listing copy: `docs/12_chrome_store_listing_copy.md`
+- Store assets: `store-assets/`
+- Extension package: `dist/ai-form-autofill-0.1.0.zip`
+- Production runbook: `docs/13_production_launch_runbook.md`
+- Release check: `npm run release:check`
 
 ## 環境変数
 
@@ -75,11 +129,11 @@ Chrome拡張にAPIキーや課金秘密情報を入れず、リリース時に�
 
 ## 次にやること
 
-1. schema proxyをCloudflare Worker/Vercel Functionsのどちらへ置くか決める
-2. Azure DeepSeek V4の実endpointを環境変数へ入れてsmoke test
-3. Cloudflare Workers AIの実tokenで2026-06-07以降のsmoke test
-4. Stripe商品/価格を作り、`STRIPE_PRICE_PLAN_MAP` を本番値にする
-5. entitlement DBをローカルJSONから永続DBへ移す
+1. Chrome Web Storeへ提出する
+2. Azure DeepSeek V4の実endpoint/keyをVercelへ入れてlive smoke testする
+3. 2026-06-07以降、Workers AI bindingで同じJSON応答を返せるか確認
+4. 日本語デモフォームを増やし、`rules_fallback` とAI liveの精度差を測る
+5. 将来移行としてCloudflare D1を作成し、`wrangler.toml` の `database_id` へ反映する
 
 ## 公式仕様メモ
 

@@ -41,6 +41,8 @@ MVPは `Chrome拡張 + content script入力` を本線にします。Playwright�
 - 本番リリースRunbook: `docs/13_production_launch_runbook.md`
 - release readiness check: `scripts/release-readiness.mjs`
 - 公開LP/GitHub repo: `https://daideguchi.github.io/formpilot-vault/`, `https://github.com/daideguchi/formpilot-vault`
+- 本番LP/API: `https://formpilot-vault-api.vercel.app/`
+- Stripe本番Checkoutブリッジ: `https://kurogane-edge-core-lp.vercel.app/api/formpilot/*`
 
 `extension/src/profile-memory.js` で、ローカルVault、サイト別mapping cache、ユーザー修正イベント、フォーム単位のmemory retrievalを実装済みです。入力成功後、実値ではなく `profile_key` とフィールド署名だけを保存して、次回の推論に使います。
 
@@ -52,7 +54,9 @@ AIへ渡すschema inference payloadも実装済みです。フォーム構造と
 
 DDの初期思想は実際のschema proxyプロンプトへ入れました。`buildSchemaPrompt()` は、フォーム入力の細かな手間をなくす、Personal Vault + Profile RAG/Memory Spaceを核にする、実値を扱わない、不確定項目はユーザー確認へ残す、送信/認証突破/大量作成はしない、という方針を含みます。
 
-Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/Teamボタンから `POST /api/stripe/checkout-session` を呼び、Checkout成功後にLicense keyを表示します。実際にDDへ入金される本番状態にするには、Stripe本番secret、Plus/Pro/Teamのprice id、公開URL、webhook URL、本番entitlement DBを接続します。
+Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/Teamボタンから `POST /api/stripe/checkout-session` を呼び、Checkout成功後にLicense keyを表示します。2026-06-01時点では、FormPilot本番APIがKurogane側のStripe本番secretを使う専用ブリッジへ中継し、Stripe Checkout Session作成まで本番で成功しています。購入前のlicense checkはFree/月5回で返り、購入後はStripe subscription metadataの `license_key` / `plan` を照会して有料権利を返す設計です。
+
+AI schema proxyは、Azure/Cloudflareの実環境変数が未投入でも停止しないように `rules_fallback` を実装済みです。2026-06-06まではprovider_idは `azure_deepseek_v4` のまま、Azure環境変数が未設定の場合はローカルのフォーム理解ルールでsemantic keyを返します。Azure値が投入されたらlive modeへ戻せます。
 
 Chrome Web Store提出向けのロゴ、manifestアイコン、小プロモ画像、1280x800スクリーンショット3枚、提出用ZIPを作成済みです。素材生成は `npm run assets:store`、ZIP作成は `npm run package:extension` で再現できます。
 
@@ -60,11 +64,11 @@ Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry
 
 本番APIの置き場としてCloudflare Workerを実装済みです。`/api/schema/infer`、`/api/stripe/checkout-session`、`/api/stripe/webhook`、`/api/entitlement/check`、`/api/health` を同じWorkerで扱います。Stripe entitlementはD1に保存する設計です。Workers AI binding `env.AI.run()` がある場合はCloudflare API tokenなしで推論できます。
 
-`npm run release:check` も追加済みです。現時点の機械判定ブロッカーは、公開URLとCloudflare D1 `database_id` のplaceholderだけです。
+`npm run release:check` も追加済みです。Vercel本番APIを使う通常リリース判定ではブロッカー0です。Cloudflare D1 `database_id` placeholderは、将来Cloudflare Workerへ完全移行する時だけの警告として残しています。
 
-公開用の静的LPは `FormPilot Vault` としてGitHub Pagesへ反映済みです。`https://daideguchi.github.io/formpilot-vault/` と `https://daideguchi.github.io/formpilot-vault/privacy.html` はHTTP 200を確認済みです。ただし、GitHub Pagesは静的配信だけなので、Stripe Checkout/API/entitlementを動かすにはCloudflare Workerの公開URLが別途必要です。
+公開用LPは `FormPilot Vault` としてVercel本番へ反映済みです。`https://formpilot-vault-api.vercel.app/` はHTTP 200を確認済みです。GitHub Pages版 `https://daideguchi.github.io/formpilot-vault/` も公開ミラーとして維持しています。
 
-Cloudflare CLI確認では `wrangler whoami` が `not authenticated` でした。Worker deploy、D1作成、Workers AI binding本番確認は、Cloudflare login後に実行します。
+Cloudflare CLI確認では `wrangler whoami` が `not authenticated` でした。Worker deploy、D1作成、Workers AI binding本番確認は、Cloudflare login後の将来移行タスクです。現在の本番はVercel + Stripeブリッジで動いています。
 
 実ブラウザ検証も通過済みです。Chromiumに拡張を `--load-extension` で読み込み、extension service worker / content script / DOM入力まで実行しました。12項目収集、12項目入力、Plus license表示まで確認済みです。証跡は `docs/10_real_browser_verification.md` と `site/assets/real-extension-*.png` にあります。
 
@@ -99,10 +103,10 @@ Cloudflare CLI確認では `wrangler whoami` が `not authenticated` でした�
 
 ## 未完了
 
-- プライバシーポリシー公開URL
-- 公開問い合わせ先
-- 実AIプロキシのデプロイ
-- Stripe本番キー投入後の商品/価格作成
+- Chrome Web Storeの提出操作
+- Chrome Web Store開発者アカウントの本人確認/審査対応
+- 公開問い合わせ先の最終固定
+- Azure DeepSeek V4の本番endpoint/key投入
 - Cloudflare D1の作成と `database_id` 反映
 - Worker本番deploy
 - Cloudflare CLI login
@@ -133,8 +137,8 @@ Mind the Product向けの別提出候補として、公開用パッケージを�
 
 - 公開URL: `https://daideguchi.github.io/formpilot-vault/`
 - GitHub: `https://github.com/daideguchi/formpilot-vault`
-- 公開パッケージ作業場所: local `formpilot-vault-public` workspace
-- 最新コミット: `84f7eea Document live FormPilot Vault URLs`
+- 公開パッケージ作業場所: `/Users/dd/000_AI組織/__hackason/formpilot-vault-public`
+- 最新コミット: `8103496 Add Novus install checklist`
 
 公開前に削った/直したこと:
 
@@ -143,6 +147,7 @@ Mind the Product向けの別提出候補として、公開用パッケージを�
 - 秘密情報スキャンで、Gmail、APIキー、クレジットコード、ローカルパスの混入なしを確認
 - 英語表示時のページタイトルと料金表記を英語化
 - 英語表示用のフォームプレビュー画像 `product-preview-en.png` を作り、日本語UIと英語UIを分離
+- 事業側で進んでいた Cloudflare Worker、D1 migration、Privacy/Terms、Chrome Store提出コピー、release check も公開リポジトリへ反映
 
 検証結果:
 
@@ -152,14 +157,16 @@ Mind the Product向けの別提出候補として、公開用パッケージを�
 - GitHub Pagesは `built`
 - 公開URLは HTTP 200
 - 公開URLで JA/EN、desktop/mobile の4パターン確認。横スクロールなし。英語画面では英語フォーム画像、日本語画面では日本語フォーム画像を表示。
+- Cloudflare WorkerのローカルAPI契約テストも通過。追加課金になるdeployやD1作成は実行していない。
+- Mind the Product提出草案とNovus.ai導入チェックリストを `submission/` に追加。Novus dashboard screenshotが取れるまで提出はしない。
 
 ## 次の一歩
 
-1. Novus.ai導入証拠を作る
-2. 2〜3分デモ動画を作る
-3. 日本語の公開/許可済みデモフォームを増やして認識率を測る
-4. mapping cacheの2回目成功率を測る
-5. Azure DeepSeek V4プロキシを実キーでsmoke test
-6. 2026-06-07のCloudflare切替前に無料枠モデルで同じJSON応答を返せるか確認
-7. サイト別mapping cacheの一覧/削除UIを作る
-8. `docs/13_production_launch_runbook.md` に沿って、D1 database_id、Stripe live値、Azure値を投入して本番deployする
+1. Chrome Web Storeへ `dist/ai-form-autofill-0.1.0.zip` とストア素材を提出する
+2. Chrome Web Store審査でPrivacy URLに `https://formpilot-vault-api.vercel.app/privacy.html` を指定する
+3. Azure DeepSeek V4の実endpoint/keyをVercelへ投入し、`rules_fallback` ではなくlive応答をsmoke testする
+4. 日本語の公開/許可済みデモフォームを増やして認識率を測る
+5. mapping cacheの2回目成功率を測る
+6. サイト別mapping cacheの一覧/削除UIを作る
+7. 2026-06-07のCloudflare切替前に無料枠モデルで同じJSON応答を返せるか確認
+8. 将来移行としてCloudflare login、D1 database_id、Worker deployを進める

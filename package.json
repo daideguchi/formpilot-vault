@@ -1,7 +1,7 @@
 {
-  "name": "formpilot-vault",
+  "name": "ai-form-autofill",
   "version": "0.1.0",
-  "private": false,
+  "private": true,
   "type": "module",
   "scripts": {
     "test": "npm run test:schema && npm run test:api && npm run test:worker && npm run test:checkout-site && npm run test:playwright",
@@ -17,6 +17,8 @@
     "setup:stripe:dry": "DRY_RUN=1 node scripts/setup-stripe-products.mjs",
     "setup:stripe": "node scripts/setup-stripe-products.mjs",
     "configure:release": "node scripts/configure-release.mjs",
+    "build:vercel-app": "node scripts/build-vercel-app.mjs",
+    "deploy:vercel": "npm run build:vercel-app && vercel deploy deploy/formpilot-vault-api --prod --yes --scope daideguchis-projects",
     "deploy:worker": "npx wrangler deploy",
     "d1:migrate:local": "npx wrangler d1 migrations apply DB --local",
     "d1:migrate:remote": "npx wrangler d1 migrations apply DB --remote",

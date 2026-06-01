@@ -55,18 +55,18 @@ async function renderPromo() {
       <div class="mark">${iconSvg(84)}</div>
       <section>
         <p>AI FORM AUTOFILL</p>
-        <h1>登録フォーム、もう書かない。</h1>
+        <h1>フォーム入力を自動化</h1>
         <span>Profile Vault + Memory</span>
       </section>
     </main>
     <style>
       body { margin: 0; font-family: Inter, system-ui, sans-serif; }
       .promo {
-        width: 440px; height: 280px; display: grid; grid-template-columns: 92px 1fr;
-        align-items: center; gap: 18px; padding: 30px; background: #eef8f6; color: #202a35; overflow: hidden;
+        box-sizing: border-box; width: 440px; height: 280px; display: grid; grid-template-columns: 86px minmax(0, 1fr);
+        align-items: center; gap: 16px; padding: 28px; background: #eef8f6; color: #202a35; overflow: hidden;
       }
       p { margin: 0 0 8px; color: #0f766e; font-size: 13px; font-weight: 900; letter-spacing: 0; }
-      h1 { margin: 0; font-size: 30px; line-height: 1.08; letter-spacing: 0; }
+      h1 { margin: 0; font-size: 27px; line-height: 1.12; letter-spacing: 0; white-space: nowrap; }
       span { display: inline-block; margin-top: 16px; color: #435366; font-size: 14px; font-weight: 800; }
     </style>
   `);

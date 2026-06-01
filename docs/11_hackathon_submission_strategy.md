@@ -198,8 +198,10 @@ npm run test:public-probe
 
 ## 現時点の弱点
 
-- まだ公開URLがない
+- 公開URLは作成済み: `https://daideguchi.github.io/formpilot-vault/`
+- GitHub公開リポジトリも作成済み: `https://github.com/daideguchi/formpilot-vault`
 - Novus.aiが未導入
+- Novus rules上の登録URLは `https://novus.pendo.io/register`。dashboard screenshotが必須。
 - 実AIプロキシの本番smokeがまだ
 - Chrome Web Store提出はまだ
 - 実サイト評価数が少ない
@@ -207,9 +209,8 @@ npm run test:public-probe
 
 ## 次の一手
 
-1. Mind the Product向けに公開URLを作る
-2. Novus.aiを入れる
-3. 2〜3分デモ動画を作る
-4. `FormPilot Vault` としてDevpost提出パッケージを作る
-5. その後、UiPath向けに `Form Intake Case Room` へ分岐する
-6. Google Rapid Agentは締切が近いので、既存Google提出資産にフォーム作業ストーリーを統合できる場合だけ攻める
+1. Novus.aiを入れる
+2. 2〜3分デモ動画を作る
+3. `FormPilot Vault` としてDevpost提出パッケージを作る
+4. その後、UiPath向けに `Form Intake Case Room` へ分岐する
+5. Google Rapid Agentは締切が近いので、既存Google提出資産にフォーム作業ストーリーを統合できる場合だけ攻める

@@ -3,6 +3,7 @@ import { SAMPLE_PROFILE } from "./src/profile-formatters.js";
 import { getProviderForDate } from "./src/provider-router.js";
 import { canUseFill, createUsageEvent, FREE_MONTHLY_FILL_LIMIT, getCurrentMonthKey } from "./src/usage-meter.js";
 import { fetchEntitlement } from "./src/entitlement-client.js";
+import { PUBLIC_BASE_URL } from "./src/release-config.js";
 import {
   VAULT_STORAGE_KEY,
   buildMemoryContext,
@@ -28,7 +29,7 @@ const memoryStatus = document.getElementById("memoryStatus");
 const licenseKey = document.getElementById("licenseKey");
 const checkLicense = document.getElementById("checkLicense");
 
-const PRICING_URL = "https://example.com/ai-form-autofill";
+const PRICING_URL = PUBLIC_BASE_URL;
 
 let currentPlan = [];
 let currentFields = [];

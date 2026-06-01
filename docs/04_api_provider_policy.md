@@ -1,7 +1,7 @@
 # API Provider Policy
 
 作成日: 2026-06-01
-決定者: project owner
+決定者: DD
 
 ## 決定
 
@@ -38,9 +38,9 @@ extension popup
   -> content script fill
 ```
 
-## 実プロンプトへ入れたプロダクト方針
+## 実プロンプトへ入れたDD方針
 
-`api/schema-proxy/schema-proxy.js` の `buildSchemaPrompt()` に、初期プロダクト方針を実際のプロンプトとして入れています。
+`api/schema-proxy/schema-proxy.js` の `buildSchemaPrompt()` に、DDの初期思想を実際のプロンプトとして入れています。
 
 - フォーム入力の細かな手間をなくす
 - コア価値は `Personal Vault + Profile RAG/Memory Space + form understanding`

@@ -1,4 +1,6 @@
-export const DEFAULT_ENTITLEMENT_API_URL = "https://example.com/api/entitlement/check";
+import { ENTITLEMENT_CHECK_URL } from "./release-config.js";
+
+export const DEFAULT_ENTITLEMENT_API_URL = ENTITLEMENT_CHECK_URL;
 
 export async function fetchEntitlement({
   licenseKey,

@@ -6,6 +6,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const strict = process.argv.includes("--strict");
 const checks = [];
+const warnings = [];
 
 await checkFile("extension/manifest.json");
 await checkFile("dist/ai-form-autofill-0.1.0.zip");
@@ -18,7 +19,12 @@ await checkPng("store-assets/screenshot-main-1280x800.png", 1280, 800);
 await checkPng("store-assets/screenshot-popup-1280x800.png", 1280, 800);
 await checkPng("store-assets/screenshot-pricing-1280x800.png", 1280, 800);
 await checkNoPlaceholder("extension/src/release-config.js", ["REPLACE_WITH_PUBLIC_URL", "example.com"]);
-await checkNoPlaceholder("wrangler.toml", ["REPLACE_WITH_PUBLIC_URL", "REPLACE_WITH_CLOUDFLARE_D1_DATABASE_ID"]);
+await checkNoPlaceholder("wrangler.toml", strict
+  ? ["REPLACE_WITH_PUBLIC_URL", "REPLACE_WITH_CLOUDFLARE_D1_DATABASE_ID"]
+  : ["REPLACE_WITH_PUBLIC_URL"]);
+if (!strict) {
+  await warnPlaceholder("wrangler.toml", ["REPLACE_WITH_CLOUDFLARE_D1_DATABASE_ID"], "cloudflare_worker_only");
+}
 
 if (strict) {
   checkEnv("STRIPE_SECRET_KEY");
@@ -35,6 +41,7 @@ const result = {
   strict,
   ok: failed.length === 0,
   checks,
+  warnings,
   blockers: failed.map((check) => check.name)
 };
 
@@ -73,6 +80,16 @@ async function checkNoPlaceholder(relativePath, placeholders) {
     checks.push({ name: `placeholder:${relativePath}`, ok: found.length === 0, found });
   } catch {
     checks.push({ name: `placeholder:${relativePath}`, ok: false, found: ["file_missing"] });
+  }
+}
+
+async function warnPlaceholder(relativePath, placeholders, scope) {
+  try {
+    const content = await fs.readFile(path.join(root, relativePath), "utf8");
+    const found = placeholders.filter((placeholder) => content.includes(placeholder));
+    if (found.length > 0) warnings.push({ name: `placeholder:${relativePath}`, scope, found });
+  } catch {
+    warnings.push({ name: `placeholder:${relativePath}`, scope, found: ["file_missing"] });
   }
 }
 

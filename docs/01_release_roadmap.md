@@ -36,7 +36,7 @@
 
 ## Phase 2: AIスキーマ推定
 
-状態: `scaffolded`
+状態: `worker_ready_pending_live_secrets`
 
 完了条件:
 
@@ -50,13 +50,15 @@
 現状:
 
 - AI schema proxyのコードは実装済み
-- 初期プロダクト方針を実schema promptへ反映済み
+- Cloudflare Worker routeを実装済み
+- Workers AI binding `env.AI.run()` から呼べるように実装済み
+- DDの初期思想を実schema promptへ反映済み
 - unsafe payload拒否とprovider response正規化のテストは通過
 - 次はAzure/Cloudflareの実環境変数を入れたsmoke test
 
 ## Phase 3: Beta配布
 
-状態: `planned`
+状態: `assets_ready_pending_public_url`
 
 完了条件:
 
@@ -66,9 +68,14 @@
 - 10人の初期ユーザーで実フォーム検証
 - KPI計測をローカル匿名集計で始める
 
+現状:
+
+- Chrome Web Store素材、提出用ZIP、Privacy/Terms下書き、掲載文面は作成済み
+- 公開URLと問い合わせ先の確定が残り
+
 ## Phase 4: 課金開始
 
-状態: `scaffolded`
+状態: `worker_ready_pending_stripe_live`
 
 完了条件:
 
@@ -83,7 +90,8 @@
 - Stripe Checkout Session作成APIは実装済み
 - LPのPlus/Pro/Team決済ボタンとsuccessページは実装済み
 - popupのLicense key確認UIは実装済み
-- 次はStripe商品/価格作成と本番DB接続
+- Cloudflare D1 entitlement schemaとWorker routeは実装済み
+- 次はStripe商品/価格作成、D1 database_id反映、Worker deploy
 
 ## Phase 5: Team/B2B
 

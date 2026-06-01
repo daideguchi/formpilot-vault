@@ -1,4 +1,5 @@
 import { getProviderForDate } from "../../extension/src/provider-router.js";
+import { buildSchema } from "../../extension/src/schema-engine.js";
 
 const FORBIDDEN_FIELD_KEYS = new Set(["value", "checked", "selected", "selector", "cssPath", "xpath"]);
 
@@ -20,18 +21,22 @@ export async function inferSchemaWithProxy({
   }
 
   if (provider.id === "azure_deepseek_v4") {
-    return {
-      provider_id: provider.id,
+    return callWithRulesFallback({
+      provider,
+      payload,
       mode: "live",
-      mappings: await callAzureDeepSeek({ payload, env, fetchImpl })
-    };
+      env,
+      call: () => callAzureDeepSeek({ payload, env, fetchImpl })
+    });
   }
 
-  return {
-    provider_id: provider.id,
+  return callWithRulesFallback({
+    provider,
+    payload,
     mode: "live",
-    mappings: await callCloudflareWorkersAI({ payload, provider, env, fetchImpl })
-  };
+    env,
+    call: () => callCloudflareWorkersAI({ payload, provider, env, fetchImpl })
+  });
 }
 
 export function validateSchemaPayload(payload) {
@@ -56,7 +61,7 @@ export function validateSchemaPayload(payload) {
 
 export function buildSchemaPrompt(payload) {
   return [
-    "PRODUCT_CORE_PROMPT:",
+    "DD_CORE_PROMPT:",
     "PRODUCT_CORE_PROMPT:",
     "This product exists to remove the tiny repeated work of filling forms.",
     "The core value is Personal Vault + Profile RAG/Memory Space + form understanding.",
@@ -173,6 +178,38 @@ function mockMappings(payload) {
         semantic_key: null,
         confidence: 0.2,
         reason: "mock mode"
+      }
+    ])
+  );
+}
+
+async function callWithRulesFallback({ provider, payload, mode, env, call }) {
+  try {
+    return {
+      provider_id: provider.id,
+      mode,
+      mappings: await call()
+    };
+  } catch (error) {
+    if (env.AFA_SCHEMA_PROXY_REQUIRE_LIVE === "true") throw error;
+    return {
+      provider_id: provider.id,
+      mode: "rules_fallback",
+      provider_error: error instanceof Error ? error.message : String(error),
+      mappings: ruleFallbackMappings(payload)
+    };
+  }
+}
+
+function ruleFallbackMappings(payload) {
+  const schema = buildSchema(payload.fields, { memoryContext: payload.memory_context || null });
+  return Object.fromEntries(
+    Object.entries(schema).map(([fieldId, value]) => [
+      fieldId,
+      {
+        semantic_key: value?.semantic_key || null,
+        confidence: clampConfidence(value?.confidence),
+        reason: value?.source ? `rules:${value.source}` : "rules:fallback"
       }
     ])
   );

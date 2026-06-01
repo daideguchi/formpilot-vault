@@ -7,6 +7,7 @@ const PLANS = [
 const secretKey = process.env.STRIPE_SECRET_KEY;
 const dryRun = process.env.DRY_RUN === "1" || !secretKey;
 const webhookUrl = process.env.STRIPE_WEBHOOK_URL || "";
+const outputPath = process.env.STRIPE_SETUP_OUTPUT_PATH || "";
 
 if (dryRun) {
   console.log(JSON.stringify({
@@ -53,6 +54,16 @@ if (webhookUrl) {
     ],
     "metadata[app]": "ai-form-autofill"
   });
+}
+
+if (outputPath) {
+  await import("node:fs/promises").then(({ writeFile }) => writeFile(outputPath, JSON.stringify({
+    product_id: product.id,
+    prices,
+    price_plan_map: Object.fromEntries(Object.entries(prices).map(([plan, priceId]) => [priceId, plan])),
+    webhook_endpoint_id: webhook?.id || null,
+    webhook_secret: webhook?.secret || null
+  }, null, 2)));
 }
 
 console.log(JSON.stringify({

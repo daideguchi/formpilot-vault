@@ -67,7 +67,6 @@ function setButtonsDisabled(disabled) {
 function setLanguage(language) {
   activeLanguage = language === "en" ? "en" : "ja";
   document.documentElement.lang = activeLanguage;
-  document.title = activeLanguage === "ja" ? "AIフォームオートフィル" : "AI Form Autofill";
 
   for (const panel of document.querySelectorAll("[data-lang-panel]")) {
     panel.classList.toggle("active", panel.dataset.langPanel === activeLanguage);

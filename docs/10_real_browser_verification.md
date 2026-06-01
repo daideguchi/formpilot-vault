@@ -1,7 +1,7 @@
 # Real Browser Verification
 
 作成日: 2026-06-01
-状態: `passed_local_real_browser`
+状態: `passed_local_and_production_smoke`
 
 ## 目的
 
@@ -87,13 +87,36 @@ npm run test:extension
 - `site/assets/public-probe-httpbin_forms_post.png`
 - `site/assets/public-probe-selenium_web_form.png`
 
+### Production API / checkout smoke
+
+2026-06-01に、公開本番URLで以下を確認した。
+
+```json
+{
+  "public_url": "https://formpilot-vault-api.vercel.app/",
+  "health": "ok",
+  "entitlement_source": "stripe_bridge",
+  "schema_mode": "rules_fallback",
+  "schema_sample": {
+    "field_001": "person.email.primary"
+  },
+  "checkout_host": "checkout.stripe.com",
+  "entitlement_before_purchase": {
+    "plan": "free",
+    "monthly_fills": 5
+  }
+}
+```
+
+Playwrightで本番LPを開き、Plusボタンをクリックして `checkout.stripe.com` へ遷移することも確認済み。決済完了操作はしていない。
+
 ## 注意
 
 実機E2Eでは、テスト用の一時拡張ディレクトリにだけlocal fixtureの `host_permissions` を追加する。本体の `extension/manifest.json` は `activeTab + scripting + storage` の最小権限を維持する。
 
 ## 次
 
-1. Chrome手動読み込みでローカル実サイト検証
+1. Chrome手動読み込みでDD確認なしのローカル実サイト検証
 2. 実サイト5件で `fields_scanned / ready / ask / filled` を記録
 3. mapping cacheの再利用率を見る
-4. ストア提出用スクリーンショットを実機E2Eから生成
+4. Azure live投入後に `rules_fallback` ではなくlive応答で同じE2Eを再実行する

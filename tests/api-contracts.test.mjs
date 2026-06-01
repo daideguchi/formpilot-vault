@@ -16,6 +16,7 @@ import {
   createCheckoutSession,
   verifyStripeSignature
 } from "../api/entitlement/entitlement.js";
+import { checkStripeEntitlement } from "../api/entitlement/stripe-source.js";
 import { fetchEntitlement } from "../extension/src/entitlement-client.js";
 
 test("schema proxy rejects unsafe field payloads and accepts safe memory context", async () => {
@@ -27,7 +28,7 @@ test("schema proxy rejects unsafe field payloads and accepts safe memory context
   assert.doesNotThrow(() => validateSchemaPayload(payload));
   assert.throws(() => validateSchemaPayload({ ...payload, fields: [{ ...fields[0], value: "山田" }] }), /unsafe_field_key:value/);
   assert.match(buildSchemaPrompt(payload), /Return strict JSON only/);
-  assert.match(buildSchemaPrompt(payload), /PRODUCT_CORE_PROMPT/);
+  assert.match(buildSchemaPrompt(payload), /DD_CORE_PROMPT/);
   assert.match(buildSchemaPrompt(payload), /Personal Vault \+ Profile RAG\/Memory Space/);
 
   const result = await inferSchemaWithProxy({
@@ -86,6 +87,23 @@ test("schema proxy normalizes Azure and Cloudflare style responses", () => {
   );
 });
 
+test("schema proxy falls back to local rules when live provider env is missing", async () => {
+  const result = await inferSchemaWithProxy({
+    payload: {
+      task: "form_schema_mapping",
+      fields: [
+        { field_id: "field_001", tag: "input", type: "email", label: "メールアドレス", name: "email" }
+      ]
+    },
+    env: {},
+    date: new Date("2026-06-01T12:00:00+09:00")
+  });
+
+  assert.equal(result.provider_id, "azure_deepseek_v4");
+  assert.equal(result.mode, "rules_fallback");
+  assert.equal(result.mappings.field_001.semantic_key, "person.email.primary");
+});
+
 test("entitlement API applies Stripe events and checks plan limits", () => {
   const store = {};
   const entitlement = applyStripeEvent({
@@ -142,4 +160,35 @@ test("extension entitlement client stores only normalized active plan", async ()
 
   assert.equal(entitlement.plan, "pro");
   assert.equal(entitlement.active, true);
+});
+
+test("Stripe subscription metadata can be used as entitlement source", async () => {
+  const entitlement = await checkStripeEntitlement({
+    license_key: "afa_meta",
+    env: {
+      STRIPE_SECRET_KEY: "sk_test_meta",
+      STRIPE_PRICE_PLAN_MAP: JSON.stringify({ price_team: "team" })
+    },
+    fetchImpl: async (url, request) => {
+      assert.match(url, /subscriptions\/search/);
+      assert.match(decodeURIComponent(url), /metadata\['license_key'\]:'afa_meta'/);
+      assert.equal(request.headers.authorization, "Bearer sk_test_meta");
+      return {
+        ok: true,
+        json: async () => ({
+          data: [{
+            customer: "cus_meta",
+            status: "active",
+            current_period_end: 1800000000,
+            metadata: { license_key: "afa_meta" },
+            items: { data: [{ price: { id: "price_team" } }] }
+          }]
+        })
+      };
+    }
+  });
+
+  assert.equal(entitlement.plan, "team");
+  assert.equal(entitlement.active, true);
+  assert.equal(entitlement.limits.monthly_fills, "unlimited");
 });

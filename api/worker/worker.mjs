@@ -5,6 +5,7 @@ import {
   createCheckoutSession,
   verifyStripeSignature
 } from "../entitlement/entitlement.js";
+import { checkStripeEntitlement } from "../entitlement/stripe-source.js";
 
 export default {
   fetch(request, env, ctx) {
@@ -88,6 +89,10 @@ export async function handleWorkerRequest(request, env = {}, _ctx = null) {
 }
 
 async function checkLicenseWithDb({ licenseKey, env }) {
+  if (env.ENTITLEMENT_SOURCE === "stripe") {
+    return checkStripeEntitlement({ license_key: licenseKey, env, fetchImpl: env.fetchImpl || fetch });
+  }
+
   const store = await readStoreForLicense({ env, licenseKey });
   return checkEntitlement({ license_key: licenseKey, store });
 }

@@ -1,105 +1,84 @@
-# FormPilot Vault
+# AIフォームオートフィル
 
-FormPilot Vault is a Chrome extension MVP that helps people finish repetitive forms with human review.
+状態: `vercel_live_checkout_ready`
+作成日: 2026-06-01
+最終ゴール: `Chrome拡張のリリースと課金開始`
 
-It reads the form structure, maps fields to a local profile, drafts a fill plan, and fills the page only after the user clicks. It does not press submit.
+## 事業の芯
 
-Live app: https://daideguchi.github.io/formpilot-vault/
+フォームを入力する人たちの細かな手間を、自動入力で解決する。
 
-Repository: https://github.com/daideguchi/formpilot-vault
+日本語の新規登録フォーム、資料請求フォーム、問い合わせフォームで毎回発生する、名前、住所、電話番号、会社情報、カナ、郵便番号、生年月日などの反復入力を、ユーザー本人の確認つきで減らす。
 
-## Who It Helps
+一番のコアは、個人情報をためておく `Profile Vault` と、AIがどの情報を使うべきか推論するための `入力判断用RAG/記憶スペース` です。ここが事業価値の中心です。
 
-People who repeatedly fill out:
+最初の中核はこの4つです。
 
-- signup forms
-- lead forms
-- contact forms
-- event registration forms
-- free-trial forms
+1. DOMを収集する
+2. AIまたはルールでフォームスキーマを作る
+3. 端末内のプロフィールDBから値を選ぶ
+4. Chrome拡張のcontent scriptで入力する
 
-## Problem
+初期MVPでは送信ボタンを押しません。入力後、ユーザーが画面で確認して送信します。
 
-The same name, address, phone, email, company, department, and title fields appear again and again. Browser autofill helps with simple fields, but it is weak on split Japanese names, kana fields, address parts, company fields, and site-specific wording.
+## いま作るもの
 
-## Solution
+- `extension/`: Chrome拡張MVP
+- `tests/`: サンプルフォームと精度検証
+- `site/`: リリース前LPのたたき台
+- `docs/`: 事業、API、リリース、課金の正本
+- `data/templates/`: プロフィールDBと意味キーのテンプレート
 
-FormPilot Vault keeps real values in a local profile Vault and uses rules, memory, and optional AI schema inference to map each form field to a safe profile key.
+Vault/RAGの最小DBは `extension/src/profile-memory.js` に実装済みです。ローカルVault、サイト別mapping cache、ユーザー修正イベント、フォーム単位のmemory retrievalを持ち、入力成功後に次回用のマッピングを学習します。不確定項目はpopup上の `Learn` UIでプロフィールキーへ紐づけられます。AIへ渡す安全ペイロードは `extension/src/ai-payload.js` で作り、実値とselectorを除外します。
 
-Privacy boundary:
+リリース/課金用のAPI土台も入っています。AI schema proxyは `api/schema-proxy/`、課金解除用のentitlement APIは `api/entitlement/` です。拡張側にはLicense key確認UIを追加済みです。
 
-- AI receives form structure only.
-- Raw names, addresses, phone numbers, emails, passwords, cookies, and auth tokens are not sent to AI.
-- The extension fills fields after user action.
-- The user reviews the page before submitting.
-- CAPTCHA, login verification, financial, medical, government, and identity forms are out of scope for this MVP.
+DDの初期思想は `api/schema-proxy/schema-proxy.js` の実プロンプトへ組み込み済みです。Stripe CheckoutはPlus/Pro/Teamのボタンから `POST /api/stripe/checkout-session` を呼ぶ形で実装済みです。
 
-## 30-Second Proof Path
+Chrome Web Store向けのロゴ/アイコン/プロモ画像/スクリーンショットは `npm run assets:store` で生成します。提出用ZIPは `npm run package:extension` で `dist/ai-form-autofill-0.1.0.zip` に作成します。
 
-The public page has a compact English/Japanese review path:
+現行本番はVercelで、LP、AI schema proxy、Stripe Checkout、license entitlementを `https://formpilot-vault-api.vercel.app/` にまとめています。StripeはKurogane側の本番secretを使うFormPilot専用ブリッジへ中継し、Checkout Session作成まで本番で確認済みです。Cloudflare Worker/D1は、2026-06-07以降の無料枠移行に向けた将来経路です。手順は `docs/13_production_launch_runbook.md` が正本です。
 
-1. Who is it for?
-2. What pain does it solve?
-3. How does it work?
-4. What proof exists?
+実ブラウザ検証は `tests/extension-real-browser-e2e.mjs` で通過済みです。Chromiumへ拡張を読み込み、content scriptを実DOMへ投入して12項目を入力し、License key確認UIでPlus表示まで確認しています。
 
-Current local proof:
+公開デモフォーム検証は `tests/public-site-real-browser-probe.mjs` で通過済みです。送信はせず、公開ページ上でDOM収集と入力反映だけ確認しています。
 
-- `npm test` passes.
-- Chrome extension E2E scans 12 fields and fills 12 fields.
-- Public form probe scans 2 public demo forms without submitting.
-- Cloudflare Worker API contract tests pass locally with no paid deployment.
-- Checkout smoke proves the Plus plan flow reaches the license success page.
-- English/Japanese UI switch has no horizontal overflow on desktop or mobile.
-- Public GitHub Pages deployment returns HTTP 200 and passes English/Japanese desktop/mobile checks.
+Freeは月5回までの自動入力に制限し、Plus/Pro/Teamで無制限入力、複数プロフィール、会社プロフィール、チーム共有へ広げます。
 
-## Hackathon Strategy
+## ハッカソン転用
 
-Primary target:
+このプロダクトは、賞金狙いのハッカソンにも転用します。
 
-- Mind the Product: `FormPilot Vault`
+優先順位:
 
-Secondary variants:
+1. Mind the Product: `FormPilot Vault`
+2. UiPath AgentHack: `Form Intake Case Room`
+3. Google Cloud Rapid Agent: `FormOps Agent`
 
-- UiPath AgentHack: `Form Intake Case Room`
-- Google Cloud Rapid Agent: `FormOps Agent`
+詳細は `docs/11_hackathon_submission_strategy.md` を正本にします。
 
-See [docs/11_hackathon_submission_strategy.md](docs/11_hackathon_submission_strategy.md).
+## API方針
 
-Mind the Product draft package:
+- 2026-06-06 までは `Azure DeepSeek V4`
+- 2026-06-07 以降は `Cloudflare Workers AI` の無料枠モデル
+- AIへ送るのはフォーム構造だけ
+- 氏名、住所、電話、メール、パスワードなどの実値は送らない
+- Azure/Cloudflareのlive環境変数が未投入または障害時は `rules_fallback` でフォーム理解を継続する
 
-- [submission/mind-the-product-devpost-draft.md](submission/mind-the-product-devpost-draft.md)
-- [submission/novus-install-checklist.md](submission/novus-install-checklist.md)
-
-## Run Locally
+## 実行コマンド
 
 ```bash
-npm install
+cd /Users/dd/000_AI組織/10_事業記録/事業別/90_AIフォームオートフィル
 npm test
+npm run test:checkout-site
 npm run test:extension
 npm run test:public-probe
+npm run assets:store
+npm run package:extension
+npm run setup:stripe:dry
+npm run release:check
+npm run dev:schema-proxy
+npm run dev:entitlement
 ```
 
-Open the static page:
-
-```bash
-python3 -m http.server 8080
-```
-
-Then visit:
-
-```text
-http://127.0.0.1:8080/
-```
-
-To try the extension manually, open `chrome://extensions`, enable developer mode, and load the `extension/` directory as an unpacked extension.
-
-## Status
-
-This is an MVP and hackathon submission package. It is not yet published on the Chrome Web Store, and paid Stripe production credentials are not included in this repository.
-
-日本語の要約:
-
-```text
-FormPilot Vault は、会員登録・資料請求・問い合わせフォームのくり返し入力を減らすChrome拡張MVPです。AIへ個人情報の実値を送らず、端末内Vaultから確認つきで入力します。
-```
+Chromeで試す時は `chrome://extensions` から `extension/` を「パッケージ化されていない拡張機能」として読み込みます。

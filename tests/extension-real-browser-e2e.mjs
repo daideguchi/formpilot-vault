@@ -33,7 +33,7 @@ try {
     viewport: { width: 1280, height: 900 }
   });
 
-  await context.route("https://example.com/api/entitlement/check", async (route) => {
+  await context.route("**/api/entitlement/check", async (route) => {
     await route.fulfill({
       contentType: "application/json",
       body: JSON.stringify({
