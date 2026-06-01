@@ -78,7 +78,7 @@ AI schema proxyは、Azure/Cloudflareの実環境変数が未投入でも停止�
 
 Chrome Web Store提出向けのロゴ、manifestアイコン、小プロモ画像、1280x800スクリーンショット3枚、提出用ZIPを作成済みです。素材生成は `npm run assets:store`、ZIP作成は `npm run package:extension` で再現できます。2026-06-01 13:28 JST時点の提出用ZIPは、本番schema API優先、21 locale/65キー、国/国番号semantic key、拡張 `locale_context` 収集入りで `69309 bytes` です。
 
-Chrome Web Store Dashboardには下書きitemを作成済みです。21 locale ZIPをアップロードし、Store Listing、Privacy、販売地域、テスト手順を入力保存済みです。Primary languageは英語、UI localeは21 locale、カテゴリは `Workflow and Planning`、販売地域は全155地域、決済表示はStripe有料導線に合わせて `In-app purchases`、公開設定は `Public` です。2026-06-01 13:35 JSTに最新ZIP `69309 bytes` をPackage画面から再uploadし、Package画面でversion `0.1.0`、21言語、権限 `activeTab, scripting, storage` を確認しました。2026-06-01 13:43 JSTのDashboard実測でステータスは `審査待ち` です。`審査のため送信` はdisabledになっており、最終提出は完了済みです。
+Chrome Web Store Dashboardには下書きitemを作成済みです。21 locale ZIPをアップロードし、Store Listing、Privacy、販売地域、テスト手順を入力保存済みです。Primary languageは英語、UI localeは21 locale、カテゴリは `Workflow and Planning`、販売地域は全155地域、決済表示はStripe有料導線に合わせて `In-app purchases`、公開設定は `Public` です。2026-06-01 13:35 JSTに最新ZIP `69309 bytes` をPackage画面から再uploadし、Package画面でversion `0.1.0`、21言語、権限 `activeTab, scripting, storage` を確認しました。2026-06-01 13:54 JSTのDashboard実測でもステータスは `審査待ち` です。`審査のため送信` はdisabledになっており、最終提出は完了済みです。
 
 Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry-run通過済みです。現時点では `STRIPE_SECRET_KEY` が未投入のため、本番Stripeへの商品作成と決済入金確認は未実行です。
 
