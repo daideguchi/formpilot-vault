@@ -69,6 +69,7 @@ See [docs/11_hackathon_submission_strategy.md](docs/11_hackathon_submission_stra
 Mind the Product draft package:
 
 - [submission/mind-the-product-devpost-draft.md](submission/mind-the-product-devpost-draft.md)
+- [submission/novus-install-checklist.md](submission/novus-install-checklist.md)
 
 ## Run Locally
 
