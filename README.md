@@ -65,6 +65,12 @@ Freeは月5回までの自動入力に制限し、Plus/Pro/Teamで無制限入�
 日本語表示では `assets/autoplay-demo-ja.mp4`、英語表示では `assets/autoplay-demo-en.mp4` を流します。
 ブラウザで確実に自動再生させるため、動画は `muted` / `playsinline` / `loop` にしています。
 
+審査員向けに単独で開けるデモページも用意しています。
+
+- Demo page: `https://daideguchi.github.io/formpilot-vault/demo.html`
+- Demo MP4: `https://daideguchi.github.io/formpilot-vault/assets/autoplay-demo-en.mp4`
+- Mind the Product submit packet: `submission/mind-the-product-submit-packet.md`
+
 ## API方針
 
 - 2026-06-06 までは `Azure DeepSeek V4`

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FormPilot Vault Demo</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Pendo / Novus install: start -->
+    <script>
+      (function(apiKey) {
+        (function(p, e, n, d, o) {
+          var v, w, x, y, z;
+          o = p[d] = p[d] || {};
+          o._q = o._q || [];
+          v = ['initialize', 'identify', 'updateOptions', 'pageLoad', 'track'];
+          for (w = 0, x = v.length; w < x; ++w) (function(method) {
+            o[method] = o[method] || function() {
+              o._q[method === 'initialize' ? 'unshift' : 'push']([method].concat([].slice.call(arguments, 0)));
+            };
+          })(v[w]);
+          y = e.createElement(n);
+          y.async = true;
+          y.src = 'https://cdn.pendo.io/agent/static/' + apiKey + '/pendo.js';
+          z = e.getElementsByTagName(n)[0];
+          z.parentNode.insertBefore(y, z);
+        })(window, document, 'script', 'pendo');
+
+        pendo.initialize({
+          visitor: { id: "formpilot-public-demo-video" },
+          account: { id: "formpilot-vault" }
+        });
+      })("b147308a-8db6-4ecb-ba89-29c921a8ca58");
+    </script>
+    <!-- Pendo / Novus install: end -->
+  </head>
+  <body class="doc-page">
+    <header class="doc-header">
+      <strong>FormPilot Vault Demo</strong>
+      <a href="index.html">Open product</a>
+    </header>
+
+    <main class="doc-main demo-page">
+      <section>
+        <p class="eyebrow">2-minute judge demo</p>
+        <h1>Fast form filling, without giving AI your private values.</h1>
+        <p>
+          FormPilot Vault helps solo builders, operators, founders, and small teams finish repetitive forms faster.
+          The extension reads the form, prepares a fill plan, and fills only after user review. It never submits.
+        </p>
+      </section>
+
+      <section class="demo-focus" aria-label="FormPilot Vault video demo">
+        <video class="demo-video" controls autoplay muted playsinline poster="assets/hackathon-lp-en-desktop.png">
+          <source src="assets/autoplay-demo-en.mp4" type="video/mp4">
+        </video>
+      </section>
+
+      <section class="judge-strip">
+        <h2>30-second proof path</h2>
+        <div class="proof-grid">
+          <article>
+            <span>1</span>
+            <h3>User</h3>
+            <p>People who repeatedly fill signup, lead, contact, event, and trial forms.</p>
+          </article>
+          <article>
+            <span>2</span>
+            <h3>Problem</h3>
+            <p>Browser autofill misses split names, addresses, company fields, and site-specific wording.</p>
+          </article>
+          <article>
+            <span>3</span>
+            <h3>Workflow</h3>
+            <p>The user reviews the fill plan before anything is written into the page.</p>
+          </article>
+          <article>
+            <span>4</span>
+            <h3>Proof</h3>
+            <p>Real browser extension E2E fills 12 fields. Public probes run without submitting forms.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="band compact demo-links">
+        <h2>Submission links</h2>
+        <div class="hero-actions">
+          <a class="button" href="index.html">Live app</a>
+          <a class="button secondary" href="submission/evidence/novus-dashboard.png">Novus proof</a>
+          <a class="button secondary" href="https://github.com/daideguchi/formpilot-vault">GitHub</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="support.html">Support</a>
+      <span>FormPilot Vault</span>
+    </footer>
+  </body>
+</html>

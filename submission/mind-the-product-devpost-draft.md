@@ -1,10 +1,14 @@
 # FormPilot Vault - Mind the Product Devpost Draft
 
-Status: `ready_except_external_video_if_required`
+Status: `ready_for_human_review`
 
 Live app: https://daideguchi.github.io/formpilot-vault/
 
 GitHub: https://github.com/daideguchi/formpilot-vault
+
+Demo page: https://daideguchi.github.io/formpilot-vault/demo.html
+
+Demo MP4: https://daideguchi.github.io/formpilot-vault/assets/autoplay-demo-en.mp4
 
 ## Project Name
 
@@ -52,8 +56,10 @@ FormPilot Vault reads the form structure, maps each field to a safe profile key,
 Target length: 2-3 minutes.
 
 Current public page includes a 2-minute muted autoplay demo near the top.
-Use it as the always-visible judge preview.
-If Devpost requires an external video URL, export or re-record this flow as the final hosted video.
+The same video is also available as a standalone judge demo page:
+https://daideguchi.github.io/formpilot-vault/demo.html
+
+If Devpost only accepts YouTube/Vimeo for the video field, upload `assets/autoplay-demo-en.mp4` as an unlisted video and paste that URL.
 
 1. Open with the pain: repeated signup and contact forms waste time.
 2. Show the public page and 30-second proof path.
@@ -107,10 +113,13 @@ npm run test:public-probe
 npm run release:check
 ```
 
-Known release blockers before production launch:
+Mind the Product submission blockers:
 
-- Novus.ai install proof
-- External hosted demo video, if Devpost requires a separate video URL
+- Human review of final Devpost form
+- YouTube/Vimeo upload only if Devpost rejects the self-hosted demo page/MP4
+
+Known release blockers before Chrome Web Store / full production launch:
+
 - Production Worker URL
 - Cloudflare D1 database id
 - Stripe live values

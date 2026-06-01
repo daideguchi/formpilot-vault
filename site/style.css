@@ -180,6 +180,27 @@ h1 {
   background: #edf3f4;
 }
 
+.demo-page {
+  max-width: 1180px;
+}
+
+.demo-page h1 {
+  max-width: 860px;
+}
+
+.demo-focus {
+  padding: 18px;
+  border: 1px solid #d9e4e5;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgba(31, 41, 51, 0.08);
+}
+
+.demo-links {
+  padding-right: 0;
+  padding-left: 0;
+}
+
 .judge-strip {
   max-width: 1180px;
   margin: 26px auto 0;
