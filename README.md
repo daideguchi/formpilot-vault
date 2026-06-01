@@ -68,7 +68,7 @@ Freeは月5回までの自動入力に制限し、Plus/Pro/Teamで無制限入�
 審査員向けに単独で開けるデモページも用意しています。
 
 - Demo page: `https://daideguchi.github.io/formpilot-vault/demo.html`
-- Demo MP4: `https://daideguchi.github.io/formpilot-vault/assets/autoplay-demo-en.mp4`
+- Demo MP4: `https://daideguchi.github.io/formpilot-vault/assets/mind-the-product-demo-en.mp4`
 - Mind the Product submit packet: `submission/mind-the-product-submit-packet.md`
 
 ## API方針

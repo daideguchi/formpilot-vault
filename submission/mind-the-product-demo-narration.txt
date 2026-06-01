@@ -1,0 +1,23 @@
+FormPilot Vault is for solo builders and small teams who fill out the same web forms again and again.
+
+Every product launch creates more signup forms, lead forms, trial forms, event forms, and partner forms.
+Browser autofill helps with simple pages, but it often fails when forms split names, ask for phonetic names, divide addresses, or use site-specific business fields.
+
+FormPilot turns that repeated work into a reviewable fill plan.
+First, the Chrome extension reads the form structure.
+Then it maps each field to a safe profile key.
+The user reviews the plan.
+Only after that review does FormPilot fill the page.
+It never presses submit.
+
+The privacy boundary is the product.
+AI can help understand the form, but raw personal values stay in the local Vault.
+Names, addresses, phone numbers, emails, passwords, cookies, and selectors are not sent to AI.
+If live AI is unavailable, FormPilot still works with deterministic rules fallback.
+
+The demo shows the public landing page, the extension popup, a real browser fill, public form probes, and the upgrade path.
+The proof is in the repository: real browser tests fill twelve fields, public probes run without submitting forms, and Novus Pendo is installed with dashboard proof.
+
+The idea is simple.
+People are shipping more with AI, but the boring operational work around shipping is still real.
+FormPilot Vault helps them move faster without giving up human review or privacy.

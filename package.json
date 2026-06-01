@@ -33,7 +33,8 @@
     "preview:shot": "node scripts/generate-product-preview.mjs",
     "check:production": "node scripts/check-production-connections.mjs",
     "check:production:strict-ai": "node scripts/check-production-connections.mjs --strict-ai-live",
-    "i18n:sync": "node scripts/sync-extension-locales.mjs"
+    "i18n:sync": "node scripts/sync-extension-locales.mjs",
+    "demo:mtp": "bash scripts/build-mtp-demo-video.sh"
   },
   "devDependencies": {
     "playwright": "^1.59.1"

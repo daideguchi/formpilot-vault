@@ -214,7 +214,7 @@ Mind the Product向けに、既存のNovus/Pendoアカウントの公開Web inst
 Mind the Product向けに、単独で開ける提出用デモページを追加した。
 
 - Demo page: `https://daideguchi.github.io/formpilot-vault/demo.html`
-- Demo MP4: `https://daideguchi.github.io/formpilot-vault/assets/autoplay-demo-en.mp4`
+- Demo MP4: `https://daideguchi.github.io/formpilot-vault/assets/mind-the-product-demo-en.mp4`
 - Submit packet: `submission/mind-the-product-submit-packet.md`
 
 Geminiが一時的に使えなくても、この提出パッケージは成立する。FormPilotはlive AIが無い時も deterministic rules fallback で動き、AIへ実個人情報を送らない設計を説明できる。

@@ -8,7 +8,7 @@ GitHub: https://github.com/daideguchi/formpilot-vault
 
 Demo page: https://daideguchi.github.io/formpilot-vault/demo.html
 
-Demo MP4: https://daideguchi.github.io/formpilot-vault/assets/autoplay-demo-en.mp4
+Demo MP4: https://daideguchi.github.io/formpilot-vault/assets/mind-the-product-demo-en.mp4
 
 ## Project Name
 
@@ -59,7 +59,7 @@ Current public page includes a 2-minute muted autoplay demo near the top.
 The same video is also available as a standalone judge demo page:
 https://daideguchi.github.io/formpilot-vault/demo.html
 
-If Devpost only accepts YouTube/Vimeo for the video field, upload `assets/autoplay-demo-en.mp4` as an unlisted video and paste that URL.
+If Devpost only accepts YouTube/Vimeo for the video field, upload `assets/mind-the-product-demo-en.mp4` as an unlisted video and paste that URL.
 
 1. Open with the pain: repeated signup and contact forms waste time.
 2. Show the public page and 30-second proof path.

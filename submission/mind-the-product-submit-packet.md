@@ -6,11 +6,11 @@ Status: `ready_for_human_review`
 
 - Live app: https://daideguchi.github.io/formpilot-vault/
 - Demo page: https://daideguchi.github.io/formpilot-vault/demo.html
-- Demo MP4: https://daideguchi.github.io/formpilot-vault/assets/autoplay-demo-en.mp4
+- Demo MP4: https://daideguchi.github.io/formpilot-vault/assets/mind-the-product-demo-en.mp4
 - GitHub: https://github.com/daideguchi/formpilot-vault
 - Novus/Pendo proof: `submission/evidence/novus-dashboard.png`
 
-If Devpost only accepts YouTube/Vimeo for the video field, upload `assets/autoplay-demo-en.mp4` as an unlisted video and paste that URL.
+If Devpost only accepts YouTube/Vimeo for the video field, upload `assets/mind-the-product-demo-en.mp4` as an unlisted video and paste that URL.
 
 ## Project Name
 
@@ -44,6 +44,7 @@ FormPilot reads the form structure, maps each field to a profile key, and create
 - Safe AI schema payload that excludes raw personal values
 - English/Japanese public landing page
 - 2-minute demo page
+- English narrated demo MP4 under three minutes
 - Real browser extension E2E proof
 - Public form probes with no submission
 - Novus/Pendo frontend install and dashboard proof
