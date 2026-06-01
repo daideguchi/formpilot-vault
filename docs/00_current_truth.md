@@ -71,6 +71,8 @@ Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/
 
 審査中/公開後/購入後を一括確認する `npm run check:launch` も追加しました。通常モードではVercel、Cloudflare、GitHub Pages、Chrome Web Store公開URL、Chrome Web Store Dashboard、購入後ライセンスの状態をまとめて出し、審査待ち中の未公開URLと未購入ライセンスはwarning扱いにします。公開後は `-- --require-published`、実購入後は `-- --require-paid-license` を付けてブロッカー化できます。
 
+2026-06-01 14:01 JST時点で `npm run check:launch` はブロッカー0です。Vercel health、Cloudflare health、GitHub Pages、Chrome Web Store Dashboard `審査待ち` を確認し、Chrome Web Store公開URLは未公開のためwarning、実購入license未投入もwarningです。`--require-published` は未公開をブロッカー化し、`--require-paid-license` は未購入/無効licenseをブロッカー化することも確認済みです。
+
 公開LPは世界配信向けに、非日本語ブラウザでは英語を初期表示します。日本語は `?lang=ja` または言語ボタンで表示できます。2026-06-01 12:45 JSTの本番確認では、英語初期表示、英語Plusボタン、日本語モバイル表示、横スクロールなし、Stripe Checkout導線が通っています。
 
 AI schema proxyは、Azure/Cloudflareの実環境変数が未投入でも停止しないように `rules_fallback` を実装済みです。2026-06-06まではprovider_idは `azure_deepseek_v4` のまま、Azure環境変数が未設定の場合はローカルのフォーム理解ルールでsemantic keyを返します。Azure値が投入されたらlive modeへ戻せます。
