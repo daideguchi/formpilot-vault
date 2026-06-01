@@ -287,6 +287,66 @@ article p {
   font-size: 38px;
 }
 
+.doc-page {
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+.doc-header,
+.doc-main,
+.site-footer {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 24px clamp(18px, 5vw, 40px);
+}
+
+.doc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid #d9e4e5;
+}
+
+.doc-header a,
+.site-footer a {
+  color: #0f766e;
+  font-weight: 900;
+}
+
+.doc-main {
+  display: grid;
+  gap: 28px;
+}
+
+.doc-main h1 {
+  font-size: 42px;
+}
+
+.doc-main h2 {
+  margin: 0 0 10px;
+  font-size: 24px;
+}
+
+.doc-main p,
+.doc-main li {
+  color: #435366;
+  line-height: 1.8;
+}
+
+.doc-main ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.site-footer {
+  display: flex;
+  gap: 18px;
+  color: #526274;
+  font-size: 14px;
+  font-weight: 800;
+}
+
 .license-copy {
   display: grid;
   gap: 8px;

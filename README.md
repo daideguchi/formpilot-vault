@@ -48,6 +48,7 @@ Current local proof:
 - `npm test` passes.
 - Chrome extension E2E scans 12 fields and fills 12 fields.
 - Public form probe scans 2 public demo forms without submitting.
+- Cloudflare Worker API contract tests pass locally with no paid deployment.
 - Checkout smoke proves the Plus plan flow reaches the license success page.
 - English/Japanese UI switch has no horizontal overflow on desktop or mobile.
 - Public GitHub Pages deployment returns HTTP 200 and passes English/Japanese desktop/mobile checks.

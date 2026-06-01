@@ -57,6 +57,7 @@ export function validateSchemaPayload(payload) {
 export function buildSchemaPrompt(payload) {
   return [
     "PRODUCT_CORE_PROMPT:",
+    "PRODUCT_CORE_PROMPT:",
     "This product exists to remove the tiny repeated work of filling forms.",
     "The core value is Personal Vault + Profile RAG/Memory Space + form understanding.",
     "Use memory to select profile semantic keys, not personal values.",
@@ -102,6 +103,18 @@ export async function callAzureDeepSeek({ payload, env, fetchImpl }) {
 }
 
 export async function callCloudflareWorkersAI({ payload, provider, env, fetchImpl }) {
+  if (env.AI?.run) {
+    const model = env.CLOUDFLARE_WORKERS_AI_MODEL || provider.primary_model;
+    const response = await env.AI.run(model, {
+      messages: [
+        { role: "system", content: "You return JSON form schema mappings only." },
+        { role: "user", content: buildSchemaPrompt(payload) }
+      ],
+      temperature: 0.1
+    });
+    return parseProviderResponse(response);
+  }
+
   const accountId = env.CLOUDFLARE_ACCOUNT_ID;
   const apiToken = env.CLOUDFLARE_API_TOKEN;
   if (!accountId || !apiToken) throw new Error("cloudflare_env_missing");
