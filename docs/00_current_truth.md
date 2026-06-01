@@ -60,9 +60,9 @@ AIへ渡すschema inference payloadも実装済みです。フォーム構造、
 
 リリース/課金に必要なAPI土台も実装済みです。`api/schema-proxy/` はAzure DeepSeek V4からCloudflare Workers AIへ日付で切替し、`api/entitlement/` はStripe webhookとlicense checkを扱います。popupにはLicense key確認欄を追加済みです。
 
-DDの初期思想は実際のschema proxyプロンプトへ入れました。`buildSchemaPrompt()` は、フォーム入力の細かな手間をなくす、Personal Vault + Profile RAG/Memory Spaceを核にする、実値を扱わない、不確定項目はユーザー確認へ残す、送信/認証突破/大量作成はしない、世界市場のフォームでは `locale_context` を補助情報として使う、という方針を含みます。
+初期のプロダクト思想は実際のschema proxyプロンプトへ入れました。`buildSchemaPrompt()` は、フォーム入力の細かな手間をなくす、Personal Vault + Profile RAG/Memory Spaceを核にする、実値を扱わない、不確定項目はユーザー確認へ残す、送信/認証突破/大量作成はしない、世界市場のフォームでは `locale_context` を補助情報として使う、という方針を含みます。
 
-Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/Teamボタンから `POST /api/stripe/checkout-session` を呼び、Checkout成功後にLicense keyを表示します。2026-06-01時点では、FormPilot本番APIがKurogane側のStripe本番secretを使う専用ブリッジへ中継し、Stripe Checkout Session作成まで本番で成功しています。購入前のlicense checkはFree/月5回で返り、購入後はStripe subscription metadataの `license_key` / `plan` を照会して有料権利を返す設計です。
+Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/Teamボタンから `POST /api/stripe/checkout-session` を呼び、Checkout成功後にLicense keyを表示します。2026-06-01時点では、FormPilot本番APIが既存のStripe本番ブリッジへ中継し、Stripe Checkout Session作成まで本番で成功しています。購入前のlicense checkはFree/月5回で返り、購入後はStripe subscription metadataの `license_key` / `plan` を照会して有料権利を返す設計です。
 
 公開LPは世界配信向けに、非日本語ブラウザでは英語を初期表示します。日本語は `?lang=ja` または言語ボタンで表示できます。2026-06-01 12:45 JSTの本番確認では、英語初期表示、英語Plusボタン、日本語モバイル表示、横スクロールなし、Stripe Checkout導線が通っています。
 
@@ -72,7 +72,7 @@ AI schema proxyは、Azure/Cloudflareの実環境変数が未投入でも停止�
 
 Chrome Web Store提出向けのロゴ、manifestアイコン、小プロモ画像、1280x800スクリーンショット3枚、提出用ZIPを作成済みです。素材生成は `npm run assets:store`、ZIP作成は `npm run package:extension` で再現できます。2026-06-01 12:38 JST時点の提出用ZIPは、暗号鍵のIndexedDB分離と `locale_context` 収集入りで `66705 bytes` です。
 
-Chrome Web Store Dashboardには下書きitemを作成済みです。21 locale ZIPをアップロードし、Store Listing、Privacy、販売地域、テスト手順を入力保存済みです。Primary languageは英語、UI localeは21 locale、カテゴリは `Workflow and Planning`、販売地域は全155地域、決済表示はStripe有料導線に合わせて `In-app purchases`、公開設定は `Public` です。2026-06-01 12:38 JSTに最新版ZIP `66705 bytes` を再uploadし、Package画面でversion `0.1.0`、21言語、権限 `activeTab, scripting, storage`、Submit表示ありを確認しました。`Submit for review` は有効化されていますが、DDの最終確認が必要なため未クリックです。
+Chrome Web Store Dashboardには下書きitemを作成済みです。21 locale ZIPをアップロードし、Store Listing、Privacy、販売地域、テスト手順を入力保存済みです。Primary languageは英語、UI localeは21 locale、カテゴリは `Workflow and Planning`、販売地域は全155地域、決済表示はStripe有料導線に合わせて `In-app purchases`、公開設定は `Public` です。2026-06-01 12:38 JSTに最新版ZIP `66705 bytes` を再uploadし、Package画面でversion `0.1.0`、21言語、権限 `activeTab, scripting, storage`、Submit表示ありを確認しました。`Submit for review` は有効化されていますが、人間の最終確認が必要なため未クリックです。
 
 Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry-run通過済みです。現時点では `STRIPE_SECRET_KEY` が未投入のため、本番Stripeへの商品作成と決済入金確認は未実行です。
 
@@ -86,7 +86,7 @@ Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry
 
 Cloudflare CLI確認では `wrangler whoami` が `not authenticated` でした。Worker deploy、D1作成、Workers AI binding本番確認は、Cloudflare login後の将来移行タスクです。現在の本番はVercel + Stripeブリッジで動いています。
 
-Azure CLIは `degutidai@gmail.com` でログイン済みです。既存Azure AI Servicesは `degutidai-1418-resource` と `degutidai-5815-resource` の2つが見えますが、2026-06-01確認時点では両方ともmodel deploymentが空です。そのため、Azure DeepSeek V4をlive化するにはAzure AI Foundry/Serverless model deploymentの作成または既存endpoint/keyの投入が必要です。新しい有料/Marketplace条件付きdeployment作成はDD確認が必要な停止点として扱います。
+Azure CLIはローカル検証環境でログイン済みです。既存Azure AI Servicesは2つ見えますが、2026-06-01確認時点では両方ともmodel deploymentが空です。そのため、Azure DeepSeek V4をlive化するにはAzure AI Foundry/Serverless model deploymentの作成または既存endpoint/keyの投入が必要です。新しい有料/Marketplace条件付きdeployment作成は人間確認が必要な停止点として扱います。
 
 実ブラウザ検証も通過済みです。Chromiumに拡張を `--load-extension` で読み込み、extension service worker / content script / DOM入力まで実行しました。12項目収集、12項目入力、Plus license表示、`locale_context` 収集、IndexedDB内の非exportable Vault鍵、`chrome.storage.local` に鍵/実値なしまで確認済みです。証跡は `docs/10_real_browser_verification.md` と `site/assets/real-extension-*.png` にあります。
 
@@ -132,7 +132,7 @@ Azure CLIは `degutidai@gmail.com` でログイン済みです。既存Azure AI 
 
 ## 2026-06-01 ハッカソン転用確認
 
-DDから、今作っている入力フォーム自動入力プロダクトを、賞金化しやすいハッカソンへ使いたいという方針を受けた。
+今作っている入力フォーム自動入力プロダクトを、賞金化しやすいハッカソンへ使いたいという方針を受けた。
 
 確認結果:
 
@@ -153,7 +153,7 @@ Mind the Product向けの別提出候補として、公開用パッケージを�
 
 - 公開URL: `https://daideguchi.github.io/formpilot-vault/`
 - GitHub: `https://github.com/daideguchi/formpilot-vault`
-- 公開パッケージ作業場所: `/Users/dd/000_AI組織/__hackason/formpilot-vault-public`
+- 公開パッケージ作業場所: ローカルの公開repo checkout
 - 公開repoは継続更新中。提出前は `git log --oneline -5` と公開URLで最新状態を再確認する。
 
 公開前に削った/直したこと:
@@ -179,7 +179,7 @@ Mind the Product向けの別提出候補として、公開用パッケージを�
 
 ## 2026-06-01 自動再生デモと使い回し境界
 
-DDの指摘を受け、すでに公開されているページをそのまま別ハッカソンへ使い回す方針は採らない。
+すでに公開されているページをそのまま別ハッカソンへ使い回す方針は採らない。
 使い回すのは中核エンジンと証拠であり、提出ごとにユーザー、課題、必要技術、見せ方を分ける。
 
 公開LPには2分の無音自動再生デモを追加した。
