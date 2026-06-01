@@ -223,7 +223,8 @@ npm run test:public-probe
 
 - 公開URLは作成済み: `https://daideguchi.github.io/formpilot-vault/`
 - GitHub公開リポジトリも作成済み: `https://github.com/daideguchi/formpilot-vault`
-- Novus.aiが未導入
+- Novus/Pendo frontend snippetは導入済み
+- Novus dashboard screenshotは未取得
 - Novus rules上の登録URLは `https://novus.pendo.io/register`。dashboard screenshotが必須。
 - 実AIプロキシの本番smokeがまだ
 - Chrome Web Store提出はまだ

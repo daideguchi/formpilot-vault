@@ -1,6 +1,6 @@
 # FormPilot Vault - Mind the Product Devpost Draft
 
-Status: `ready_except_novus_and_video`
+Status: `ready_except_novus_dashboard_proof`
 
 Live app: https://daideguchi.github.io/formpilot-vault/
 
@@ -70,8 +70,9 @@ Mind the Product requires Novus.ai installed on the deployed project before subm
 Current status:
 
 - Public app is live.
-- Novus.ai installation is not yet confirmed.
-- Do not submit until Novus access, install screenshot, and behavior proof are added.
+- Novus/Pendo frontend snippet is installed in the repository.
+- Dashboard screenshot is not yet attached.
+- Do not submit until the dashboard screenshot and behavior proof are added.
 
 Evidence to add after Novus setup:
 

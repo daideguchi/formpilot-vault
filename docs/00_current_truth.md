@@ -66,7 +66,7 @@ AI schema proxyは、Azure/Cloudflareの実環境変数が未投入でも停止�
 
 Chrome Web Store提出向けのロゴ、manifestアイコン、小プロモ画像、1280x800スクリーンショット3枚、提出用ZIPを作成済みです。素材生成は `npm run assets:store`、ZIP作成は `npm run package:extension` で再現できます。
 
-Chrome Web Store Dashboardには下書きitemを作成済みです。多言語ZIPをアップロードし、Store Listing、Privacy、販売地域、テスト手順を入力保存済みです。Primary languageは英語、UI localeは8言語、カテゴリは `Workflow and Planning`、販売地域は全155地域、決済表示はStripe有料導線に合わせて `In-app purchases`、公開設定は `Public` です。`Submit for review` は有効化されていますが、DDの最終確認が必要なため未クリックです。
+Chrome Web Store Dashboardには下書きitemを作成済みです。多言語ZIPをアップロードし、Store Listing、Privacy、販売地域、テスト手順を入力保存済みです。Primary languageは英語、UI localeは8言語、カテゴリは `Workflow and Planning`、販売地域は全155地域、決済表示はStripe有料導線に合わせて `In-app purchases`、公開設定は `Public` です。`Submit for review` は有効化されていますが、最終確認が必要なため未クリックです。
 
 Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry-run通過済みです。現時点では `STRIPE_SECRET_KEY` が未投入のため、本番Stripeへの商品作成と決済入金確認は未実行です。
 
@@ -182,9 +182,23 @@ Mind the Product向けの別提出候補として、公開用パッケージを�
 この動画はページ上の審査員向けプレビューとして使う。
 Devpost側で外部動画URLが必須の場合は、この流れを元にYouTube等へ最終デモを載せる。
 
+## 2026-06-01 Novus/Pendo snippet install
+
+Mind the Product向けに、既存のNovus/Pendoアカウントの公開Web installをFormPilot Vaultへ導入した。
+
+- `index.html` と `site/index.html` にPendo/Novus frontend snippetを追加
+- FormPilot用のvisitor/account識別に分離
+- `pricing.js` と `site/pricing.js` に安全なイベント名を追加
+  - `switch_language`
+  - `view_proof`
+  - `view_pricing`
+  - `click_start_plan`
+- `scripts/install_pendo_snippet.mjs` と `scripts/verify_novus_installed.py` を追加
+- Dashboard screenshotはまだ未取得。`submission/evidence/novus-dashboard.png` ができるまで、Mind the ProductのNovus要件完了とは呼ばない。
+
 ## 次の一歩
 
-1. Mind the Product向けにNovus.ai導入証拠を取る。
+1. Mind the Product向けにNovus/Pendo dashboard screenshotを取る。
 2. Devpostが外部動画URLを要求する場合、埋め込み済み2分デモを元に提出用動画を作る。
 3. Chrome Web Storeは下書き入力済み。DD確認後に `Submit for review` を押す
 4. Chrome Web Store審査でPrivacy URLに `https://formpilot-vault-api.vercel.app/privacy.html` を指定済み

@@ -24,6 +24,8 @@
     "d1:migrate:remote": "npx wrangler d1 migrations apply DB --remote",
     "release:check": "node scripts/release-readiness.mjs",
     "release:check:strict": "node scripts/release-readiness.mjs --strict",
+    "novus:install": "node scripts/install_pendo_snippet.mjs",
+    "novus:verify": "python3 scripts/verify_novus_installed.py",
     "assets:store": "node scripts/generate-store-assets.mjs",
     "package:extension": "node scripts/package-extension.mjs",
     "preview:shot": "node scripts/generate-product-preview.mjs"

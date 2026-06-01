@@ -8,6 +8,14 @@ for (const button of document.querySelectorAll(".checkout-button")) {
   button.addEventListener("click", () => startCheckout(button));
 }
 
+for (const link of document.querySelectorAll('a[href="#proof"], a[href="#proof-en"]')) {
+  link.addEventListener("click", () => trackProductEvent("view_proof"));
+}
+
+for (const link of document.querySelectorAll('a[href="#pricing"]')) {
+  link.addEventListener("click", () => trackProductEvent("view_pricing"));
+}
+
 for (const button of document.querySelectorAll("[data-lang]")) {
   button.addEventListener("click", () => setLanguage(button.dataset.lang || "ja"));
 }
@@ -22,6 +30,7 @@ setLanguage(document.documentElement.lang === "en" ? "en" : "ja");
 async function startCheckout(button) {
   const plan = button.dataset.plan;
   const license_key = getOrCreateLicenseKey();
+  trackProductEvent("click_start_plan", { plan });
 
   setStatus(activeLanguage === "ja"
     ? `${plan.toUpperCase()}の決済ページを準備しています。`
@@ -67,6 +76,7 @@ function setButtonsDisabled(disabled) {
 function setLanguage(language) {
   activeLanguage = language === "en" ? "en" : "ja";
   document.documentElement.lang = activeLanguage;
+  trackProductEvent("switch_language", { language: activeLanguage });
 
   for (const panel of document.querySelectorAll("[data-lang-panel]")) {
     panel.classList.toggle("active", panel.dataset.langPanel === activeLanguage);
@@ -91,4 +101,14 @@ function setLanguage(language) {
 
 function capitalize(value = "") {
   return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+function trackProductEvent(name, properties = {}) {
+  const tracker = globalThis.pendo;
+  if (tracker && typeof tracker.track === "function") {
+    tracker.track(name, {
+      product: "formpilot-vault",
+      ...properties
+    });
+  }
 }
