@@ -36,6 +36,7 @@ Vault/RAGの最小DBは `extension/src/profile-memory.js` に実装済みです�
 DDの初期思想は `api/schema-proxy/schema-proxy.js` の実プロンプトへ組み込み済みです。Stripe CheckoutはPlus/Pro/Teamのボタンから `POST /api/stripe/checkout-session` を呼ぶ形で実装済みです。
 
 Chrome Web Store向けのロゴ/アイコン/プロモ画像/スクリーンショットは `npm run assets:store` で生成します。提出用ZIPは `npm run package:extension` で `dist/ai-form-autofill-0.1.0.zip` に作成します。
+Dashboardに貼る提出項目は `docs/14_chrome_web_store_submission_packet.md` にまとめています。
 
 現行本番はVercelで、LP、AI schema proxy、Stripe Checkout、license entitlementを `https://formpilot-vault-api.vercel.app/` にまとめています。StripeはKurogane側の本番secretを使うFormPilot専用ブリッジへ中継し、Checkout Session作成まで本番で確認済みです。Cloudflare Worker/D1は、2026-06-07以降の無料枠移行に向けた将来経路です。手順は `docs/13_production_launch_runbook.md` が正本です。
 

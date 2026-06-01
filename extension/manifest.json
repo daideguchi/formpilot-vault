@@ -1,8 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "AI Form Autofill MVP",
+  "name": "FormPilot Vault",
+  "short_name": "FormPilot",
   "version": "0.1.0",
-  "description": "AI-assisted Japanese form autofill with local profile data and user confirmation.",
+  "description": "Japanese form autofill with a local profile vault and user confirmation.",
   "permissions": ["activeTab", "scripting", "storage"],
   "icons": {
     "16": "icons/icon16.png",
@@ -14,7 +15,7 @@
     "service_worker": "background.js"
   },
   "action": {
-    "default_title": "AI Form Autofill",
+    "default_title": "FormPilot Vault",
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icons/icon16.png",

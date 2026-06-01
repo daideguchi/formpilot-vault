@@ -34,6 +34,7 @@ MVPは `Chrome拡張 + content script入力` を本線にします。Playwright�
 - 拡張アイコン: `extension/icons/`
 - 提出用ZIP: `dist/ai-form-autofill-0.1.0.zip`
 - ストア掲載文面: `docs/12_chrome_store_listing_copy.md`
+- Chrome Web Store提出パケット: `docs/14_chrome_web_store_submission_packet.md`
 - プライバシー/利用規約下書き: `site/privacy.html`, `site/terms.html`
 - Cloudflare Worker本番入口: `api/worker/worker.mjs`
 - D1 entitlement migration: `api/worker/migrations/0001_entitlements.sql`
@@ -162,7 +163,7 @@ Mind the Product向けの別提出候補として、公開用パッケージを�
 
 ## 次の一歩
 
-1. Chrome Web Storeへ `dist/ai-form-autofill-0.1.0.zip` とストア素材を提出する
+1. Chrome Web Storeへ `dist/ai-form-autofill-0.1.0.zip` とストア素材を提出する。Dashboard貼り付け値は `docs/14_chrome_web_store_submission_packet.md`
 2. Chrome Web Store審査でPrivacy URLに `https://formpilot-vault-api.vercel.app/privacy.html` を指定する
 3. Azure DeepSeek V4の実endpoint/keyをVercelへ投入し、`rules_fallback` ではなくlive応答をsmoke testする
 4. 日本語の公開/許可済みデモフォームを増やして認識率を測る

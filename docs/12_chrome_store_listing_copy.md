@@ -1,11 +1,11 @@
 # Chrome Web Store Listing Copy
 
 作成日: 2026-06-01
-状態: `draft_ready`
+状態: `ready_for_submission`
 
 ## 拡張名
 
-AIフォームオートフィル
+FormPilot Vault
 
 ## 短い説明
 
@@ -46,9 +46,13 @@ AIへ送るのはフォーム構造だけです。プロフィールの実値、
   - `store-assets/screenshot-popup-1280x800.png`
   - `store-assets/screenshot-pricing-1280x800.png`
 
-## リリース前に差し替えるもの
+## 公開URL
 
-- 公開プライバシーポリシーURL
-- 公開問い合わせ先
-- 本番価格IDとStripe webhook URL
-- 本番AI schema proxy URL
+- Product URL: `https://formpilot-vault-api.vercel.app/`
+- Privacy URL: `https://formpilot-vault-api.vercel.app/privacy.html`
+- Checkout API: `https://formpilot-vault-api.vercel.app/api/stripe/checkout-session`
+- Entitlement API: `https://formpilot-vault-api.vercel.app/api/entitlement/check`
+
+## 提出パケット
+
+Dashboardに貼り付ける詳細値は `docs/14_chrome_web_store_submission_packet.md` を使います。

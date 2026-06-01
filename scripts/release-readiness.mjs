@@ -13,12 +13,14 @@ await checkFile("dist/ai-form-autofill-0.1.0.zip");
 await checkFile("site/privacy.html");
 await checkFile("site/terms.html");
 await checkFile("docs/12_chrome_store_listing_copy.md");
+await checkFile("docs/14_chrome_web_store_submission_packet.md");
 await checkPng("store-assets/icon-128.png", 128, 128);
 await checkPng("store-assets/promo-small-440x280.png", 440, 280);
 await checkPng("store-assets/screenshot-main-1280x800.png", 1280, 800);
 await checkPng("store-assets/screenshot-popup-1280x800.png", 1280, 800);
 await checkPng("store-assets/screenshot-pricing-1280x800.png", 1280, 800);
 await checkNoPlaceholder("extension/src/release-config.js", ["REPLACE_WITH_PUBLIC_URL", "example.com"]);
+await checkNoPlaceholder("extension/manifest.json", ["MVP"]);
 await checkNoPlaceholder("wrangler.toml", strict
   ? ["REPLACE_WITH_PUBLIC_URL", "REPLACE_WITH_CLOUDFLARE_D1_DATABASE_ID"]
   : ["REPLACE_WITH_PUBLIC_URL"]);
