@@ -106,6 +106,16 @@ AFA_LICENSE_KEY=afa_xxx AFA_EXPECTED_PLAN=plus npm run check:paid-license
 
 このコマンドはVercel本番とCloudflare Worker本番の両方で、有料plan、active状態、月間fills権利を確認する。購入前のlicenseでは失敗するのが正しい。
 
+審査中/公開後/購入後をまとめて見る:
+
+```bash
+npm run check:launch
+npm run check:launch -- --require-published
+AFA_LICENSE_KEY=afa_xxx AFA_EXPECTED_PLAN=plus npm run check:launch -- --require-paid-license
+```
+
+`check:launch` はVercel、Cloudflare、GitHub Pages、Chrome Web Store公開URL、開いているChrome Web Store Dashboard、購入後ライセンスをまとめて確認する。審査待ち中は公開URLと有料ライセンス未確認をwarningにし、公開後は `--require-published`、実購入後は `--require-paid-license` でブロッカー化する。
+
 ## Chrome Web Store提出
 
 ```bash

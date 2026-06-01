@@ -45,6 +45,7 @@ MVPは `Chrome拡張 + content script入力` を本線にします。Playwright�
 - release readiness check: `scripts/release-readiness.mjs`
 - production connection check: `scripts/check-production-connections.mjs`
 - paid license live check: `scripts/check-paid-license-live.mjs`
+- launch status check: `scripts/check-launch-status.mjs`
 - 公開LP/GitHub repo: `https://daideguchi.github.io/formpilot-vault/`, `https://github.com/daideguchi/formpilot-vault`
 - 本番LP/API: `https://formpilot-vault-api.vercel.app/`
 - Stripe本番Checkoutブリッジ: `https://kurogane-edge-core-lp.vercel.app/api/formpilot/*`
@@ -67,6 +68,8 @@ DDの初期思想は実際のschema proxyプロンプトへ入れました。`bu
 Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/Teamボタンから `POST /api/stripe/checkout-session` を呼び、Checkout成功後にLicense keyを表示します。2026-06-01時点では、FormPilot本番APIがKurogane側のStripe本番secretを使う専用ブリッジへ中継し、Stripe Checkout Session作成まで本番で成功しています。2026-06-01 13:40 JSTにPlus/Pro/Teamの3プランすべてで `cs_live_` Checkout Session作成を確認しました。購入前のlicense checkはFree/月5回で返り、購入後はStripe subscription metadataの `license_key` / `plan` を照会して有料権利を返す設計です。
 
 実購入後の有料権利確認用に `npm run check:paid-license` を追加しました。`AFA_LICENSE_KEY=afa_xxx AFA_EXPECTED_PLAN=plus npm run check:paid-license` で、Vercel本番とCloudflare Worker本番の両方に対して、有料plan、active状態、月間fills権利を確認できます。
+
+審査中/公開後/購入後を一括確認する `npm run check:launch` も追加しました。通常モードではVercel、Cloudflare、GitHub Pages、Chrome Web Store公開URL、Chrome Web Store Dashboard、購入後ライセンスの状態をまとめて出し、審査待ち中の未公開URLと未購入ライセンスはwarning扱いにします。公開後は `-- --require-published`、実購入後は `-- --require-paid-license` を付けてブロッカー化できます。
 
 公開LPは世界配信向けに、非日本語ブラウザでは英語を初期表示します。日本語は `?lang=ja` または言語ボタンで表示できます。2026-06-01 12:45 JSTの本番確認では、英語初期表示、英語Plusボタン、日本語モバイル表示、横スクロールなし、Stripe Checkout導線が通っています。
 
