@@ -66,7 +66,7 @@ vercel deploy --prod --yes --scope daideguchis-projects
 
 ## 本番確認コマンド
 
-まず一括確認:
+まず一括確認。Plus/Pro/Teamの3プランすべてのStripe Checkout Session作成もここで確認する:
 
 ```bash
 npm run check:production

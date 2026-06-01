@@ -3,6 +3,7 @@ const DEFAULT_BASE_URL = "https://formpilot-vault-api.vercel.app";
 const args = new Set(process.argv.slice(2));
 const strictAiLive = args.has("--strict-ai-live");
 const baseUrl = normalizeBaseUrl(process.env.AFA_PUBLIC_URL || DEFAULT_BASE_URL);
+const PAID_PLANS = ["plus", "pro", "team"];
 
 const report = {
   base_url: baseUrl,
@@ -71,17 +72,24 @@ async function checkSchemaInference() {
 }
 
 async function checkCheckout() {
-  const licenseKey = `afa_prod_probe_${crypto.randomUUID().replaceAll("-", "")}`;
-  const response = await postJson("/api/stripe/checkout-session", {
-    plan: "plus",
-    license_key: licenseKey
-  });
-  const url = response.payload?.url || "";
-  const ok = response.ok && /^https:\/\/checkout\.stripe\.com\//.test(url);
-  addCheck("stripe_checkout_session", ok, {
-    checkout_url_host: safeHost(url),
-    session_id_prefix: response.payload?.id ? String(response.payload.id).slice(0, 8) : null
-  });
+  const details = [];
+  for (const plan of PAID_PLANS) {
+    const licenseKey = `afa_prod_probe_${plan}_${crypto.randomUUID().replaceAll("-", "")}`;
+    const response = await postJson("/api/stripe/checkout-session", {
+      plan,
+      license_key: licenseKey
+    });
+    const url = response.payload?.url || "";
+    details.push({
+      plan,
+      ok: response.ok && /^https:\/\/checkout\.stripe\.com\//.test(url),
+      checkout_url_host: safeHost(url),
+      session_id_prefix: response.payload?.id ? String(response.payload.id).slice(0, 8) : null,
+      returned_plan: response.payload?.plan || null,
+      error: response.payload?.error || null
+    });
+  }
+  addCheck("stripe_checkout_sessions", details.every((entry) => entry.ok), { plans: details });
 }
 
 async function checkEntitlement() {

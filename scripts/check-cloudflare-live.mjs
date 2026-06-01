@@ -5,6 +5,7 @@ const checkedAt = new Date().toISOString();
 const checks = [];
 const blockers = [];
 const warnings = [];
+const PAID_PLANS = ["plus", "pro", "team"];
 
 await checkHealth();
 await checkSchema();
@@ -47,18 +48,27 @@ async function checkSchema() {
 }
 
 async function checkCheckoutAndEntitlement() {
-  const licenseKey = `afa_cf_livecheck_${Date.now()}`;
-  const checkout = await postJson("/api/stripe/checkout-session", { plan: "plus", license_key: licenseKey });
-  const checkoutUrl = checkout.body?.url ? new URL(checkout.body.url) : null;
-  const checkoutOk = checkout.ok && checkout.body?.id?.startsWith("cs_live_") && checkoutUrl?.host === "checkout.stripe.com";
-  addCheck("cloudflare_checkout_bridge", checkoutOk, {
-    status: checkout.status,
-    session_id_prefix: checkout.body?.id?.slice(0, 8) || null,
-    checkout_url_host: checkoutUrl?.host || null,
-    plan: checkout.body?.plan || null
-  });
+  const checkoutPlans = [];
+  const probeId = Date.now();
+  for (const plan of PAID_PLANS) {
+    const licenseKey = `afa_cf_livecheck_${plan}_${probeId}`;
+    const checkout = await postJson("/api/stripe/checkout-session", { plan, license_key: licenseKey });
+    const checkoutUrl = checkout.body?.url ? new URL(checkout.body.url) : null;
+    checkoutPlans.push({
+      plan,
+      status: checkout.status,
+      ok: checkout.ok && checkout.body?.id?.startsWith("cs_live_") && checkoutUrl?.host === "checkout.stripe.com",
+      session_id_prefix: checkout.body?.id?.slice(0, 8) || null,
+      checkout_url_host: checkoutUrl?.host || null,
+      returned_plan: checkout.body?.plan || null,
+      error: checkout.body?.error || null
+    });
+  }
+  const checkoutOk = checkoutPlans.every((entry) => entry.ok);
+  addCheck("cloudflare_checkout_bridge", checkoutOk, { plans: checkoutPlans });
   if (!checkoutOk) blockers.push({ name: "cloudflare_checkout_bridge_failed" });
 
+  const licenseKey = `afa_cf_livecheck_entitlement_${probeId}`;
   const entitlement = await getJson(`/api/entitlement/check?license_key=${encodeURIComponent(licenseKey)}`);
   const entitlementOk = entitlement.ok && entitlement.body?.plan === "free";
   addCheck("cloudflare_entitlement_bridge", entitlementOk, {

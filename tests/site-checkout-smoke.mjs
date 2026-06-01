@@ -14,7 +14,7 @@ const server = http.createServer(async (request, response) => {
   if (request.method === "POST" && url.pathname === "/api/stripe/checkout-session") {
     const body = await readBody(request);
     const parsed = JSON.parse(body);
-    assert.equal(parsed.plan, "plus");
+    assert.ok(["plus", "pro", "team"].includes(parsed.plan));
     assert.match(parsed.license_key, /^afa_/);
     response.writeHead(200, { "content-type": "application/json" });
     response.end(JSON.stringify({ id: "cs_test_site", url: `${server.baseUrl}/success.html?license_key=${parsed.license_key}` }));
@@ -48,6 +48,8 @@ try {
   const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
   await page.goto(`${server.baseUrl}/`);
   assert.equal(await page.locator("html").getAttribute("lang"), "en");
+  assert.equal(await page.getByRole("button", { name: "Start Pro" }).isVisible(), true);
+  assert.equal(await page.getByRole("button", { name: "Start Team" }).isVisible(), true);
   await page.getByRole("button", { name: "Start Plus" }).dispatchEvent("click");
   await page.waitForURL(/success\.html/);
   assert.match(await page.locator("#licenseKeyDisplay").inputValue(), /^afa_/);
@@ -58,6 +60,8 @@ try {
   await japanesePage.goto(`${server.baseUrl}/?lang=ja`);
   assert.equal(await japanesePage.locator("html").getAttribute("lang"), "ja");
   assert.equal(await japanesePage.getByRole("button", { name: "Plusで始める" }).isVisible(), true);
+  assert.equal(await japanesePage.getByRole("button", { name: "Proで始める" }).isVisible(), true);
+  assert.equal(await japanesePage.getByRole("button", { name: "Teamで始める" }).isVisible(), true);
   const mobileOverflow = await japanesePage.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
   assert.equal(mobileOverflow, false);
   console.log(JSON.stringify({ checkout: "ok", url: page.url() }, null, 2));
