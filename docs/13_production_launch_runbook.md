@@ -5,7 +5,7 @@
 
 ## ゴール
 
-Chrome拡張を公開し、Plus/Pro/Teamの課金が運営者のStripeへ入り、拡張側のLicense checkで有料権利が解除される状態にする。
+Chrome拡張を公開し、Plus/Pro/Teamの課金がDDのStripeへ入り、拡張側のLicense checkで有料権利が解除される状態にする。
 
 ## いま達成済み
 
@@ -21,8 +21,21 @@ Chrome拡張を公開し、Plus/Pro/Teamの課金が運営者のStripeへ入り�
 - 提出用ZIP
 - 実ブラウザ拡張E2E
 - release readiness check
+- GitHub Pages静的公開LP: `https://daideguchi.github.io/formpilot-vault/`
+- 公開Privacy URL: `https://daideguchi.github.io/formpilot-vault/privacy.html`
+
+注意: GitHub Pagesは静的公開用です。Stripe Checkout、AI schema proxy、entitlement APIはCloudflare Workerの公開URLで動かす。
 
 ## 本番接続の順番
+
+0. Cloudflare CLIへログインする
+
+```bash
+npx wrangler login
+npx wrangler whoami
+```
+
+2026-06-01の確認では `wrangler whoami` は `not authenticated`。ここは人間のCloudflare認証が必要。
 
 1. CloudflareでD1 DBを作る
 
@@ -49,7 +62,7 @@ AFA_PUBLIC_URL=https://YOUR_PUBLIC_URL npm run configure:release
 4. Stripe商品/価格/Webhookを作る
 
 ```bash
-STRIPE_SECRET_KEY=<stripe_live_secret> \
+STRIPE_SECRET_KEY=sk_live_xxx \
 STRIPE_WEBHOOK_URL=https://YOUR_PUBLIC_URL/api/stripe/webhook \
 npm run setup:stripe
 ```
@@ -84,7 +97,7 @@ curl -X POST https://YOUR_PUBLIC_URL/api/entitlement/check \
 
 ```bash
 npm run release:check
-STRIPE_SECRET_KEY=<stripe_live_secret> \
+STRIPE_SECRET_KEY=sk_live_xxx \
 STRIPE_WEBHOOK_SECRET=whsec_xxx \
 STRIPE_PRICE_ID_PLUS=price_xxx \
 STRIPE_PRICE_ID_PRO=price_xxx \
@@ -124,7 +137,8 @@ npm run package:extension
 
 ## 現在のブロッカー
 
-- GitHub Pagesの公開LPは設定済み。本番Worker URLは未設定
+- Cloudflare CLI未ログイン
+- 公開URL未設定
 - Cloudflare D1 `database_id` 未設定
 - Stripe live secret / price id / webhook secret 未投入
 - Azure DeepSeek V4の本番endpoint/key未投入
