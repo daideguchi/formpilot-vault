@@ -113,7 +113,6 @@ Cloudflare CLI確認では `wrangler whoami` が `not authenticated` でした�
 
 - Chrome Web Storeの最終 `Submit for review`
 - Chrome Web Store審査対応
-- 公開問い合わせ先の最終固定
 - Azure DeepSeek V4の本番endpoint/key投入
 - Cloudflare D1の作成と `database_id` 反映
 - Worker本番deploy
