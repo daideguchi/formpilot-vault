@@ -78,7 +78,7 @@ async function renderScreenshots() {
   await renderStoreScreenshot({
     output: "screenshot-main-1280x800.png",
     title: "日本語フォームをワンクリック入力",
-    subtitle: "実値は端末内Vaultから入力。AIへ送るのはフォーム構造だけ。",
+    subtitle: "実値は暗号化Vaultから入力。AIへ送るのはフォーム構造だけ。",
     image: path.join(assetsDir, "real-extension-filled-form.png")
   });
   await renderStoreScreenshot({

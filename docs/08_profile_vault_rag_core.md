@@ -2,7 +2,7 @@
 
 作成日: 2026-06-01
 状態: `core_concept`
-実装: `extension/src/profile-memory.js`
+実装: `extension/src/profile-memory.js`, `extension/src/vault-crypto.js`
 
 ## 結論
 
@@ -50,7 +50,8 @@
 原則:
 
 - 端末内保存を基本にする
-- 将来クラウド同期する場合は暗号化を前提にする
+- 端末内保存でもプロフィール実値は暗号化して保存する
+- 将来クラウド同期する場合も暗号化を前提にする
 - AIプロバイダへ実値を送らない
 - Chrome拡張に秘密APIキーを入れない
 
@@ -94,7 +95,7 @@ AIへ渡さないもの:
 
 ## データモデル案
 
-MVPでは `chrome.storage.local` に `vaultState` として保存します。現段階のVault値はローカル保存です。クラウド同期やTeam共有へ進む前に暗号化設計を追加します。
+MVPでは `chrome.storage.local` に `vaultState` として保存します。プロフィール実値は `extension/src/vault-crypto.js` でAES-GCM暗号化した `encrypted_values` として保存し、popup実行中だけ復号して入力計画へ使います。サイト別mapping cacheやcorrection eventは実値ではなく `profile_key` とフィールド署名だけを保持します。
 
 ```json
 {
@@ -102,7 +103,17 @@ MVPでは `chrome.storage.local` に `vaultState` として保存します。現
     {
       "profile_id": "personal_main",
       "label": "個人メイン",
-      "values": {}
+      "encrypted_values": {
+        "version": 1,
+        "alg": "AES-GCM",
+        "iv": "...",
+        "ciphertext": "..."
+      },
+      "encryption": {
+        "version": 1,
+        "alg": "AES-GCM",
+        "scope": "device_local"
+      }
     },
     {
       "profile_id": "company_main",
@@ -136,7 +147,7 @@ MVPでは `chrome.storage.local` に `vaultState` として保存します。現
 
 実装済みの最小構成:
 
-- `vault_profiles`: 実値を持つローカルProfile Vault
+- `vault_profiles`: 暗号化された実値を持つローカルProfile Vault
 - `semantic_memory`: 非実値の判断メモ置き場
 - `mapping_cache`: origin/path/field_signature/profile_keyのサイト別記憶
 - `correction_events`: ユーザー修正から学習するイベントログ
@@ -144,15 +155,17 @@ MVPでは `chrome.storage.local` に `vaultState` として保存します。現
 - `learnMappingsFromPlan`: 入力成功後に実値なしでマッピングを保存
 - popupの `Learn` UI: 不確定項目をユーザーがプロフィールキーへ紐づけて保存
 - `extension/src/ai-payload.js`: AIへ渡すフォーム構造/Memory contextから実値とselectorを除外
+- `extension/src/vault-crypto.js`: プロフィール実値をAES-GCMで暗号化保存し、旧平文Vaultを初回起動時に自動移行
 
 ## MVPでの実装順
 
 1. 端末内の構造化Profile Vault: 実装済み
-2. サイト別mapping cache: 実装済み
-3. ユーザー修正からの学習メモ: 最小UIまで実装済み
-4. semantic key辞書
-5. 必要になった段階で小さなlocal RAG検索: MVP retrievalは実装済み
-6. Team版で共有テンプレート/RAG
+2. Profile Vault暗号化保存: 実装済み
+3. サイト別mapping cache: 実装済み
+4. ユーザー修正からの学習メモ: 最小UIまで実装済み
+5. semantic key辞書
+6. 必要になった段階で小さなlocal RAG検索: MVP retrievalは実装済み
+7. Team版で共有テンプレート/RAG
 
 ## 収益化への接続
 

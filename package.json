@@ -4,9 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "npm run test:schema && npm run test:i18n && npm run test:api && npm run test:worker && npm run test:checkout-site && npm run test:playwright",
+    "test": "npm run test:schema && npm run test:i18n && npm run test:vault && npm run test:api && npm run test:worker && npm run test:checkout-site && npm run test:playwright",
     "test:schema": "node --test tests/schema-engine.test.mjs",
     "test:i18n": "node --test tests/i18n-locales.test.mjs",
+    "test:vault": "node --test tests/vault-crypto.test.mjs",
     "test:api": "node --test tests/api-contracts.test.mjs",
     "test:worker": "node --test tests/worker-api.test.mjs",
     "test:playwright": "node tests/playwright-fill-smoke.mjs",

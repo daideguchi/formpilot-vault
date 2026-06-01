@@ -24,6 +24,7 @@ npm run test:extension
 - `AFA_FILL_FIELDS` で実DOMに入力
 - extension popupページを開き、License key確認UIを操作
 - Plus entitlementの表示を確認
+- `chrome.storage.local` 内のVault保存状態を確認し、プロフィール実値が平文で残らないことを検証
 
 ## 結果
 
@@ -33,7 +34,8 @@ npm run test:extension
 {
   "fields_scanned": 12,
   "fields_filled": 12,
-  "usage_status": "PLUS plan / 0 fills this month"
+  "usage_status": "PLUS plan / 0 fills this month",
+  "vault_storage": "AES-GCM encrypted_values, no plaintext profile values"
 }
 ```
 

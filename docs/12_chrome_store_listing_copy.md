@@ -19,7 +19,7 @@ Multilingual form autofill with a local profile vault and user confirmation.
 
 FormPilot Vault is a multilingual Chrome extension that reduces repetitive form-filling work for signups, contact forms, applications, event registrations, and trial forms.
 
-It reads form labels, placeholders, autocomplete hints, options, and nearby text to understand what each field means. Profile values such as name, address, phone number, email, and company details are filled from the user's local Vault after user action.
+It reads form labels, placeholders, autocomplete hints, options, and nearby text to understand what each field means. Profile values such as name, address, phone number, email, and company details are encrypted at rest in the user's local Vault and filled only after user action.
 
 The AI receives form structure only. It does not receive raw profile values, existing input values, cookies, authorization data, verification codes, or passwords.
 
@@ -41,7 +41,7 @@ Free includes 5 fills per month. Plus, Pro, and Team plans unlock higher usage, 
 
 ## データ利用説明
 
-- ローカル保存: プロフィール、利用回数、サイト別マッピング、ユーザー修正イベント、ライセンス状態。
+- ローカル保存: 暗号化されたプロフィール、利用回数、サイト別マッピング、ユーザー修正イベント、ライセンス状態。
 - サーバー送信: フォーム構造、Memory context、ライセンス確認情報、Stripe subscription event。
 - 送信しない情報: プロフィール実値、入力済みvalue、Cookie、Authorization token、パスワード、CAPTCHA/SMS/メール認証情報。
 

@@ -53,13 +53,13 @@ Detailed description:
 ```text
 FormPilot Vault is a multilingual Chrome extension that reduces repetitive form-filling work for signups, contact forms, applications, event registrations, and trial forms.
 
-It reads form labels, placeholders, autocomplete hints, options, and nearby text to understand what each field means. Profile values such as name, address, phone number, email, and company details are filled from the user's local Vault after user action.
+It reads form labels, placeholders, autocomplete hints, options, and nearby text to understand what each field means. Profile values such as name, address, phone number, email, and company details are encrypted at rest in the user's local Vault and filled only after user action.
 
 The AI receives form structure only. It does not receive raw profile values, existing input values, cookies, authorization data, verification codes, or passwords.
 
 FormPilot Vault does not click submit buttons. The user always reviews the filled form before submitting. It does not bypass CAPTCHA, SMS verification, email verification, identity checks, or create accounts in bulk.
 
-The extension UI is localized for English, Japanese, Spanish, French, German, Portuguese, Korean, and Simplified Chinese. The form understanding rules cover common labels in those languages.
+The extension UI is localized for 21 Chrome package locales across the Americas, Europe, the Middle East, and Asia. The form understanding rules cover common labels across major global signup markets.
 
 Free includes 5 fills per month. Plus, Pro, and Team plans unlock higher usage, multiple profiles, company profiles, and learned site mappings.
 ```
@@ -95,7 +95,7 @@ User data disclosure:
 
 ```text
 Collected/stored locally:
-- Personally identifiable information entered by the user into the local profile Vault, such as name, email, phone number, address, company, department, and title.
+- Personally identifiable information entered by the user into the local profile Vault, such as name, email, phone number, address, company, department, and title. Profile values are encrypted at rest before being stored.
 - Generated password values if the user keeps them in the local Vault.
 - Usage count, license key, entitlement state, site origin/path mapping memory, and correction memory.
 

@@ -9,11 +9,11 @@ import {
   buildMemoryContext,
   getActiveProfileValues,
   learnMappingsFromPlan,
-  normalizeVaultState,
   recordCorrectionEvent,
   summarizeMemory,
   updateActiveProfileValues
 } from "./src/profile-memory.js";
+import { loadRuntimeVaultState, persistVaultState } from "./src/vault-crypto.js";
 
 const profileJson = document.getElementById("profileJson");
 const loadSample = document.getElementById("loadSample");
@@ -47,10 +47,14 @@ async function init() {
   const stored = await chrome.storage.local.get(["profile", "entitlement", "usage", "licenseKey", VAULT_STORAGE_KEY]);
   entitlement = stored.entitlement || entitlement;
   usage = stored.usage || {};
-  vaultState = normalizeVaultState(stored[VAULT_STORAGE_KEY], { profile: stored.profile || SAMPLE_PROFILE });
+  vaultState = await loadRuntimeVaultState(stored[VAULT_STORAGE_KEY], {
+    storage: chrome.storage.local,
+    profile: stored.profile || SAMPLE_PROFILE
+  });
   profileJson.value = JSON.stringify(getActiveProfileValues(vaultState), null, 2);
   licenseKey.value = stored.licenseKey || "";
-  await chrome.storage.local.set({ [VAULT_STORAGE_KEY]: vaultState });
+  await persistVaultState(chrome.storage.local, vaultState);
+  if (stored.profile) await chrome.storage.local.remove("profile");
   renderUsage();
   renderMemory();
 }
@@ -62,7 +66,8 @@ loadSample.addEventListener("click", () => {
 saveProfile.addEventListener("click", async () => {
   const profile = parseProfile();
   vaultState = updateActiveProfileValues(vaultState, profile);
-  await chrome.storage.local.set({ [VAULT_STORAGE_KEY]: vaultState, profile });
+  await persistVaultState(chrome.storage.local, vaultState);
+  await chrome.storage.local.remove("profile");
   planSummary.textContent = t("profileSaved");
   renderMemory();
 });
@@ -70,7 +75,8 @@ saveProfile.addEventListener("click", async () => {
 scanPage.addEventListener("click", async () => {
   const profile = parseProfile();
   vaultState = updateActiveProfileValues(vaultState, profile);
-  await chrome.storage.local.set({ [VAULT_STORAGE_KEY]: vaultState, profile });
+  await persistVaultState(chrome.storage.local, vaultState);
+  await chrome.storage.local.remove("profile");
   const tab = await getActiveTab();
   await ensureContentScript(tab.id);
   const response = await chrome.tabs.sendMessage(tab.id, { type: "AFA_COLLECT_FIELDS" });
@@ -118,7 +124,8 @@ fillPage.addEventListener("click", async () => {
         events: [...(usage[monthKey]?.events || []), event].slice(-100)
       }
     };
-    await chrome.storage.local.set({ usage, [VAULT_STORAGE_KEY]: vaultState });
+    await chrome.storage.local.set({ usage });
+    await persistVaultState(chrome.storage.local, vaultState);
     renderMemory(buildMemoryContext({ vaultState, url: tab.url || "", fields: currentFields }));
   }
   planSummary.textContent = t("filledReview", [String(response?.filled || 0)]);
@@ -262,7 +269,7 @@ async function rememberCorrection(item, profileKey) {
     to_profile_key: profileKey,
     date: new Date()
   });
-  await chrome.storage.local.set({ [VAULT_STORAGE_KEY]: vaultState });
+  await persistVaultState(chrome.storage.local, vaultState);
 
   const profile = parseProfile();
   const memoryContext = buildMemoryContext({ vaultState, url: tab.url || "", fields: currentFields });

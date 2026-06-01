@@ -19,6 +19,7 @@
 - [x] Worldwide distribution方針
 - [x] Chrome Web Store draft作成
 - [x] 多言語ZIP upload
+- [x] Profile Vault暗号化保存
 - [x] Dashboard Store Listing保存
 - [x] Dashboard Privacy保存
 - [x] Dashboard販売地域保存

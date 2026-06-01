@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 import { buildSchema, buildInputPlan } from "../extension/src/schema-engine.js";
 import { SAMPLE_PROFILE } from "../extension/src/profile-formatters.js";
+import { storageDumpContainsProfileValues } from "../extension/src/vault-crypto.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
@@ -74,6 +75,11 @@ try {
   await popup.goto(`chrome-extension://${extensionId}/popup.html`);
   await popup.waitForSelector("#memoryStatus");
   assert.equal(await popup.locator("h1").textContent(), "FormPilot Vault");
+  const storedVault = await serviceWorker.evaluate(async () => chrome.storage.local.get(null));
+  assert.equal(storageDumpContainsProfileValues(storedVault, SAMPLE_PROFILE), false);
+  assert.equal(storedVault.vaultState.vault_profiles[0].values, undefined);
+  assert.equal(storedVault.vaultState.vault_profiles[0].encrypted_values.alg, "AES-GCM");
+  assert.equal(storedVault.profile, undefined);
   await popup.screenshot({ path: path.join(evidenceDir, "real-extension-popup-loaded.png"), fullPage: true });
 
   assert.equal(await signupPage.locator("#lastName").inputValue(), "山田");

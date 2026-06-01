@@ -11,6 +11,7 @@ Chrome拡張を公開し、Plus/Pro/Teamの課金がDDのStripeへ入り、拡�
 
 - Chrome拡張MVP
 - Profile Vault / Memory Space最小DB
+- Profile Vault AES-GCM encrypted-at-rest storage
 - AI schema proxy
 - Cloudflare Worker入口
 - D1 entitlement schema
