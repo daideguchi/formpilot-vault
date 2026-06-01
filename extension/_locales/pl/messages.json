@@ -1,0 +1,191 @@
+{
+  "extName": {
+    "message": "FormPilot Vault"
+  },
+  "extShortName": {
+    "message": "FormPilot"
+  },
+  "extDescription": {
+    "message": "Wielojęzyczne autouzupełnianie formularzy z lokalnym sejfem profilu i potwierdzeniem użytkownika."
+  },
+  "eyebrow": {
+    "message": "Profil lokalny / AI tylko do schematu"
+  },
+  "appTitle": {
+    "message": "FormPilot Vault"
+  },
+  "profileVault": {
+    "message": "Sejf profilu"
+  },
+  "sample": {
+    "message": "Przykład"
+  },
+  "memoryLoading": {
+    "message": "Pamięć Vault: ładowanie"
+  },
+  "save": {
+    "message": "Zapisz"
+  },
+  "scanForm": {
+    "message": "Skanuj formularz"
+  },
+  "inputPlan": {
+    "message": "Plan wypełnienia"
+  },
+  "fill": {
+    "message": "Wypełnij"
+  },
+  "openFormPrompt": {
+    "message": "Otwórz stronę z formularzem i kliknij Skanuj formularz."
+  },
+  "plan": {
+    "message": "Plan"
+  },
+  "upgrade": {
+    "message": "Ulepsz"
+  },
+  "freeUsageLoading": {
+    "message": "Użycie Free: ładowanie"
+  },
+  "licenseKey": {
+    "message": "Klucz licencji"
+  },
+  "check": {
+    "message": "Sprawdź"
+  },
+  "upgradeCopy": {
+    "message": "Free jest ograniczony do 5 wypełnień miesięcznie. Upgrade odblokowuje nielimitowane wypełnienia, wiele profili i zapamiętane mapowania stron."
+  },
+  "footnote": {
+    "message": "Bez klikania wyślij. Dane osobowe zostają lokalnie."
+  },
+  "profileSaved": {
+    "message": "Profil zapisany w lokalnym Vault."
+  },
+  "freeLimitReached": {
+    "message": "Osiągnięto miesięczny limit Free. Ulepsz plan, aby kontynuować."
+  },
+  "filledReview": {
+    "message": "Wypełniono $1 pól. Sprawdź przed wysłaniem."
+  },
+  "licenseActive": {
+    "message": "Licencja $1 aktywna."
+  },
+  "licenseInactive": {
+    "message": "Licencja nie była aktywna. Plan Free pozostaje włączony."
+  },
+  "licenseFailed": {
+    "message": "Sprawdzenie licencji nie powiodło się: $1"
+  },
+  "profileJsonInvalid": {
+    "message": "JSON profilu jest nieprawidłowy: $1"
+  },
+  "noActiveTab": {
+    "message": "Brak aktywnej karty"
+  },
+  "planSummary": {
+    "message": "$1 pól zeskanowano / $2 gotowe / $3 do sprawdzenia"
+  },
+  "sourceMemory": {
+    "message": "Pamięć"
+  },
+  "sourceRules": {
+    "message": "Reguły"
+  },
+  "uncertainManual": {
+    "message": "Niepewne. Użytkownik powinien odpowiedzieć ręcznie."
+  },
+  "profileKey": {
+    "message": "Klucz profilu"
+  },
+  "rememberAs": {
+    "message": "Zapamiętaj jako..."
+  },
+  "learn": {
+    "message": "Ucz"
+  },
+  "memoryUpdated": {
+    "message": "Pamięć zaktualizowana. Sprawdź odświeżony plan wypełnienia."
+  },
+  "memorySummary": {
+    "message": "$1 profil / $2 zapamiętane mapowania / $3 trafienia w tym formularzu"
+  },
+  "paidUsage": {
+    "message": "Plan $1 / $2 wypełnienia w tym miesiącu"
+  },
+  "freeUsage": {
+    "message": "Użycie Free: $1/$2 wypełnienia w tym miesiącu"
+  },
+  "semantic_person_name_full": {
+    "message": "Imię i nazwisko"
+  },
+  "semantic_person_name_last": {
+    "message": "Nazwisko"
+  },
+  "semantic_person_name_first": {
+    "message": "Imię"
+  },
+  "semantic_person_name_full_kana": {
+    "message": "Imię i nazwisko kana"
+  },
+  "semantic_person_name_last_kana": {
+    "message": "Nazwisko kana"
+  },
+  "semantic_person_name_first_kana": {
+    "message": "Imię kana"
+  },
+  "semantic_person_email_primary": {
+    "message": "E-mail"
+  },
+  "semantic_person_phone_mobile_auto": {
+    "message": "Telefon"
+  },
+  "semantic_person_address_postal_code_auto": {
+    "message": "Kod pocztowy"
+  },
+  "semantic_person_address_prefecture": {
+    "message": "Województwo / region"
+  },
+  "semantic_person_address_city": {
+    "message": "Miasto"
+  },
+  "semantic_person_address_line1": {
+    "message": "Adres linia 1"
+  },
+  "semantic_person_address_line2": {
+    "message": "Adres linia 2"
+  },
+  "semantic_person_address_full": {
+    "message": "Adres"
+  },
+  "semantic_person_birthdate_year": {
+    "message": "Rok urodzenia"
+  },
+  "semantic_person_birthdate_month": {
+    "message": "Miesiąc urodzenia"
+  },
+  "semantic_person_birthdate_day": {
+    "message": "Dzień urodzenia"
+  },
+  "semantic_person_birthdate_iso": {
+    "message": "Data urodzenia"
+  },
+  "semantic_person_gender": {
+    "message": "Płeć"
+  },
+  "semantic_company_name": {
+    "message": "Firma"
+  },
+  "semantic_company_department": {
+    "message": "Dział"
+  },
+  "semantic_company_title": {
+    "message": "Stanowisko"
+  },
+  "semantic_company_website": {
+    "message": "Strona firmy"
+  },
+  "semantic_account_password_generated": {
+    "message": "Wygenerowane hasło"
+  }
+}

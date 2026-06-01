@@ -7,17 +7,11 @@ const root = path.resolve(__dirname, "..");
 const strict = process.argv.includes("--strict");
 const checks = [];
 const warnings = [];
+const manifest = await readJson("extension/manifest.json");
 
 await checkFile("extension/manifest.json");
-await checkFile("extension/_locales/en/messages.json");
-await checkFile("extension/_locales/ja/messages.json");
-await checkFile("extension/_locales/es/messages.json");
-await checkFile("extension/_locales/fr/messages.json");
-await checkFile("extension/_locales/de/messages.json");
-await checkFile("extension/_locales/pt_BR/messages.json");
-await checkFile("extension/_locales/ko/messages.json");
-await checkFile("extension/_locales/zh_CN/messages.json");
-await checkFile("dist/ai-form-autofill-0.1.0.zip");
+await checkLocales();
+await checkFile(`dist/ai-form-autofill-${manifest?.version || "0.1.0"}.zip`);
 await checkFile("site/privacy.html");
 await checkFile("site/terms.html");
 await checkFile("site/support.html");
@@ -65,6 +59,51 @@ async function checkFile(relativePath) {
     checks.push({ name: `file:${relativePath}`, ok: stat.isFile() && stat.size > 0, size_bytes: stat.size });
   } catch {
     checks.push({ name: `file:${relativePath}`, ok: false });
+  }
+}
+
+async function readJson(relativePath) {
+  try {
+    const content = await fs.readFile(path.join(root, relativePath), "utf8");
+    return JSON.parse(content);
+  } catch {
+    return null;
+  }
+}
+
+async function checkLocales() {
+  const localeRoot = path.join(root, "extension", "_locales");
+  try {
+    const locales = (await fs.readdir(localeRoot, { withFileTypes: true }))
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name)
+      .sort();
+    const defaultLocale = manifest?.default_locale || "en";
+    const base = await readJson(`extension/_locales/${defaultLocale}/messages.json`);
+    const baseKeys = Object.keys(base || {}).sort();
+    const missingDefault = !locales.includes(defaultLocale);
+    const mismatches = [];
+
+    for (const locale of locales) {
+      await checkFile(`extension/_locales/${locale}/messages.json`);
+      const messages = await readJson(`extension/_locales/${locale}/messages.json`);
+      const keys = Object.keys(messages || {}).sort();
+      const missing = baseKeys.filter((key) => !keys.includes(key));
+      const extra = keys.filter((key) => !baseKeys.includes(key));
+      if (missing.length > 0 || extra.length > 0) mismatches.push({ locale, missing, extra });
+    }
+
+    checks.push({
+      name: "locales:extension/_locales",
+      ok: locales.length >= 16 && !missingDefault && mismatches.length === 0,
+      locales,
+      count: locales.length,
+      key_count: baseKeys.length,
+      missing_default_locale: missingDefault,
+      mismatches
+    });
+  } catch (error) {
+    checks.push({ name: "locales:extension/_locales", ok: false, error: error.message });
   }
 }
 

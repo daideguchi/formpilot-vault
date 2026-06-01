@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "npm run test:schema && npm run test:api && npm run test:worker && npm run test:checkout-site && npm run test:playwright",
+    "test": "npm run test:schema && npm run test:i18n && npm run test:api && npm run test:worker && npm run test:checkout-site && npm run test:playwright",
     "test:schema": "node --test tests/schema-engine.test.mjs",
+    "test:i18n": "node --test tests/i18n-locales.test.mjs",
     "test:api": "node --test tests/api-contracts.test.mjs",
     "test:worker": "node --test tests/worker-api.test.mjs",
     "test:playwright": "node tests/playwright-fill-smoke.mjs",
@@ -30,7 +31,8 @@
     "package:extension": "node scripts/package-extension.mjs",
     "preview:shot": "node scripts/generate-product-preview.mjs",
     "check:production": "node scripts/check-production-connections.mjs",
-    "check:production:strict-ai": "node scripts/check-production-connections.mjs --strict-ai-live"
+    "check:production:strict-ai": "node scripts/check-production-connections.mjs --strict-ai-live",
+    "i18n:sync": "node scripts/sync-extension-locales.mjs"
   },
   "devDependencies": {
     "playwright": "^1.59.1"

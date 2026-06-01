@@ -1,0 +1,191 @@
+{
+  "extName": {
+    "message": "FormPilot Vault"
+  },
+  "extShortName": {
+    "message": "FormPilot"
+  },
+  "extDescription": {
+    "message": "Tự động điền biểu mẫu đa ngôn ngữ với Vault hồ sơ cục bộ và xác nhận của người dùng."
+  },
+  "eyebrow": {
+    "message": "Hồ sơ cục bộ / AI chỉ xử lý schema"
+  },
+  "appTitle": {
+    "message": "FormPilot Vault"
+  },
+  "profileVault": {
+    "message": "Vault hồ sơ"
+  },
+  "sample": {
+    "message": "Mẫu"
+  },
+  "memoryLoading": {
+    "message": "Bộ nhớ Vault: đang tải"
+  },
+  "save": {
+    "message": "Lưu"
+  },
+  "scanForm": {
+    "message": "Quét biểu mẫu"
+  },
+  "inputPlan": {
+    "message": "Kế hoạch điền"
+  },
+  "fill": {
+    "message": "Điền"
+  },
+  "openFormPrompt": {
+    "message": "Mở trang có biểu mẫu rồi nhấp Quét biểu mẫu."
+  },
+  "plan": {
+    "message": "Gói"
+  },
+  "upgrade": {
+    "message": "Nâng cấp"
+  },
+  "freeUsageLoading": {
+    "message": "Mức dùng Free: đang tải"
+  },
+  "licenseKey": {
+    "message": "Khóa giấy phép"
+  },
+  "check": {
+    "message": "Kiểm tra"
+  },
+  "upgradeCopy": {
+    "message": "Free giới hạn 5 lần điền mỗi tháng. Nâng cấp để mở khóa điền không giới hạn, nhiều hồ sơ và mapping trang đã học."
+  },
+  "footnote": {
+    "message": "Không bấm gửi. Giá trị cá nhân ở lại cục bộ."
+  },
+  "profileSaved": {
+    "message": "Đã lưu hồ sơ vào Vault cục bộ."
+  },
+  "freeLimitReached": {
+    "message": "Đã đạt giới hạn Free hằng tháng. Nâng cấp để tiếp tục."
+  },
+  "filledReview": {
+    "message": "Đã điền $1 trường. Vui lòng kiểm tra trước khi gửi."
+  },
+  "licenseActive": {
+    "message": "Giấy phép $1 đang hoạt động."
+  },
+  "licenseInactive": {
+    "message": "Giấy phép chưa hoạt động. Gói Free vẫn được bật."
+  },
+  "licenseFailed": {
+    "message": "Kiểm tra giấy phép thất bại: $1"
+  },
+  "profileJsonInvalid": {
+    "message": "JSON hồ sơ không hợp lệ: $1"
+  },
+  "noActiveTab": {
+    "message": "Không có tab đang hoạt động"
+  },
+  "planSummary": {
+    "message": "Đã quét $1 trường / $2 sẵn sàng / $3 cần xem lại"
+  },
+  "sourceMemory": {
+    "message": "Bộ nhớ"
+  },
+  "sourceRules": {
+    "message": "Quy tắc"
+  },
+  "uncertainManual": {
+    "message": "Không chắc chắn. Người dùng nên trả lời thủ công."
+  },
+  "profileKey": {
+    "message": "Khóa hồ sơ"
+  },
+  "rememberAs": {
+    "message": "Ghi nhớ là..."
+  },
+  "learn": {
+    "message": "Học"
+  },
+  "memoryUpdated": {
+    "message": "Đã cập nhật bộ nhớ. Xem lại kế hoạch điền mới."
+  },
+  "memorySummary": {
+    "message": "$1 hồ sơ / $2 mapping đã học / $3 khớp trên biểu mẫu này"
+  },
+  "paidUsage": {
+    "message": "Gói $1 / $2 lần điền trong tháng này"
+  },
+  "freeUsage": {
+    "message": "Mức dùng Free: $1/$2 lần điền trong tháng này"
+  },
+  "semantic_person_name_full": {
+    "message": "Họ và tên"
+  },
+  "semantic_person_name_last": {
+    "message": "Họ"
+  },
+  "semantic_person_name_first": {
+    "message": "Tên"
+  },
+  "semantic_person_name_full_kana": {
+    "message": "Họ tên kana"
+  },
+  "semantic_person_name_last_kana": {
+    "message": "Họ kana"
+  },
+  "semantic_person_name_first_kana": {
+    "message": "Tên kana"
+  },
+  "semantic_person_email_primary": {
+    "message": "Email"
+  },
+  "semantic_person_phone_mobile_auto": {
+    "message": "Điện thoại"
+  },
+  "semantic_person_address_postal_code_auto": {
+    "message": "Mã bưu chính"
+  },
+  "semantic_person_address_prefecture": {
+    "message": "Tỉnh / vùng"
+  },
+  "semantic_person_address_city": {
+    "message": "Thành phố"
+  },
+  "semantic_person_address_line1": {
+    "message": "Địa chỉ dòng 1"
+  },
+  "semantic_person_address_line2": {
+    "message": "Địa chỉ dòng 2"
+  },
+  "semantic_person_address_full": {
+    "message": "Địa chỉ"
+  },
+  "semantic_person_birthdate_year": {
+    "message": "Năm sinh"
+  },
+  "semantic_person_birthdate_month": {
+    "message": "Tháng sinh"
+  },
+  "semantic_person_birthdate_day": {
+    "message": "Ngày sinh"
+  },
+  "semantic_person_birthdate_iso": {
+    "message": "Ngày sinh"
+  },
+  "semantic_person_gender": {
+    "message": "Giới tính"
+  },
+  "semantic_company_name": {
+    "message": "Công ty"
+  },
+  "semantic_company_department": {
+    "message": "Phòng ban"
+  },
+  "semantic_company_title": {
+    "message": "Chức danh"
+  },
+  "semantic_company_website": {
+    "message": "Website công ty"
+  },
+  "semantic_account_password_generated": {
+    "message": "Mật khẩu đã tạo"
+  }
+}

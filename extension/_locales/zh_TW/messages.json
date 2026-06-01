@@ -1,0 +1,191 @@
+{
+  "extName": {
+    "message": "FormPilot Vault"
+  },
+  "extShortName": {
+    "message": "FormPilot"
+  },
+  "extDescription": {
+    "message": "多語系表單自動填寫，搭配本機個人資料 Vault 與使用者確認。"
+  },
+  "eyebrow": {
+    "message": "本機個人資料 / 僅解析結構的 AI"
+  },
+  "appTitle": {
+    "message": "FormPilot Vault"
+  },
+  "profileVault": {
+    "message": "個人資料 Vault"
+  },
+  "sample": {
+    "message": "範例"
+  },
+  "memoryLoading": {
+    "message": "Vault 記憶：載入中"
+  },
+  "save": {
+    "message": "儲存"
+  },
+  "scanForm": {
+    "message": "掃描表單"
+  },
+  "inputPlan": {
+    "message": "填寫計畫"
+  },
+  "fill": {
+    "message": "填寫"
+  },
+  "openFormPrompt": {
+    "message": "開啟表單頁面並點擊掃描表單。"
+  },
+  "plan": {
+    "message": "方案"
+  },
+  "upgrade": {
+    "message": "升級"
+  },
+  "freeUsageLoading": {
+    "message": "Free 使用量：載入中"
+  },
+  "licenseKey": {
+    "message": "授權金鑰"
+  },
+  "check": {
+    "message": "檢查"
+  },
+  "upgradeCopy": {
+    "message": "Free 每月限制 5 次填寫。升級可解鎖無限制填寫、多個個人資料與已學習的網站對應。"
+  },
+  "footnote": {
+    "message": "不會點擊送出。個人資料值保留在本機。"
+  },
+  "profileSaved": {
+    "message": "個人資料已儲存到本機 Vault。"
+  },
+  "freeLimitReached": {
+    "message": "已達 Free 每月限制。升級後可繼續填寫。"
+  },
+  "filledReview": {
+    "message": "已填寫 $1 個欄位。送出前請確認。"
+  },
+  "licenseActive": {
+    "message": "$1 授權已啟用。"
+  },
+  "licenseInactive": {
+    "message": "授權未啟用。Free 方案仍保持可用。"
+  },
+  "licenseFailed": {
+    "message": "授權檢查失敗：$1"
+  },
+  "profileJsonInvalid": {
+    "message": "個人資料 JSON 無效：$1"
+  },
+  "noActiveTab": {
+    "message": "沒有作用中的分頁"
+  },
+  "planSummary": {
+    "message": "已掃描 $1 個欄位 / $2 個可填寫 / $3 個需確認"
+  },
+  "sourceMemory": {
+    "message": "記憶"
+  },
+  "sourceRules": {
+    "message": "規則"
+  },
+  "uncertainManual": {
+    "message": "不確定。使用者應手動回答。"
+  },
+  "profileKey": {
+    "message": "個人資料鍵"
+  },
+  "rememberAs": {
+    "message": "記住為..."
+  },
+  "learn": {
+    "message": "學習"
+  },
+  "memoryUpdated": {
+    "message": "記憶已更新。請檢查新的填寫計畫。"
+  },
+  "memorySummary": {
+    "message": "$1 個個人資料 / $2 個已學習對應 / 此表單 $3 個命中"
+  },
+  "paidUsage": {
+    "message": "$1 方案 / 本月 $2 次填寫"
+  },
+  "freeUsage": {
+    "message": "Free 使用量：本月 $1/$2 次填寫"
+  },
+  "semantic_person_name_full": {
+    "message": "姓名"
+  },
+  "semantic_person_name_last": {
+    "message": "姓氏"
+  },
+  "semantic_person_name_first": {
+    "message": "名字"
+  },
+  "semantic_person_name_full_kana": {
+    "message": "姓名假名"
+  },
+  "semantic_person_name_last_kana": {
+    "message": "姓氏假名"
+  },
+  "semantic_person_name_first_kana": {
+    "message": "名字假名"
+  },
+  "semantic_person_email_primary": {
+    "message": "電子郵件"
+  },
+  "semantic_person_phone_mobile_auto": {
+    "message": "電話"
+  },
+  "semantic_person_address_postal_code_auto": {
+    "message": "郵遞區號"
+  },
+  "semantic_person_address_prefecture": {
+    "message": "縣市 / 地區"
+  },
+  "semantic_person_address_city": {
+    "message": "城市"
+  },
+  "semantic_person_address_line1": {
+    "message": "地址第 1 行"
+  },
+  "semantic_person_address_line2": {
+    "message": "地址第 2 行"
+  },
+  "semantic_person_address_full": {
+    "message": "地址"
+  },
+  "semantic_person_birthdate_year": {
+    "message": "出生年份"
+  },
+  "semantic_person_birthdate_month": {
+    "message": "出生月份"
+  },
+  "semantic_person_birthdate_day": {
+    "message": "出生日期"
+  },
+  "semantic_person_birthdate_iso": {
+    "message": "出生日期"
+  },
+  "semantic_person_gender": {
+    "message": "性別"
+  },
+  "semantic_company_name": {
+    "message": "公司"
+  },
+  "semantic_company_department": {
+    "message": "部門"
+  },
+  "semantic_company_title": {
+    "message": "職稱"
+  },
+  "semantic_company_website": {
+    "message": "公司網站"
+  },
+  "semantic_account_password_generated": {
+    "message": "產生的密碼"
+  }
+}

@@ -150,7 +150,7 @@ Team: 1,500円/人/月
 Publishing:
 
 ```text
-Automatic publish after review is acceptable for MVP unless staged publishing is preferred.
+Automatic publish after review is acceptable for MVP unless DD wants staged publishing.
 ```
 
 ## Localization Notes
@@ -158,7 +158,7 @@ Automatic publish after review is acceptable for MVP unless staged publishing is
 Chrome extension package localization:
 
 ```text
-The submitted ZIP includes default_locale: en and _locales for en, ja, es, fr, de, pt_BR, ko, and zh_CN.
+The submitted ZIP includes default_locale: en and _locales for en, en_GB, ja, es, es_419, fr, de, it, nl, pl, pt_BR, ru, tr, ar, hi, id, th, vi, ko, zh_CN, and zh_TW.
 ```
 
 Recommended first Store Listing locales:
@@ -166,13 +166,13 @@ Recommended first Store Listing locales:
 ```text
 English: primary
 Japanese: already prepared
-Spanish, Portuguese (Brazil), French, German, Korean, Chinese (Simplified): add after initial review if the dashboard allows localized listings without slowing submission.
+Spanish, Spanish (Latin America), Portuguese (Brazil), French, German, Italian, Dutch, Polish, Turkish, Arabic, Hindi, Indonesian, Thai, Vietnamese, Korean, Chinese (Simplified), Chinese (Traditional): add as localized Store Listing variants after review if dashboard work does not slow the first public release.
 ```
 
 Global positioning:
 
 ```text
-Use "multilingual form autofill" rather than "Japanese-only form autofill" for global listing copy. The strongest local claim remains Japanese form support, but the product now scans common labels in English, Japanese, Spanish, French, German, Portuguese, Korean, and Chinese.
+Use "multilingual form autofill" rather than "Japanese-only form autofill" for global listing copy. The strongest local claim remains Japanese form support, but the product now scans common labels across major global signup markets.
 ```
 
 ## Test Instructions For Reviewers

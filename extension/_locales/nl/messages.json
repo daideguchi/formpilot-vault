@@ -1,0 +1,191 @@
+{
+  "extName": {
+    "message": "FormPilot Vault"
+  },
+  "extShortName": {
+    "message": "FormPilot"
+  },
+  "extDescription": {
+    "message": "Meertalige formulierinvulling met lokale profielkluis en gebruikersbevestiging."
+  },
+  "eyebrow": {
+    "message": "Lokaal profiel / AI alleen voor schema"
+  },
+  "appTitle": {
+    "message": "FormPilot Vault"
+  },
+  "profileVault": {
+    "message": "Profielkluis"
+  },
+  "sample": {
+    "message": "Voorbeeld"
+  },
+  "memoryLoading": {
+    "message": "Vault-geheugen: laden"
+  },
+  "save": {
+    "message": "Opslaan"
+  },
+  "scanForm": {
+    "message": "Formulier scannen"
+  },
+  "inputPlan": {
+    "message": "Invulplan"
+  },
+  "fill": {
+    "message": "Invullen"
+  },
+  "openFormPrompt": {
+    "message": "Open een formulierpagina en klik op Formulier scannen."
+  },
+  "plan": {
+    "message": "Plan"
+  },
+  "upgrade": {
+    "message": "Upgraden"
+  },
+  "freeUsageLoading": {
+    "message": "Free-gebruik: laden"
+  },
+  "licenseKey": {
+    "message": "Licentiesleutel"
+  },
+  "check": {
+    "message": "Controleren"
+  },
+  "upgradeCopy": {
+    "message": "Free is beperkt tot 5 invullingen per maand. Upgrade ontgrendelt onbeperkt invullen, meerdere profielen en geleerde site-mappings."
+  },
+  "footnote": {
+    "message": "Geen verzendklik. Persoonlijke waarden blijven lokaal."
+  },
+  "profileSaved": {
+    "message": "Profiel opgeslagen in lokale Vault."
+  },
+  "freeLimitReached": {
+    "message": "Maandlimiet van Free bereikt. Upgrade om verder te gaan."
+  },
+  "filledReview": {
+    "message": "$1 velden ingevuld. Controleer voordat je verzendt."
+  },
+  "licenseActive": {
+    "message": "$1-licentie actief."
+  },
+  "licenseInactive": {
+    "message": "Licentie was niet actief. Free-plan blijft ingeschakeld."
+  },
+  "licenseFailed": {
+    "message": "Licentiecontrole mislukt: $1"
+  },
+  "profileJsonInvalid": {
+    "message": "Profiel-JSON is ongeldig: $1"
+  },
+  "noActiveTab": {
+    "message": "Geen actief tabblad"
+  },
+  "planSummary": {
+    "message": "$1 velden gescand / $2 klaar / $3 moeten worden gecontroleerd"
+  },
+  "sourceMemory": {
+    "message": "Geheugen"
+  },
+  "sourceRules": {
+    "message": "Regels"
+  },
+  "uncertainManual": {
+    "message": "Onzeker. Gebruiker moet handmatig antwoorden."
+  },
+  "profileKey": {
+    "message": "Profielsleutel"
+  },
+  "rememberAs": {
+    "message": "Onthouden als..."
+  },
+  "learn": {
+    "message": "Leren"
+  },
+  "memoryUpdated": {
+    "message": "Geheugen bijgewerkt. Controleer het vernieuwde invulplan."
+  },
+  "memorySummary": {
+    "message": "$1 profiel / $2 geleerde mappings / $3 treffers op dit formulier"
+  },
+  "paidUsage": {
+    "message": "$1-plan / $2 invullingen deze maand"
+  },
+  "freeUsage": {
+    "message": "Free-gebruik: $1/$2 invullingen deze maand"
+  },
+  "semantic_person_name_full": {
+    "message": "Volledige naam"
+  },
+  "semantic_person_name_last": {
+    "message": "Achternaam"
+  },
+  "semantic_person_name_first": {
+    "message": "Voornaam"
+  },
+  "semantic_person_name_full_kana": {
+    "message": "Volledige naam kana"
+  },
+  "semantic_person_name_last_kana": {
+    "message": "Achternaam kana"
+  },
+  "semantic_person_name_first_kana": {
+    "message": "Voornaam kana"
+  },
+  "semantic_person_email_primary": {
+    "message": "E-mail"
+  },
+  "semantic_person_phone_mobile_auto": {
+    "message": "Telefoon"
+  },
+  "semantic_person_address_postal_code_auto": {
+    "message": "Postcode"
+  },
+  "semantic_person_address_prefecture": {
+    "message": "Provincie / regio"
+  },
+  "semantic_person_address_city": {
+    "message": "Plaats"
+  },
+  "semantic_person_address_line1": {
+    "message": "Adresregel 1"
+  },
+  "semantic_person_address_line2": {
+    "message": "Adresregel 2"
+  },
+  "semantic_person_address_full": {
+    "message": "Adres"
+  },
+  "semantic_person_birthdate_year": {
+    "message": "Geboortejaar"
+  },
+  "semantic_person_birthdate_month": {
+    "message": "Geboortemaand"
+  },
+  "semantic_person_birthdate_day": {
+    "message": "Geboortedag"
+  },
+  "semantic_person_birthdate_iso": {
+    "message": "Geboortedatum"
+  },
+  "semantic_person_gender": {
+    "message": "Geslacht"
+  },
+  "semantic_company_name": {
+    "message": "Bedrijf"
+  },
+  "semantic_company_department": {
+    "message": "Afdeling"
+  },
+  "semantic_company_title": {
+    "message": "Functie"
+  },
+  "semantic_company_website": {
+    "message": "Bedrijfswebsite"
+  },
+  "semantic_account_password_generated": {
+    "message": "Gegenereerd wachtwoord"
+  }
+}

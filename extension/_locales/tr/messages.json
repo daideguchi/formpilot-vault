@@ -1,0 +1,191 @@
+{
+  "extName": {
+    "message": "FormPilot Vault"
+  },
+  "extShortName": {
+    "message": "FormPilot"
+  },
+  "extDescription": {
+    "message": "Yerel profil kasası ve kullanıcı onayıyla çok dilli form otomatik doldurma."
+  },
+  "eyebrow": {
+    "message": "Yerel profil / Sadece şema AI"
+  },
+  "appTitle": {
+    "message": "FormPilot Vault"
+  },
+  "profileVault": {
+    "message": "Profil Kasası"
+  },
+  "sample": {
+    "message": "Örnek"
+  },
+  "memoryLoading": {
+    "message": "Vault belleği: yükleniyor"
+  },
+  "save": {
+    "message": "Kaydet"
+  },
+  "scanForm": {
+    "message": "Formu Tara"
+  },
+  "inputPlan": {
+    "message": "Giriş Planı"
+  },
+  "fill": {
+    "message": "Doldur"
+  },
+  "openFormPrompt": {
+    "message": "Bir form sayfası açın ve Formu Tara'ya tıklayın."
+  },
+  "plan": {
+    "message": "Plan"
+  },
+  "upgrade": {
+    "message": "Yükselt"
+  },
+  "freeUsageLoading": {
+    "message": "Free kullanımı: yükleniyor"
+  },
+  "licenseKey": {
+    "message": "Lisans anahtarı"
+  },
+  "check": {
+    "message": "Kontrol et"
+  },
+  "upgradeCopy": {
+    "message": "Free ayda 5 doldurma ile sınırlıdır. Yükseltme sınırsız doldurma, birden çok profil ve öğrenilen site eşleştirmelerini açar."
+  },
+  "footnote": {
+    "message": "Gönder düğmesine tıklanmaz. Kişisel değerler yerelde kalır."
+  },
+  "profileSaved": {
+    "message": "Profil yerel Vault'a kaydedildi."
+  },
+  "freeLimitReached": {
+    "message": "Free aylık sınırına ulaşıldı. Devam etmek için yükseltin."
+  },
+  "filledReview": {
+    "message": "$1 alan dolduruldu. Göndermeden önce kontrol edin."
+  },
+  "licenseActive": {
+    "message": "$1 lisansı aktif."
+  },
+  "licenseInactive": {
+    "message": "Lisans aktif değildi. Free plan etkin kalır."
+  },
+  "licenseFailed": {
+    "message": "Lisans kontrolü başarısız: $1"
+  },
+  "profileJsonInvalid": {
+    "message": "Profil JSON geçersiz: $1"
+  },
+  "noActiveTab": {
+    "message": "Aktif sekme yok"
+  },
+  "planSummary": {
+    "message": "$1 alan tarandı / $2 hazır / $3 kontrol gerekiyor"
+  },
+  "sourceMemory": {
+    "message": "Bellek"
+  },
+  "sourceRules": {
+    "message": "Kurallar"
+  },
+  "uncertainManual": {
+    "message": "Belirsiz. Kullanıcı manuel yanıtlamalı."
+  },
+  "profileKey": {
+    "message": "Profil anahtarı"
+  },
+  "rememberAs": {
+    "message": "Şöyle hatırla..."
+  },
+  "learn": {
+    "message": "Öğren"
+  },
+  "memoryUpdated": {
+    "message": "Bellek güncellendi. Yenilenen giriş planını kontrol edin."
+  },
+  "memorySummary": {
+    "message": "$1 profil / $2 öğrenilen eşleştirme / $3 bu formda eşleşme"
+  },
+  "paidUsage": {
+    "message": "$1 planı / bu ay $2 doldurma"
+  },
+  "freeUsage": {
+    "message": "Free kullanımı: bu ay $1/$2 doldurma"
+  },
+  "semantic_person_name_full": {
+    "message": "Ad soyad"
+  },
+  "semantic_person_name_last": {
+    "message": "Soyadı"
+  },
+  "semantic_person_name_first": {
+    "message": "Adı"
+  },
+  "semantic_person_name_full_kana": {
+    "message": "Ad soyad kana"
+  },
+  "semantic_person_name_last_kana": {
+    "message": "Soyadı kana"
+  },
+  "semantic_person_name_first_kana": {
+    "message": "Adı kana"
+  },
+  "semantic_person_email_primary": {
+    "message": "E-posta"
+  },
+  "semantic_person_phone_mobile_auto": {
+    "message": "Telefon"
+  },
+  "semantic_person_address_postal_code_auto": {
+    "message": "Posta kodu"
+  },
+  "semantic_person_address_prefecture": {
+    "message": "İl / bölge"
+  },
+  "semantic_person_address_city": {
+    "message": "Şehir"
+  },
+  "semantic_person_address_line1": {
+    "message": "Adres satırı 1"
+  },
+  "semantic_person_address_line2": {
+    "message": "Adres satırı 2"
+  },
+  "semantic_person_address_full": {
+    "message": "Adres"
+  },
+  "semantic_person_birthdate_year": {
+    "message": "Doğum yılı"
+  },
+  "semantic_person_birthdate_month": {
+    "message": "Doğum ayı"
+  },
+  "semantic_person_birthdate_day": {
+    "message": "Doğum günü"
+  },
+  "semantic_person_birthdate_iso": {
+    "message": "Doğum tarihi"
+  },
+  "semantic_person_gender": {
+    "message": "Cinsiyet"
+  },
+  "semantic_company_name": {
+    "message": "Şirket"
+  },
+  "semantic_company_department": {
+    "message": "Bölüm"
+  },
+  "semantic_company_title": {
+    "message": "Unvan"
+  },
+  "semantic_company_website": {
+    "message": "Şirket web sitesi"
+  },
+  "semantic_account_password_generated": {
+    "message": "Oluşturulan şifre"
+  }
+}

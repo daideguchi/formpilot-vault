@@ -25,7 +25,7 @@ The AI receives form structure only. It does not receive raw profile values, exi
 
 FormPilot Vault does not click submit buttons. The user always reviews the filled form before submitting. It does not bypass CAPTCHA, SMS verification, email verification, identity checks, or create accounts in bulk.
 
-The extension UI is localized for English, Japanese, Spanish, French, German, Portuguese, Korean, and Simplified Chinese. The form understanding rules cover common labels in those languages.
+The extension UI is localized for 21 Chrome package locales across the Americas, Europe, the Middle East, and Asia. The form understanding rules cover common labels in the major launch languages, including English, Japanese, Spanish, French, German, Portuguese, Korean, Chinese, Italian, Dutch, Polish, Russian, Turkish, Arabic, Hindi, Indonesian, Thai, and Vietnamese.
 
 Free includes 5 fills per month. Plus, Pro, and Team plans unlock higher usage, multiple profiles, company profiles, and learned site mappings.
 
@@ -65,8 +65,8 @@ Free includes 5 fills per month. Plus, Pro, and Team plans unlock higher usage, 
 ## 言語対応
 
 - Extension package: `default_locale: en`
-- UI locales: `en`, `ja`, `es`, `fr`, `de`, `pt_BR`, `ko`, `zh_CN`
-- Form label rules: English, Japanese, Spanish, French, German, Portuguese, Korean, Chinese
+- UI locales: `en`, `en_GB`, `ja`, `es`, `es_419`, `fr`, `de`, `it`, `nl`, `pl`, `pt_BR`, `ru`, `tr`, `ar`, `hi`, `id`, `th`, `vi`, `ko`, `zh_CN`, `zh_TW`
+- Form label rules: English, Japanese, Spanish, French, German, Portuguese, Korean, Chinese, Italian, Dutch, Polish, Russian, Turkish, Arabic, Hindi, Indonesian, Thai, Vietnamese
 - Distribution: Worldwide
 - Chrome Web Store category: Workflow and Planning
 - Chrome Web Store payment disclosure: In-app purchases

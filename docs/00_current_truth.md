@@ -45,7 +45,7 @@ MVPは `Chrome拡張 + content script入力` を本線にします。Playwright�
 - 公開LP/GitHub repo: `https://daideguchi.github.io/formpilot-vault/`, `https://github.com/daideguchi/formpilot-vault`
 - 本番LP/API: `https://formpilot-vault-api.vercel.app/`
 - Stripe本番Checkoutブリッジ: `https://kurogane-edge-core-lp.vercel.app/api/formpilot/*`
-- Extension UI locales: `en`, `ja`, `es`, `fr`, `de`, `pt_BR`, `ko`, `zh_CN`
+- Extension UI locales: `en`, `en_GB`, `ja`, `es`, `es_419`, `fr`, `de`, `it`, `nl`, `pl`, `pt_BR`, `ru`, `tr`, `ar`, `hi`, `id`, `th`, `vi`, `ko`, `zh_CN`, `zh_TW`
 - Worldwide distribution方針
 - Chrome Web Store draft item: `kmlcabffhmenjajmlnkkglphjnbaahlf`
 
@@ -57,17 +57,17 @@ AIへ渡すschema inference payloadも実装済みです。フォーム構造と
 
 リリース/課金に必要なAPI土台も実装済みです。`api/schema-proxy/` はAzure DeepSeek V4からCloudflare Workers AIへ日付で切替し、`api/entitlement/` はStripe webhookとlicense checkを扱います。popupにはLicense key確認欄を追加済みです。
 
-初期プロダクト方針は実際のschema proxyプロンプトへ入れました。`buildSchemaPrompt()` は、フォーム入力の細かな手間をなくす、Personal Vault + Profile RAG/Memory Spaceを核にする、実値を扱わない、不確定項目はユーザー確認へ残す、送信/認証突破/大量作成はしない、という方針を含みます。
+DDの初期思想は実際のschema proxyプロンプトへ入れました。`buildSchemaPrompt()` は、フォーム入力の細かな手間をなくす、Personal Vault + Profile RAG/Memory Spaceを核にする、実値を扱わない、不確定項目はユーザー確認へ残す、送信/認証突破/大量作成はしない、という方針を含みます。
 
-Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/Teamボタンから `POST /api/stripe/checkout-session` を呼び、Checkout成功後にLicense keyを表示します。2026-06-01時点では、FormPilot本番APIが本番Stripeブリッジへ中継し、Stripe Checkout Session作成まで本番で成功しています。購入前のlicense checkはFree/月5回で返り、購入後はStripe subscription metadataの `license_key` / `plan` を照会して有料権利を返す設計です。
+Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/Teamボタンから `POST /api/stripe/checkout-session` を呼び、Checkout成功後にLicense keyを表示します。2026-06-01時点では、FormPilot本番APIがKurogane側のStripe本番secretを使う専用ブリッジへ中継し、Stripe Checkout Session作成まで本番で成功しています。購入前のlicense checkはFree/月5回で返り、購入後はStripe subscription metadataの `license_key` / `plan` を照会して有料権利を返す設計です。
 
 AI schema proxyは、Azure/Cloudflareの実環境変数が未投入でも停止しないように `rules_fallback` を実装済みです。2026-06-06まではprovider_idは `azure_deepseek_v4` のまま、Azure環境変数が未設定の場合はローカルのフォーム理解ルールでsemantic keyを返します。Azure値が投入されたらlive modeへ戻せます。
 
-多言語対応も初回提出前に強化しました。manifestは `default_locale: en` と `_locales` を使うChrome公式i18n構成で、英語、日本語、スペイン語、フランス語、ドイツ語、ポルトガル語、韓国語、中国語簡体に対応します。フォーム認識ルールも同じ主要言語の氏名、メール、電話、郵便番号、住所、会社、部署、役職、パスワードに広げています。
+多言語対応も初回提出前に強化しました。manifestは `default_locale: en` と `_locales` を使うChrome公式i18n構成で、21 localeに対応します。対象は英語、英語UK、日本語、スペイン語、ラテンアメリカスペイン語、フランス語、ドイツ語、イタリア語、オランダ語、ポーランド語、ブラジルポルトガル語、ロシア語、トルコ語、アラビア語、ヒンディー語、インドネシア語、タイ語、ベトナム語、韓国語、中国語簡体、中国語繁体です。フォーム認識ルールも主要グローバル市場の氏名、メール、電話、郵便番号、住所、会社、部署、役職、パスワードに広げています。
 
 Chrome Web Store提出向けのロゴ、manifestアイコン、小プロモ画像、1280x800スクリーンショット3枚、提出用ZIPを作成済みです。素材生成は `npm run assets:store`、ZIP作成は `npm run package:extension` で再現できます。
 
-Chrome Web Store Dashboardには下書きitemを作成済みです。多言語ZIPをアップロードし、Store Listing、Privacy、販売地域、テスト手順を入力保存済みです。Primary languageは英語、UI localeは8言語、カテゴリは `Workflow and Planning`、販売地域は全155地域、決済表示はStripe有料導線に合わせて `In-app purchases`、公開設定は `Public` です。`Submit for review` は有効化されていますが、最終確認が必要なため未クリックです。
+Chrome Web Store Dashboardには下書きitemを作成済みです。多言語ZIPをアップロードし、Store Listing、Privacy、販売地域、テスト手順を入力保存済みです。Primary languageは英語、UI localeは21 locale、カテゴリは `Workflow and Planning`、販売地域は全155地域、決済表示はStripe有料導線に合わせて `In-app purchases`、公開設定は `Public` です。`Submit for review` は有効化されていますが、DDの最終確認が必要なため未クリックです。
 
 Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry-run通過済みです。現時点では `STRIPE_SECRET_KEY` が未投入のため、本番Stripeへの商品作成と決済入金確認は未実行です。
 
@@ -75,13 +75,13 @@ Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry
 
 `npm run release:check` も追加済みです。Vercel本番APIを使う通常リリース判定ではブロッカー0です。Cloudflare D1 `database_id` placeholderは、将来Cloudflare Workerへ完全移行する時だけの警告として残しています。
 
-`npm run check:production` も追加済みです。本番 `https://formpilot-vault-api.vercel.app` に対して、health、schema inference、Stripe Checkout session、Free entitlement、Privacy、Support、Termsを一括確認します。2026-06-01 11:50 JSTの確認ではブロッカー0、Stripe Checkoutは `cs_live_` セッションを返し、AI schema inferenceのみ `azure_env_missing` による `rules_fallback` warningです。`npm run check:production:strict-ai` では、このAI live未投入をブロッカーとして検出できます。
+`npm run check:production` も追加済みです。本番 `https://formpilot-vault-api.vercel.app` に対して、health、schema inference、Stripe Checkout session、Free entitlement、Privacy、Support、Termsを一括確認します。2026-06-01 11:48 JSTの確認ではブロッカー0、Stripe Checkoutは `cs_live_` セッションを返し、AI schema inferenceのみ `azure_env_missing` による `rules_fallback` warningです。`npm run check:production:strict-ai` では、このAI live未投入をブロッカーとして検出できます。
 
 公開用LPは `FormPilot Vault` としてVercel本番へ反映済みです。`https://formpilot-vault-api.vercel.app/` はHTTP 200を確認済みです。GitHub Pages版 `https://daideguchi.github.io/formpilot-vault/` も公開ミラーとして維持しています。
 
 Cloudflare CLI確認では `wrangler whoami` が `not authenticated` でした。Worker deploy、D1作成、Workers AI binding本番確認は、Cloudflare login後の将来移行タスクです。現在の本番はVercel + Stripeブリッジで動いています。
 
-Azure CLIはlocal operator accountでログイン済みです。既存Azure AI Servicesは2つ見えますが、2026-06-01確認時点では両方ともmodel deploymentが空です。そのため、Azure DeepSeek V4をlive化するにはAzure AI Foundry/Serverless model deploymentの作成または既存endpoint/keyの投入が必要です。新しい有料/Marketplace条件付きdeployment作成はoperator confirmationが必要な停止点として扱います。
+Azure CLIは `degutidai@gmail.com` でログイン済みです。既存Azure AI Servicesは `degutidai-1418-resource` と `degutidai-5815-resource` の2つが見えますが、2026-06-01確認時点では両方ともmodel deploymentが空です。そのため、Azure DeepSeek V4をlive化するにはAzure AI Foundry/Serverless model deploymentの作成または既存endpoint/keyの投入が必要です。新しい有料/Marketplace条件付きdeployment作成はDD確認が必要な停止点として扱います。
 
 実ブラウザ検証も通過済みです。Chromiumに拡張を `--load-extension` で読み込み、extension service worker / content script / DOM入力まで実行しました。12項目収集、12項目入力、Plus license表示まで確認済みです。証跡は `docs/10_real_browser_verification.md` と `site/assets/real-extension-*.png` にあります。
 
@@ -128,7 +128,7 @@ Azure CLIはlocal operator accountでログイン済みです。既存Azure AI S
 
 ## 2026-06-01 ハッカソン転用確認
 
-プロダクト方針として、今作っている入力フォーム自動入力プロダクトを、賞金化しやすいハッカソンへ使いたいという方針を受けた。
+DDから、今作っている入力フォーム自動入力プロダクトを、賞金化しやすいハッカソンへ使いたいという方針を受けた。
 
 確認結果:
 
@@ -149,7 +149,7 @@ Mind the Product向けの別提出候補として、公開用パッケージを�
 
 - 公開URL: `https://daideguchi.github.io/formpilot-vault/`
 - GitHub: `https://github.com/daideguchi/formpilot-vault`
-- 公開パッケージ作業場所: `local formpilot-vault-public workspace`
+- 公開パッケージ作業場所: `/Users/dd/000_AI組織/__hackason/formpilot-vault-public`
 - 公開repoは継続更新中。提出前は `git log --oneline -5` と公開URLで最新状態を再確認する。
 
 公開前に削った/直したこと:
@@ -171,10 +171,11 @@ Mind the Product向けの別提出候補として、公開用パッケージを�
 - 公開URLで JA/EN、desktop/mobile の4パターン確認。横スクロールなし。英語画面では英語フォーム画像、日本語画面では日本語フォーム画像を表示。
 - Cloudflare WorkerのローカルAPI契約テストも通過。追加課金になるdeployやD1作成は実行していない。
 - Mind the Product提出草案とNovus.ai導入チェックリストを `submission/` に追加。Novus dashboard screenshotが取れるまで提出はしない。
+- `submission/reuse-strategy.md`、`submission/uipath-agenthack-devpost-draft.md`、`submission/google-rapid-agent-devpost-draft.md` を追加。共通コアは使い回すが、提出名、ユーザー、必須技術、証拠はハッカソンごとに分ける方針を固定。
 
 ## 2026-06-01 自動再生デモと使い回し境界
 
-ユーザー方針として、すでに公開されているページをそのまま別ハッカソンへ使い回す方針は採らない。
+DDの指摘を受け、すでに公開されているページをそのまま別ハッカソンへ使い回す方針は採らない。
 使い回すのは中核エンジンと証拠であり、提出ごとにユーザー、課題、必要技術、見せ方を分ける。
 
 公開LPには2分の無音自動再生デモを追加した。
@@ -186,6 +187,9 @@ Mind the Product向けの別提出候補として、公開用パッケージを�
 
 この動画はページ上の審査員向けプレビューとして使う。
 Devpost側で外部動画URLが必須の場合は、この流れを元にYouTube等へ最終デモを載せる。
+
+公開repoには commit `29be22f Add autoplay demo for hackathon judges` としてpush済み。
+GitHub Pages buildは最新commitで `built`。公開URLと動画ファイルはHTTP 200確認済み。
 
 ## 2026-06-01 Novus/Pendo snippet install
 
@@ -205,11 +209,11 @@ Mind the Product向けに、既存のNovus/Pendoアカウントの公開Web inst
 
 ## 次の一歩
 
-1. Mind the Product向けにNovus/Pendo dashboard screenshotを取る。
-2. Devpostが外部動画URLを要求する場合、埋め込み済み2分デモを元に提出用動画を作る。
+1. Mind the Product: Devpostが外部動画URLを要求する場合、埋め込み済み2分デモを元に提出用動画を作る
+2. Devpostが外部動画URLを要求する場合、埋め込み済み2分デモを元に提出用動画を作る
 3. Chrome Web Storeは下書き入力済み。DD確認後に `Submit for review` を押す
-4. Chrome Web Store審査でPrivacy URLに `https://formpilot-vault-api.vercel.app/privacy.html` を指定済み
-5. Azure DeepSeek V4の実endpoint/keyをVercelへ投入し、`rules_fallback` ではなくlive応答をsmoke testする
-6. 日本語の公開/許可済みデモフォームを増やして認識率を測る
-7. mapping cacheの2回目成功率を測る
-8. サイト別mapping cacheの一覧/削除UIを作る
+4. UiPath AgentHack: `Form Intake Case Room` のUiPath証拠を作る
+5. Google Rapid Agent: `FormOps Agent` のGemini / Agent Builder / Partner MCP証拠が作れるか判定する
+6. Azure DeepSeek V4の実endpoint/keyをVercelへ投入し、`rules_fallback` ではなくlive応答をsmoke testする
+7. 日本語の公開/許可済みデモフォームを増やして認識率を測る
+8. mapping cacheの2回目成功率を測る

@@ -1,0 +1,191 @@
+{
+  "extName": {
+    "message": "FormPilot Vault"
+  },
+  "extShortName": {
+    "message": "FormPilot"
+  },
+  "extDescription": {
+    "message": "تعبئة نماذج متعددة اللغات مع خزنة ملف شخصي محلية وتأكيد المستخدم."
+  },
+  "eyebrow": {
+    "message": "ملف محلي / ذكاء اصطناعي للهيكل فقط"
+  },
+  "appTitle": {
+    "message": "FormPilot Vault"
+  },
+  "profileVault": {
+    "message": "خزنة الملف الشخصي"
+  },
+  "sample": {
+    "message": "مثال"
+  },
+  "memoryLoading": {
+    "message": "ذاكرة الخزنة: جار التحميل"
+  },
+  "save": {
+    "message": "حفظ"
+  },
+  "scanForm": {
+    "message": "فحص النموذج"
+  },
+  "inputPlan": {
+    "message": "خطة الإدخال"
+  },
+  "fill": {
+    "message": "تعبئة"
+  },
+  "openFormPrompt": {
+    "message": "افتح صفحة نموذج ثم اضغط فحص النموذج."
+  },
+  "plan": {
+    "message": "الخطة"
+  },
+  "upgrade": {
+    "message": "ترقية"
+  },
+  "freeUsageLoading": {
+    "message": "استخدام Free: جار التحميل"
+  },
+  "licenseKey": {
+    "message": "مفتاح الترخيص"
+  },
+  "check": {
+    "message": "تحقق"
+  },
+  "upgradeCopy": {
+    "message": "خطة Free محدودة إلى 5 تعبئات شهريا. الترقية تفتح تعبئة غير محدودة وملفات متعددة وتعيينات مواقع متعلمة."
+  },
+  "footnote": {
+    "message": "لا يتم الضغط على زر الإرسال. تبقى القيم الشخصية محلية."
+  },
+  "profileSaved": {
+    "message": "تم حفظ الملف في Vault المحلي."
+  },
+  "freeLimitReached": {
+    "message": "تم بلوغ حد Free الشهري. قم بالترقية للمتابعة."
+  },
+  "filledReview": {
+    "message": "تمت تعبئة $1 حقول. راجع قبل الإرسال."
+  },
+  "licenseActive": {
+    "message": "ترخيص $1 نشط."
+  },
+  "licenseInactive": {
+    "message": "الترخيص غير نشط. تبقى خطة Free مفعلة."
+  },
+  "licenseFailed": {
+    "message": "فشل فحص الترخيص: $1"
+  },
+  "profileJsonInvalid": {
+    "message": "JSON الملف الشخصي غير صالح: $1"
+  },
+  "noActiveTab": {
+    "message": "لا توجد علامة تبويب نشطة"
+  },
+  "planSummary": {
+    "message": "تم فحص $1 حقول / $2 جاهزة / $3 تحتاج مراجعة"
+  },
+  "sourceMemory": {
+    "message": "الذاكرة"
+  },
+  "sourceRules": {
+    "message": "القواعد"
+  },
+  "uncertainManual": {
+    "message": "غير مؤكد. يجب أن يجيب المستخدم يدويا."
+  },
+  "profileKey": {
+    "message": "مفتاح الملف"
+  },
+  "rememberAs": {
+    "message": "تذكر كـ..."
+  },
+  "learn": {
+    "message": "تعلم"
+  },
+  "memoryUpdated": {
+    "message": "تم تحديث الذاكرة. راجع خطة الإدخال المحدثة."
+  },
+  "memorySummary": {
+    "message": "$1 ملف / $2 تعيينات متعلمة / $3 مطابقات في هذا النموذج"
+  },
+  "paidUsage": {
+    "message": "خطة $1 / $2 تعبئات هذا الشهر"
+  },
+  "freeUsage": {
+    "message": "استخدام Free: $1/$2 تعبئات هذا الشهر"
+  },
+  "semantic_person_name_full": {
+    "message": "الاسم الكامل"
+  },
+  "semantic_person_name_last": {
+    "message": "اسم العائلة"
+  },
+  "semantic_person_name_first": {
+    "message": "الاسم الأول"
+  },
+  "semantic_person_name_full_kana": {
+    "message": "الاسم الكامل كاتاكانا"
+  },
+  "semantic_person_name_last_kana": {
+    "message": "اسم العائلة كاتاكانا"
+  },
+  "semantic_person_name_first_kana": {
+    "message": "الاسم الأول كاتاكانا"
+  },
+  "semantic_person_email_primary": {
+    "message": "البريد الإلكتروني"
+  },
+  "semantic_person_phone_mobile_auto": {
+    "message": "الهاتف"
+  },
+  "semantic_person_address_postal_code_auto": {
+    "message": "الرمز البريدي"
+  },
+  "semantic_person_address_prefecture": {
+    "message": "المنطقة / المحافظة"
+  },
+  "semantic_person_address_city": {
+    "message": "المدينة"
+  },
+  "semantic_person_address_line1": {
+    "message": "سطر العنوان 1"
+  },
+  "semantic_person_address_line2": {
+    "message": "سطر العنوان 2"
+  },
+  "semantic_person_address_full": {
+    "message": "العنوان"
+  },
+  "semantic_person_birthdate_year": {
+    "message": "سنة الميلاد"
+  },
+  "semantic_person_birthdate_month": {
+    "message": "شهر الميلاد"
+  },
+  "semantic_person_birthdate_day": {
+    "message": "يوم الميلاد"
+  },
+  "semantic_person_birthdate_iso": {
+    "message": "تاريخ الميلاد"
+  },
+  "semantic_person_gender": {
+    "message": "الجنس"
+  },
+  "semantic_company_name": {
+    "message": "الشركة"
+  },
+  "semantic_company_department": {
+    "message": "القسم"
+  },
+  "semantic_company_title": {
+    "message": "المسمى الوظيفي"
+  },
+  "semantic_company_website": {
+    "message": "موقع الشركة"
+  },
+  "semantic_account_password_generated": {
+    "message": "كلمة مرور مولدة"
+  }
+}

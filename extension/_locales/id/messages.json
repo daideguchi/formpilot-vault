@@ -1,0 +1,191 @@
+{
+  "extName": {
+    "message": "FormPilot Vault"
+  },
+  "extShortName": {
+    "message": "FormPilot"
+  },
+  "extDescription": {
+    "message": "Isi otomatis formulir multibahasa dengan vault profil lokal dan konfirmasi pengguna."
+  },
+  "eyebrow": {
+    "message": "Profil lokal / AI hanya skema"
+  },
+  "appTitle": {
+    "message": "FormPilot Vault"
+  },
+  "profileVault": {
+    "message": "Vault Profil"
+  },
+  "sample": {
+    "message": "Contoh"
+  },
+  "memoryLoading": {
+    "message": "Memori Vault: memuat"
+  },
+  "save": {
+    "message": "Simpan"
+  },
+  "scanForm": {
+    "message": "Pindai Formulir"
+  },
+  "inputPlan": {
+    "message": "Rencana Input"
+  },
+  "fill": {
+    "message": "Isi"
+  },
+  "openFormPrompt": {
+    "message": "Buka halaman formulir lalu klik Pindai Formulir."
+  },
+  "plan": {
+    "message": "Paket"
+  },
+  "upgrade": {
+    "message": "Upgrade"
+  },
+  "freeUsageLoading": {
+    "message": "Penggunaan Free: memuat"
+  },
+  "licenseKey": {
+    "message": "Kunci lisensi"
+  },
+  "check": {
+    "message": "Periksa"
+  },
+  "upgradeCopy": {
+    "message": "Free dibatasi 5 pengisian per bulan. Upgrade membuka pengisian tanpa batas, beberapa profil, dan pemetaan situs yang dipelajari."
+  },
+  "footnote": {
+    "message": "Tidak menekan kirim. Nilai pribadi tetap lokal."
+  },
+  "profileSaved": {
+    "message": "Profil disimpan ke Vault lokal."
+  },
+  "freeLimitReached": {
+    "message": "Batas bulanan Free tercapai. Upgrade untuk melanjutkan."
+  },
+  "filledReview": {
+    "message": "$1 kolom diisi. Periksa sebelum mengirim."
+  },
+  "licenseActive": {
+    "message": "Lisensi $1 aktif."
+  },
+  "licenseInactive": {
+    "message": "Lisensi tidak aktif. Paket Free tetap aktif."
+  },
+  "licenseFailed": {
+    "message": "Pemeriksaan lisensi gagal: $1"
+  },
+  "profileJsonInvalid": {
+    "message": "JSON profil tidak valid: $1"
+  },
+  "noActiveTab": {
+    "message": "Tidak ada tab aktif"
+  },
+  "planSummary": {
+    "message": "$1 kolom dipindai / $2 siap / $3 perlu ditinjau"
+  },
+  "sourceMemory": {
+    "message": "Memori"
+  },
+  "sourceRules": {
+    "message": "Aturan"
+  },
+  "uncertainManual": {
+    "message": "Tidak pasti. Pengguna harus menjawab manual."
+  },
+  "profileKey": {
+    "message": "Kunci profil"
+  },
+  "rememberAs": {
+    "message": "Ingat sebagai..."
+  },
+  "learn": {
+    "message": "Pelajari"
+  },
+  "memoryUpdated": {
+    "message": "Memori diperbarui. Tinjau rencana input baru."
+  },
+  "memorySummary": {
+    "message": "$1 profil / $2 pemetaan dipelajari / $3 cocok di formulir ini"
+  },
+  "paidUsage": {
+    "message": "Paket $1 / $2 pengisian bulan ini"
+  },
+  "freeUsage": {
+    "message": "Penggunaan Free: $1/$2 pengisian bulan ini"
+  },
+  "semantic_person_name_full": {
+    "message": "Nama lengkap"
+  },
+  "semantic_person_name_last": {
+    "message": "Nama belakang"
+  },
+  "semantic_person_name_first": {
+    "message": "Nama depan"
+  },
+  "semantic_person_name_full_kana": {
+    "message": "Nama lengkap kana"
+  },
+  "semantic_person_name_last_kana": {
+    "message": "Nama belakang kana"
+  },
+  "semantic_person_name_first_kana": {
+    "message": "Nama depan kana"
+  },
+  "semantic_person_email_primary": {
+    "message": "Email"
+  },
+  "semantic_person_phone_mobile_auto": {
+    "message": "Telepon"
+  },
+  "semantic_person_address_postal_code_auto": {
+    "message": "Kode pos"
+  },
+  "semantic_person_address_prefecture": {
+    "message": "Provinsi / wilayah"
+  },
+  "semantic_person_address_city": {
+    "message": "Kota"
+  },
+  "semantic_person_address_line1": {
+    "message": "Alamat baris 1"
+  },
+  "semantic_person_address_line2": {
+    "message": "Alamat baris 2"
+  },
+  "semantic_person_address_full": {
+    "message": "Alamat"
+  },
+  "semantic_person_birthdate_year": {
+    "message": "Tahun lahir"
+  },
+  "semantic_person_birthdate_month": {
+    "message": "Bulan lahir"
+  },
+  "semantic_person_birthdate_day": {
+    "message": "Hari lahir"
+  },
+  "semantic_person_birthdate_iso": {
+    "message": "Tanggal lahir"
+  },
+  "semantic_person_gender": {
+    "message": "Jenis kelamin"
+  },
+  "semantic_company_name": {
+    "message": "Perusahaan"
+  },
+  "semantic_company_department": {
+    "message": "Departemen"
+  },
+  "semantic_company_title": {
+    "message": "Jabatan"
+  },
+  "semantic_company_website": {
+    "message": "Situs perusahaan"
+  },
+  "semantic_account_password_generated": {
+    "message": "Kata sandi dibuat"
+  }
+}

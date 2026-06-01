@@ -55,14 +55,8 @@ Dashboardへ貼る最終値は `docs/14_chrome_web_store_submission_packet.md` �
 - `site/terms.html`
 - `docs/13_production_launch_runbook.md`
 - `docs/14_chrome_web_store_submission_packet.md`
-- `extension/_locales/en/messages.json`
-- `extension/_locales/ja/messages.json`
-- `extension/_locales/es/messages.json`
-- `extension/_locales/fr/messages.json`
-- `extension/_locales/de/messages.json`
-- `extension/_locales/pt_BR/messages.json`
-- `extension/_locales/ko/messages.json`
-- `extension/_locales/zh_CN/messages.json`
+- `extension/_locales/*/messages.json` 21 locale分
+  - `en`, `en_GB`, `ja`, `es`, `es_419`, `fr`, `de`, `it`, `nl`, `pl`, `pt_BR`, `ru`, `tr`, `ar`, `hi`, `id`, `th`, `vi`, `ko`, `zh_CN`, `zh_TW`
 
 再生成:
 

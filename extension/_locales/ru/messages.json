@@ -1,0 +1,191 @@
+{
+  "extName": {
+    "message": "FormPilot Vault"
+  },
+  "extShortName": {
+    "message": "FormPilot"
+  },
+  "extDescription": {
+    "message": "Многоязычное автозаполнение форм с локальным хранилищем профиля и подтверждением пользователя."
+  },
+  "eyebrow": {
+    "message": "Локальный профиль / AI только для схемы"
+  },
+  "appTitle": {
+    "message": "FormPilot Vault"
+  },
+  "profileVault": {
+    "message": "Хранилище профиля"
+  },
+  "sample": {
+    "message": "Пример"
+  },
+  "memoryLoading": {
+    "message": "Память Vault: загрузка"
+  },
+  "save": {
+    "message": "Сохранить"
+  },
+  "scanForm": {
+    "message": "Сканировать форму"
+  },
+  "inputPlan": {
+    "message": "План заполнения"
+  },
+  "fill": {
+    "message": "Заполнить"
+  },
+  "openFormPrompt": {
+    "message": "Откройте страницу с формой и нажмите Сканировать форму."
+  },
+  "plan": {
+    "message": "План"
+  },
+  "upgrade": {
+    "message": "Обновить"
+  },
+  "freeUsageLoading": {
+    "message": "Использование Free: загрузка"
+  },
+  "licenseKey": {
+    "message": "Лицензионный ключ"
+  },
+  "check": {
+    "message": "Проверить"
+  },
+  "upgradeCopy": {
+    "message": "Free ограничен 5 заполнениями в месяц. Обновление открывает неограниченные заполнения, несколько профилей и запомненные привязки сайтов."
+  },
+  "footnote": {
+    "message": "Без нажатия отправки. Личные значения остаются локально."
+  },
+  "profileSaved": {
+    "message": "Профиль сохранен в локальном Vault."
+  },
+  "freeLimitReached": {
+    "message": "Месячный лимит Free достигнут. Обновите план, чтобы продолжить."
+  },
+  "filledReview": {
+    "message": "Заполнено полей: $1. Проверьте перед отправкой."
+  },
+  "licenseActive": {
+    "message": "Лицензия $1 активна."
+  },
+  "licenseInactive": {
+    "message": "Лицензия не активна. План Free остается включенным."
+  },
+  "licenseFailed": {
+    "message": "Проверка лицензии не удалась: $1"
+  },
+  "profileJsonInvalid": {
+    "message": "JSON профиля недействителен: $1"
+  },
+  "noActiveTab": {
+    "message": "Нет активной вкладки"
+  },
+  "planSummary": {
+    "message": "$1 полей просканировано / $2 готово / $3 требуют проверки"
+  },
+  "sourceMemory": {
+    "message": "Память"
+  },
+  "sourceRules": {
+    "message": "Правила"
+  },
+  "uncertainManual": {
+    "message": "Не уверено. Пользователь должен ответить вручную."
+  },
+  "profileKey": {
+    "message": "Ключ профиля"
+  },
+  "rememberAs": {
+    "message": "Запомнить как..."
+  },
+  "learn": {
+    "message": "Запомнить"
+  },
+  "memoryUpdated": {
+    "message": "Память обновлена. Проверьте обновленный план заполнения."
+  },
+  "memorySummary": {
+    "message": "$1 профиль / $2 запомненных привязок / $3 совпадений в этой форме"
+  },
+  "paidUsage": {
+    "message": "План $1 / $2 заполнений в этом месяце"
+  },
+  "freeUsage": {
+    "message": "Использование Free: $1/$2 заполнений в этом месяце"
+  },
+  "semantic_person_name_full": {
+    "message": "Полное имя"
+  },
+  "semantic_person_name_last": {
+    "message": "Фамилия"
+  },
+  "semantic_person_name_first": {
+    "message": "Имя"
+  },
+  "semantic_person_name_full_kana": {
+    "message": "Полное имя кана"
+  },
+  "semantic_person_name_last_kana": {
+    "message": "Фамилия кана"
+  },
+  "semantic_person_name_first_kana": {
+    "message": "Имя кана"
+  },
+  "semantic_person_email_primary": {
+    "message": "Эл. почта"
+  },
+  "semantic_person_phone_mobile_auto": {
+    "message": "Телефон"
+  },
+  "semantic_person_address_postal_code_auto": {
+    "message": "Почтовый индекс"
+  },
+  "semantic_person_address_prefecture": {
+    "message": "Регион / область"
+  },
+  "semantic_person_address_city": {
+    "message": "Город"
+  },
+  "semantic_person_address_line1": {
+    "message": "Адресная строка 1"
+  },
+  "semantic_person_address_line2": {
+    "message": "Адресная строка 2"
+  },
+  "semantic_person_address_full": {
+    "message": "Адрес"
+  },
+  "semantic_person_birthdate_year": {
+    "message": "Год рождения"
+  },
+  "semantic_person_birthdate_month": {
+    "message": "Месяц рождения"
+  },
+  "semantic_person_birthdate_day": {
+    "message": "День рождения"
+  },
+  "semantic_person_birthdate_iso": {
+    "message": "Дата рождения"
+  },
+  "semantic_person_gender": {
+    "message": "Пол"
+  },
+  "semantic_company_name": {
+    "message": "Компания"
+  },
+  "semantic_company_department": {
+    "message": "Отдел"
+  },
+  "semantic_company_title": {
+    "message": "Должность"
+  },
+  "semantic_company_website": {
+    "message": "Сайт компании"
+  },
+  "semantic_account_password_generated": {
+    "message": "Сгенерированный пароль"
+  }
+}

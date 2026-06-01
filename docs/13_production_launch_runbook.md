@@ -5,7 +5,7 @@
 
 ## ゴール
 
-Chrome拡張を公開し、Plus/Pro/Teamの課金がoperator Stripe accountへ入り、拡張側のLicense checkで有料権利が解除される状態にする。
+Chrome拡張を公開し、Plus/Pro/Teamの課金がDDのStripeへ入り、拡張側のLicense checkで有料権利が解除される状態にする。
 
 ## いま達成済み
 
@@ -19,10 +19,11 @@ Chrome拡張を公開し、Plus/Pro/Teamの課金がoperator Stripe accountへ�
 - LP / Privacy / Terms
 - Chrome Web Store素材
 - 提出用ZIP
+- 21 locale extension package i18n
 - 実ブラウザ拡張E2E
 - release readiness check
 - Vercel本番LP/API: `https://formpilot-vault-api.vercel.app/`
-- Production Stripe bridge: configured by `FORMPILOT_STRIPE_BRIDGE_BASE_URL`
+- Kurogane Stripe本番ブリッジ: `https://kurogane-edge-core-lp.vercel.app/api/formpilot/*`
 - 本番Stripe Checkout Session作成
 - 本番License check Free/月5回応答
 - AI schema proxyの `rules_fallback`

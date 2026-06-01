@@ -282,7 +282,9 @@ function renderMemory(memoryContext = null) {
 
 function localizeStaticText() {
   const uiLanguage = chrome.i18n?.getUILanguage?.() || "en";
-  document.documentElement.lang = uiLanguage.replace("_", "-");
+  const lang = uiLanguage.replace("_", "-");
+  document.documentElement.lang = lang;
+  document.documentElement.dir = /^(ar|fa|he|ur)(-|$)/i.test(lang) ? "rtl" : "ltr";
   document.title = t("extName");
   for (const node of document.querySelectorAll("[data-i18n]")) {
     const value = t(node.dataset.i18n);

@@ -1,0 +1,191 @@
+{
+  "extName": {
+    "message": "FormPilot Vault"
+  },
+  "extShortName": {
+    "message": "FormPilot"
+  },
+  "extDescription": {
+    "message": "กรอกแบบฟอร์มอัตโนมัติหลายภาษา พร้อม Vault โปรไฟล์ในเครื่องและการยืนยันจากผู้ใช้"
+  },
+  "eyebrow": {
+    "message": "โปรไฟล์ในเครื่อง / AI เฉพาะสคีมา"
+  },
+  "appTitle": {
+    "message": "FormPilot Vault"
+  },
+  "profileVault": {
+    "message": "Vault โปรไฟล์"
+  },
+  "sample": {
+    "message": "ตัวอย่าง"
+  },
+  "memoryLoading": {
+    "message": "หน่วยความจำ Vault: กำลังโหลด"
+  },
+  "save": {
+    "message": "บันทึก"
+  },
+  "scanForm": {
+    "message": "สแกนฟอร์ม"
+  },
+  "inputPlan": {
+    "message": "แผนการกรอก"
+  },
+  "fill": {
+    "message": "กรอก"
+  },
+  "openFormPrompt": {
+    "message": "เปิดหน้าฟอร์มแล้วคลิก สแกนฟอร์ม"
+  },
+  "plan": {
+    "message": "แพ็กเกจ"
+  },
+  "upgrade": {
+    "message": "อัปเกรด"
+  },
+  "freeUsageLoading": {
+    "message": "การใช้งาน Free: กำลังโหลด"
+  },
+  "licenseKey": {
+    "message": "คีย์ไลเซนส์"
+  },
+  "check": {
+    "message": "ตรวจสอบ"
+  },
+  "upgradeCopy": {
+    "message": "Free จำกัด 5 ครั้งต่อเดือน อัปเกรดเพื่อปลดล็อกการกรอกไม่จำกัด หลายโปรไฟล์ และการจำ mapping ของเว็บไซต์"
+  },
+  "footnote": {
+    "message": "ไม่คลิกส่ง ข้อมูลส่วนตัวอยู่ในเครื่อง"
+  },
+  "profileSaved": {
+    "message": "บันทึกโปรไฟล์ลง Vault ในเครื่องแล้ว"
+  },
+  "freeLimitReached": {
+    "message": "ถึงขีดจำกัด Free รายเดือนแล้ว อัปเกรดเพื่อใช้งานต่อ"
+  },
+  "filledReview": {
+    "message": "กรอกแล้ว $1 ช่อง โปรดตรวจสอบก่อนส่ง"
+  },
+  "licenseActive": {
+    "message": "ไลเซนส์ $1 ใช้งานอยู่"
+  },
+  "licenseInactive": {
+    "message": "ไลเซนส์ยังไม่ใช้งาน แพ็กเกจ Free ยังคงเปิดอยู่"
+  },
+  "licenseFailed": {
+    "message": "ตรวจสอบไลเซนส์ไม่สำเร็จ: $1"
+  },
+  "profileJsonInvalid": {
+    "message": "JSON โปรไฟล์ไม่ถูกต้อง: $1"
+  },
+  "noActiveTab": {
+    "message": "ไม่มีแท็บที่ใช้งานอยู่"
+  },
+  "planSummary": {
+    "message": "สแกน $1 ช่อง / พร้อม $2 / ต้องตรวจสอบ $3"
+  },
+  "sourceMemory": {
+    "message": "หน่วยความจำ"
+  },
+  "sourceRules": {
+    "message": "กฎ"
+  },
+  "uncertainManual": {
+    "message": "ไม่แน่ใจ ผู้ใช้ควรตอบเอง"
+  },
+  "profileKey": {
+    "message": "คีย์โปรไฟล์"
+  },
+  "rememberAs": {
+    "message": "จำเป็น..."
+  },
+  "learn": {
+    "message": "เรียนรู้"
+  },
+  "memoryUpdated": {
+    "message": "อัปเดตหน่วยความจำแล้ว ตรวจสอบแผนการกรอกใหม่"
+  },
+  "memorySummary": {
+    "message": "$1 โปรไฟล์ / $2 mapping ที่เรียนรู้ / $3 รายการตรงกับฟอร์มนี้"
+  },
+  "paidUsage": {
+    "message": "แพ็กเกจ $1 / เดือนนี้กรอก $2 ครั้ง"
+  },
+  "freeUsage": {
+    "message": "การใช้งาน Free: เดือนนี้ $1/$2 ครั้ง"
+  },
+  "semantic_person_name_full": {
+    "message": "ชื่อเต็ม"
+  },
+  "semantic_person_name_last": {
+    "message": "นามสกุล"
+  },
+  "semantic_person_name_first": {
+    "message": "ชื่อจริง"
+  },
+  "semantic_person_name_full_kana": {
+    "message": "ชื่อเต็มคานะ"
+  },
+  "semantic_person_name_last_kana": {
+    "message": "นามสกุลคานะ"
+  },
+  "semantic_person_name_first_kana": {
+    "message": "ชื่อคานะ"
+  },
+  "semantic_person_email_primary": {
+    "message": "อีเมล"
+  },
+  "semantic_person_phone_mobile_auto": {
+    "message": "โทรศัพท์"
+  },
+  "semantic_person_address_postal_code_auto": {
+    "message": "รหัสไปรษณีย์"
+  },
+  "semantic_person_address_prefecture": {
+    "message": "จังหวัด / ภูมิภาค"
+  },
+  "semantic_person_address_city": {
+    "message": "เมือง"
+  },
+  "semantic_person_address_line1": {
+    "message": "ที่อยู่บรรทัด 1"
+  },
+  "semantic_person_address_line2": {
+    "message": "ที่อยู่บรรทัด 2"
+  },
+  "semantic_person_address_full": {
+    "message": "ที่อยู่"
+  },
+  "semantic_person_birthdate_year": {
+    "message": "ปีเกิด"
+  },
+  "semantic_person_birthdate_month": {
+    "message": "เดือนเกิด"
+  },
+  "semantic_person_birthdate_day": {
+    "message": "วันเกิด"
+  },
+  "semantic_person_birthdate_iso": {
+    "message": "วันเกิด"
+  },
+  "semantic_person_gender": {
+    "message": "เพศ"
+  },
+  "semantic_company_name": {
+    "message": "บริษัท"
+  },
+  "semantic_company_department": {
+    "message": "แผนก"
+  },
+  "semantic_company_title": {
+    "message": "ตำแหน่ง"
+  },
+  "semantic_company_website": {
+    "message": "เว็บไซต์บริษัท"
+  },
+  "semantic_account_password_generated": {
+    "message": "รหัสผ่านที่สร้าง"
+  }
+}

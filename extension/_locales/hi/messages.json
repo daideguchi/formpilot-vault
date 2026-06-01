@@ -1,0 +1,191 @@
+{
+  "extName": {
+    "message": "FormPilot Vault"
+  },
+  "extShortName": {
+    "message": "FormPilot"
+  },
+  "extDescription": {
+    "message": "स्थानीय प्रोफाइल Vault और उपयोगकर्ता पुष्टि के साथ बहुभाषी फॉर्म ऑटोफिल."
+  },
+  "eyebrow": {
+    "message": "स्थानीय प्रोफाइल / केवल स्कीमा AI"
+  },
+  "appTitle": {
+    "message": "FormPilot Vault"
+  },
+  "profileVault": {
+    "message": "प्रोफाइल Vault"
+  },
+  "sample": {
+    "message": "नमूना"
+  },
+  "memoryLoading": {
+    "message": "Vault मेमोरी: लोड हो रही है"
+  },
+  "save": {
+    "message": "सहेजें"
+  },
+  "scanForm": {
+    "message": "फॉर्म स्कैन करें"
+  },
+  "inputPlan": {
+    "message": "इनपुट योजना"
+  },
+  "fill": {
+    "message": "भरें"
+  },
+  "openFormPrompt": {
+    "message": "फॉर्म पेज खोलें और फॉर्म स्कैन करें पर क्लिक करें."
+  },
+  "plan": {
+    "message": "प्लान"
+  },
+  "upgrade": {
+    "message": "अपग्रेड"
+  },
+  "freeUsageLoading": {
+    "message": "Free उपयोग: लोड हो रहा है"
+  },
+  "licenseKey": {
+    "message": "लाइसेंस कुंजी"
+  },
+  "check": {
+    "message": "जांचें"
+  },
+  "upgradeCopy": {
+    "message": "Free में हर महीने 5 ऑटोफिल की सीमा है. Upgrade से असीमित ऑटोफिल, कई प्रोफाइल और सीखी हुई साइट मैपिंग मिलती है."
+  },
+  "footnote": {
+    "message": "सबमिट क्लिक नहीं. निजी मान स्थानीय रहते हैं."
+  },
+  "profileSaved": {
+    "message": "प्रोफाइल स्थानीय Vault में सहेजा गया."
+  },
+  "freeLimitReached": {
+    "message": "Free मासिक सीमा पूरी हो गई. जारी रखने के लिए अपग्रेड करें."
+  },
+  "filledReview": {
+    "message": "$1 फील्ड भरे गए. सबमिट करने से पहले जांचें."
+  },
+  "licenseActive": {
+    "message": "$1 लाइसेंस सक्रिय है."
+  },
+  "licenseInactive": {
+    "message": "लाइसेंस सक्रिय नहीं था. Free प्लान चालू रहेगा."
+  },
+  "licenseFailed": {
+    "message": "लाइसेंस जांच विफल: $1"
+  },
+  "profileJsonInvalid": {
+    "message": "प्रोफाइल JSON अमान्य है: $1"
+  },
+  "noActiveTab": {
+    "message": "कोई सक्रिय टैब नहीं"
+  },
+  "planSummary": {
+    "message": "$1 फील्ड स्कैन / $2 तैयार / $3 समीक्षा चाहिए"
+  },
+  "sourceMemory": {
+    "message": "मेमोरी"
+  },
+  "sourceRules": {
+    "message": "नियम"
+  },
+  "uncertainManual": {
+    "message": "अनिश्चित. उपयोगकर्ता को मैन्युअल जवाब देना चाहिए."
+  },
+  "profileKey": {
+    "message": "प्रोफाइल कुंजी"
+  },
+  "rememberAs": {
+    "message": "इस रूप में याद रखें..."
+  },
+  "learn": {
+    "message": "सीखें"
+  },
+  "memoryUpdated": {
+    "message": "मेमोरी अपडेट हुई. नई इनपुट योजना जांचें."
+  },
+  "memorySummary": {
+    "message": "$1 प्रोफाइल / $2 सीखी मैपिंग / इस फॉर्म पर $3 हिट"
+  },
+  "paidUsage": {
+    "message": "$1 प्लान / इस महीने $2 ऑटोफिल"
+  },
+  "freeUsage": {
+    "message": "Free उपयोग: इस महीने $1/$2 ऑटोफिल"
+  },
+  "semantic_person_name_full": {
+    "message": "पूरा नाम"
+  },
+  "semantic_person_name_last": {
+    "message": "उपनाम"
+  },
+  "semantic_person_name_first": {
+    "message": "पहला नाम"
+  },
+  "semantic_person_name_full_kana": {
+    "message": "पूरा नाम काना"
+  },
+  "semantic_person_name_last_kana": {
+    "message": "उपनाम काना"
+  },
+  "semantic_person_name_first_kana": {
+    "message": "पहला नाम काना"
+  },
+  "semantic_person_email_primary": {
+    "message": "ईमेल"
+  },
+  "semantic_person_phone_mobile_auto": {
+    "message": "फोन"
+  },
+  "semantic_person_address_postal_code_auto": {
+    "message": "पिन कोड"
+  },
+  "semantic_person_address_prefecture": {
+    "message": "राज्य / क्षेत्र"
+  },
+  "semantic_person_address_city": {
+    "message": "शहर"
+  },
+  "semantic_person_address_line1": {
+    "message": "पता पंक्ति 1"
+  },
+  "semantic_person_address_line2": {
+    "message": "पता पंक्ति 2"
+  },
+  "semantic_person_address_full": {
+    "message": "पता"
+  },
+  "semantic_person_birthdate_year": {
+    "message": "जन्म वर्ष"
+  },
+  "semantic_person_birthdate_month": {
+    "message": "जन्म माह"
+  },
+  "semantic_person_birthdate_day": {
+    "message": "जन्म दिन"
+  },
+  "semantic_person_birthdate_iso": {
+    "message": "जन्म तिथि"
+  },
+  "semantic_person_gender": {
+    "message": "लिंग"
+  },
+  "semantic_company_name": {
+    "message": "कंपनी"
+  },
+  "semantic_company_department": {
+    "message": "विभाग"
+  },
+  "semantic_company_title": {
+    "message": "पद"
+  },
+  "semantic_company_website": {
+    "message": "कंपनी वेबसाइट"
+  },
+  "semantic_account_password_generated": {
+    "message": "बनाया गया पासवर्ड"
+  }
+}

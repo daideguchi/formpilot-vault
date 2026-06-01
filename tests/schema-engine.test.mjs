@@ -70,6 +70,35 @@ test("maps common multilingual signup fields to profile keys", () => {
   assert.equal(schema.zh_city.semantic_key, "person.address.city");
 });
 
+test("maps global market signup labels beyond first launch languages", () => {
+  const fields = [
+    { field_id: "it_last", tag: "input", type: "text", label: "Cognome", visible: true },
+    { field_id: "nl_first", tag: "input", type: "text", label: "Voornaam", visible: true },
+    { field_id: "pl_postal", tag: "input", type: "text", label: "Kod pocztowy", visible: true },
+    { field_id: "tr_company", tag: "input", type: "text", label: "Şirket", visible: true },
+    { field_id: "ru_birthdate", tag: "input", type: "text", label: "Дата рождения", visible: true },
+    { field_id: "ar_phone", tag: "input", type: "text", label: "رقم الهاتف", visible: true },
+    { field_id: "hi_city", tag: "input", type: "text", label: "शहर", visible: true },
+    { field_id: "id_address", tag: "input", type: "text", label: "Alamat", visible: true },
+    { field_id: "vi_title", tag: "input", type: "text", label: "Chức danh", visible: true },
+    { field_id: "th_password", tag: "input", type: "text", label: "รหัสผ่าน", visible: true },
+    { field_id: "tw_email", tag: "input", type: "text", label: "電子郵件", visible: true }
+  ];
+
+  const schema = buildSchema(fields);
+  assert.equal(schema.it_last.semantic_key, "person.name.last");
+  assert.equal(schema.nl_first.semantic_key, "person.name.first");
+  assert.equal(schema.pl_postal.semantic_key, "person.address.postal_code_auto");
+  assert.equal(schema.tr_company.semantic_key, "company.name");
+  assert.equal(schema.ru_birthdate.semantic_key, "person.birthdate.iso");
+  assert.equal(schema.ar_phone.semantic_key, "person.phone.mobile_auto");
+  assert.equal(schema.hi_city.semantic_key, "person.address.city");
+  assert.equal(schema.id_address.semantic_key, "person.address.full");
+  assert.equal(schema.vi_title.semantic_key, "company.title");
+  assert.equal(schema.th_password.semantic_key, "account.password.generated");
+  assert.equal(schema.tw_email.semantic_key, "person.email.primary");
+});
+
 test("enforces free monthly fill limit and tracks safe usage events", () => {
   const date = new Date("2026-06-15T12:00:00+09:00");
   const monthKey = getCurrentMonthKey(date);
