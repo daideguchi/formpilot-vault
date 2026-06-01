@@ -35,6 +35,7 @@
     "preview:shot": "node scripts/generate-product-preview.mjs"
   },
   "devDependencies": {
-    "playwright": "^1.59.1"
+    "playwright": "^1.59.1",
+    "wrangler": "^4.95.0"
   }
 }

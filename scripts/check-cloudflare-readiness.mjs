@@ -9,6 +9,7 @@ const blockers = [];
 const warnings = [];
 
 await checkWranglerCli();
+await checkWranglerAuth();
 await checkWranglerToml();
 await checkWorkerFiles();
 
@@ -30,6 +31,25 @@ async function checkWranglerCli() {
   const ok = local || global;
   addCheck("wrangler_cli", ok, { local, global });
   if (!ok) blockers.push({ name: "wrangler_cli_missing", fix: "Install wrangler or use npx wrangler after Cloudflare login." });
+}
+
+async function checkWranglerAuth() {
+  const hasWrangler = checks.find((check) => check.name === "wrangler_cli")?.ok;
+  if (!hasWrangler) {
+    addCheck("wrangler_authenticated", false, { skipped: "wrangler_cli_missing" });
+    return;
+  }
+
+  try {
+    const { stdout } = await execFileAsync("zsh", ["-lc", "wrangler whoami"], { timeout: 15_000 });
+    const authenticated = /Account Name|Account ID|User|Email/i.test(stdout) && !/not authenticated|not logged in/i.test(stdout);
+    addCheck("wrangler_authenticated", authenticated, { output_excerpt: stdout.slice(0, 240) });
+    if (!authenticated) blockers.push({ name: "cloudflare_login_missing", fix: "Run wrangler login and rerun npm run check:cloudflare." });
+  } catch (error) {
+    const output = `${error.stdout || ""}${error.stderr || ""}`;
+    addCheck("wrangler_authenticated", false, { output_excerpt: output.slice(0, 240) || error.message });
+    blockers.push({ name: "cloudflare_login_missing", fix: "Run wrangler login and rerun npm run check:cloudflare." });
+  }
 }
 
 async function checkWranglerToml() {

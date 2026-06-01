@@ -85,7 +85,8 @@ extension popup
 2026-06-01確認:
 
 - Worker実装、AI binding設定、D1 entitlement migrationはrepo内にある
-- `wrangler` CLIはこのshellのPATHにない
+- `wrangler` CLIはdevDependencyとして追加済み
+- Cloudflare loginは未確認/未完了
 - `wrangler.toml` のD1 `database_id` はplaceholderのまま
 - Cloudflare deploy / D1作成 / Workers AI binding本番確認はCloudflare login後の人間確認点
 

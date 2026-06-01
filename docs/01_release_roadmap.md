@@ -52,7 +52,7 @@
 - AI schema proxyのコードは実装済み
 - Cloudflare Worker routeを実装済み
 - Workers AI binding `env.AI.run()` から呼べるように実装済み
-- 初期プロダクト方針を実schema promptへ反映済み
+- DDの初期思想を実schema promptへ反映済み
 - unsafe payload拒否とprovider response正規化のテストは通過
 - 次はAzure/Cloudflareの実環境変数を入れたsmoke test
 
@@ -67,10 +67,13 @@
 - 利用規約を作る
 - 10人の初期ユーザーで実フォーム検証
 - KPI計測をローカル匿名集計で始める
+- 世界配信を前提に、英語Primary、21 package locales、全地域配信、英語初期LPを維持する
 
 現状:
 
 - Chrome Web Store素材、提出用ZIP、Privacy/Terms下書き、掲載文面は作成済み
+- Chrome Web Store draftは全155地域、21 locale package、英語Primaryで準備済み
+- 公開LPは非日本語ブラウザで英語初期表示、日本語は `?lang=ja` / language buttonで切替
 - 公開URLと問い合わせ先の確定が残り
 
 ## Phase 4: 課金開始

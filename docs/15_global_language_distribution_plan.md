@@ -86,3 +86,28 @@ Freeは月5回のままにします。世界配信では、Freeを広く撒き�
 提出を遅らせるほど損なので、Store Listingの全言語翻訳は公開後に追加します。MVP時点では、拡張UIとフォーム理解を先に世界対応させ、英語のStore Listingで世界公開します。
 
 公開LPも同じ方針です。非日本語ブラウザでは英語を初期表示し、日本語ユーザーには `?lang=ja` と言語ボタンで日本語を出します。これにより、Chrome Web Storeから来た世界ユーザーが最初に日本語だけを見る状態を避けます。
+
+## 品質基準
+
+言語対応の品質は、次の条件を満たすまで強化します。
+
+- Extension UIは21 package localesでキー欠落を出さない
+- 非日本語ブラウザのLPは英語初期表示にする
+- 日本語ユーザーは日本語LPへ切り替えられる
+- 右書き言語ではpopupの `dir` を `rtl` にする
+- AI payloadにはプロフィール実値ではなく、フォーム構造、Memoryのキー、`locale_context` だけを送る
+- 主要市場の姓名、メール、電話、郵便番号、住所、会社、役職、生年月日、パスワードはルールで初期認識できる
+- ルールで迷う言語/国のフォームはAI推論とサイト別Memoryで補正する
+
+## 公開後の翻訳拡張順
+
+Store Listingは公開後に次の順で増やします。
+
+1. English / Japanese
+2. Spanish / French / German / Portuguese Brazil
+3. Korean / Traditional Chinese / Simplified Chinese
+4. Italian / Dutch / Polish
+5. Hindi / Indonesian / Thai / Vietnamese
+6. Arabic / Turkish / Russian
+
+翻訳は単なる文章差し替えにしません。各言語のスクリーンショット、主要フォーム例、価格表示、サポート導線、プライバシー説明まで一緒に揃えます。

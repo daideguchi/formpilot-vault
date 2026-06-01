@@ -84,7 +84,7 @@ Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry
 
 公開用LPは `FormPilot Vault` としてVercel本番へ反映済みです。`https://formpilot-vault-api.vercel.app/` はHTTP 200を確認済みです。2026-06-01 12:45 JSTにVercel deployment `dpl_21qL4KujvR2pXqd3irEvrgN1YmZT` を本番aliasへ反映し、英語初期表示とPrivacyの非exportable CryptoKey表現が配信されることを確認済みです。GitHub Pages版 `https://daideguchi.github.io/formpilot-vault/` も公開ミラーとして維持しています。
 
-Cloudflare移行用に `npm run check:cloudflare` を追加済みです。Worker実装、AI binding設定、D1 entitlement migrationはrepo内にありますが、2026-06-01確認時点ではこのshellのPATHに `wrangler` CLIがなく、`wrangler.toml` のD1 `database_id` はplaceholderのままです。Worker deploy、D1作成、Workers AI binding本番確認は、Cloudflare login後の人間確認点です。現在の本番はVercel + Stripeブリッジで動いています。
+Cloudflare移行用に `npm run check:cloudflare` を追加済みです。Worker実装、AI binding設定、D1 entitlement migration、`wrangler` devDependencyはrepo内にありますが、2026-06-01確認時点ではCloudflare loginとD1 database作成が未完了で、`wrangler.toml` のD1 `database_id` はplaceholderのままです。Worker deploy、D1作成、Workers AI binding本番確認は、Cloudflare login後の人間確認点です。現在の本番はVercel + Stripeブリッジで動いています。
 
 Azure CLIは `degutidai@gmail.com` でログイン済みです。既存Azure AI Servicesは `degutidai-1418-resource` と `degutidai-5815-resource` の2つが見えますが、2026-06-01確認時点では両方ともmodel deploymentが空です。そのため、Azure DeepSeek V4をlive化するにはAzure AI Foundry/Serverless model deploymentの作成または既存endpoint/keyの投入が必要です。新しい有料/Marketplace条件付きdeployment作成はDD確認が必要な停止点として扱います。
 
