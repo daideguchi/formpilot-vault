@@ -76,7 +76,7 @@ Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/
 
 2026-06-01 14:01 JST時点で `npm run check:launch` はブロッカー0です。Vercel health、Cloudflare health、GitHub Pages、Chrome Web Store Dashboard `審査待ち` を確認し、Chrome Web Store公開URLは未公開のためwarning、実購入license未投入もwarningです。`--require-published` は未公開をブロッカー化し、`--require-paid-license` は未購入/無効licenseをブロッカー化することも確認済みです。
 
-2026-06-01 15:47 JST時点でSEO公開面を強化済みです。英語トップに `AI form autofill Chrome extension` 向けのtitle/meta/本文/JSON-LDを追加し、日本語は `https://formpilot-vault-api.vercel.app/ja` を作って `フォーム入力`、`フォーム自動入力`、`Chrome拡張`、`AI自動入力` の検索意図へ合わせました。`robots.txt` と `sitemap.xml` も追加し、canonical/hreflangはVercelの最終到達URLに合わせています。`npm run check:seo -- --live`、`npm run check:production`、`npm run release:check` はブロッカー0です。Playwright実ブラウザでも英語desktopと日本語mobileの横スクロールなしを確認しました。
+2026-06-01 15:56 JST時点でSEO公開面を強化済みです。英語トップに `AI form autofill Chrome extension` 向けのtitle/meta/本文/JSON-LDを追加し、日本語は `https://formpilot-vault-api.vercel.app/ja` を作って `フォーム入力`、`フォーム自動入力`、`Chrome拡張`、`AI自動入力` の検索意図へ合わせました。`robots.txt` と `sitemap.xml` も追加し、canonical/hreflangはVercelの最終到達URLに合わせています。`npm run check:seo -- --live`、`npm run check:production`、`npm run release:check` はブロッカー0です。Playwright実ブラウザでも英語desktopと日本語mobileの横スクロールなしを確認しました。公開repo `daideguchi/formpilot-vault` へcommit `0fa2cc8 Add SEO launch surfaces` をpushし、GitHub Pages build/deploy成功、`/`、`/ja.html`、`/robots.txt`、`/sitemap.xml` のHTTP 200とSEO head/Pendo snippet配信を確認済みです。
 
 公開LPは世界配信向けに、非日本語ブラウザでは英語を初期表示します。日本語は `?lang=ja` または言語ボタンで表示できます。2026-06-01 12:45 JSTの本番確認では、英語初期表示、英語Plusボタン、日本語モバイル表示、横スクロールなし、Stripe Checkout導線が通っています。
 
