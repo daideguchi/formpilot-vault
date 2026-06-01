@@ -140,7 +140,7 @@ Team: 1,500円/人/月
 Publishing:
 
 ```text
-Automatic publish after review is acceptable for MVP unless DD wants staged publishing.
+Automatic publish after review is acceptable for MVP.
 ```
 
 ## Test Instructions For Reviewers

@@ -5,7 +5,7 @@
 
 ## ゴール
 
-Chrome拡張を公開し、Plus/Pro/Teamの課金がDDのStripeへ入り、拡張側のLicense checkで有料権利が解除される状態にする。
+Chrome拡張を公開し、Plus/Pro/Teamの課金が運営者のStripeへ入り、拡張側のLicense checkで有料権利が解除される状態にする。
 
 ## いま達成済み
 
@@ -22,7 +22,7 @@ Chrome拡張を公開し、Plus/Pro/Teamの課金がDDのStripeへ入り、拡�
 - 実ブラウザ拡張E2E
 - release readiness check
 - Vercel本番LP/API: `https://formpilot-vault-api.vercel.app/`
-- Kurogane Stripe本番ブリッジ: `https://kurogane-edge-core-lp.vercel.app/api/formpilot/*`
+- Production Stripe bridge: `production Stripe bridge endpoint`
 - 本番Stripe Checkout Session作成
 - 本番License check Free/月5回応答
 - AI schema proxyの `rules_fallback`
@@ -36,7 +36,7 @@ Chrome拡張を公開し、Plus/Pro/Teamの課金がDDのStripeへ入り、拡�
 - LP/API: `https://formpilot-vault-api.vercel.app/`
 - Checkout: `POST https://formpilot-vault-api.vercel.app/api/stripe/checkout-session`
 - Entitlement: `POST https://formpilot-vault-api.vercel.app/api/entitlement/check`
-- Stripe bridge: `https://kurogane-edge-core-lp.vercel.app/api/formpilot`
+- Stripe bridge: `production Stripe bridge endpoint`
 - Extension config: `extension/src/release-config.js`
 - Extension ZIP: `dist/ai-form-autofill-0.1.0.zip`
 
@@ -52,7 +52,7 @@ vercel deploy --prod --yes --scope daideguchis-projects
 
 環境変数:
 
-- `FORMPILOT_STRIPE_BRIDGE_BASE_URL=https://kurogane-edge-core-lp.vercel.app/api/formpilot`
+- `FORMPILOT_STRIPE_BRIDGE_BASE_URL=production Stripe bridge endpoint`
 - `PUBLIC_SITE_URL=https://formpilot-vault-api.vercel.app`
 - `ENTITLEMENT_SOURCE=stripe_bridge`
 

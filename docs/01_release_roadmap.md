@@ -52,7 +52,7 @@
 - AI schema proxyのコードは実装済み
 - Cloudflare Worker routeを実装済み
 - Workers AI binding `env.AI.run()` から呼べるように実装済み
-- DDの初期思想を実schema promptへ反映済み
+- 初期プロダクト方針を実schema promptへ反映済み
 - unsafe payload拒否とprovider response正規化のテストは通過
 - 次はAzure/Cloudflareの実環境変数を入れたsmoke test
 
