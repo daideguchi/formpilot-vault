@@ -42,7 +42,7 @@ Chrome拡張にAPIキーや課金秘密情報を入れず、リリース時に�
   - Free/Plus/Pro/Teamの権利を返す
 - Stripe webhookからlicense entitlementを更新する
 - Stripe署名を `STRIPE_WEBHOOK_SECRET` で検証する
-- Vercel本番では `FORMPILOT_STRIPE_BRIDGE_BASE_URL` がある場合、Kurogane側のStripe本番ブリッジへ中継する
+- Vercel本番では `FORMPILOT_STRIPE_BRIDGE_BASE_URL` がある場合、production Stripe bridgeへ中継する
 
 ### Cloudflare Worker
 
@@ -106,7 +106,7 @@ Chrome拡張にAPIキーや課金秘密情報を入れず、リリース時に�
   - Team: 1,500円/人/月
 - 出力された `STRIPE_PLAN_PRICE_MAP` と `STRIPE_PRICE_PLAN_MAP` を本番環境変数へ入れる
 - 2026-06-01時点では、FormPilot専用の独立Stripe商品/price id作成は未実行。
-- ただし本番課金導線は、Kurogane Vercel runtimeのStripe live secretを使うFormPilot専用ブリッジでCheckout Session作成まで成功。
+- ただし本番課金導線は、production Stripe bridgeでCheckout Session作成まで成功。
 
 ### Store / Public Pages
 

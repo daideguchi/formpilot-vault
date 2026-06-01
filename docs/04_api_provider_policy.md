@@ -1,7 +1,7 @@
 # API Provider Policy
 
 作成日: 2026-06-01
-決定者: DD
+決定者: project owner
 
 ## 決定
 
@@ -38,9 +38,9 @@ extension popup
   -> content script fill
 ```
 
-## 実プロンプトへ入れたDD方針
+## 実プロンプトへ入れたプロダクト方針
 
-`api/schema-proxy/schema-proxy.js` の `buildSchemaPrompt()` に、DDの初期思想を実際のプロンプトとして入れています。
+`api/schema-proxy/schema-proxy.js` の `buildSchemaPrompt()` に、initial product thesisを実際のプロンプトとして入れています。
 
 - フォーム入力の細かな手間をなくす
 - コア価値は `Personal Vault + Profile RAG/Memory Space + form understanding`
@@ -63,8 +63,8 @@ extension popup
 
 2026-06-01確認:
 
-- Azure CLIは `degutidai@gmail.com` でログイン済み
-- 既存Azure AI Services: `degutidai-1418-resource`, `degutidai-5815-resource`
+- Azure CLIはlocal operator accountでログイン済み
+- 既存Azure AI Services: 2 resources checked
 - 両方ともmodel deploymentは空
 - Vercel本番にも `AZURE_DEEPSEEK_ENDPOINT` / `AZURE_DEEPSEEK_API_KEY` は未投入
 - 現在は `rules_fallback` で継続稼働する

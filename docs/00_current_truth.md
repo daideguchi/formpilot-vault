@@ -81,7 +81,7 @@ Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry
 
 Cloudflare CLI確認では `wrangler whoami` が `not authenticated` でした。Worker deploy、D1作成、Workers AI binding本番確認は、Cloudflare login後の将来移行タスクです。現在の本番はVercel + Stripeブリッジで動いています。
 
-Azure CLIは `degutidai@gmail.com` でログイン済みです。既存Azure AI Servicesは `degutidai-1418-resource` と `degutidai-5815-resource` の2つが見えますが、2026-06-01確認時点では両方ともmodel deploymentが空です。そのため、Azure DeepSeek V4をlive化するにはAzure AI Foundry/Serverless model deploymentの作成または既存endpoint/keyの投入が必要です。新しい有料/Marketplace条件付きdeployment作成はDD確認が必要な停止点として扱います。
+Azure CLIはlocal operator accountでログイン済みです。既存Azure AI Servicesは2つ見えますが、2026-06-01確認時点では両方ともmodel deploymentが空です。そのため、Azure DeepSeek V4をlive化するにはAzure AI Foundry/Serverless model deploymentの作成または既存endpoint/keyの投入が必要です。新しい有料/Marketplace条件付きdeployment作成はoperator confirmationが必要な停止点として扱います。
 
 実ブラウザ検証も通過済みです。Chromiumに拡張を `--load-extension` で読み込み、extension service worker / content script / DOM入力まで実行しました。12項目収集、12項目入力、Plus license表示まで確認済みです。証跡は `docs/10_real_browser_verification.md` と `site/assets/real-extension-*.png` にあります。
 

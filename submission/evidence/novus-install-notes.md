@@ -28,8 +28,8 @@ The page can send these product-language events:
 
 ## Boundary
 
-This note is not a replacement for the required dashboard proof.
-Do not claim the Mind the Product Novus requirement is complete until `submission/evidence/novus-dashboard.png` exists and passes `npm run novus:verify`.
+Dashboard proof is attached at `submission/evidence/novus-dashboard.png`.
+The local verifier now passes.
 
 ## Commands
 

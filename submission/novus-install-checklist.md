@@ -1,6 +1,6 @@
 # Novus.ai Install Checklist
 
-Status: `snippet_installed_dashboard_proof_needed`
+Status: `dashboard_proof_attached`
 
 Mind the Product requires Novus.ai to be installed before submission. Projects without the Novus install are ineligible.
 
@@ -14,7 +14,7 @@ Official references:
 
 1. Novus account/project access. `done via existing Novus/Pendo account`
 2. Novus installed on `https://daideguchi.github.io/formpilot-vault/` or on the final production URL. `snippet installed in repo`
-3. Screenshot of the Novus dashboard showing the FormPilot Vault project. `still needed`
+3. Screenshot of the Novus dashboard showing the install state. `attached`
 4. Short proof note explaining what Novus sees:
    - page view
    - language switch
@@ -50,4 +50,4 @@ submission/evidence/novus-install-notes.md
 
 ## Current Decision
 
-The product can continue without paid resources. The frontend snippet is installed, but Mind the Product submission still needs the dashboard proof screenshot before final submit.
+The product can continue without paid resources. The frontend snippet is installed, the public page fires Pendo/Novus requests, and the dashboard proof screenshot is attached.

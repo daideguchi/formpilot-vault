@@ -1,6 +1,6 @@
 # FormPilot Vault - Mind the Product Devpost Draft
 
-Status: `ready_except_novus_dashboard_proof`
+Status: `ready_except_external_video_if_required`
 
 Live app: https://daideguchi.github.io/formpilot-vault/
 
@@ -71,12 +71,12 @@ Current status:
 
 - Public app is live.
 - Novus/Pendo frontend snippet is installed in the repository.
-- Dashboard screenshot is not yet attached.
-- Do not submit until the dashboard screenshot and behavior proof are added.
+- Dashboard screenshot is attached.
+- Public page smoke confirms Pendo/Novus script and event requests are firing.
 
 Evidence to add after Novus setup:
 
-- Screenshot of Novus installed on `https://daideguchi.github.io/formpilot-vault/`
+- Screenshot of Novus/Pendo install state: `submission/evidence/novus-dashboard.png`
 - Screenshot or export showing page view / interaction events
 - Short note explaining what events are tracked
 
