@@ -60,17 +60,17 @@ AIへ渡すschema inference payloadも実装済みです。フォーム構造、
 
 リリース/課金に必要なAPI土台も実装済みです。`api/schema-proxy/` はAzure DeepSeek V4からCloudflare Workers AIへ日付で切替し、`api/entitlement/` はStripe webhookとlicense checkを扱います。popupにはLicense key確認欄を追加済みです。
 
-初期プロダクト方針は実際のschema proxyプロンプトへ入れました。`buildSchemaPrompt()` は、フォーム入力の細かな手間をなくす、Personal Vault + Profile RAG/Memory Spaceを核にする、実値を扱わない、不確定項目はユーザー確認へ残す、送信/認証突破/大量作成はしない、世界市場のフォームでは `locale_context` を補助情報として使う、という方針を含みます。
+DDの初期思想は実際のschema proxyプロンプトへ入れました。`buildSchemaPrompt()` は、フォーム入力の細かな手間をなくす、Personal Vault + Profile RAG/Memory Spaceを核にする、実値を扱わない、不確定項目はユーザー確認へ残す、送信/認証突破/大量作成はしない、世界市場のフォームでは `locale_context` を補助情報として使う、という方針を含みます。
 
-Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/Teamボタンから `POST /api/stripe/checkout-session` を呼び、Checkout成功後にLicense keyを表示します。2026-06-01時点では、FormPilot本番APIがproduction Stripe bridgeへ中継し、Stripe Checkout Session作成まで本番で成功しています。購入前のlicense checkはFree/月5回で返り、購入後はStripe subscription metadataの `license_key` / `plan` を照会して有料権利を返す設計です。
+Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/Teamボタンから `POST /api/stripe/checkout-session` を呼び、Checkout成功後にLicense keyを表示します。2026-06-01時点では、FormPilot本番APIがKurogane側のStripe本番secretを使う専用ブリッジへ中継し、Stripe Checkout Session作成まで本番で成功しています。購入前のlicense checkはFree/月5回で返り、購入後はStripe subscription metadataの `license_key` / `plan` を照会して有料権利を返す設計です。
 
 AI schema proxyは、Azure/Cloudflareの実環境変数が未投入でも停止しないように `rules_fallback` を実装済みです。2026-06-06まではprovider_idは `azure_deepseek_v4` のまま、Azure環境変数が未設定の場合はローカルのフォーム理解ルールでsemantic keyを返します。Azure値が投入されたらlive modeへ戻せます。
 
 多言語対応も初回提出前に強化しました。manifestは `default_locale: en` と `_locales` を使うChrome公式i18n構成で、21 localeに対応します。対象は英語、英語UK、日本語、スペイン語、ラテンアメリカスペイン語、フランス語、ドイツ語、イタリア語、オランダ語、ポーランド語、ブラジルポルトガル語、ロシア語、トルコ語、アラビア語、ヒンディー語、インドネシア語、タイ語、ベトナム語、韓国語、中国語簡体、中国語繁体です。フォーム認識ルールも主要グローバル市場の氏名、メール、電話、郵便番号、住所、会社、部署、役職、パスワードに広げています。世界配信の販売戦略は `docs/15_global_language_distribution_plan.md` を正本にし、UI翻訳だけでなく国別フォーム理解、`locale_context`、Memory学習までを言語対応に含めます。
 
-Chrome Web Store提出向けのロゴ、manifestアイコン、小プロモ画像、1280x800スクリーンショット3枚、提出用ZIPを作成済みです。素材生成は `npm run assets:store`、ZIP作成は `npm run package:extension` で再現できます。2026-06-01 12:14 JST時点の提出用ZIPはVault暗号化入りで `65724 bytes` です。その後、暗号鍵のIndexedDB分離と `locale_context` 収集を追加したため、提出ZIPは再生成・再アップロード対象です。
+Chrome Web Store提出向けのロゴ、manifestアイコン、小プロモ画像、1280x800スクリーンショット3枚、提出用ZIPを作成済みです。素材生成は `npm run assets:store`、ZIP作成は `npm run package:extension` で再現できます。2026-06-01 12:38 JST時点の提出用ZIPは、暗号鍵のIndexedDB分離と `locale_context` 収集入りで `66705 bytes` です。
 
-Chrome Web Store Dashboardには下書きitemを作成済みです。21 locale ZIPをアップロードし、Store Listing、Privacy、販売地域、テスト手順を入力保存済みです。Primary languageは英語、UI localeは21 locale、カテゴリは `Workflow and Planning`、販売地域は全155地域、決済表示はStripe有料導線に合わせて `In-app purchases`、公開設定は `Public` です。Store Listing説明文も、Vault実値が暗号化保存される表現へ更新済みです。`Submit for review` は有効化されていますが、owner final reviewが必要なため未クリックです。
+Chrome Web Store Dashboardには下書きitemを作成済みです。21 locale ZIPをアップロードし、Store Listing、Privacy、販売地域、テスト手順を入力保存済みです。Primary languageは英語、UI localeは21 locale、カテゴリは `Workflow and Planning`、販売地域は全155地域、決済表示はStripe有料導線に合わせて `In-app purchases`、公開設定は `Public` です。2026-06-01 12:38 JSTに最新版ZIP `66705 bytes` を再uploadし、Package画面でversion `0.1.0`、21言語、権限 `activeTab, scripting, storage`、Submit表示ありを確認しました。`Submit for review` は有効化されていますが、DDの最終確認が必要なため未クリックです。
 
 Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry-run通過済みです。現時点では `STRIPE_SECRET_KEY` が未投入のため、本番Stripeへの商品作成と決済入金確認は未実行です。
 
@@ -78,15 +78,15 @@ Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry
 
 `npm run release:check` も追加済みです。Vercel本番APIを使う通常リリース判定ではブロッカー0です。Cloudflare D1 `database_id` placeholderは、将来Cloudflare Workerへ完全移行する時だけの警告として残しています。
 
-`npm run check:production` も追加済みです。本番 `https://formpilot-vault-api.vercel.app` に対して、health、schema inference、Stripe Checkout session、Free entitlement、Privacy、Support、Termsを一括確認します。2026-06-01 11:48 JSTの確認ではブロッカー0、Stripe Checkoutは `cs_live_` セッションを返し、AI schema inferenceのみ `azure_env_missing` による `rules_fallback` warningです。`npm run check:production:strict-ai` では、このAI live未投入をブロッカーとして検出できます。
+`npm run check:production` も追加済みです。本番 `https://formpilot-vault-api.vercel.app` に対して、health、schema inference、Stripe Checkout session、Free entitlement、Privacy、Support、Termsを一括確認します。2026-06-01 12:32 JSTの確認ではブロッカー0、Stripe Checkoutは `cs_live_` セッションを返し、AI schema inferenceのみ `azure_env_missing` による `rules_fallback` warningです。`npm run check:production:strict-ai` では、このAI live未投入をブロッカーとして検出できます。
 
-公開用LPは `FormPilot Vault` としてVercel本番へ反映済みです。`https://formpilot-vault-api.vercel.app/` はHTTP 200を確認済みです。2026-06-01 12:14 JSTにVercel deployment `dpl_AuN6YShiQWcwgxxXSiTV3nar2PbW` を本番aliasへ反映し、LPとPrivacyに暗号化Vault表現が配信されることを確認済みです。GitHub Pages版 `https://daideguchi.github.io/formpilot-vault/` も公開ミラーとして維持しています。
+公開用LPは `FormPilot Vault` としてVercel本番へ反映済みです。`https://formpilot-vault-api.vercel.app/` はHTTP 200を確認済みです。2026-06-01 12:32 JSTにVercel deployment `dpl_3gWKEPTkBmMV88nUBjarMtibkxvh` を本番aliasへ反映し、Privacyに非exportable CryptoKey表現が配信されることを確認済みです。GitHub Pages版 `https://daideguchi.github.io/formpilot-vault/` も公開ミラーとして維持しています。
 
 Cloudflare CLI確認では `wrangler whoami` が `not authenticated` でした。Worker deploy、D1作成、Workers AI binding本番確認は、Cloudflare login後の将来移行タスクです。現在の本番はVercel + Stripeブリッジで動いています。
 
-Azure CLIはlocal operator accountでログイン済みです。既存Azure AI Servicesは2つ見えますが、2026-06-01確認時点では両方ともmodel deploymentが空です。そのため、Azure DeepSeek V4をlive化するにはAzure AI Foundry/Serverless model deploymentの作成または既存endpoint/keyの投入が必要です。新しい有料/Marketplace条件付きdeployment作成はoperator confirmationが必要な停止点として扱います。
+Azure CLIは `degutidai@gmail.com` でログイン済みです。既存Azure AI Servicesは `degutidai-1418-resource` と `degutidai-5815-resource` の2つが見えますが、2026-06-01確認時点では両方ともmodel deploymentが空です。そのため、Azure DeepSeek V4をlive化するにはAzure AI Foundry/Serverless model deploymentの作成または既存endpoint/keyの投入が必要です。新しい有料/Marketplace条件付きdeployment作成はDD確認が必要な停止点として扱います。
 
-実ブラウザ検証も通過済みです。Chromiumに拡張を `--load-extension` で読み込み、extension service worker / content script / DOM入力まで実行しました。12項目収集、12項目入力、Plus license表示まで確認済みです。証跡は `docs/10_real_browser_verification.md` と `site/assets/real-extension-*.png` にあります。
+実ブラウザ検証も通過済みです。Chromiumに拡張を `--load-extension` で読み込み、extension service worker / content script / DOM入力まで実行しました。12項目収集、12項目入力、Plus license表示、`locale_context` 収集、IndexedDB内の非exportable Vault鍵、`chrome.storage.local` に鍵/実値なしまで確認済みです。証跡は `docs/10_real_browser_verification.md` と `site/assets/real-extension-*.png` にあります。
 
 公開デモフォームでも実ブラウザ検証済みです。`httpbin.org/forms/post` は12項目収集、4項目入力。`selenium.dev/selenium/web/web-form.html` は14項目収集、1項目入力。送信はしていません。不確定項目をaskへ残す挙動も確認しました。
 
@@ -130,7 +130,7 @@ Azure CLIはlocal operator accountでログイン済みです。既存Azure AI S
 
 ## 2026-06-01 ハッカソン転用確認
 
-入力フォーム自動入力プロダクトを、賞金化しやすいハッカソンへ使う方針を受けた。
+DDから、今作っている入力フォーム自動入力プロダクトを、賞金化しやすいハッカソンへ使いたいという方針を受けた。
 
 確認結果:
 
@@ -151,7 +151,7 @@ Mind the Product向けの別提出候補として、公開用パッケージを�
 
 - 公開URL: `https://daideguchi.github.io/formpilot-vault/`
 - GitHub: `https://github.com/daideguchi/formpilot-vault`
-- 公開パッケージ作業場所: local public repository checkout
+- 公開パッケージ作業場所: `/Users/dd/000_AI組織/__hackason/formpilot-vault-public`
 - 公開repoは継続更新中。提出前は `git log --oneline -5` と公開URLで最新状態を再確認する。
 
 公開前に削った/直したこと:
@@ -177,7 +177,7 @@ Mind the Product向けの別提出候補として、公開用パッケージを�
 
 ## 2026-06-01 自動再生デモと使い回し境界
 
-すでに公開されているページをそのまま別ハッカソンへ使い回す方針は採らない。
+DDの指摘を受け、すでに公開されているページをそのまま別ハッカソンへ使い回す方針は採らない。
 使い回すのは中核エンジンと証拠であり、提出ごとにユーザー、課題、必要技術、見せ方を分ける。
 
 公開LPには2分の無音自動再生デモを追加した。
@@ -209,23 +209,13 @@ Mind the Product向けに、既存のNovus/Pendoアカウントの公開Web inst
 - 公開URL上でPendo/Novus scriptとdata requestが発火することをPlaywrightで確認済み。
 - `npm run novus:verify` は `formpilot_novus_live_proof_ok`。
 
-## 2026-06-01 Mind the Product submit packet
-
-Mind the Product向けに、単独で開ける提出用デモページとYouTube提出動画を追加した。
-
-- Demo page: `https://daideguchi.github.io/formpilot-vault/demo.html`
-- Demo MP4: `https://daideguchi.github.io/formpilot-vault/assets/mind-the-product-demo-en.mp4`
-- YouTube demo: `https://youtu.be/q-HreuLw5F8`
-- Submit packet: `submission/mind-the-product-submit-packet.md`
-
-Geminiが一時的に使えなくても、この提出パッケージは成立する。FormPilotはlive AIが無い時も deterministic rules fallback で動き、AIへ実個人情報を送らない設計を説明できる。
-
 ## 次の一歩
 
-1. Mind the Product: Devpost最終フォームを人間確認して提出する
-2. Chrome Web Storeは下書き入力済み。owner final review後に `Submit for review` を押す
-3. UiPath AgentHack: `Form Intake Case Room` のUiPath実機証拠を作る
-4. Google Rapid Agent: Gemini復旧後に `FormOps Agent` のGemini / Agent Builder / Partner MCP証拠が作れるか判定する
-5. Azure DeepSeek V4の実endpoint/keyをVercelへ投入し、`rules_fallback` ではなくlive応答をsmoke testする
-6. 日本語の公開/許可済みデモフォームを増やして認識率を測る
-7. mapping cacheの2回目成功率を測る
+1. Mind the Product: Devpostが外部動画URLを要求する場合、埋め込み済み2分デモを元に提出用動画を作る
+2. Devpostが外部動画URLを要求する場合、埋め込み済み2分デモを元に提出用動画を作る
+3. Chrome Web Storeは下書き入力済み。DD確認後に `Submit for review` を押す
+4. UiPath AgentHack: `Form Intake Case Room` のUiPath証拠を作る
+5. Google Rapid Agent: `FormOps Agent` のGemini / Agent Builder / Partner MCP証拠が作れるか判定する
+6. Azure DeepSeek V4の実endpoint/keyをVercelへ投入し、`rules_fallback` ではなくlive応答をsmoke testする
+7. 日本語の公開/許可済みデモフォームを増やして認識率を測る
+8. mapping cacheの2回目成功率を測る

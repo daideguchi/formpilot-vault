@@ -25,6 +25,8 @@ npm run test:extension
 - extension popupページを開き、License key確認UIを操作
 - Plus entitlementの表示を確認
 - `chrome.storage.local` 内のVault保存状態を確認し、プロフィール実値が平文で残らないことを検証
+- IndexedDB内のVault暗号鍵が非exportable `CryptoKey` として存在し、`chrome.storage.local` には鍵が残らないことを検証
+- content scriptが `locale_context` を収集することを検証
 
 ## 結果
 
@@ -35,7 +37,12 @@ npm run test:extension
   "fields_scanned": 12,
   "fields_filled": 12,
   "usage_status": "PLUS plan / 0 fills this month",
-  "vault_storage": "AES-GCM encrypted_values, no plaintext profile values"
+  "vault_storage": "AES-GCM encrypted_values, no plaintext profile values, no storage-local key",
+  "vault_key": "IndexedDB non-exportable CryptoKey",
+  "locale_context": {
+    "page_language": "ja",
+    "text_direction": "ltr"
+  }
 }
 ```
 
