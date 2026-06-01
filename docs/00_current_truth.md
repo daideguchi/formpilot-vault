@@ -50,25 +50,25 @@ MVPは `Chrome拡張 + content script入力` を本線にします。Playwright�
 - Worldwide distribution方針
 - Chrome Web Store draft item: `kmlcabffhmenjajmlnkkglphjnbaahlf`
 
-`extension/src/profile-memory.js` で、ローカルVault、サイト別mapping cache、ユーザー修正イベント、フォーム単位のmemory retrievalを実装済みです。`extension/src/vault-crypto.js` でプロフィール実値をAES-GCM暗号化して `chrome.storage.local` へ保存します。入力成功後、実値ではなく `profile_key` とフィールド署名だけを保存して、次回の推論に使います。
+`extension/src/profile-memory.js` で、ローカルVault、サイト別mapping cache、ユーザー修正イベント、フォーム単位のmemory retrievalを実装済みです。`extension/src/vault-crypto.js` でプロフィール実値をAES-GCM暗号化して `chrome.storage.local` へ保存します。暗号鍵はIndexedDBの非exportable `CryptoKey` として分離し、`chrome.storage.local` には鍵も実値も置きません。入力成功後、実値ではなく `profile_key` とフィールド署名だけを保存して、次回の推論に使います。
 
 既存の平文Vault/旧 `profile` storageは、popup初回起動時に復号可能なruntime stateへ読み込み、暗号化済み `vaultState` へ自動移行します。実ブラウザE2Eでは、入力後のChrome拡張storageにプロフィール実値が平文で残らないことを確認済みです。
 
 popup上で不確定項目をプロフィールキーへ紐づける `Learn` UIも実装済みです。これにより、ユーザー修正を `correction_events` と `mapping_cache` に保存し、同じフォームでは次回からMemory優先で入力プランへ反映します。
 
-AIへ渡すschema inference payloadも実装済みです。フォーム構造とMemory contextは渡しますが、input value、CSS selector、プロフィール実値は入れないテストを固定しています。
+AIへ渡すschema inference payloadも実装済みです。フォーム構造、Memory context、ページ言語やTLDなどの `locale_context` は渡しますが、input value、CSS selector、プロフィール実値は入れないテストを固定しています。
 
 リリース/課金に必要なAPI土台も実装済みです。`api/schema-proxy/` はAzure DeepSeek V4からCloudflare Workers AIへ日付で切替し、`api/entitlement/` はStripe webhookとlicense checkを扱います。popupにはLicense key確認欄を追加済みです。
 
-初期プロダクト方針は実際のschema proxyプロンプトへ入れました。`buildSchemaPrompt()` は、フォーム入力の細かな手間をなくす、Personal Vault + Profile RAG/Memory Spaceを核にする、実値を扱わない、不確定項目はユーザー確認へ残す、送信/認証突破/大量作成はしない、という方針を含みます。
+初期プロダクト方針は実際のschema proxyプロンプトへ入れました。`buildSchemaPrompt()` は、フォーム入力の細かな手間をなくす、Personal Vault + Profile RAG/Memory Spaceを核にする、実値を扱わない、不確定項目はユーザー確認へ残す、送信/認証突破/大量作成はしない、世界市場のフォームでは `locale_context` を補助情報として使う、という方針を含みます。
 
 Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/Teamボタンから `POST /api/stripe/checkout-session` を呼び、Checkout成功後にLicense keyを表示します。2026-06-01時点では、FormPilot本番APIがproduction Stripe bridgeへ中継し、Stripe Checkout Session作成まで本番で成功しています。購入前のlicense checkはFree/月5回で返り、購入後はStripe subscription metadataの `license_key` / `plan` を照会して有料権利を返す設計です。
 
 AI schema proxyは、Azure/Cloudflareの実環境変数が未投入でも停止しないように `rules_fallback` を実装済みです。2026-06-06まではprovider_idは `azure_deepseek_v4` のまま、Azure環境変数が未設定の場合はローカルのフォーム理解ルールでsemantic keyを返します。Azure値が投入されたらlive modeへ戻せます。
 
-多言語対応も初回提出前に強化しました。manifestは `default_locale: en` と `_locales` を使うChrome公式i18n構成で、21 localeに対応します。対象は英語、英語UK、日本語、スペイン語、ラテンアメリカスペイン語、フランス語、ドイツ語、イタリア語、オランダ語、ポーランド語、ブラジルポルトガル語、ロシア語、トルコ語、アラビア語、ヒンディー語、インドネシア語、タイ語、ベトナム語、韓国語、中国語簡体、中国語繁体です。フォーム認識ルールも主要グローバル市場の氏名、メール、電話、郵便番号、住所、会社、部署、役職、パスワードに広げています。
+多言語対応も初回提出前に強化しました。manifestは `default_locale: en` と `_locales` を使うChrome公式i18n構成で、21 localeに対応します。対象は英語、英語UK、日本語、スペイン語、ラテンアメリカスペイン語、フランス語、ドイツ語、イタリア語、オランダ語、ポーランド語、ブラジルポルトガル語、ロシア語、トルコ語、アラビア語、ヒンディー語、インドネシア語、タイ語、ベトナム語、韓国語、中国語簡体、中国語繁体です。フォーム認識ルールも主要グローバル市場の氏名、メール、電話、郵便番号、住所、会社、部署、役職、パスワードに広げています。世界配信の販売戦略は `docs/15_global_language_distribution_plan.md` を正本にし、UI翻訳だけでなく国別フォーム理解、`locale_context`、Memory学習までを言語対応に含めます。
 
-Chrome Web Store提出向けのロゴ、manifestアイコン、小プロモ画像、1280x800スクリーンショット3枚、提出用ZIPを作成済みです。素材生成は `npm run assets:store`、ZIP作成は `npm run package:extension` で再現できます。2026-06-01 12:14 JST時点の提出用ZIPはVault暗号化入りで `65724 bytes` です。
+Chrome Web Store提出向けのロゴ、manifestアイコン、小プロモ画像、1280x800スクリーンショット3枚、提出用ZIPを作成済みです。素材生成は `npm run assets:store`、ZIP作成は `npm run package:extension` で再現できます。2026-06-01 12:14 JST時点の提出用ZIPはVault暗号化入りで `65724 bytes` です。その後、暗号鍵のIndexedDB分離と `locale_context` 収集を追加したため、提出ZIPは再生成・再アップロード対象です。
 
 Chrome Web Store Dashboardには下書きitemを作成済みです。21 locale ZIPをアップロードし、Store Listing、Privacy、販売地域、テスト手順を入力保存済みです。Primary languageは英語、UI localeは21 locale、カテゴリは `Workflow and Planning`、販売地域は全155地域、決済表示はStripe有料導線に合わせて `In-app purchases`、公開設定は `Public` です。Store Listing説明文も、Vault実値が暗号化保存される表現へ更新済みです。`Submit for review` は有効化されていますが、owner final reviewが必要なため未クリックです。
 
@@ -211,19 +211,20 @@ Mind the Product向けに、既存のNovus/Pendoアカウントの公開Web inst
 
 ## 2026-06-01 Mind the Product submit packet
 
-Mind the Product向けに、単独で開ける提出用デモページを追加した。
+Mind the Product向けに、単独で開ける提出用デモページとYouTube提出動画を追加した。
 
 - Demo page: `https://daideguchi.github.io/formpilot-vault/demo.html`
 - Demo MP4: `https://daideguchi.github.io/formpilot-vault/assets/mind-the-product-demo-en.mp4`
+- YouTube demo: `https://youtu.be/q-HreuLw5F8`
 - Submit packet: `submission/mind-the-product-submit-packet.md`
 
 Geminiが一時的に使えなくても、この提出パッケージは成立する。FormPilotはlive AIが無い時も deterministic rules fallback で動き、AIへ実個人情報を送らない設計を説明できる。
 
 ## 次の一歩
 
-1. Mind the Product: Devpost最終フォームを人間確認し、必要なら `assets/autoplay-demo-en.mp4` をYouTube/Vimeoへ非公開アップロードする
-2. Chrome Web Storeは下書き入力済み。DD確認後に `Submit for review` を押す
-3. UiPath AgentHack: `Form Intake Case Room` のUiPath証拠を作る
+1. Mind the Product: Devpost最終フォームを人間確認して提出する
+2. Chrome Web Storeは下書き入力済み。owner final review後に `Submit for review` を押す
+3. UiPath AgentHack: `Form Intake Case Room` のUiPath実機証拠を作る
 4. Google Rapid Agent: Gemini復旧後に `FormOps Agent` のGemini / Agent Builder / Partner MCP証拠が作れるか判定する
 5. Azure DeepSeek V4の実endpoint/keyをVercelへ投入し、`rules_fallback` ではなくlive応答をsmoke testする
 6. 日本語の公開/許可済みデモフォームを増やして認識率を測る

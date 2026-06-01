@@ -175,6 +175,12 @@ Global positioning:
 Use "multilingual form autofill" rather than "Japanese-only form autofill" for global listing copy. The strongest local claim remains Japanese form support, but the product now scans common labels across major global signup markets.
 ```
 
+Language strategy:
+
+```text
+Worldwide release is part of the business strategy. Language support means UI locale, form label understanding, locale_context for schema inference, country-specific formatting, and learned site mappings. The first release should stay English-primary in the Store to avoid delaying submission; localized Store Listing variants can be added after review.
+```
+
 ## Test Instructions For Reviewers
 
 ```text

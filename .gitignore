@@ -8,3 +8,4 @@ data/runtime/
 coverage/
 dist/
 tmp/
+submission/*.local.json

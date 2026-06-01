@@ -7,10 +7,11 @@ Status: `ready_for_human_review`
 - Live app: https://daideguchi.github.io/formpilot-vault/
 - Demo page: https://daideguchi.github.io/formpilot-vault/demo.html
 - Demo MP4: https://daideguchi.github.io/formpilot-vault/assets/mind-the-product-demo-en.mp4
+- YouTube demo: https://youtu.be/q-HreuLw5F8
 - GitHub: https://github.com/daideguchi/formpilot-vault
 - Novus/Pendo proof: `submission/evidence/novus-dashboard.png`
 
-If Devpost only accepts YouTube/Vimeo for the video field, upload `assets/mind-the-product-demo-en.mp4` as an unlisted video and paste that URL.
+Paste the YouTube demo URL into the Devpost video field.
 
 ## Project Name
 

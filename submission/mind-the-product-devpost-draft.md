@@ -10,6 +10,8 @@ Demo page: https://daideguchi.github.io/formpilot-vault/demo.html
 
 Demo MP4: https://daideguchi.github.io/formpilot-vault/assets/mind-the-product-demo-en.mp4
 
+YouTube demo: https://youtu.be/q-HreuLw5F8
+
 ## Project Name
 
 FormPilot Vault
@@ -59,7 +61,8 @@ Current public page includes a 2-minute muted autoplay demo near the top.
 The same video is also available as a standalone judge demo page:
 https://daideguchi.github.io/formpilot-vault/demo.html
 
-If Devpost only accepts YouTube/Vimeo for the video field, upload `assets/mind-the-product-demo-en.mp4` as an unlisted video and paste that URL.
+Use the YouTube demo link in the Devpost video field:
+https://youtu.be/q-HreuLw5F8
 
 1. Open with the pain: repeated signup and contact forms waste time.
 2. Show the public page and 30-second proof path.
@@ -116,7 +119,7 @@ npm run release:check
 Mind the Product submission blockers:
 
 - Human review of final Devpost form
-- YouTube/Vimeo upload only if Devpost rejects the self-hosted demo page/MP4
+- None known after final human review; YouTube demo is uploaded and Novus proof is attached
 
 Known release blockers before Chrome Web Store / full production launch:
 
