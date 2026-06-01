@@ -1,57 +1,57 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AI Form Autofill</title>
+    <title>FormPilot Vault</title>
     <link rel="stylesheet" href="popup.css">
   </head>
   <body>
     <main class="app-shell">
       <header class="app-header">
         <div>
-          <p class="eyebrow">Local profile / Schema only AI</p>
-          <h1>AI Form Autofill</h1>
+          <p class="eyebrow" data-i18n="eyebrow">Local profile / Schema-only AI</p>
+          <h1 data-i18n="appTitle">FormPilot Vault</h1>
         </div>
         <span class="status-pill" id="providerStatus">checking</span>
       </header>
 
       <section class="panel">
         <div class="panel-heading">
-          <h2>Profile Vault</h2>
-          <button id="loadSample" type="button">Sample</button>
+          <h2 data-i18n="profileVault">Profile Vault</h2>
+          <button id="loadSample" type="button" data-i18n="sample">Sample</button>
         </div>
-        <div id="memoryStatus" class="memory-status">Vault memory: loading</div>
+        <div id="memoryStatus" class="memory-status" data-i18n="memoryLoading">Vault memory: loading</div>
         <textarea id="profileJson" spellcheck="false"></textarea>
         <div class="button-row">
-          <button id="saveProfile" type="button">Save</button>
-          <button id="scanPage" type="button" class="primary">Scan Form</button>
+          <button id="saveProfile" type="button" data-i18n="save">Save</button>
+          <button id="scanPage" type="button" class="primary" data-i18n="scanForm">Scan Form</button>
         </div>
       </section>
 
       <section class="panel">
         <div class="panel-heading">
-          <h2>Input Plan</h2>
-          <button id="fillPage" type="button" disabled>Fill</button>
+          <h2 data-i18n="inputPlan">Input Plan</h2>
+          <button id="fillPage" type="button" disabled data-i18n="fill">Fill</button>
         </div>
-        <div id="planSummary" class="muted">Open a form page and click Scan Form.</div>
+        <div id="planSummary" class="muted" data-i18n="openFormPrompt">Open a form page and click Scan Form.</div>
         <div id="planList" class="plan-list"></div>
       </section>
 
       <section class="panel monetization-panel">
         <div class="panel-heading">
-          <h2>Plan</h2>
-          <button id="upgradePlan" type="button">Upgrade</button>
+          <h2 data-i18n="plan">Plan</h2>
+          <button id="upgradePlan" type="button" data-i18n="upgrade">Upgrade</button>
         </div>
-        <div id="usageStatus" class="usage-status">Free usage: loading</div>
+        <div id="usageStatus" class="usage-status" data-i18n="freeUsageLoading">Free usage: loading</div>
         <div class="license-row">
-          <input id="licenseKey" type="password" autocomplete="off" placeholder="License key">
-          <button id="checkLicense" type="button">Check</button>
+          <input id="licenseKey" type="password" autocomplete="off" placeholder="License key" data-i18n-placeholder="licenseKey">
+          <button id="checkLicense" type="button" data-i18n="check">Check</button>
         </div>
-        <p class="muted">Free is limited to 5 fills per month. Upgrade unlocks unlimited fills, multiple profiles, and learned site mappings.</p>
+        <p class="muted" data-i18n="upgradeCopy">Free is limited to 5 fills per month. Upgrade unlocks unlimited fills, multiple profiles, and learned site mappings.</p>
       </section>
 
-      <footer class="footnote">
+      <footer class="footnote" data-i18n="footnote">
         No submit click. Personal values stay local.
       </footer>
     </main>

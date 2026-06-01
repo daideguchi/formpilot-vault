@@ -43,7 +43,10 @@ MVPは `Chrome拡張 + content script入力` を本線にします。Playwright�
 - release readiness check: `scripts/release-readiness.mjs`
 - 公開LP/GitHub repo: `https://daideguchi.github.io/formpilot-vault/`, `https://github.com/daideguchi/formpilot-vault`
 - 本番LP/API: `https://formpilot-vault-api.vercel.app/`
-- Stripe本番Checkoutブリッジ: `production Stripe bridge endpoint`
+- Stripe本番Checkoutブリッジ: `https://kurogane-edge-core-lp.vercel.app/api/formpilot/*`
+- Extension UI locales: `en`, `ja`, `es`, `fr`, `de`, `pt_BR`, `ko`, `zh_CN`
+- Worldwide distribution方針
+- Chrome Web Store draft item: `kmlcabffhmenjajmlnkkglphjnbaahlf`
 
 `extension/src/profile-memory.js` で、ローカルVault、サイト別mapping cache、ユーザー修正イベント、フォーム単位のmemory retrievalを実装済みです。入力成功後、実値ではなく `profile_key` とフィールド署名だけを保存して、次回の推論に使います。
 
@@ -59,7 +62,11 @@ Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/
 
 AI schema proxyは、Azure/Cloudflareの実環境変数が未投入でも停止しないように `rules_fallback` を実装済みです。2026-06-06まではprovider_idは `azure_deepseek_v4` のまま、Azure環境変数が未設定の場合はローカルのフォーム理解ルールでsemantic keyを返します。Azure値が投入されたらlive modeへ戻せます。
 
+多言語対応も初回提出前に強化しました。manifestは `default_locale: en` と `_locales` を使うChrome公式i18n構成で、英語、日本語、スペイン語、フランス語、ドイツ語、ポルトガル語、韓国語、中国語簡体に対応します。フォーム認識ルールも同じ主要言語の氏名、メール、電話、郵便番号、住所、会社、部署、役職、パスワードに広げています。
+
 Chrome Web Store提出向けのロゴ、manifestアイコン、小プロモ画像、1280x800スクリーンショット3枚、提出用ZIPを作成済みです。素材生成は `npm run assets:store`、ZIP作成は `npm run package:extension` で再現できます。
+
+Chrome Web Store Dashboardには下書きitemを作成済みです。多言語ZIPをアップロードし、Store Listing、Privacy、販売地域、テスト手順を入力保存済みです。Primary languageは英語、UI localeは8言語、カテゴリは `Workflow and Planning`、販売地域は全155地域、決済表示はStripe有料導線に合わせて `In-app purchases`、公開設定は `Public` です。`Submit for review` は有効化されていますが、DDの最終確認が必要なため未クリックです。
 
 Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry-run通過済みです。現時点では `STRIPE_SECRET_KEY` が未投入のため、本番Stripeへの商品作成と決済入金確認は未実行です。
 
@@ -104,8 +111,8 @@ Cloudflare CLI確認では `wrangler whoami` が `not authenticated` でした�
 
 ## 未完了
 
-- Chrome Web Storeの提出操作
-- Chrome Web Store開発者アカウントの本人確認/審査対応
+- Chrome Web Storeの最終 `Submit for review`
+- Chrome Web Store審査対応
 - 公開問い合わせ先の最終固定
 - Azure DeepSeek V4の本番endpoint/key投入
 - Cloudflare D1の作成と `database_id` 反映
@@ -180,8 +187,8 @@ Devpost側で外部動画URLが必須の場合は、この流れを元にYouTube
 
 1. Mind the Product向けにNovus.ai導入証拠を取る。
 2. Devpostが外部動画URLを要求する場合、埋め込み済み2分デモを元に提出用動画を作る。
-3. Chrome Web Storeへ `dist/ai-form-autofill-0.1.0.zip` とストア素材を提出する。Dashboard貼り付け値は `docs/14_chrome_web_store_submission_packet.md`
-4. Chrome Web Store審査でPrivacy URLに `https://formpilot-vault-api.vercel.app/privacy.html` を指定する
+3. Chrome Web Storeは下書き入力済み。DD確認後に `Submit for review` を押す
+4. Chrome Web Store審査でPrivacy URLに `https://formpilot-vault-api.vercel.app/privacy.html` を指定済み
 5. Azure DeepSeek V4の実endpoint/keyをVercelへ投入し、`rules_fallback` ではなくlive応答をsmoke testする
 6. 日本語の公開/許可済みデモフォームを増やして認識率を測る
 7. mapping cacheの2回目成功率を測る

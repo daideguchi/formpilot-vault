@@ -15,6 +15,14 @@
 - [x] 権限の説明
 - [x] 提出用ZIP
 - [x] 提出用Dashboard入力パケット
+- [x] Extension package i18n
+- [x] Worldwide distribution方針
+- [x] Chrome Web Store draft作成
+- [x] 多言語ZIP upload
+- [x] Dashboard Store Listing保存
+- [x] Dashboard Privacy保存
+- [x] Dashboard販売地域保存
+- [x] Dashboardテスト手順保存
 
 ## 権限説明
 
@@ -22,7 +30,7 @@
 
 `scripting`: ユーザー操作時だけcontent scriptを注入し、DOM収集と入力を行うため。
 
-`storage`: 端末内プロフィール、設定、サイト別マッピングを保存するため。
+`storage`: 端末内プロフィール、設定、ライセンス、利用回数、サイト別マッピングを保存するため。
 
 ## ストア説明の芯
 
@@ -47,6 +55,14 @@ Dashboardへ貼る最終値は `docs/14_chrome_web_store_submission_packet.md` �
 - `site/terms.html`
 - `docs/13_production_launch_runbook.md`
 - `docs/14_chrome_web_store_submission_packet.md`
+- `extension/_locales/en/messages.json`
+- `extension/_locales/ja/messages.json`
+- `extension/_locales/es/messages.json`
+- `extension/_locales/fr/messages.json`
+- `extension/_locales/de/messages.json`
+- `extension/_locales/pt_BR/messages.json`
+- `extension/_locales/ko/messages.json`
+- `extension/_locales/zh_CN/messages.json`
 
 再生成:
 
@@ -68,8 +84,5 @@ npm run release:check
 
 ## 現在の人間停止点
 
-- Chrome Web Store Developer Dashboardへのログイン
-- 初回開発者登録/本人確認/登録費確認が出た場合の承認
-- ZIPと掲載素材のアップロード
-- Dashboard項目の貼り付け
 - 最終 `Submit for Review`
+- 審査中/審査後に本人確認、公開確認、差し戻し対応が出た場合の承認

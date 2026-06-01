@@ -9,17 +9,25 @@ FormPilot Vault
 
 ## 短い説明
 
-日本語フォームを読み取り、端末内Vaultのプロフィールから確認つきで自動入力します。
+Multilingual form autofill with a local profile vault and user confirmation.
+
+## Global short description
+
+Multilingual form autofill with a local profile vault and user confirmation.
 
 ## 詳細説明
 
-AIフォームオートフィルは、会員登録、資料請求、問い合わせ、イベント申込、無料トライアル登録などで発生する反復入力を減らすChrome拡張です。
+FormPilot Vault is a multilingual Chrome extension that reduces repetitive form-filling work for signups, contact forms, applications, event registrations, and trial forms.
 
-フォーム上のラベル、placeholder、autocomplete、選択肢、周辺テキストを読み取り、入力欄の意味を推定します。氏名、住所、電話番号、メール、会社情報などの実値は、ユーザーの端末内Vaultから入力します。
+It reads form labels, placeholders, autocomplete hints, options, and nearby text to understand what each field means. Profile values such as name, address, phone number, email, and company details are filled from the user's local Vault after user action.
 
-AIへ送るのはフォーム構造だけです。プロフィールの実値、入力済みvalue、Cookie、Authorization情報、パスワードは送信しません。
+The AI receives form structure only. It does not receive raw profile values, existing input values, cookies, authorization data, verification codes, or passwords.
 
-送信ボタンは自動で押しません。入力後は必ずユーザーが内容を確認して送信します。CAPTCHA、SMS認証、メール認証、本人確認の突破や、大量アカウント作成を目的にした機能は提供しません。
+FormPilot Vault does not click submit buttons. The user always reviews the filled form before submitting. It does not bypass CAPTCHA, SMS verification, email verification, identity checks, or create accounts in bulk.
+
+The extension UI is localized for English, Japanese, Spanish, French, German, Portuguese, Korean, and Simplified Chinese. The form understanding rules cover common labels in those languages.
+
+Free includes 5 fills per month. Plus, Pro, and Team plans unlock higher usage, multiple profiles, company profiles, and learned site mappings.
 
 ## 単一目的
 
@@ -50,8 +58,18 @@ AIへ送るのはフォーム構造だけです。プロフィールの実値、
 
 - Product URL: `https://formpilot-vault-api.vercel.app/`
 - Privacy URL: `https://formpilot-vault-api.vercel.app/privacy.html`
+- Support URL: `https://formpilot-vault-api.vercel.app/support.html`
 - Checkout API: `https://formpilot-vault-api.vercel.app/api/stripe/checkout-session`
 - Entitlement API: `https://formpilot-vault-api.vercel.app/api/entitlement/check`
+
+## 言語対応
+
+- Extension package: `default_locale: en`
+- UI locales: `en`, `ja`, `es`, `fr`, `de`, `pt_BR`, `ko`, `zh_CN`
+- Form label rules: English, Japanese, Spanish, French, German, Portuguese, Korean, Chinese
+- Distribution: Worldwide
+- Chrome Web Store category: Workflow and Planning
+- Chrome Web Store payment disclosure: In-app purchases
 
 ## 提出パケット
 

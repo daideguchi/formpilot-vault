@@ -1,7 +1,7 @@
 # Chrome Web Store Submission Packet
 
 作成日: 2026-06-01
-状態: `ready_for_human_dashboard_input`
+状態: `dashboard_filled_submit_for_review_pending`
 
 ## 使うファイル
 
@@ -13,6 +13,7 @@
   - `store-assets/screenshot-popup-1280x800.png`
   - `store-assets/screenshot-pricing-1280x800.png`
 - Privacy URL: `https://formpilot-vault-api.vercel.app/privacy.html`
+- Support URL: `https://formpilot-vault-api.vercel.app/support.html`
 - Product URL: `https://formpilot-vault-api.vercel.app/`
 
 ## Store Listing
@@ -26,33 +27,41 @@ FormPilot Vault
 Short description:
 
 ```text
-日本語フォームを読み取り、端末内Vaultのプロフィールから確認つきで自動入力します。
+Multilingual form autofill with a local profile vault and user confirmation.
 ```
 
 Category:
 
 ```text
-Productivity
+Workflow and Planning
 ```
 
-Language:
+Primary language:
 
 ```text
-Japanese
+English
+```
+
+Localized extension UI:
+
+```text
+English, Japanese, Spanish, French, German, Portuguese (Brazil), Korean, Chinese (Simplified)
 ```
 
 Detailed description:
 
 ```text
-FormPilot Vaultは、会員登録、資料請求、問い合わせ、イベント申込、無料トライアル登録などで発生する反復入力を減らすChrome拡張です。
+FormPilot Vault is a multilingual Chrome extension that reduces repetitive form-filling work for signups, contact forms, applications, event registrations, and trial forms.
 
-フォーム上のラベル、placeholder、autocomplete、選択肢、周辺テキストを読み取り、入力欄の意味を推定します。氏名、住所、電話番号、メール、会社情報などの実値は、ユーザーの端末内Vaultから入力します。
+It reads form labels, placeholders, autocomplete hints, options, and nearby text to understand what each field means. Profile values such as name, address, phone number, email, and company details are filled from the user's local Vault after user action.
 
-AIへ送るのはフォーム構造だけです。プロフィールの実値、入力済みvalue、Cookie、Authorization情報、パスワードは送信しません。
+The AI receives form structure only. It does not receive raw profile values, existing input values, cookies, authorization data, verification codes, or passwords.
 
-送信ボタンは自動で押しません。入力後は必ずユーザーが内容を確認して送信します。CAPTCHA、SMS認証、メール認証、本人確認の突破や、大量アカウント作成を目的にした機能は提供しません。
+FormPilot Vault does not click submit buttons. The user always reviews the filled form before submitting. It does not bypass CAPTCHA, SMS verification, email verification, identity checks, or create accounts in bulk.
 
-Freeは月5回まで利用できます。Plus/Pro/Teamでは、利用回数、複数プロフィール、会社プロフィール、チーム用途へ広げます。
+The extension UI is localized for English, Japanese, Spanish, French, German, Portuguese, Korean, and Simplified Chinese. The form understanding rules cover common labels in those languages.
+
+Free includes 5 fills per month. Plus, Pro, and Team plans unlock higher usage, multiple profiles, company profiles, and learned site mappings.
 ```
 
 ## Privacy Practices
@@ -87,7 +96,8 @@ User data disclosure:
 ```text
 Collected/stored locally:
 - Personally identifiable information entered by the user into the local profile Vault, such as name, email, phone number, address, company, department, and title.
-- Usage count, license key, entitlement state, and site-specific mapping memory.
+- Generated password values if the user keeps them in the local Vault.
+- Usage count, license key, entitlement state, site origin/path mapping memory, and correction memory.
 
 Sent to server:
 - Form structure from the active page, such as field labels, placeholder text, autocomplete attributes, field types, option labels, and nearby text.
@@ -119,13 +129,13 @@ Public
 Countries:
 
 ```text
-Japan first
+Worldwide
 ```
 
 Pricing in Chrome Web Store:
 
 ```text
-Free install. Paid upgrades are handled outside Chrome Web Store through Stripe.
+In-app purchases. The extension can be installed without paying, and paid upgrades are handled through Stripe Checkout.
 ```
 
 Paid plans:
@@ -140,7 +150,29 @@ Team: 1,500円/人/月
 Publishing:
 
 ```text
-Automatic publish after review is acceptable for MVP.
+Automatic publish after review is acceptable for MVP unless DD wants staged publishing.
+```
+
+## Localization Notes
+
+Chrome extension package localization:
+
+```text
+The submitted ZIP includes default_locale: en and _locales for en, ja, es, fr, de, pt_BR, ko, and zh_CN.
+```
+
+Recommended first Store Listing locales:
+
+```text
+English: primary
+Japanese: already prepared
+Spanish, Portuguese (Brazil), French, German, Korean, Chinese (Simplified): add after initial review if the dashboard allows localized listings without slowing submission.
+```
+
+Global positioning:
+
+```text
+Use "multilingual form autofill" rather than "Japanese-only form autofill" for global listing copy. The strongest local claim remains Japanese form support, but the product now scans common labels in English, Japanese, Spanish, French, German, Portuguese, Korean, and Chinese.
 ```
 
 ## Test Instructions For Reviewers
@@ -162,12 +194,18 @@ No test account is required.
 The extension uses only activeTab, so it reads and fills the current page only after the user opens the popup and starts the action.
 ```
 
+## Dashboard入力済み
+
+- Item ID: `kmlcabffhmenjajmlnkkglphjnbaahlf`
+- 多言語ZIP upload済み
+- Store Listing保存済み
+- Privacy保存済み
+- Distribution: Public / Worldwide / In-app purchases
+- Test instructions保存済み
+- `Submit for review` ボタンは有効。ただし未クリック。
+
 ## 人間操作が必要な停止点
 
-- Chrome Web Store Developer Dashboardへのログイン
-- 初回開発者登録、本人確認、支払い/登録費確認が出た場合の承認
-- Item upload: `dist/ai-form-autofill-0.1.0.zip`
-- Store Listing / Privacy / Distribution / Test instructions の貼り付け
 - 最終 `Submit for Review` ボタン
 - 審査後の公開確認または差し戻し対応
 

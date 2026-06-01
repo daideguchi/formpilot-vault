@@ -9,9 +9,18 @@ const checks = [];
 const warnings = [];
 
 await checkFile("extension/manifest.json");
+await checkFile("extension/_locales/en/messages.json");
+await checkFile("extension/_locales/ja/messages.json");
+await checkFile("extension/_locales/es/messages.json");
+await checkFile("extension/_locales/fr/messages.json");
+await checkFile("extension/_locales/de/messages.json");
+await checkFile("extension/_locales/pt_BR/messages.json");
+await checkFile("extension/_locales/ko/messages.json");
+await checkFile("extension/_locales/zh_CN/messages.json");
 await checkFile("dist/ai-form-autofill-0.1.0.zip");
 await checkFile("site/privacy.html");
 await checkFile("site/terms.html");
+await checkFile("site/support.html");
 await checkFile("docs/12_chrome_store_listing_copy.md");
 await checkFile("docs/14_chrome_web_store_submission_packet.md");
 await checkPng("store-assets/icon-128.png", 128, 128);

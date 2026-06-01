@@ -22,11 +22,12 @@ console.log(JSON.stringify({
   routes: [
     "/api/health",
     "/api/schema/infer",
-    "/api/stripe/checkout-session",
-    "/api/stripe/webhook",
-    "/api/entitlement/check"
-  ]
-}, null, 2));
+      "/api/stripe/checkout-session",
+      "/api/stripe/webhook",
+      "/api/entitlement/check",
+      "/support.html"
+    ]
+  }, null, 2));
 
 async function copySite() {
   await fs.cp(path.join(root, "site"), out, { recursive: true });

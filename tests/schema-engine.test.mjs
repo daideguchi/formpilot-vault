@@ -51,6 +51,25 @@ test("keeps provider routing on Azure through 2026-06-06 and Cloudflare after", 
   assert.equal(getProviderForDate(new Date("2026-06-07T03:00:00+09:00")).id, "cloudflare_workers_ai_free");
 });
 
+test("maps common multilingual signup fields to profile keys", () => {
+  const fields = [
+    { field_id: "es_last", tag: "input", type: "text", label: "Apellido", visible: true },
+    { field_id: "fr_first", tag: "input", type: "text", label: "Prénom", visible: true },
+    { field_id: "de_postal", tag: "input", type: "text", label: "Postleitzahl", visible: true },
+    { field_id: "pt_company", tag: "input", type: "text", label: "Empresa", visible: true },
+    { field_id: "ko_phone", tag: "input", type: "text", label: "전화번호", visible: true },
+    { field_id: "zh_city", tag: "input", type: "text", label: "城市", visible: true }
+  ];
+
+  const schema = buildSchema(fields);
+  assert.equal(schema.es_last.semantic_key, "person.name.last");
+  assert.equal(schema.fr_first.semantic_key, "person.name.first");
+  assert.equal(schema.de_postal.semantic_key, "person.address.postal_code_auto");
+  assert.equal(schema.pt_company.semantic_key, "company.name");
+  assert.equal(schema.ko_phone.semantic_key, "person.phone.mobile_auto");
+  assert.equal(schema.zh_city.semantic_key, "person.address.city");
+});
+
 test("enforces free monthly fill limit and tracks safe usage events", () => {
   const date = new Date("2026-06-15T12:00:00+09:00");
   const monthKey = getCurrentMonthKey(date);

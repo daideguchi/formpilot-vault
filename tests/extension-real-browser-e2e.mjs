@@ -73,6 +73,7 @@ try {
   const popup = await context.newPage();
   await popup.goto(`chrome-extension://${extensionId}/popup.html`);
   await popup.waitForSelector("#memoryStatus");
+  assert.equal(await popup.locator("h1").textContent(), "FormPilot Vault");
   await popup.screenshot({ path: path.join(evidenceDir, "real-extension-popup-loaded.png"), fullPage: true });
 
   assert.equal(await signupPage.locator("#lastName").inputValue(), "山田");
@@ -83,8 +84,8 @@ try {
   assert.equal(await signupPage.locator("#company").inputValue(), "株式会社サンプル");
 
   await popup.locator("#licenseKey").fill("lic_real_browser_demo");
-  await popup.getByRole("button", { name: "Check" }).click();
-  await popup.waitForFunction(() => document.querySelector("#usageStatus")?.textContent?.includes("PLUS plan"));
+  await popup.locator("#checkLicense").click();
+  await popup.waitForFunction(() => document.querySelector("#usageStatus")?.textContent?.includes("PLUS"));
   await popup.screenshot({ path: path.join(evidenceDir, "real-extension-popup-license.png"), fullPage: true });
   await signupPage.screenshot({ path: path.join(evidenceDir, "real-extension-filled-form.png"), fullPage: true });
 

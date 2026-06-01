@@ -1,9 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "FormPilot Vault",
-  "short_name": "FormPilot",
+  "name": "__MSG_extName__",
+  "short_name": "__MSG_extShortName__",
   "version": "0.1.0",
-  "description": "Japanese form autofill with a local profile vault and user confirmation.",
+  "description": "__MSG_extDescription__",
+  "default_locale": "en",
   "permissions": ["activeTab", "scripting", "storage"],
   "icons": {
     "16": "icons/icon16.png",
@@ -15,7 +16,7 @@
     "service_worker": "background.js"
   },
   "action": {
-    "default_title": "FormPilot Vault",
+    "default_title": "__MSG_extName__",
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icons/icon16.png",

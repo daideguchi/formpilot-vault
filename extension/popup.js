@@ -40,6 +40,7 @@ let vaultState = null;
 init();
 
 async function init() {
+  localizeStaticText();
   const provider = getProviderForDate(new Date());
   providerStatus.textContent = provider.label;
 
@@ -62,7 +63,7 @@ saveProfile.addEventListener("click", async () => {
   const profile = parseProfile();
   vaultState = updateActiveProfileValues(vaultState, profile);
   await chrome.storage.local.set({ [VAULT_STORAGE_KEY]: vaultState, profile });
-  planSummary.textContent = "Profile saved to local Vault.";
+  planSummary.textContent = t("profileSaved");
   renderMemory();
 });
 
@@ -86,7 +87,7 @@ fillPage.addEventListener("click", async () => {
   const fillable = currentPlan.filter((item) => item.action === "fill" || item.action === "select");
   const gate = canUseFill({ entitlement, usage, date: new Date() });
   if (!gate.allowed) {
-    planSummary.textContent = "Free monthly limit reached. Upgrade to continue filling forms.";
+    planSummary.textContent = t("freeLimitReached");
     renderUsage();
     return;
   }
@@ -120,7 +121,7 @@ fillPage.addEventListener("click", async () => {
     await chrome.storage.local.set({ usage, [VAULT_STORAGE_KEY]: vaultState });
     renderMemory(buildMemoryContext({ vaultState, url: tab.url || "", fields: currentFields }));
   }
-  planSummary.textContent = `Filled ${response?.filled || 0} fields. Please review before submit.`;
+  planSummary.textContent = t("filledReview", [String(response?.filled || 0)]);
   renderUsage();
 });
 
@@ -138,10 +139,10 @@ checkLicense.addEventListener("click", async () => {
     await chrome.storage.local.set({ entitlement, licenseKey: license });
     renderUsage();
     planSummary.textContent = remoteEntitlement.active
-      ? `${remoteEntitlement.plan.toUpperCase()} license active.`
-      : "License was not active. Free plan remains enabled.";
+      ? t("licenseActive", [remoteEntitlement.plan.toUpperCase()])
+      : t("licenseInactive");
   } catch (error) {
-    planSummary.textContent = `License check failed: ${error.message}`;
+    planSummary.textContent = t("licenseFailed", [error.message]);
   }
 });
 
@@ -149,13 +150,13 @@ function parseProfile() {
   try {
     return JSON.parse(profileJson.value);
   } catch (error) {
-    throw new Error(`Profile JSON is invalid: ${error.message}`);
+    throw new Error(t("profileJsonInvalid", [error.message]));
   }
 }
 
 async function getActiveTab() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  if (!tab?.id) throw new Error("No active tab");
+  if (!tab?.id) throw new Error(t("noActiveTab"));
   return tab;
 }
 
@@ -170,7 +171,7 @@ function renderPlan(plan, fieldCount) {
   const fillable = plan.filter((item) => item.action === "fill" || item.action === "select");
   const asks = plan.filter((item) => item.action === "ask");
   fillPage.disabled = fillable.length === 0;
-  planSummary.textContent = `${fieldCount} fields scanned / ${fillable.length} ready / ${asks.length} need review`;
+  planSummary.textContent = t("planSummary", [String(fieldCount), String(fillable.length), String(asks.length)]);
   planList.innerHTML = "";
 
   for (const item of plan) {
@@ -180,12 +181,12 @@ function renderPlan(plan, fieldCount) {
     const left = document.createElement("div");
     const label = document.createElement("div");
     label.className = "plan-label";
-    label.textContent = item.display_label || item.profile_key || item.field_id;
+    label.textContent = semanticLabel(item.profile_key) || item.display_label || item.profile_key || item.field_id;
     const value = document.createElement("div");
     value.className = "plan-value";
-    const source = item.source === "mapping_cache" || item.source === "user_correction" ? "Memory" : "Rules";
+    const source = item.source === "mapping_cache" || item.source === "user_correction" ? t("sourceMemory") : t("sourceRules");
     value.textContent = item.action === "ask"
-      ? "Uncertain. User should answer manually."
+      ? t("uncertainManual")
       : `${item.value_preview} / ${source}`;
     left.append(label, value);
     if (item.action === "ask") {
@@ -205,10 +206,10 @@ function renderUsage() {
   const monthKey = getCurrentMonthKey(new Date());
   const fills = usage[monthKey]?.fills || 0;
   if (entitlement.plan && entitlement.plan !== "free") {
-    usageStatus.textContent = `${entitlement.plan.toUpperCase()} plan / ${fills} fills this month`;
+    usageStatus.textContent = t("paidUsage", [entitlement.plan.toUpperCase(), String(fills)]);
     return;
   }
-  usageStatus.textContent = `Free usage: ${fills}/${FREE_MONTHLY_FILL_LIMIT} fills this month`;
+  usageStatus.textContent = t("freeUsage", [String(fills), String(FREE_MONTHLY_FILL_LIMIT)]);
 }
 
 function ensureLicenseKey() {
@@ -224,23 +225,23 @@ function createCorrectionControls(item) {
   controls.className = "correction-controls";
 
   const select = document.createElement("select");
-  select.setAttribute("aria-label", "Profile key");
+  select.setAttribute("aria-label", t("profileKey"));
 
   const empty = document.createElement("option");
   empty.value = "";
-  empty.textContent = "Remember as...";
+  empty.textContent = t("rememberAs");
   select.append(empty);
 
   for (const [key, label] of Object.entries(SEMANTIC_LABELS)) {
     const option = document.createElement("option");
     option.value = key;
-    option.textContent = `${label} (${key})`;
+    option.textContent = `${semanticLabel(key) || label} (${key})`;
     select.append(option);
   }
 
   const button = document.createElement("button");
   button.type = "button";
-  button.textContent = "Learn";
+  button.textContent = t("learn");
   button.addEventListener("click", () => rememberCorrection(item, select.value));
 
   controls.append(select, button);
@@ -269,12 +270,35 @@ async function rememberCorrection(item, profileKey) {
   currentPlan = buildInputPlan({ fields: currentFields, schema, profile });
   renderPlan(currentPlan, currentFields.length);
   renderMemory(memoryContext);
-  planSummary.textContent = "Memory updated. Review the refreshed input plan.";
+  planSummary.textContent = t("memoryUpdated");
 }
 
 function renderMemory(memoryContext = null) {
   if (!memoryStatus) return;
   const summary = summarizeMemory(vaultState);
   const hits = memoryContext ? Object.keys(memoryContext.field_mappings || {}).length : 0;
-  memoryStatus.textContent = `${summary.profiles} profile / ${summary.mapping_cache} learned mappings / ${hits} hits on this form`;
+  memoryStatus.textContent = t("memorySummary", [String(summary.profiles), String(summary.mapping_cache), String(hits)]);
+}
+
+function localizeStaticText() {
+  const uiLanguage = chrome.i18n?.getUILanguage?.() || "en";
+  document.documentElement.lang = uiLanguage.replace("_", "-");
+  document.title = t("extName");
+  for (const node of document.querySelectorAll("[data-i18n]")) {
+    const value = t(node.dataset.i18n);
+    if (value) node.textContent = value;
+  }
+  for (const node of document.querySelectorAll("[data-i18n-placeholder]")) {
+    const value = t(node.dataset.i18nPlaceholder);
+    if (value) node.setAttribute("placeholder", value);
+  }
+}
+
+function semanticLabel(key = "") {
+  if (!key) return "";
+  return t(`semantic_${key.replaceAll(".", "_")}`) || "";
+}
+
+function t(key, substitutions = []) {
+  return chrome.i18n?.getMessage?.(key, substitutions) || "";
 }
