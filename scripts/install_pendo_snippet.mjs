@@ -2,7 +2,12 @@ import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const root = path.resolve('.');
-const indexPaths = [path.join(root, 'index.html'), path.join(root, 'site', 'index.html')];
+const surfacePaths = [
+  path.join(root, 'index.html'),
+  path.join(root, 'demo.html'),
+  path.join(root, 'site', 'index.html'),
+  path.join(root, 'site', 'demo.html'),
+];
 const publicAppId = process.env.PENDO_PUBLIC_APP_ID || process.env.PENDO_API_KEY || '';
 const visitorId = process.env.PENDO_VISITOR_ID || 'formpilot-public-demo';
 const accountId = process.env.PENDO_ACCOUNT_ID || 'formpilot-vault';
@@ -61,17 +66,17 @@ function replaceOrInsert(html, snippet) {
     return html.replace(pattern, snippet);
   }
   if (!html.includes('</head>')) {
-    throw new Error('index.html is missing </head>');
+    throw new Error('HTML surface is missing </head>');
   }
   return html.replace('</head>', `${snippet}\n</head>`);
 }
 
 async function main() {
   assertSafePublicAppId(publicAppId);
-  for (const indexPath of indexPaths) {
-    const html = await readFile(indexPath, 'utf8');
+  for (const surfacePath of surfacePaths) {
+    const html = await readFile(surfacePath, 'utf8');
     const next = replaceOrInsert(html, buildSnippet());
-    await writeFile(indexPath, next, 'utf8');
+    await writeFile(surfacePath, next, 'utf8');
     }
   console.log('pendo_snippet_installed');
   console.log('public_app_id_installed=true');
