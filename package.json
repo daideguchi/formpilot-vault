@@ -28,6 +28,7 @@
     "release:check:strict": "node scripts/release-readiness.mjs --strict",
     "novus:install": "node scripts/install_pendo_snippet.mjs",
     "novus:verify": "python3 scripts/verify_novus_installed.py",
+    "novus:public": "node scripts/verify-novus-public.mjs",
     "assets:store": "node scripts/generate-store-assets.mjs",
     "package:extension": "node scripts/package-extension.mjs",
     "preview:shot": "node scripts/generate-product-preview.mjs",

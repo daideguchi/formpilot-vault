@@ -8,18 +8,31 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 INDEX = ROOT / "index.html"
+DEMO = ROOT / "demo.html"
+SITE_INDEX = ROOT / "site" / "index.html"
+SITE_DEMO = ROOT / "site" / "demo.html"
 PROOF_FILE = ROOT / "submission" / "evidence" / "novus-dashboard.png"
 MIN_PROOF_BYTES = 20_000
 
 
 def main() -> int:
     failures: list[str] = []
-    index_text = INDEX.read_text(encoding="utf-8").lower()
+    surfaces = {
+        "index.html": INDEX,
+        "demo.html": DEMO,
+        "site/index.html": SITE_INDEX,
+        "site/demo.html": SITE_DEMO,
+    }
 
-    if "pendo.initialize" not in index_text:
-        failures.append("index.html does not contain pendo.initialize")
-    if "pendo" not in index_text:
-        failures.append("index.html does not contain a Pendo/Novus snippet marker")
+    for name, path in surfaces.items():
+        if not path.exists():
+            failures.append(f"missing Novus surface: {name}")
+            continue
+        text = path.read_text(encoding="utf-8").lower()
+        if "pendo.initialize" not in text:
+            failures.append(f"{name} does not contain pendo.initialize")
+        if "pendo / novus install" not in text:
+            failures.append(f"{name} does not contain a Pendo/Novus snippet marker")
     if not PROOF_FILE.exists():
         failures.append(f"missing dashboard proof: {PROOF_FILE}")
     elif PROOF_FILE.stat().st_size < MIN_PROOF_BYTES:

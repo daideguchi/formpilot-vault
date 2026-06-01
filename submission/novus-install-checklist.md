@@ -15,7 +15,8 @@ Official references:
 1. Novus account/project access. `done via existing Novus/Pendo account`
 2. Novus installed on `https://daideguchi.github.io/formpilot-vault/` or on the final production URL. `snippet installed in repo`
 3. Screenshot of the Novus dashboard showing the install state. `attached`
-4. Short proof note explaining what Novus sees:
+4. Public smoke command confirming the live pages send Pendo/Novus requests. `npm run novus:public`
+5. Short proof note explaining what Novus sees:
    - page view
    - language switch
    - proof-section view

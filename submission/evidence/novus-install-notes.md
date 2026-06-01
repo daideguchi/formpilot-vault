@@ -10,6 +10,8 @@ Installed surfaces:
 
 - `index.html`
 - `site/index.html`
+- `demo.html`
+- `site/demo.html`
 
 Public URL:
 
@@ -36,4 +38,9 @@ The local verifier now passes.
 ```bash
 npm run novus:install
 npm run novus:verify
+npm run novus:public
 ```
+
+## Latest Public Smoke
+
+`npm run novus:public` opens the public app and demo page, confirms the `pendo` object exists, confirms `pendo.track` is available, observes `pendo.io` requests, and checks that the pages have no horizontal overflow.
