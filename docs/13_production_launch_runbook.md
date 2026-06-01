@@ -5,7 +5,7 @@
 
 ## ゴール
 
-Chrome拡張を公開し、Plus/Pro/Teamの課金が運営者のStripeへ入り、拡張側のLicense checkで有料権利が解除される状態にする。
+Chrome拡張を公開し、Plus/Pro/Teamの課金がDDのStripeへ入り、拡張側のLicense checkで有料権利が解除される状態にする。
 
 ## いま達成済み
 
@@ -22,7 +22,7 @@ Chrome拡張を公開し、Plus/Pro/Teamの課金が運営者のStripeへ入り�
 - 実ブラウザ拡張E2E
 - release readiness check
 - Vercel本番LP/API: `https://formpilot-vault-api.vercel.app/`
-- Production Stripe bridge: `production Stripe bridge endpoint`
+- Kurogane Stripe本番ブリッジ: `https://kurogane-edge-core-lp.vercel.app/api/formpilot/*`
 - 本番Stripe Checkout Session作成
 - 本番License check Free/月5回応答
 - AI schema proxyの `rules_fallback`
@@ -36,7 +36,7 @@ Chrome拡張を公開し、Plus/Pro/Teamの課金が運営者のStripeへ入り�
 - LP/API: `https://formpilot-vault-api.vercel.app/`
 - Checkout: `POST https://formpilot-vault-api.vercel.app/api/stripe/checkout-session`
 - Entitlement: `POST https://formpilot-vault-api.vercel.app/api/entitlement/check`
-- Stripe bridge: `production Stripe bridge endpoint`
+- Stripe bridge: `https://kurogane-edge-core-lp.vercel.app/api/formpilot`
 - Extension config: `extension/src/release-config.js`
 - Extension ZIP: `dist/ai-form-autofill-0.1.0.zip`
 
@@ -52,11 +52,25 @@ vercel deploy --prod --yes --scope daideguchis-projects
 
 環境変数:
 
-- `FORMPILOT_STRIPE_BRIDGE_BASE_URL=production Stripe bridge endpoint`
+- `FORMPILOT_STRIPE_BRIDGE_BASE_URL=https://kurogane-edge-core-lp.vercel.app/api/formpilot`
 - `PUBLIC_SITE_URL=https://formpilot-vault-api.vercel.app`
 - `ENTITLEMENT_SOURCE=stripe_bridge`
 
 ## 本番確認コマンド
+
+まず一括確認:
+
+```bash
+npm run check:production
+```
+
+AI providerまでlive必須で見る場合:
+
+```bash
+npm run check:production:strict-ai
+```
+
+個別確認:
 
 ```bash
 curl https://formpilot-vault-api.vercel.app/api/health
@@ -143,11 +157,12 @@ npm run deploy:worker
 
 ## 現在のブロッカー
 
-- Chrome Web Store提出は開発者アカウント/審査操作が必要
-- Azure DeepSeek V4の本番endpoint/key未投入
+- Chrome Web Storeの最終 `Submit for review` はDD確認が必要
+- Azure DeepSeek V4の本番endpoint/key未投入。既存Azure AI Servicesは見えるがmodel deploymentは空
 
 ## 現在の非ブロッカー
 
 - Cloudflare CLI未ログイン
 - Cloudflare D1 `database_id` 未設定
 - Worker本番deploy未実施
+- 通常リリースではAI provider未投入時も `rules_fallback` で動作する。`check:production:strict-ai` だけはこれをブロッカー扱いにする。

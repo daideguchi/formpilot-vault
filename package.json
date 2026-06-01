@@ -28,7 +28,9 @@
     "novus:verify": "python3 scripts/verify_novus_installed.py",
     "assets:store": "node scripts/generate-store-assets.mjs",
     "package:extension": "node scripts/package-extension.mjs",
-    "preview:shot": "node scripts/generate-product-preview.mjs"
+    "preview:shot": "node scripts/generate-product-preview.mjs",
+    "check:production": "node scripts/check-production-connections.mjs",
+    "check:production:strict-ai": "node scripts/check-production-connections.mjs --strict-ai-live"
   },
   "devDependencies": {
     "playwright": "^1.59.1"

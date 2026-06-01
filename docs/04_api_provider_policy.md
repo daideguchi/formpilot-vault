@@ -1,7 +1,7 @@
 # API Provider Policy
 
 作成日: 2026-06-01
-決定者: Product owner
+決定者: DD
 
 ## 決定
 
@@ -40,7 +40,7 @@ extension popup
 
 ## 実プロンプトへ入れたDD方針
 
-`api/schema-proxy/schema-proxy.js` の `buildSchemaPrompt()` に、初期プロダクト方針を実際のプロンプトとして入れています。
+`api/schema-proxy/schema-proxy.js` の `buildSchemaPrompt()` に、DDの初期思想を実際のプロンプトとして入れています。
 
 - フォーム入力の細かな手間をなくす
 - コア価値は `Personal Vault + Profile RAG/Memory Space + form understanding`
@@ -60,6 +60,14 @@ extension popup
 - Azure AI Content Safetyを有効にする
 - DeepSeek-V4-Proは安全性評価の注意があるため、フォーム構造分類だけに用途を絞る
 - 個人情報の実値は送らない
+
+2026-06-01確認:
+
+- Azure CLIは `degutidai@gmail.com` でログイン済み
+- 既存Azure AI Services: `degutidai-1418-resource`, `degutidai-5815-resource`
+- 両方ともmodel deploymentは空
+- Vercel本番にも `AZURE_DEEPSEEK_ENDPOINT` / `AZURE_DEEPSEEK_API_KEY` は未投入
+- 現在は `rules_fallback` で継続稼働する
 
 ## Cloudflare期間
 
