@@ -137,11 +137,17 @@
   "semantic_person_email_primary": {
     "message": "E-posta"
   },
+  "semantic_person_phone_country_code": {
+    "message": "Ülke kodu"
+  },
   "semantic_person_phone_mobile_auto": {
     "message": "Telefon"
   },
   "semantic_person_address_postal_code_auto": {
     "message": "Posta kodu"
+  },
+  "semantic_person_address_country": {
+    "message": "Ülke"
   },
   "semantic_person_address_prefecture": {
     "message": "İl / bölge"

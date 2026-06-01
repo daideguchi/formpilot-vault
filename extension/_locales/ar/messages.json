@@ -137,11 +137,17 @@
   "semantic_person_email_primary": {
     "message": "البريد الإلكتروني"
   },
+  "semantic_person_phone_country_code": {
+    "message": "رمز الدولة"
+  },
   "semantic_person_phone_mobile_auto": {
     "message": "الهاتف"
   },
   "semantic_person_address_postal_code_auto": {
     "message": "الرمز البريدي"
+  },
+  "semantic_person_address_country": {
+    "message": "البلد"
   },
   "semantic_person_address_prefecture": {
     "message": "المنطقة / المحافظة"

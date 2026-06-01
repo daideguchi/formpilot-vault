@@ -137,11 +137,17 @@
   "semantic_person_email_primary": {
     "message": "อีเมล"
   },
+  "semantic_person_phone_country_code": {
+    "message": "รหัสประเทศ"
+  },
   "semantic_person_phone_mobile_auto": {
     "message": "โทรศัพท์"
   },
   "semantic_person_address_postal_code_auto": {
     "message": "รหัสไปรษณีย์"
+  },
+  "semantic_person_address_country": {
+    "message": "ประเทศ"
   },
   "semantic_person_address_prefecture": {
     "message": "จังหวัด / ภูมิภาค"

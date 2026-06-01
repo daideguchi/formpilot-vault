@@ -29,6 +29,7 @@
     "check:production": "node scripts/check-production-connections.mjs",
     "check:production:strict-ai": "node scripts/check-production-connections.mjs --strict-ai-live",
     "check:cloudflare": "node scripts/check-cloudflare-readiness.mjs",
+    "check:cloudflare:live": "node scripts/check-cloudflare-live.mjs",
     "i18n:sync": "node scripts/sync-extension-locales.mjs",
     "assets:store": "node scripts/generate-store-assets.mjs",
     "package:extension": "node scripts/package-extension.mjs",

@@ -73,6 +73,44 @@ test("worker checkout route creates Stripe sessions", async () => {
   assert.equal(json.plan, "pro");
 });
 
+test("worker checkout and entitlement can proxy to the production Stripe bridge", async () => {
+  const calls = [];
+  const fetchImpl = async (url, request = {}) => {
+    calls.push({ url, method: request.method || "GET", body: request.body || "" });
+    if (url === "https://bridge.example.test/checkout") {
+      assert.equal(request.method, "POST");
+      assert.deepEqual(JSON.parse(request.body), { plan: "plus", license_key: "afa_bridge" });
+      return {
+        ok: true,
+        json: async () => ({ id: "cs_bridge", url: "https://checkout.stripe.test/cs_bridge" })
+      };
+    }
+    if (url === "https://bridge.example.test/entitlement?license_key=afa_bridge") {
+      return {
+        ok: true,
+        json: async () => ({ license_key: "afa_bridge", plan: "plus", active: true })
+      };
+    }
+    throw new Error(`unexpected_bridge_url:${url}`);
+  };
+
+  const env = {
+    FORMPILOT_STRIPE_BRIDGE_BASE_URL: "https://bridge.example.test/",
+    fetchImpl
+  };
+  const checkout = await handleWorkerRequest(new Request("https://app.example.test/api/stripe/checkout-session", {
+    method: "POST",
+    body: JSON.stringify({ plan: "plus", license_key: "afa_bridge" })
+  }), env);
+  assert.equal(checkout.status, 200);
+  assert.equal((await checkout.json()).id, "cs_bridge");
+
+  const entitlement = await handleWorkerRequest(new Request("https://app.example.test/api/entitlement/check?license_key=afa_bridge"), env);
+  assert.equal(entitlement.status, 200);
+  assert.equal((await entitlement.json()).plan, "plus");
+  assert.equal(calls.length, 2);
+});
+
 test("worker Stripe webhook verifies raw body and persists entitlement", async () => {
   const DB = createMockD1();
   const rawBody = JSON.stringify({

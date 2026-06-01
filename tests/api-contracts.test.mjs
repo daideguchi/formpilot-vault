@@ -3,7 +3,8 @@ import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import { SAMPLE_PROFILE } from "../extension/src/profile-formatters.js";
 import { buildMemoryContext, createVaultState } from "../extension/src/profile-memory.js";
-import { buildSchemaInferencePayload } from "../extension/src/ai-payload.js";
+import { buildSchemaInferencePayload, payloadContainsProfileValues } from "../extension/src/ai-payload.js";
+import { inferSchemaFromApi } from "../extension/src/schema-client.js";
 import {
   buildSchemaPrompt,
   inferSchemaWithProxy,
@@ -28,7 +29,7 @@ test("schema proxy rejects unsafe field payloads and accepts safe memory context
   assert.doesNotThrow(() => validateSchemaPayload(payload));
   assert.throws(() => validateSchemaPayload({ ...payload, fields: [{ ...fields[0], value: "山田" }] }), /unsafe_field_key:value/);
   assert.match(buildSchemaPrompt(payload), /Return strict JSON only/);
-  assert.match(buildSchemaPrompt(payload), /DD_CORE_PROMPT/);
+  assert.match(buildSchemaPrompt(payload), /Product core rules/);
   assert.match(buildSchemaPrompt(payload), /Personal Vault \+ Profile RAG\/Memory Space/);
   assert.match(buildSchemaPrompt(payload), /locale_context/);
 
@@ -39,6 +40,31 @@ test("schema proxy rejects unsafe field payloads and accepts safe memory context
   });
   assert.equal(result.provider_id, "azure_deepseek_v4");
   assert.equal(result.mappings.field_001.semantic_key, null);
+});
+
+test("schema proxy ignores provider keys that are not submitted field ids", async () => {
+  const payload = {
+    task: "form_schema_mapping",
+    fields: [{ field_id: "field_001", tag: "input", type: "email", label: "Email", visible: true }]
+  };
+  const result = await inferSchemaWithProxy({
+    payload,
+    env: {
+      AFA_SCHEMA_PROVIDER_ID: "cloudflare_workers_ai_free",
+      AI: {
+        run: async () => ({
+          response: "{\"DD_CORE_PROMPT\":{\"semantic_key\":\"person.name.last\",\"confidence\":0.99}}"
+        })
+      }
+    },
+    date: new Date("2026-06-07T12:00:00+09:00")
+  });
+
+  assert.equal(result.provider_id, "cloudflare_workers_ai_free");
+  assert.equal(result.mode, "live");
+  assert.deepEqual(Object.keys(result.mappings), ["field_001"]);
+  assert.equal(result.mappings.field_001.semantic_key, "person.email.primary");
+  assert.match(result.mappings.field_001.reason, /rules:type/);
 });
 
 test("Stripe Checkout session is created server-side for paid plans", async () => {
@@ -161,6 +187,56 @@ test("extension entitlement client stores only normalized active plan", async ()
 
   assert.equal(entitlement.plan, "pro");
   assert.equal(entitlement.active, true);
+});
+
+test("extension schema client calls API with safe locale-aware payload and falls back to valid keys", async () => {
+  const fields = [
+    { field_id: "field_001", tag: "input", type: "text", label: "Country", visible: true },
+    { field_id: "field_002", tag: "input", type: "text", label: "Email", visible: true }
+  ];
+  const vaultState = createVaultState({ profile: SAMPLE_PROFILE, now: new Date("2026-06-01T00:00:00+09:00") });
+  const memoryContext = buildMemoryContext({
+    vaultState,
+    url: "https://example.co.uk/signup",
+    fields,
+    localeContext: {
+      ui_language: "en-GB",
+      browser_languages: "en-GB,en-US",
+      page_language: "en",
+      text_direction: "ltr",
+      host_tld: "uk",
+      timezone: "Europe/London"
+    }
+  });
+
+  const schema = await inferSchemaFromApi({
+    fields,
+    memoryContext,
+    provider: { id: "cloudflare_workers_ai_free" },
+    apiUrl: "https://api.example.test/api/schema/infer",
+    fetchImpl: async (url, request) => {
+      assert.equal(url, "https://api.example.test/api/schema/infer");
+      const payload = JSON.parse(request.body);
+      assert.equal(payload.locale_context.ui_language, "en-GB");
+      assert.equal(payload.locale_context.host_tld, "uk");
+      assert.equal(payload.fields[0].value, undefined);
+      assert.equal(payloadContainsProfileValues(payload, SAMPLE_PROFILE), false);
+      return {
+        ok: true,
+        json: async () => ({
+          mode: "live",
+          mappings: {
+            field_001: { semantic_key: "person.address.country", confidence: 0.94 },
+            field_002: { semantic_key: "not.allowed", confidence: 0.99 }
+          }
+        })
+      };
+    }
+  });
+
+  assert.equal(schema.field_001.semantic_key, "person.address.country");
+  assert.equal(schema.field_001.source, "ai");
+  assert.equal(schema.field_002.semantic_key, "person.email.primary");
 });
 
 test("Stripe subscription metadata can be used as entitlement source", async () => {

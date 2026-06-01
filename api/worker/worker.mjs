@@ -41,16 +41,37 @@ export async function handleWorkerRequest(request, env = {}, _ctx = null) {
 
     if (request.method === "GET" && url.pathname === "/api/entitlement/check") {
       const licenseKey = url.searchParams.get("license_key");
+      const bridgeBaseUrl = normalizeBridgeBaseUrl(env.FORMPILOT_STRIPE_BRIDGE_BASE_URL);
+      if (bridgeBaseUrl) {
+        const bridgeUrl = new URL(`${bridgeBaseUrl}/entitlement`);
+        bridgeUrl.searchParams.set("license_key", licenseKey || "");
+        return json(await proxyJson({ url: bridgeUrl.toString(), fetchImpl: env.fetchImpl || fetch }));
+      }
       return json(await checkLicenseWithDb({ licenseKey, env }));
     }
 
     if (request.method === "POST" && url.pathname === "/api/entitlement/check") {
       const body = await request.json();
+      const bridgeBaseUrl = normalizeBridgeBaseUrl(env.FORMPILOT_STRIPE_BRIDGE_BASE_URL);
+      if (bridgeBaseUrl) {
+        const bridgeUrl = new URL(`${bridgeBaseUrl}/entitlement`);
+        bridgeUrl.searchParams.set("license_key", body.license_key || "");
+        return json(await proxyJson({ url: bridgeUrl.toString(), fetchImpl: env.fetchImpl || fetch }));
+      }
       return json(await checkLicenseWithDb({ licenseKey: body.license_key, env }));
     }
 
     if (request.method === "POST" && url.pathname === "/api/stripe/checkout-session") {
       const body = await request.json();
+      const bridgeBaseUrl = normalizeBridgeBaseUrl(env.FORMPILOT_STRIPE_BRIDGE_BASE_URL);
+      if (bridgeBaseUrl) {
+        return json(await proxyJson({
+          url: `${bridgeBaseUrl}/checkout`,
+          method: "POST",
+          body,
+          fetchImpl: env.fetchImpl || fetch
+        }));
+      }
       const session = await createCheckoutSession({
         plan: body.plan,
         license_key: body.license_key,
@@ -154,6 +175,31 @@ function readPricePlanMap(value) {
   } catch {
     return {};
   }
+}
+
+async function proxyJson({ url, method = "GET", body = null, fetchImpl = fetch }) {
+  const upstream = await fetchImpl(url, {
+    method,
+    headers: body ? { "content-type": "application/json" } : undefined,
+    body: body ? JSON.stringify(body) : undefined
+  });
+  const payload = await readJson(upstream);
+  if (!upstream.ok) {
+    return { error: payload.error || `bridge_http_${upstream.status}` };
+  }
+  return payload;
+}
+
+async function readJson(response) {
+  try {
+    return await response.json();
+  } catch {
+    return {};
+  }
+}
+
+function normalizeBridgeBaseUrl(value = "") {
+  return String(value).trim().replace(/\/+$/, "");
 }
 
 function json(data, init = {}) {

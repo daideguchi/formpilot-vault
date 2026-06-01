@@ -137,11 +137,17 @@
   "semantic_person_email_primary": {
     "message": "Email"
   },
+  "semantic_person_phone_country_code": {
+    "message": "Country code"
+  },
   "semantic_person_phone_mobile_auto": {
     "message": "Phone"
   },
   "semantic_person_address_postal_code_auto": {
     "message": "Postal code"
+  },
+  "semantic_person_address_country": {
+    "message": "Country"
   },
   "semantic_person_address_prefecture": {
     "message": "State / prefecture"

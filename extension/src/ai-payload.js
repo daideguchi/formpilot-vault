@@ -18,9 +18,13 @@ const SAFE_FIELD_KEYS = [
 
 const SAFE_LOCALE_CONTEXT_KEYS = [
   "ui_language",
+  "browser_languages",
   "page_language",
   "text_direction",
   "host_tld",
+  "timezone",
+  "calendar",
+  "numbering_system",
   "charset",
   "origin"
 ];

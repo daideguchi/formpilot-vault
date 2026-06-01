@@ -11,15 +11,24 @@ export const PROVIDER_SWITCH_POLICY = {
   cloudflare: {
     id: "cloudflare_workers_ai_free",
     label: "Cloudflare Workers AI",
-    primary_model: "@cf/zai-org/glm-4.7-flash",
-    fallback_model: "@cf/qwen/qwen3-30b-a3b-fp8",
+    primary_model: "@cf/meta/llama-3.2-3b-instruct",
+    fallback_model: "@cf/zai-org/glm-4.7-flash",
     free_allocation: "10000_neurons_per_day",
     call_from: "server_proxy_or_worker_only"
   }
 };
 
-export function getProviderForDate(date = new Date()) {
+export function getProviderForDate(date = new Date(), { overrideId = "" } = {}) {
   const ymd = toTokyoDateString(date);
+  const override = getProviderById(overrideId);
+  if (override) {
+    return {
+      ...override,
+      date: ymd,
+      label: `Provider override: ${override.id}`
+    };
+  }
+
   if (ymd <= PROVIDER_SWITCH_POLICY.azure_through) {
     return {
       ...PROVIDER_SWITCH_POLICY.azure,
@@ -34,6 +43,14 @@ export function getProviderForDate(date = new Date()) {
   };
 }
 
+export function getProviderById(providerId = "") {
+  const normalized = String(providerId).trim();
+  if (!normalized) return null;
+  if (normalized === PROVIDER_SWITCH_POLICY.azure.id) return PROVIDER_SWITCH_POLICY.azure;
+  if (normalized === PROVIDER_SWITCH_POLICY.cloudflare.id) return PROVIDER_SWITCH_POLICY.cloudflare;
+  return null;
+}
+
 export function toTokyoDateString(date) {
   const formatter = new Intl.DateTimeFormat("en-CA", {
     timeZone: PROVIDER_SWITCH_POLICY.timezone,
@@ -44,4 +61,3 @@ export function toTokyoDateString(date) {
   const parts = Object.fromEntries(formatter.formatToParts(date).map((part) => [part.type, part.value]));
   return `${parts.year}-${parts.month}-${parts.day}`;
 }
-

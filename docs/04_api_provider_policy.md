@@ -23,6 +23,7 @@ Chrome拡張からAzureやCloudflareを直接叩かない。
 - `api/schema-proxy/schema-proxy.js`
 - `api/schema-proxy/server.mjs`
 - `extension/src/ai-payload.js`
+- `extension/src/schema-client.js`
 
 ## ルーティング
 
@@ -37,6 +38,8 @@ extension popup
   -> extension local formatter
   -> content script fill
 ```
+
+Chrome拡張popupは本番schema APIを優先します。APIが失敗した場合だけ、拡張内のローカルルールへfallbackします。
 
 ## 実プロンプトへ入れたDD方針
 
@@ -66,15 +69,17 @@ extension popup
 - Azure CLIは `degutidai@gmail.com` でログイン済み
 - 既存Azure AI Services: `degutidai-1418-resource`, `degutidai-5815-resource`
 - 両方ともmodel deploymentは空
+- `DeepSeek-V4-Pro` / `DeepSeek-V4-Flash` はmodel listで確認済み
+- deployment作成は subscription `8bf38da5-83a9-4f59-b2f9-1b7cc66fc64d` が `ReadOnlyDisabledSubscription` のため失敗
 - Vercel本番にも `AZURE_DEEPSEEK_ENDPOINT` / `AZURE_DEEPSEEK_API_KEY` は未投入
 - 現在は `rules_fallback` で継続稼働する
 
 ## Cloudflare期間
 
-初期候補:
+現在の候補:
 
-- primary: `@cf/zai-org/glm-4.7-flash`
-- fallback: `@cf/qwen/qwen3-30b-a3b-fp8`
+- primary: `@cf/meta/llama-3.2-3b-instruct`
+- fallback: `@cf/zai-org/glm-4.7-flash`
 
 無料枠:
 
@@ -86,14 +91,17 @@ extension popup
 
 - Worker実装、AI binding設定、D1 entitlement migrationはrepo内にある
 - `wrangler` CLIはdevDependencyとして追加済み
-- Cloudflare loginは未確認/未完了
-- `wrangler.toml` のD1 `database_id` はplaceholderのまま
-- Cloudflare deploy / D1作成 / Workers AI binding本番確認はCloudflare login後の人間確認点
+- Cloudflare login済み: `dd.1107.11107@gmail.com`
+- D1 `ai-form-autofill-prod` 作成済み: `895767fa-8bc7-4811-9801-63d879eeb194`
+- D1 migration適用済み
+- Cloudflare Worker本番deploy済み: `https://ai-form-autofill.dd-1107-11107.workers.dev`
+- Workers AI live schema、Stripe Checkout bridge、Free entitlement bridgeは `npm run check:cloudflare:live` で通過
 
 確認コマンド:
 
 ```bash
 npm run check:cloudflare
+npm run check:cloudflare:live
 ```
 
 ## 応答JSON
@@ -118,3 +126,4 @@ AIは値ではなく対応関係だけ返す。
 - unsafe payloadの `value` / `selector` を拒否
 - Azure/Cloudflare風レスポンスを同じmapping形式へ正規化
 - AI payloadにプロフィール実値を含めない
+- Chrome拡張のschema clientが安全なlocale-aware payloadだけを本番APIへ送る

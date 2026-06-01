@@ -1,65 +1,197 @@
 {
-  "extName": { "message": "FormPilot Vault" },
-  "extShortName": { "message": "FormPilot" },
-  "extDescription": { "message": "Mehrsprachiges Formular-Autofill mit lokalem Profil-Tresor und Nutzerbestätigung." },
-  "eyebrow": { "message": "Lokales Profil / KI nur mit Schema" },
-  "appTitle": { "message": "FormPilot Vault" },
-  "profileVault": { "message": "Profil-Tresor" },
-  "sample": { "message": "Beispiel" },
-  "memoryLoading": { "message": "Tresor-Speicher: lädt" },
-  "save": { "message": "Speichern" },
-  "scanForm": { "message": "Formular scannen" },
-  "inputPlan": { "message": "Eingabeplan" },
-  "fill": { "message": "Ausfüllen" },
-  "openFormPrompt": { "message": "Öffne eine Formularseite und klicke auf Formular scannen." },
-  "plan": { "message": "Tarif" },
-  "upgrade": { "message": "Upgrade" },
-  "freeUsageLoading": { "message": "Free-Nutzung: lädt" },
-  "licenseKey": { "message": "Lizenzschlüssel" },
-  "check": { "message": "Prüfen" },
-  "upgradeCopy": { "message": "Free ist auf 5 Ausfüllungen pro Monat begrenzt. Upgrade aktiviert unbegrenztes Ausfüllen, mehrere Profile und Website-Memory." },
-  "footnote": { "message": "Kein Klick auf Senden. Persönliche Werte bleiben lokal." },
-  "profileSaved": { "message": "Profil im lokalen Tresor gespeichert." },
-  "freeLimitReached": { "message": "Monatliches Free-Limit erreicht. Upgrade zum weiteren Ausfüllen." },
-  "filledReview": { "message": "$1 Felder ausgefüllt. Bitte vor dem Absenden prüfen." },
-  "licenseActive": { "message": "$1-Lizenz aktiv." },
-  "licenseInactive": { "message": "Lizenz ist nicht aktiv. Free bleibt aktiviert." },
-  "licenseFailed": { "message": "Lizenzprüfung fehlgeschlagen: $1" },
-  "profileJsonInvalid": { "message": "Profil-JSON ist ungültig: $1" },
-  "noActiveTab": { "message": "Kein aktiver Tab" },
-  "planSummary": { "message": "$1 Felder gescannt / $2 bereit / $3 zu prüfen" },
-  "sourceMemory": { "message": "Memory" },
-  "sourceRules": { "message": "Regeln" },
-  "uncertainManual": { "message": "Unsicher. Nutzer sollte manuell antworten." },
-  "profileKey": { "message": "Profilschlüssel" },
-  "rememberAs": { "message": "Merken als..." },
-  "learn": { "message": "Lernen" },
-  "memoryUpdated": { "message": "Memory aktualisiert. Prüfe den neuen Eingabeplan." },
-  "memorySummary": { "message": "$1 Profil / $2 gelernte Zuordnungen / $3 Treffer in diesem Formular" },
-  "paidUsage": { "message": "$1-Tarif / $2 Ausfüllungen diesen Monat" },
-  "freeUsage": { "message": "Free-Nutzung: $1/$2 Ausfüllungen diesen Monat" },
-  "semantic_person_name_full": { "message": "Vollständiger Name" },
-  "semantic_person_name_last": { "message": "Nachname" },
-  "semantic_person_name_first": { "message": "Vorname" },
-  "semantic_person_name_full_kana": { "message": "Vollständiger Name Kana" },
-  "semantic_person_name_last_kana": { "message": "Nachname Kana" },
-  "semantic_person_name_first_kana": { "message": "Vorname Kana" },
-  "semantic_person_email_primary": { "message": "E-Mail" },
-  "semantic_person_phone_mobile_auto": { "message": "Telefon" },
-  "semantic_person_address_postal_code_auto": { "message": "Postleitzahl" },
-  "semantic_person_address_prefecture": { "message": "Bundesland / Region" },
-  "semantic_person_address_city": { "message": "Stadt" },
-  "semantic_person_address_line1": { "message": "Adresszeile 1" },
-  "semantic_person_address_line2": { "message": "Adresszeile 2" },
-  "semantic_person_address_full": { "message": "Adresse" },
-  "semantic_person_birthdate_year": { "message": "Geburtsjahr" },
-  "semantic_person_birthdate_month": { "message": "Geburtsmonat" },
-  "semantic_person_birthdate_day": { "message": "Geburtstag" },
-  "semantic_person_birthdate_iso": { "message": "Geburtsdatum" },
-  "semantic_person_gender": { "message": "Geschlecht" },
-  "semantic_company_name": { "message": "Unternehmen" },
-  "semantic_company_department": { "message": "Abteilung" },
-  "semantic_company_title": { "message": "Position" },
-  "semantic_company_website": { "message": "Unternehmenswebsite" },
-  "semantic_account_password_generated": { "message": "Generiertes Passwort" }
+  "extName": {
+    "message": "FormPilot Vault"
+  },
+  "extShortName": {
+    "message": "FormPilot"
+  },
+  "extDescription": {
+    "message": "Mehrsprachiges Formular-Autofill mit lokalem Profil-Tresor und Nutzerbestätigung."
+  },
+  "eyebrow": {
+    "message": "Lokales Profil / KI nur mit Schema"
+  },
+  "appTitle": {
+    "message": "FormPilot Vault"
+  },
+  "profileVault": {
+    "message": "Profil-Tresor"
+  },
+  "sample": {
+    "message": "Beispiel"
+  },
+  "memoryLoading": {
+    "message": "Tresor-Speicher: lädt"
+  },
+  "save": {
+    "message": "Speichern"
+  },
+  "scanForm": {
+    "message": "Formular scannen"
+  },
+  "inputPlan": {
+    "message": "Eingabeplan"
+  },
+  "fill": {
+    "message": "Ausfüllen"
+  },
+  "openFormPrompt": {
+    "message": "Öffne eine Formularseite und klicke auf Formular scannen."
+  },
+  "plan": {
+    "message": "Tarif"
+  },
+  "upgrade": {
+    "message": "Upgrade"
+  },
+  "freeUsageLoading": {
+    "message": "Free-Nutzung: lädt"
+  },
+  "licenseKey": {
+    "message": "Lizenzschlüssel"
+  },
+  "check": {
+    "message": "Prüfen"
+  },
+  "upgradeCopy": {
+    "message": "Free ist auf 5 Ausfüllungen pro Monat begrenzt. Upgrade aktiviert unbegrenztes Ausfüllen, mehrere Profile und Website-Memory."
+  },
+  "footnote": {
+    "message": "Kein Klick auf Senden. Persönliche Werte bleiben lokal."
+  },
+  "profileSaved": {
+    "message": "Profil im lokalen Tresor gespeichert."
+  },
+  "freeLimitReached": {
+    "message": "Monatliches Free-Limit erreicht. Upgrade zum weiteren Ausfüllen."
+  },
+  "filledReview": {
+    "message": "$1 Felder ausgefüllt. Bitte vor dem Absenden prüfen."
+  },
+  "licenseActive": {
+    "message": "$1-Lizenz aktiv."
+  },
+  "licenseInactive": {
+    "message": "Lizenz ist nicht aktiv. Free bleibt aktiviert."
+  },
+  "licenseFailed": {
+    "message": "Lizenzprüfung fehlgeschlagen: $1"
+  },
+  "profileJsonInvalid": {
+    "message": "Profil-JSON ist ungültig: $1"
+  },
+  "noActiveTab": {
+    "message": "Kein aktiver Tab"
+  },
+  "planSummary": {
+    "message": "$1 Felder gescannt / $2 bereit / $3 zu prüfen"
+  },
+  "sourceMemory": {
+    "message": "Memory"
+  },
+  "sourceRules": {
+    "message": "Regeln"
+  },
+  "uncertainManual": {
+    "message": "Unsicher. Nutzer sollte manuell antworten."
+  },
+  "profileKey": {
+    "message": "Profilschlüssel"
+  },
+  "rememberAs": {
+    "message": "Merken als..."
+  },
+  "learn": {
+    "message": "Lernen"
+  },
+  "memoryUpdated": {
+    "message": "Memory aktualisiert. Prüfe den neuen Eingabeplan."
+  },
+  "memorySummary": {
+    "message": "$1 Profil / $2 gelernte Zuordnungen / $3 Treffer in diesem Formular"
+  },
+  "paidUsage": {
+    "message": "$1-Tarif / $2 Ausfüllungen diesen Monat"
+  },
+  "freeUsage": {
+    "message": "Free-Nutzung: $1/$2 Ausfüllungen diesen Monat"
+  },
+  "semantic_person_name_full": {
+    "message": "Vollständiger Name"
+  },
+  "semantic_person_name_last": {
+    "message": "Nachname"
+  },
+  "semantic_person_name_first": {
+    "message": "Vorname"
+  },
+  "semantic_person_name_full_kana": {
+    "message": "Vollständiger Name Kana"
+  },
+  "semantic_person_name_last_kana": {
+    "message": "Nachname Kana"
+  },
+  "semantic_person_name_first_kana": {
+    "message": "Vorname Kana"
+  },
+  "semantic_person_email_primary": {
+    "message": "E-Mail"
+  },
+  "semantic_person_phone_country_code": {
+    "message": "Ländervorwahl"
+  },
+  "semantic_person_phone_mobile_auto": {
+    "message": "Telefon"
+  },
+  "semantic_person_address_postal_code_auto": {
+    "message": "Postleitzahl"
+  },
+  "semantic_person_address_country": {
+    "message": "Land"
+  },
+  "semantic_person_address_prefecture": {
+    "message": "Bundesland / Region"
+  },
+  "semantic_person_address_city": {
+    "message": "Stadt"
+  },
+  "semantic_person_address_line1": {
+    "message": "Adresszeile 1"
+  },
+  "semantic_person_address_line2": {
+    "message": "Adresszeile 2"
+  },
+  "semantic_person_address_full": {
+    "message": "Adresse"
+  },
+  "semantic_person_birthdate_year": {
+    "message": "Geburtsjahr"
+  },
+  "semantic_person_birthdate_month": {
+    "message": "Geburtsmonat"
+  },
+  "semantic_person_birthdate_day": {
+    "message": "Geburtstag"
+  },
+  "semantic_person_birthdate_iso": {
+    "message": "Geburtsdatum"
+  },
+  "semantic_person_gender": {
+    "message": "Geschlecht"
+  },
+  "semantic_company_name": {
+    "message": "Unternehmen"
+  },
+  "semantic_company_department": {
+    "message": "Abteilung"
+  },
+  "semantic_company_title": {
+    "message": "Position"
+  },
+  "semantic_company_website": {
+    "message": "Unternehmenswebsite"
+  },
+  "semantic_account_password_generated": {
+    "message": "Generiertes Passwort"
+  }
 }

@@ -1,5 +1,5 @@
 import { getProviderForDate } from "../../extension/src/provider-router.js";
-import { buildSchema } from "../../extension/src/schema-engine.js";
+import { SEMANTIC_LABELS, buildSchema } from "../../extension/src/schema-engine.js";
 
 const FORBIDDEN_FIELD_KEYS = new Set(["value", "checked", "selected", "selector", "cssPath", "xpath"]);
 
@@ -11,7 +11,9 @@ export async function inferSchemaWithProxy({
 } = {}) {
   validateSchemaPayload(payload);
 
-  const provider = getProviderForDate(date);
+  const provider = getProviderForDate(date, {
+    overrideId: env.AFA_SCHEMA_PROVIDER_ID || env.AFA_SCHEMA_PROVIDER_OVERRIDE || ""
+  });
   if (env.AFA_SCHEMA_PROXY_MODE === "mock") {
     return {
       provider_id: provider.id,
@@ -61,8 +63,7 @@ export function validateSchemaPayload(payload) {
 
 export function buildSchemaPrompt(payload) {
   return [
-    "DD_CORE_PROMPT:",
-    "PRODUCT_CORE_PROMPT:",
+    "Product core rules:",
     "This product exists to remove the tiny repeated work of filling forms.",
     "The core value is Personal Vault + Profile RAG/Memory Space + form understanding.",
     "Use memory to select profile semantic keys, not personal values.",
@@ -73,6 +74,7 @@ export function buildSchemaPrompt(payload) {
     "",
     "You map web form fields to profile semantic keys.",
     "Return strict JSON only. Do not include personal values.",
+    "Return a JSON object whose keys are only the provided field_id values.",
     "Allowed output shape:",
     "{\"field_001\":{\"semantic_key\":\"person.name.last\",\"confidence\":0.97,\"reason\":\"label means family name\"}}",
     "Use null semantic_key and low confidence when uncertain.",
@@ -111,39 +113,51 @@ export async function callAzureDeepSeek({ payload, env, fetchImpl }) {
 }
 
 export async function callCloudflareWorkersAI({ payload, provider, env, fetchImpl }) {
+  const request = {
+    messages: [
+      { role: "system", content: "You return JSON form schema mappings only." },
+      { role: "user", content: buildSchemaPrompt(payload) }
+    ],
+    temperature: 0.1,
+    max_tokens: Number(env.AFA_SCHEMA_MAX_TOKENS || 384)
+  };
+  const modelCandidates = uniqueNonEmpty([
+    env.CLOUDFLARE_WORKERS_AI_MODEL || provider.primary_model,
+    env.CLOUDFLARE_WORKERS_AI_FALLBACK_MODEL || provider.fallback_model
+  ]);
+  const timeoutMs = Number(env.AFA_SCHEMA_PROVIDER_TIMEOUT_MS || 12_000);
+
   if (env.AI?.run) {
-    const model = env.CLOUDFLARE_WORKERS_AI_MODEL || provider.primary_model;
-    const response = await env.AI.run(model, {
-      messages: [
-        { role: "system", content: "You return JSON form schema mappings only." },
-        { role: "user", content: buildSchemaPrompt(payload) }
-      ],
-      temperature: 0.1
+    return runCloudflareModels({
+      modelCandidates,
+      timeoutMs,
+      callModel: async (model) => parseProviderResponse(await withTimeout(
+        env.AI.run(model, request),
+        timeoutMs,
+        `cloudflare_ai_timeout:${model}`
+      ))
     });
-    return parseProviderResponse(response);
   }
 
   const accountId = env.CLOUDFLARE_ACCOUNT_ID;
   const apiToken = env.CLOUDFLARE_API_TOKEN;
   if (!accountId || !apiToken) throw new Error("cloudflare_env_missing");
 
-  const model = env.CLOUDFLARE_WORKERS_AI_MODEL || provider.primary_model;
-  const response = await fetchImpl(`https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run/${model}`, {
-    method: "POST",
-    headers: {
-      "authorization": `Bearer ${apiToken}`,
-      "content-type": "application/json"
-    },
-    body: JSON.stringify({
-      messages: [
-        { role: "system", content: "You return JSON form schema mappings only." },
-        { role: "user", content: buildSchemaPrompt(payload) }
-      ],
-      temperature: 0.1
-    })
+  return runCloudflareModels({
+    modelCandidates,
+    timeoutMs,
+    callModel: async (model) => {
+      const response = await withTimeout(fetchImpl(`https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run/${model}`, {
+        method: "POST",
+        headers: {
+          "authorization": `Bearer ${apiToken}`,
+          "content-type": "application/json"
+        },
+        body: JSON.stringify(request)
+      }), timeoutMs, `cloudflare_http_timeout:${model}`);
+      return parseProviderResponse(await readProviderJson(response));
+    }
   });
-
-  return parseProviderResponse(await readProviderJson(response));
 }
 
 export function parseProviderResponse(json) {
@@ -164,11 +178,7 @@ function normalizeMapping(mapping) {
   return Object.fromEntries(
     Object.entries(mapping || {}).map(([fieldId, value]) => [
       fieldId,
-      {
-        semantic_key: value?.semantic_key || null,
-        confidence: clampConfidence(value?.confidence),
-        reason: value?.reason ? String(value.reason).slice(0, 240) : ""
-      }
+      normalizeSingleMapping(value) || { semantic_key: null, confidence: 0, reason: "" }
     ])
   );
 }
@@ -188,10 +198,11 @@ function mockMappings(payload) {
 
 async function callWithRulesFallback({ provider, payload, mode, env, call }) {
   try {
+    const providerMappings = await call();
     return {
       provider_id: provider.id,
       mode,
-      mappings: await call()
+      mappings: mergeProviderMappingsWithRules(payload, providerMappings)
     };
   } catch (error) {
     if (env.AFA_SCHEMA_PROXY_REQUIRE_LIVE === "true") throw error;
@@ -216,6 +227,62 @@ function ruleFallbackMappings(payload) {
       }
     ])
   );
+}
+
+function mergeProviderMappingsWithRules(payload, providerMappings) {
+  const fallback = ruleFallbackMappings(payload);
+  const merged = {};
+  for (const field of payload.fields || []) {
+    const fieldId = field.field_id;
+    const ruleMapping = fallback[fieldId] || { semantic_key: null, confidence: 0, reason: "rules:missing" };
+    const providerMapping = normalizeSingleMapping(providerMappings?.[fieldId]);
+    if (!providerMapping) {
+      merged[fieldId] = ruleMapping;
+      continue;
+    }
+
+    if (ruleMapping.semantic_key && ruleMapping.confidence >= 0.9) {
+      merged[fieldId] = ruleMapping;
+      continue;
+    }
+
+    merged[fieldId] = providerMapping;
+  }
+  return merged;
+}
+
+function normalizeSingleMapping(value) {
+  if (!value || typeof value !== "object") return null;
+  const semanticKey = value.semantic_key || null;
+  return {
+    semantic_key: semanticKey && SEMANTIC_LABELS[semanticKey] ? semanticKey : null,
+    confidence: clampConfidence(value.confidence),
+    reason: value.reason ? String(value.reason).slice(0, 240) : ""
+  };
+}
+
+async function runCloudflareModels({ modelCandidates, callModel }) {
+  let lastError = null;
+  for (const model of modelCandidates) {
+    try {
+      return await callModel(model);
+    } catch (error) {
+      lastError = error;
+    }
+  }
+  throw lastError || new Error("cloudflare_model_missing");
+}
+
+function uniqueNonEmpty(values) {
+  return [...new Set(values.map((value) => String(value || "").trim()).filter(Boolean))];
+}
+
+function withTimeout(promise, timeoutMs, message) {
+  const safeTimeout = Number.isFinite(timeoutMs) && timeoutMs > 0 ? timeoutMs : 12_000;
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error(message)), safeTimeout))
+  ]);
 }
 
 async function readProviderJson(response) {

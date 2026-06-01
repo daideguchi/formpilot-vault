@@ -7,6 +7,61 @@ const root = path.resolve(__dirname, "..");
 const localesDir = path.join(root, "extension", "_locales");
 const base = await readMessages("en");
 
+const globalSemanticAdditions = {
+  en_GB: {
+    semantic_person_phone_country_code: "Country code",
+    semantic_person_address_country: "Country"
+  },
+  es_419: {
+    semantic_person_phone_country_code: "Código de país",
+    semantic_person_address_country: "País"
+  },
+  it: {
+    semantic_person_phone_country_code: "Prefisso internazionale",
+    semantic_person_address_country: "Paese"
+  },
+  nl: {
+    semantic_person_phone_country_code: "Landcode",
+    semantic_person_address_country: "Land"
+  },
+  pl: {
+    semantic_person_phone_country_code: "Kod kraju",
+    semantic_person_address_country: "Kraj"
+  },
+  ru: {
+    semantic_person_phone_country_code: "Код страны",
+    semantic_person_address_country: "Страна"
+  },
+  tr: {
+    semantic_person_phone_country_code: "Ülke kodu",
+    semantic_person_address_country: "Ülke"
+  },
+  ar: {
+    semantic_person_phone_country_code: "رمز الدولة",
+    semantic_person_address_country: "البلد"
+  },
+  hi: {
+    semantic_person_phone_country_code: "देश कोड",
+    semantic_person_address_country: "देश"
+  },
+  id: {
+    semantic_person_phone_country_code: "Kode negara",
+    semantic_person_address_country: "Negara"
+  },
+  th: {
+    semantic_person_phone_country_code: "รหัสประเทศ",
+    semantic_person_address_country: "ประเทศ"
+  },
+  vi: {
+    semantic_person_phone_country_code: "Mã quốc gia",
+    semantic_person_address_country: "Quốc gia"
+  },
+  zh_TW: {
+    semantic_person_phone_country_code: "國家代碼",
+    semantic_person_address_country: "國家"
+  }
+};
+
 const localeDefinitions = {
   en_GB: {
     source: "en",
@@ -768,7 +823,12 @@ for (const [locale, definition] of Object.entries(localeDefinitions)) {
   const sourceMessages = source
     ? Object.fromEntries(Object.entries(source).map(([key, value]) => [key, value.message]))
     : {};
-  const messages = { ...sourceMessages, ...rawMessages, ...(definition.overrides || {}) };
+  const messages = {
+    ...sourceMessages,
+    ...rawMessages,
+    ...(globalSemanticAdditions[locale] || {}),
+    ...(definition.overrides || {})
+  };
   if (!source) assertComplete(locale, messages);
   await writeMessages(locale, messages);
 }

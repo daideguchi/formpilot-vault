@@ -5,7 +5,7 @@
 
 ## ゴール
 
-Chrome拡張を公開し、Plus/Pro/Teamの課金がoperator Stripe accountへ入り、拡張側のLicense checkで有料権利が解除される状態にする。
+Chrome拡張を公開し、Plus/Pro/Teamの課金がDDのStripeへ入り、拡張側のLicense checkで有料権利が解除される状態にする。
 
 ## いま達成済み
 
@@ -15,23 +15,27 @@ Chrome拡張を公開し、Plus/Pro/Teamの課金がoperator Stripe accountへ�
 - AI schema proxy
 - Cloudflare Worker入口
 - D1 entitlement schema
+- Cloudflare D1本番DB / Worker本番deploy
+- Cloudflare Workers AI live schema確認
 - Stripe Checkout Session作成
 - Stripe webhook署名検証
 - LP / Privacy / Terms
 - Chrome Web Store素材
 - 提出用ZIP
 - 21 locale extension package i18n
+- 65キー x 21 locale extension package i18n
+- Extension schema API client
 - 実ブラウザ拡張E2E
 - release readiness check
 - Vercel本番LP/API: `https://formpilot-vault-api.vercel.app/`
-- Production Stripe bridge: configured by `FORMPILOT_STRIPE_BRIDGE_BASE_URL`
+- Kurogane Stripe本番ブリッジ: `https://kurogane-edge-core-lp.vercel.app/api/formpilot/*`
 - 本番Stripe Checkout Session作成
 - 本番License check Free/月5回応答
 - AI schema proxyの `rules_fallback`
 - GitHub Pages静的公開LP: `https://daideguchi.github.io/formpilot-vault/`
 - 公開Privacy URL: `https://daideguchi.github.io/formpilot-vault/privacy.html`
 
-注意: 2026-06-01時点の本番はVercelを正にします。Cloudflare Worker/D1は将来の無料枠移行先であり、現在のChrome Web Store提出を止める条件ではありません。
+注意: 2026-06-01時点のChrome Web Store提出用本番はVercelを正にします。Cloudflare Worker/D1は6/7以降の無料枠移行先として本番検証済みですが、現在のChrome Web Store提出を止める条件ではありません。
 
 ## 現行本番接続
 
@@ -41,6 +45,8 @@ Chrome拡張を公開し、Plus/Pro/Teamの課金がoperator Stripe accountへ�
 - Stripe bridge: `https://kurogane-edge-core-lp.vercel.app/api/formpilot`
 - Extension config: `extension/src/release-config.js`
 - Extension ZIP: `dist/ai-form-autofill-0.1.0.zip`
+- Cloudflare Worker: `https://ai-form-autofill.dd-1107-11107.workers.dev`
+- Latest Vercel deployment: `dpl_BkXLM2QPbuNSj159j2NQ1cgSgxTD`
 
 ## 現行本番の再デプロイ
 
@@ -109,43 +115,31 @@ npm run release:check
 - `docs/12_chrome_store_listing_copy.md`
 - Privacy URL: `https://formpilot-vault-api.vercel.app/privacy.html`
 
-## 将来Cloudflareへ移す時の順番
+## Cloudflare移行/再確認
 
-0. Cloudflare CLIへログインする
+Cloudflare CLI login、D1作成、migration、Worker deploy、Stripe bridge secret、Workers AI live schema確認は完了済み。
+
+再確認:
 
 ```bash
-npx wrangler login
 npx wrangler whoami
+npm run check:cloudflare
+npm run check:cloudflare:live
 ```
 
-2026-06-01の確認では `wrangler whoami` は `not authenticated`。ここは人間のCloudflare認証が必要。
+現在のCloudflare本番:
 
-1. CloudflareでD1 DBを作る
+- Account: `dd.1107.11107@gmail.com`
+- D1: `ai-form-autofill-prod`
+- database_id: `895767fa-8bc7-4811-9801-63d879eeb194`
+- Worker URL: `https://ai-form-autofill.dd-1107-11107.workers.dev`
+- AI primary: `@cf/meta/llama-3.2-3b-instruct`
+- AI fallback: `@cf/zai-org/glm-4.7-flash`
 
-```bash
-npx wrangler d1 create ai-form-autofill-prod
-```
-
-返ってきた `database_id` を `wrangler.toml` の `database_id` へ入れる。
-
-2. D1 migrationを適用する
+再deploy:
 
 ```bash
 npm run d1:migrate:remote
-```
-
-3. Worker secretを入れる
-
-```bash
-npx wrangler secret put STRIPE_SECRET_KEY
-npx wrangler secret put STRIPE_WEBHOOK_SECRET
-npx wrangler secret put AZURE_DEEPSEEK_ENDPOINT
-npx wrangler secret put AZURE_DEEPSEEK_API_KEY
-```
-
-4. Workerをdeployする
-
-```bash
 npm run deploy:worker
 ```
 
@@ -160,11 +154,10 @@ npm run deploy:worker
 ## 現在のブロッカー
 
 - Chrome Web Storeの最終 `Submit for review` はDD確認が必要
-- Azure DeepSeek V4の本番endpoint/key未投入。既存Azure AI Servicesは見えるがmodel deploymentは空
+- Chrome Web Store最終 `Submit for review` 前のDD確認
+- Azure DeepSeek V4のdeployment作成は `ReadOnlyDisabledSubscription` で停止。Azure利用を続けるならsubscription再有効化が必要
 
 ## 現在の非ブロッカー
 
-- Cloudflare CLI未ログイン
-- Cloudflare D1 `database_id` 未設定
-- Worker本番deploy未実施
 - 通常リリースではAI provider未投入時も `rules_fallback` で動作する。`check:production:strict-ai` だけはこれをブロッカー扱いにする。
+- Cloudflare Workerはlive検証済み。Chrome拡張の公開初版はVercel endpointのまま出し、6/7以降にWorkerへ切替可能。

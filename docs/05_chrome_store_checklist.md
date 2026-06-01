@@ -56,7 +56,7 @@ Dashboardへ貼る最終値は `docs/14_chrome_web_store_submission_packet.md` �
 - `site/terms.html`
 - `docs/13_production_launch_runbook.md`
 - `docs/14_chrome_web_store_submission_packet.md`
-- `extension/_locales/*/messages.json` 21 locale分
+- `extension/_locales/*/messages.json` 21 locale分 / 65 message keys
   - `en`, `en_GB`, `ja`, `es`, `es_419`, `fr`, `de`, `it`, `nl`, `pl`, `pt_BR`, `ru`, `tr`, `ar`, `hi`, `id`, `th`, `vi`, `ko`, `zh_CN`, `zh_TW`
 
 再生成:
@@ -66,6 +66,8 @@ npm run assets:store
 npm run package:extension
 npm run release:check
 ```
+
+2026-06-01 13:35 JSTに最新ZIP `69309 bytes` をChrome Web Store draftへ再upload済み。本番schema API優先、国/国番号semantic key、拡張 `locale_context`、65キー x 21 localeが入っている。
 
 ## 提出前の停止条件
 

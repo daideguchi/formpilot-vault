@@ -137,11 +137,17 @@
   "semantic_person_email_primary": {
     "message": "Эл. почта"
   },
+  "semantic_person_phone_country_code": {
+    "message": "Код страны"
+  },
   "semantic_person_phone_mobile_auto": {
     "message": "Телефон"
   },
   "semantic_person_address_postal_code_auto": {
     "message": "Почтовый индекс"
+  },
+  "semantic_person_address_country": {
+    "message": "Страна"
   },
   "semantic_person_address_prefecture": {
     "message": "Регион / область"

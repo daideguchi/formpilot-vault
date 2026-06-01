@@ -1,4 +1,5 @@
 import { SEMANTIC_LABELS, buildSchema, buildInputPlan } from "./src/schema-engine.js";
+import { inferSchemaFromApi } from "./src/schema-client.js";
 import { SAMPLE_PROFILE } from "./src/profile-formatters.js";
 import { getProviderForDate } from "./src/provider-router.js";
 import { canUseFill, createUsageEvent, FREE_MONTHLY_FILL_LIMIT, getCurrentMonthKey } from "./src/usage-meter.js";
@@ -85,7 +86,8 @@ scanPage.addEventListener("click", async () => {
   currentLocaleContext = response?.locale_context || {};
   currentFields = fields;
   const memoryContext = buildMemoryContext({ vaultState, url: tab.url || "", fields, localeContext: currentLocaleContext });
-  const schema = buildSchema(fields, { memoryContext });
+  const provider = getProviderForDate(new Date());
+  const schema = await inferSchemaWithFallback({ fields, memoryContext, provider });
   currentPlan = buildInputPlan({ fields, schema, profile });
   renderPlan(currentPlan, fields.length);
   renderMemory(memoryContext);
@@ -287,6 +289,17 @@ function renderMemory(memoryContext = null) {
   const summary = summarizeMemory(vaultState);
   const hits = memoryContext ? Object.keys(memoryContext.field_mappings || {}).length : 0;
   memoryStatus.textContent = t("memorySummary", [String(summary.profiles), String(summary.mapping_cache), String(hits)]);
+}
+
+async function inferSchemaWithFallback({ fields, memoryContext, provider }) {
+  try {
+    const schema = await inferSchemaFromApi({ fields, memoryContext, provider });
+    providerStatus.textContent = provider.label;
+    return schema;
+  } catch (error) {
+    providerStatus.textContent = `${provider.label} / local fallback`;
+    return buildSchema(fields, { memoryContext });
+  }
 }
 
 function localizeStaticText() {

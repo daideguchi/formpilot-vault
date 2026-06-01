@@ -137,11 +137,17 @@
   "semantic_person_email_primary": {
     "message": "Email"
   },
+  "semantic_person_phone_country_code": {
+    "message": "Kode negara"
+  },
   "semantic_person_phone_mobile_auto": {
     "message": "Telepon"
   },
   "semantic_person_address_postal_code_auto": {
     "message": "Kode pos"
+  },
+  "semantic_person_address_country": {
+    "message": "Negara"
   },
   "semantic_person_address_prefecture": {
     "message": "Provinsi / wilayah"

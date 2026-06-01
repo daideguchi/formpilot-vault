@@ -23,6 +23,8 @@ UI翻訳
 
 ここまでを合わせて、世界対応と呼びます。
 
+2026-06-01 13:28 JSTに、拡張本体の入力プラン作成も本番schema APIを優先する形へ変更しました。つまり、世界対応はLPやStore Listingの翻訳だけではなく、Chrome拡張が実際に収集したフォーム構造をAPIへ送り、国ごとのフォーム語彙を踏まえた `field_id -> semantic_key` 推論を使う実装方針です。APIが落ちた場合だけローカルルールへ戻します。
+
 ## 売り方
 
 Primary message:
@@ -60,9 +62,13 @@ AIへはプロフィール実値を送らず、フォーム構造と `locale_con
 `locale_context` は次の情報を持ちます。
 
 - `ui_language`
+- `browser_languages`
 - `page_language`
 - `text_direction`
 - `host_tld`
+- `timezone`
+- `calendar`
+- `numbering_system`
 - `charset`
 - `origin`
 
@@ -92,11 +98,12 @@ Freeは月5回のままにします。世界配信では、Freeを広く撒き�
 言語対応の品質は、次の条件を満たすまで強化します。
 
 - Extension UIは21 package localesでキー欠落を出さない
+- Extension UIは65キー x 21 localeで欠落を出さない
 - 非日本語ブラウザのLPは英語初期表示にする
 - 日本語ユーザーは日本語LPへ切り替えられる
 - 右書き言語ではpopupの `dir` を `rtl` にする
 - AI payloadにはプロフィール実値ではなく、フォーム構造、Memoryのキー、`locale_context` だけを送る
-- 主要市場の姓名、メール、電話、郵便番号、住所、会社、役職、生年月日、パスワードはルールで初期認識できる
+- 主要市場の姓名、メール、電話、国番号、郵便番号、国、住所、会社、役職、生年月日、パスワードはルールで初期認識できる
 - ルールで迷う言語/国のフォームはAI推論とサイト別Memoryで補正する
 
 ## 公開後の翻訳拡張順

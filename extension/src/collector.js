@@ -58,10 +58,16 @@
 
   function collectLocaleContext() {
     const html = document.documentElement;
+    const intl = Intl.DateTimeFormat().resolvedOptions();
     return {
+      ui_language: navigator.language || "",
+      browser_languages: Array.isArray(navigator.languages) ? navigator.languages.join(",") : navigator.language || "",
       page_language: html.lang || document.querySelector("meta[http-equiv='content-language']")?.content || navigator.language || "",
       text_direction: html.dir || window.getComputedStyle(html).direction || "",
       host_tld: hostTld(location.hostname),
+      timezone: intl.timeZone || "",
+      calendar: intl.calendar || "",
+      numbering_system: intl.numberingSystem || "",
       charset: document.characterSet || "",
       origin: location.origin
     };

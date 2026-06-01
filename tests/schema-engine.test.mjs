@@ -49,6 +49,10 @@ test("maps common Japanese signup fields to profile keys", () => {
 test("keeps provider routing on Azure through 2026-06-06 and Cloudflare after", () => {
   assert.equal(getProviderForDate(new Date("2026-06-06T03:00:00+09:00")).id, "azure_deepseek_v4");
   assert.equal(getProviderForDate(new Date("2026-06-07T03:00:00+09:00")).id, "cloudflare_workers_ai_free");
+  assert.equal(
+    getProviderForDate(new Date("2026-06-01T03:00:00+09:00"), { overrideId: "cloudflare_workers_ai_free" }).id,
+    "cloudflare_workers_ai_free"
+  );
 });
 
 test("maps common multilingual signup fields to profile keys", () => {
@@ -97,6 +101,31 @@ test("maps global market signup labels beyond first launch languages", () => {
   assert.equal(schema.vi_title.semantic_key, "company.title");
   assert.equal(schema.th_password.semantic_key, "account.password.generated");
   assert.equal(schema.tw_email.semantic_key, "person.email.primary");
+});
+
+test("maps country and dialing code fields for worldwide signup forms", () => {
+  const fields = [
+    {
+      field_id: "country",
+      tag: "select",
+      type: "",
+      label: "Country",
+      visible: true,
+      options: [
+        { value: "US", text: "United States" },
+        { value: "JP", text: "Japan" }
+      ]
+    },
+    { field_id: "dial", tag: "input", type: "text", label: "Country code", visible: true }
+  ];
+
+  const schema = buildSchema(fields);
+  assert.equal(schema.country.semantic_key, "person.address.country");
+  assert.equal(schema.dial.semantic_key, "person.phone.country_code");
+
+  const plan = buildInputPlan({ fields, schema, profile: SAMPLE_PROFILE });
+  assert.equal(plan[0].value, "JP");
+  assert.equal(plan[1].value, "+81");
 });
 
 test("enforces free monthly fill limit and tracks safe usage events", () => {
@@ -228,13 +257,17 @@ test("AI schema payload includes memory context but excludes raw profile values"
     vaultState,
     url: "https://example.com/signup?next=1",
     fields,
-    localeContext: {
-      ui_language: "ja-JP",
-      page_language: "ja",
-      text_direction: "ltr",
-      host_tld: "com"
-    }
-  });
+      localeContext: {
+        ui_language: "ja-JP",
+        browser_languages: "ja-JP,en-US",
+        page_language: "ja",
+        text_direction: "ltr",
+        host_tld: "com",
+        timezone: "Asia/Tokyo",
+        calendar: "gregory",
+        numbering_system: "latn"
+      }
+    });
 
   const payload = buildSchemaInferencePayload({
     fields,
@@ -247,6 +280,8 @@ test("AI schema payload includes memory context but excludes raw profile values"
   assert.equal(payload.fields[0].selector, undefined);
   assert.equal(payload.fields[0].value, undefined);
   assert.equal(payload.locale_context.page_language, "ja");
+  assert.equal(payload.locale_context.browser_languages, "ja-JP,en-US");
+  assert.equal(payload.locale_context.timezone, "Asia/Tokyo");
   assert.equal(payload.memory_context.locale_context.ui_language, "ja-JP");
   assert.equal(payload.memory_context.mapping_cache.length, 2);
   assert.equal(payloadContainsProfileValues(payload, profile), false);

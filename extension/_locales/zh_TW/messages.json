@@ -137,11 +137,17 @@
   "semantic_person_email_primary": {
     "message": "電子郵件"
   },
+  "semantic_person_phone_country_code": {
+    "message": "國家代碼"
+  },
   "semantic_person_phone_mobile_auto": {
     "message": "電話"
   },
   "semantic_person_address_postal_code_auto": {
     "message": "郵遞區號"
+  },
+  "semantic_person_address_country": {
+    "message": "國家"
   },
   "semantic_person_address_prefecture": {
     "message": "縣市 / 地區"

@@ -1,65 +1,197 @@
 {
-  "extName": { "message": "FormPilot Vault" },
-  "extShortName": { "message": "FormPilot" },
-  "extDescription": { "message": "端末内プロフィールVaultから、ユーザー確認つきで多言語フォームを自動入力します。" },
-  "eyebrow": { "message": "端末内プロフィール / フォーム構造だけAI" },
-  "appTitle": { "message": "FormPilot Vault" },
-  "profileVault": { "message": "プロフィールVault" },
-  "sample": { "message": "サンプル" },
-  "memoryLoading": { "message": "Vaultメモリ: 読み込み中" },
-  "save": { "message": "保存" },
-  "scanForm": { "message": "フォーム解析" },
-  "inputPlan": { "message": "入力プラン" },
-  "fill": { "message": "入力" },
-  "openFormPrompt": { "message": "フォームページを開いて、フォーム解析を押してください。" },
-  "plan": { "message": "プラン" },
-  "upgrade": { "message": "アップグレード" },
-  "freeUsageLoading": { "message": "Free利用状況: 読み込み中" },
-  "licenseKey": { "message": "ライセンスキー" },
-  "check": { "message": "確認" },
-  "upgradeCopy": { "message": "Freeは月5回まで。アップグレードで無制限入力、複数プロフィール、サイト別学習が使えます。" },
-  "footnote": { "message": "送信ボタンは押しません。個人情報の実値は端末内に残します。" },
-  "profileSaved": { "message": "プロフィールを端末内Vaultへ保存しました。" },
-  "freeLimitReached": { "message": "Freeの月間上限に達しました。続けるにはアップグレードしてください。" },
-  "filledReview": { "message": "$1項目を入力しました。送信前に確認してください。" },
-  "licenseActive": { "message": "$1ライセンスが有効です。" },
-  "licenseInactive": { "message": "ライセンスは有効ではありません。Freeプランのままです。" },
-  "licenseFailed": { "message": "ライセンス確認に失敗しました: $1" },
-  "profileJsonInvalid": { "message": "プロフィールJSONが不正です: $1" },
-  "noActiveTab": { "message": "有効なタブがありません" },
-  "planSummary": { "message": "$1項目を解析 / $2項目入力可能 / $3項目は確認が必要" },
-  "sourceMemory": { "message": "メモリ" },
-  "sourceRules": { "message": "ルール" },
-  "uncertainManual": { "message": "未確定です。ユーザーが手動で確認してください。" },
-  "profileKey": { "message": "プロフィールキー" },
-  "rememberAs": { "message": "次回から..." },
-  "learn": { "message": "学習" },
-  "memoryUpdated": { "message": "メモリを更新しました。入力プランを確認してください。" },
-  "memorySummary": { "message": "$1プロフィール / $2学習済みマッピング / このフォームで$3ヒット" },
-  "paidUsage": { "message": "$1プラン / 今月$2回入力" },
-  "freeUsage": { "message": "Free利用: 今月$1/$2回" },
-  "semantic_person_name_full": { "message": "氏名" },
-  "semantic_person_name_last": { "message": "姓" },
-  "semantic_person_name_first": { "message": "名" },
-  "semantic_person_name_full_kana": { "message": "氏名カナ" },
-  "semantic_person_name_last_kana": { "message": "セイ" },
-  "semantic_person_name_first_kana": { "message": "メイ" },
-  "semantic_person_email_primary": { "message": "メール" },
-  "semantic_person_phone_mobile_auto": { "message": "電話番号" },
-  "semantic_person_address_postal_code_auto": { "message": "郵便番号" },
-  "semantic_person_address_prefecture": { "message": "都道府県" },
-  "semantic_person_address_city": { "message": "市区町村" },
-  "semantic_person_address_line1": { "message": "番地" },
-  "semantic_person_address_line2": { "message": "建物名・部屋番号" },
-  "semantic_person_address_full": { "message": "住所" },
-  "semantic_person_birthdate_year": { "message": "生年" },
-  "semantic_person_birthdate_month": { "message": "生月" },
-  "semantic_person_birthdate_day": { "message": "生日" },
-  "semantic_person_birthdate_iso": { "message": "生年月日" },
-  "semantic_person_gender": { "message": "性別" },
-  "semantic_company_name": { "message": "会社名" },
-  "semantic_company_department": { "message": "部署" },
-  "semantic_company_title": { "message": "役職" },
-  "semantic_company_website": { "message": "会社サイト" },
-  "semantic_account_password_generated": { "message": "生成パスワード" }
+  "extName": {
+    "message": "FormPilot Vault"
+  },
+  "extShortName": {
+    "message": "FormPilot"
+  },
+  "extDescription": {
+    "message": "端末内プロフィールVaultから、ユーザー確認つきで多言語フォームを自動入力します。"
+  },
+  "eyebrow": {
+    "message": "端末内プロフィール / フォーム構造だけAI"
+  },
+  "appTitle": {
+    "message": "FormPilot Vault"
+  },
+  "profileVault": {
+    "message": "プロフィールVault"
+  },
+  "sample": {
+    "message": "サンプル"
+  },
+  "memoryLoading": {
+    "message": "Vaultメモリ: 読み込み中"
+  },
+  "save": {
+    "message": "保存"
+  },
+  "scanForm": {
+    "message": "フォーム解析"
+  },
+  "inputPlan": {
+    "message": "入力プラン"
+  },
+  "fill": {
+    "message": "入力"
+  },
+  "openFormPrompt": {
+    "message": "フォームページを開いて、フォーム解析を押してください。"
+  },
+  "plan": {
+    "message": "プラン"
+  },
+  "upgrade": {
+    "message": "アップグレード"
+  },
+  "freeUsageLoading": {
+    "message": "Free利用状況: 読み込み中"
+  },
+  "licenseKey": {
+    "message": "ライセンスキー"
+  },
+  "check": {
+    "message": "確認"
+  },
+  "upgradeCopy": {
+    "message": "Freeは月5回まで。アップグレードで無制限入力、複数プロフィール、サイト別学習が使えます。"
+  },
+  "footnote": {
+    "message": "送信ボタンは押しません。個人情報の実値は端末内に残します。"
+  },
+  "profileSaved": {
+    "message": "プロフィールを端末内Vaultへ保存しました。"
+  },
+  "freeLimitReached": {
+    "message": "Freeの月間上限に達しました。続けるにはアップグレードしてください。"
+  },
+  "filledReview": {
+    "message": "$1項目を入力しました。送信前に確認してください。"
+  },
+  "licenseActive": {
+    "message": "$1ライセンスが有効です。"
+  },
+  "licenseInactive": {
+    "message": "ライセンスは有効ではありません。Freeプランのままです。"
+  },
+  "licenseFailed": {
+    "message": "ライセンス確認に失敗しました: $1"
+  },
+  "profileJsonInvalid": {
+    "message": "プロフィールJSONが不正です: $1"
+  },
+  "noActiveTab": {
+    "message": "有効なタブがありません"
+  },
+  "planSummary": {
+    "message": "$1項目を解析 / $2項目入力可能 / $3項目は確認が必要"
+  },
+  "sourceMemory": {
+    "message": "メモリ"
+  },
+  "sourceRules": {
+    "message": "ルール"
+  },
+  "uncertainManual": {
+    "message": "未確定です。ユーザーが手動で確認してください。"
+  },
+  "profileKey": {
+    "message": "プロフィールキー"
+  },
+  "rememberAs": {
+    "message": "次回から..."
+  },
+  "learn": {
+    "message": "学習"
+  },
+  "memoryUpdated": {
+    "message": "メモリを更新しました。入力プランを確認してください。"
+  },
+  "memorySummary": {
+    "message": "$1プロフィール / $2学習済みマッピング / このフォームで$3ヒット"
+  },
+  "paidUsage": {
+    "message": "$1プラン / 今月$2回入力"
+  },
+  "freeUsage": {
+    "message": "Free利用: 今月$1/$2回"
+  },
+  "semantic_person_name_full": {
+    "message": "氏名"
+  },
+  "semantic_person_name_last": {
+    "message": "姓"
+  },
+  "semantic_person_name_first": {
+    "message": "名"
+  },
+  "semantic_person_name_full_kana": {
+    "message": "氏名カナ"
+  },
+  "semantic_person_name_last_kana": {
+    "message": "セイ"
+  },
+  "semantic_person_name_first_kana": {
+    "message": "メイ"
+  },
+  "semantic_person_email_primary": {
+    "message": "メール"
+  },
+  "semantic_person_phone_country_code": {
+    "message": "国番号"
+  },
+  "semantic_person_phone_mobile_auto": {
+    "message": "電話番号"
+  },
+  "semantic_person_address_postal_code_auto": {
+    "message": "郵便番号"
+  },
+  "semantic_person_address_country": {
+    "message": "国"
+  },
+  "semantic_person_address_prefecture": {
+    "message": "都道府県"
+  },
+  "semantic_person_address_city": {
+    "message": "市区町村"
+  },
+  "semantic_person_address_line1": {
+    "message": "番地"
+  },
+  "semantic_person_address_line2": {
+    "message": "建物名・部屋番号"
+  },
+  "semantic_person_address_full": {
+    "message": "住所"
+  },
+  "semantic_person_birthdate_year": {
+    "message": "生年"
+  },
+  "semantic_person_birthdate_month": {
+    "message": "生月"
+  },
+  "semantic_person_birthdate_day": {
+    "message": "生日"
+  },
+  "semantic_person_birthdate_iso": {
+    "message": "生年月日"
+  },
+  "semantic_person_gender": {
+    "message": "性別"
+  },
+  "semantic_company_name": {
+    "message": "会社名"
+  },
+  "semantic_company_department": {
+    "message": "部署"
+  },
+  "semantic_company_title": {
+    "message": "役職"
+  },
+  "semantic_company_website": {
+    "message": "会社サイト"
+  },
+  "semantic_account_password_generated": {
+    "message": "生成パスワード"
+  }
 }

@@ -13,6 +13,7 @@ export const SAMPLE_PROFILE = {
       primary: "taro@example.com"
     },
     phone: {
+      country_code: "+81",
       mobile: "09012345678",
       mobile_hyphen: "090-1234-5678"
     },
@@ -30,7 +31,9 @@ export const SAMPLE_PROFILE = {
       city: "渋谷区",
       line1: "神宮前1-2-3",
       line2: "サンプルマンション101",
-      full: "東京都渋谷区神宮前1-2-3 サンプルマンション101"
+      full: "東京都渋谷区神宮前1-2-3 サンプルマンション101",
+      country: "日本",
+      country_code: "JP"
     }
   },
   company: {
@@ -63,6 +66,10 @@ export function getProfileValue(profile, key, field = {}) {
       : readPath(profile, "person.phone.mobile");
   }
 
+  if (key === "person.address.country") {
+    return selectCountryValue(profile, field);
+  }
+
   return readPath(profile, key);
 }
 
@@ -82,3 +89,25 @@ function getOrCreatePassword(profile) {
   return Array.from(bytes, (byte) => alphabet[byte % alphabet.length]).join("");
 }
 
+function selectCountryValue(profile, field = {}) {
+  const country = readPath(profile, "person.address.country");
+  const countryCode = readPath(profile, "person.address.country_code");
+  const candidates = [
+    country,
+    countryCode,
+    countryCode === "JP" ? "Japan" : "",
+    countryCode === "JP" ? "JPN" : "",
+    country === "日本" ? "Japan" : ""
+  ].filter(Boolean);
+
+  if (Array.isArray(field.options)) {
+    const normalized = candidates.map((value) => String(value).toLowerCase());
+    const option = field.options.find((entry) => {
+      const values = [entry.value, entry.text].filter(Boolean).map((value) => String(value).toLowerCase());
+      return values.some((value) => normalized.includes(value));
+    });
+    if (option) return option.value || option.text;
+  }
+
+  return country || countryCode;
+}

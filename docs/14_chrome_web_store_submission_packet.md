@@ -45,7 +45,7 @@ English
 Localized extension UI:
 
 ```text
-English, Japanese, Spanish, French, German, Portuguese (Brazil), Korean, Chinese (Simplified)
+English, English UK, Japanese, Spanish, Spanish Latin America, French, German, Italian, Dutch, Polish, Portuguese Brazil, Russian, Turkish, Arabic, Hindi, Indonesian, Thai, Vietnamese, Korean, Chinese Simplified, Chinese Traditional
 ```
 
 Detailed description:
@@ -59,7 +59,7 @@ The AI receives form structure only. It does not receive raw profile values, exi
 
 FormPilot Vault does not click submit buttons. The user always reviews the filled form before submitting. It does not bypass CAPTCHA, SMS verification, email verification, identity checks, or create accounts in bulk.
 
-The extension UI is localized for 21 Chrome package locales across the Americas, Europe, the Middle East, and Asia. The form understanding rules cover common labels across major global signup markets.
+The extension UI is localized for 21 Chrome package locales across the Americas, Europe, the Middle East, and Asia. The form understanding layer uses the production schema API first, then falls back to local rules. It covers common labels across major global signup markets, including country and country-code fields.
 
 Free includes 5 fills per month. Plus, Pro, and Team plans unlock higher usage, multiple profiles, company profiles, and learned site mappings.
 ```
@@ -150,7 +150,7 @@ Team: 1,500円/人/月
 Publishing:
 
 ```text
-Automatic publish after review is acceptable for MVP unless the operator wants staged publishing.
+Automatic publish after review is acceptable for MVP unless DD wants staged publishing.
 ```
 
 ## Localization Notes
@@ -158,7 +158,7 @@ Automatic publish after review is acceptable for MVP unless the operator wants s
 Chrome extension package localization:
 
 ```text
-The submitted ZIP includes default_locale: en and _locales for en, en_GB, ja, es, es_419, fr, de, it, nl, pl, pt_BR, ru, tr, ar, hi, id, th, vi, ko, zh_CN, and zh_TW.
+The submitted ZIP includes default_locale: en and _locales for en, en_GB, ja, es, es_419, fr, de, it, nl, pl, pt_BR, ru, tr, ar, hi, id, th, vi, ko, zh_CN, and zh_TW. As of 2026-06-01 13:28 JST, the package has 65 localized message keys per locale and the rebuilt ZIP size is 69309 bytes.
 ```
 
 Recommended first Store Listing locales:
@@ -178,7 +178,7 @@ Use "multilingual form autofill" rather than "Japanese-only form autofill" for g
 Language strategy:
 
 ```text
-Worldwide release is part of the business strategy. Language support means UI locale, form label understanding, locale_context for schema inference, country-specific formatting, and learned site mappings. The first release should stay English-primary in the Store to avoid delaying submission; localized Store Listing variants can be added after review.
+Worldwide release is part of the business strategy. Language support means UI locale, form label understanding, locale_context for schema inference, country-specific formatting, and learned site mappings. The first release should stay English-primary in the Store to avoid delaying submission; localized Store Listing variants can be added after review. The extension sends only safe form structure and locale context to the schema API, not profile values.
 ```
 
 ## Test Instructions For Reviewers
@@ -203,7 +203,7 @@ The extension uses only activeTab, so it reads and fills the current page only a
 ## Dashboard入力済み
 
 - Item ID: `kmlcabffhmenjajmlnkkglphjnbaahlf`
-- 多言語ZIP upload済み
+- 多言語ZIP upload済み。2026-06-01 13:35 JSTに最新ZIP `69309 bytes` をPackage画面から再upload済み
 - Store Listing保存済み
 - Privacy保存済み
 - Distribution: Public / Worldwide / In-app purchases

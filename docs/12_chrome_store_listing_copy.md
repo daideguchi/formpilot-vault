@@ -25,7 +25,7 @@ The AI receives form structure only. It does not receive raw profile values, exi
 
 FormPilot Vault does not click submit buttons. The user always reviews the filled form before submitting. It does not bypass CAPTCHA, SMS verification, email verification, identity checks, or create accounts in bulk.
 
-The extension UI is localized for 21 Chrome package locales across the Americas, Europe, the Middle East, and Asia. The form understanding rules cover common labels in the major launch languages, including English, Japanese, Spanish, French, German, Portuguese, Korean, Chinese, Italian, Dutch, Polish, Russian, Turkish, Arabic, Hindi, Indonesian, Thai, and Vietnamese.
+The extension UI is localized for 21 Chrome package locales across the Americas, Europe, the Middle East, and Asia. The form understanding layer uses the production schema API first, then falls back to local rules. It covers common labels in the major launch languages, including English, Japanese, Spanish, French, German, Portuguese, Korean, Chinese, Italian, Dutch, Polish, Russian, Turkish, Arabic, Hindi, Indonesian, Thai, and Vietnamese, with support for country and country-code fields.
 
 Free includes 5 fills per month. Plus, Pro, and Team plans unlock higher usage, multiple profiles, company profiles, and learned site mappings.
 

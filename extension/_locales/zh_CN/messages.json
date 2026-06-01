@@ -1,65 +1,197 @@
 {
-  "extName": { "message": "FormPilot Vault" },
-  "extShortName": { "message": "FormPilot" },
-  "extDescription": { "message": "多语言表单自动填写，使用本地个人资料 Vault，并由用户确认。" },
-  "eyebrow": { "message": "本地资料 / 仅分析表单结构的 AI" },
-  "appTitle": { "message": "FormPilot Vault" },
-  "profileVault": { "message": "个人资料 Vault" },
-  "sample": { "message": "示例" },
-  "memoryLoading": { "message": "Vault 记忆：加载中" },
-  "save": { "message": "保存" },
-  "scanForm": { "message": "扫描表单" },
-  "inputPlan": { "message": "填写计划" },
-  "fill": { "message": "填写" },
-  "openFormPrompt": { "message": "打开表单页面，然后点击扫描表单。" },
-  "plan": { "message": "方案" },
-  "upgrade": { "message": "升级" },
-  "freeUsageLoading": { "message": "免费使用量：加载中" },
-  "licenseKey": { "message": "许可证密钥" },
-  "check": { "message": "检查" },
-  "upgradeCopy": { "message": "Free 每月限 5 次填写。升级后可解锁无限填写、多个资料和站点记忆。" },
-  "footnote": { "message": "不会点击提交。个人数据值保留在本地。" },
-  "profileSaved": { "message": "个人资料已保存到本地 Vault。" },
-  "freeLimitReached": { "message": "已达到免费月度上限。请升级后继续填写。" },
-  "filledReview": { "message": "已填写 $1 个字段。提交前请检查。" },
-  "licenseActive": { "message": "$1 许可证已激活。" },
-  "licenseInactive": { "message": "许可证未激活。继续使用 Free 方案。" },
-  "licenseFailed": { "message": "许可证检查失败：$1" },
-  "profileJsonInvalid": { "message": "个人资料 JSON 无效：$1" },
-  "noActiveTab": { "message": "没有活动标签页" },
-  "planSummary": { "message": "已扫描 $1 个字段 / $2 个可填写 / $3 个需确认" },
-  "sourceMemory": { "message": "记忆" },
-  "sourceRules": { "message": "规则" },
-  "uncertainManual": { "message": "不确定。用户应手动填写。" },
-  "profileKey": { "message": "资料键" },
-  "rememberAs": { "message": "记住为..." },
-  "learn": { "message": "学习" },
-  "memoryUpdated": { "message": "记忆已更新。请检查新的填写计划。" },
-  "memorySummary": { "message": "$1 个资料 / $2 个已学习映射 / 此表单命中 $3 个" },
-  "paidUsage": { "message": "$1 方案 / 本月填写 $2 次" },
-  "freeUsage": { "message": "免费使用：本月 $1/$2 次" },
-  "semantic_person_name_full": { "message": "姓名" },
-  "semantic_person_name_last": { "message": "姓" },
-  "semantic_person_name_first": { "message": "名" },
-  "semantic_person_name_full_kana": { "message": "姓名假名" },
-  "semantic_person_name_last_kana": { "message": "姓假名" },
-  "semantic_person_name_first_kana": { "message": "名假名" },
-  "semantic_person_email_primary": { "message": "邮箱" },
-  "semantic_person_phone_mobile_auto": { "message": "电话" },
-  "semantic_person_address_postal_code_auto": { "message": "邮政编码" },
-  "semantic_person_address_prefecture": { "message": "省/州/地区" },
-  "semantic_person_address_city": { "message": "城市" },
-  "semantic_person_address_line1": { "message": "地址行 1" },
-  "semantic_person_address_line2": { "message": "地址行 2" },
-  "semantic_person_address_full": { "message": "地址" },
-  "semantic_person_birthdate_year": { "message": "出生年份" },
-  "semantic_person_birthdate_month": { "message": "出生月份" },
-  "semantic_person_birthdate_day": { "message": "出生日期" },
-  "semantic_person_birthdate_iso": { "message": "出生日期" },
-  "semantic_person_gender": { "message": "性别" },
-  "semantic_company_name": { "message": "公司" },
-  "semantic_company_department": { "message": "部门" },
-  "semantic_company_title": { "message": "职位" },
-  "semantic_company_website": { "message": "公司网站" },
-  "semantic_account_password_generated": { "message": "生成的密码" }
+  "extName": {
+    "message": "FormPilot Vault"
+  },
+  "extShortName": {
+    "message": "FormPilot"
+  },
+  "extDescription": {
+    "message": "多语言表单自动填写，使用本地个人资料 Vault，并由用户确认。"
+  },
+  "eyebrow": {
+    "message": "本地资料 / 仅分析表单结构的 AI"
+  },
+  "appTitle": {
+    "message": "FormPilot Vault"
+  },
+  "profileVault": {
+    "message": "个人资料 Vault"
+  },
+  "sample": {
+    "message": "示例"
+  },
+  "memoryLoading": {
+    "message": "Vault 记忆：加载中"
+  },
+  "save": {
+    "message": "保存"
+  },
+  "scanForm": {
+    "message": "扫描表单"
+  },
+  "inputPlan": {
+    "message": "填写计划"
+  },
+  "fill": {
+    "message": "填写"
+  },
+  "openFormPrompt": {
+    "message": "打开表单页面，然后点击扫描表单。"
+  },
+  "plan": {
+    "message": "方案"
+  },
+  "upgrade": {
+    "message": "升级"
+  },
+  "freeUsageLoading": {
+    "message": "免费使用量：加载中"
+  },
+  "licenseKey": {
+    "message": "许可证密钥"
+  },
+  "check": {
+    "message": "检查"
+  },
+  "upgradeCopy": {
+    "message": "Free 每月限 5 次填写。升级后可解锁无限填写、多个资料和站点记忆。"
+  },
+  "footnote": {
+    "message": "不会点击提交。个人数据值保留在本地。"
+  },
+  "profileSaved": {
+    "message": "个人资料已保存到本地 Vault。"
+  },
+  "freeLimitReached": {
+    "message": "已达到免费月度上限。请升级后继续填写。"
+  },
+  "filledReview": {
+    "message": "已填写 $1 个字段。提交前请检查。"
+  },
+  "licenseActive": {
+    "message": "$1 许可证已激活。"
+  },
+  "licenseInactive": {
+    "message": "许可证未激活。继续使用 Free 方案。"
+  },
+  "licenseFailed": {
+    "message": "许可证检查失败：$1"
+  },
+  "profileJsonInvalid": {
+    "message": "个人资料 JSON 无效：$1"
+  },
+  "noActiveTab": {
+    "message": "没有活动标签页"
+  },
+  "planSummary": {
+    "message": "已扫描 $1 个字段 / $2 个可填写 / $3 个需确认"
+  },
+  "sourceMemory": {
+    "message": "记忆"
+  },
+  "sourceRules": {
+    "message": "规则"
+  },
+  "uncertainManual": {
+    "message": "不确定。用户应手动填写。"
+  },
+  "profileKey": {
+    "message": "资料键"
+  },
+  "rememberAs": {
+    "message": "记住为..."
+  },
+  "learn": {
+    "message": "学习"
+  },
+  "memoryUpdated": {
+    "message": "记忆已更新。请检查新的填写计划。"
+  },
+  "memorySummary": {
+    "message": "$1 个资料 / $2 个已学习映射 / 此表单命中 $3 个"
+  },
+  "paidUsage": {
+    "message": "$1 方案 / 本月填写 $2 次"
+  },
+  "freeUsage": {
+    "message": "免费使用：本月 $1/$2 次"
+  },
+  "semantic_person_name_full": {
+    "message": "姓名"
+  },
+  "semantic_person_name_last": {
+    "message": "姓"
+  },
+  "semantic_person_name_first": {
+    "message": "名"
+  },
+  "semantic_person_name_full_kana": {
+    "message": "姓名假名"
+  },
+  "semantic_person_name_last_kana": {
+    "message": "姓假名"
+  },
+  "semantic_person_name_first_kana": {
+    "message": "名假名"
+  },
+  "semantic_person_email_primary": {
+    "message": "邮箱"
+  },
+  "semantic_person_phone_country_code": {
+    "message": "国家代码"
+  },
+  "semantic_person_phone_mobile_auto": {
+    "message": "电话"
+  },
+  "semantic_person_address_postal_code_auto": {
+    "message": "邮政编码"
+  },
+  "semantic_person_address_country": {
+    "message": "国家"
+  },
+  "semantic_person_address_prefecture": {
+    "message": "省/州/地区"
+  },
+  "semantic_person_address_city": {
+    "message": "城市"
+  },
+  "semantic_person_address_line1": {
+    "message": "地址行 1"
+  },
+  "semantic_person_address_line2": {
+    "message": "地址行 2"
+  },
+  "semantic_person_address_full": {
+    "message": "地址"
+  },
+  "semantic_person_birthdate_year": {
+    "message": "出生年份"
+  },
+  "semantic_person_birthdate_month": {
+    "message": "出生月份"
+  },
+  "semantic_person_birthdate_day": {
+    "message": "出生日期"
+  },
+  "semantic_person_birthdate_iso": {
+    "message": "出生日期"
+  },
+  "semantic_person_gender": {
+    "message": "性别"
+  },
+  "semantic_company_name": {
+    "message": "公司"
+  },
+  "semantic_company_department": {
+    "message": "部门"
+  },
+  "semantic_company_title": {
+    "message": "职位"
+  },
+  "semantic_company_website": {
+    "message": "公司网站"
+  },
+  "semantic_account_password_generated": {
+    "message": "生成的密码"
+  }
 }

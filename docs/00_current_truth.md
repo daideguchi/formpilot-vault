@@ -21,6 +21,7 @@ MVPは `Chrome拡張 + content script入力` を本線にします。Playwright�
 - DOM収集/入力実行: `extension/src/collector.js`
 - API切替方針: `extension/src/provider-router.js`
 - AI安全ペイロード: `extension/src/ai-payload.js`
+- Extension schema API client: `extension/src/schema-client.js`
 - AI schema proxy: `api/schema-proxy/`
 - entitlement API: `api/entitlement/`
 - サンプルフォーム検証: `tests/`
@@ -56,9 +57,9 @@ MVPは `Chrome拡張 + content script入力` を本線にします。Playwright�
 
 popup上で不確定項目をプロフィールキーへ紐づける `Learn` UIも実装済みです。これにより、ユーザー修正を `correction_events` と `mapping_cache` に保存し、同じフォームでは次回からMemory優先で入力プランへ反映します。
 
-AIへ渡すschema inference payloadも実装済みです。フォーム構造、Memory context、ページ言語やTLDなどの `locale_context` は渡しますが、input value、CSS selector、プロフィール実値は入れないテストを固定しています。
+AIへ渡すschema inference payloadも実装済みです。フォーム構造、Memory context、ページ言語、UI言語、ブラウザ言語、TLD、タイムゾーン、calendar、numbering systemなどの `locale_context` は渡しますが、input value、CSS selector、プロフィール実値は入れないテストを固定しています。
 
-リリース/課金に必要なAPI土台も実装済みです。`api/schema-proxy/` はAzure DeepSeek V4からCloudflare Workers AIへ日付で切替し、`api/entitlement/` はStripe webhookとlicense checkを扱います。popupにはLicense key確認欄を追加済みです。
+リリース/課金に必要なAPI土台も実装済みです。`api/schema-proxy/` はAzure DeepSeek V4からCloudflare Workers AIへ日付で切替し、`api/entitlement/` はStripe webhookとlicense checkを扱います。popupにはLicense key確認欄を追加済みです。2026-06-01 13:28 JSTに、拡張popup本体も `extension/src/schema-client.js` 経由で本番schema APIを優先利用する形へ変更しました。API失敗時はローカルルールへfallbackします。
 
 DDの初期思想は実際のschema proxyプロンプトへ入れました。`buildSchemaPrompt()` は、フォーム入力の細かな手間をなくす、Personal Vault + Profile RAG/Memory Spaceを核にする、実値を扱わない、不確定項目はユーザー確認へ残す、送信/認証突破/大量作成はしない、世界市場のフォームでは `locale_context` を補助情報として使う、という方針を含みます。
 
@@ -68,25 +69,25 @@ Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/
 
 AI schema proxyは、Azure/Cloudflareの実環境変数が未投入でも停止しないように `rules_fallback` を実装済みです。2026-06-06まではprovider_idは `azure_deepseek_v4` のまま、Azure環境変数が未設定の場合はローカルのフォーム理解ルールでsemantic keyを返します。Azure値が投入されたらlive modeへ戻せます。
 
-多言語対応も初回提出前に強化しました。manifestは `default_locale: en` と `_locales` を使うChrome公式i18n構成で、21 localeに対応します。対象は英語、英語UK、日本語、スペイン語、ラテンアメリカスペイン語、フランス語、ドイツ語、イタリア語、オランダ語、ポーランド語、ブラジルポルトガル語、ロシア語、トルコ語、アラビア語、ヒンディー語、インドネシア語、タイ語、ベトナム語、韓国語、中国語簡体、中国語繁体です。フォーム認識ルールも主要グローバル市場の氏名、メール、電話、郵便番号、住所、会社、部署、役職、パスワードに広げています。世界配信の販売戦略は `docs/15_global_language_distribution_plan.md` を正本にし、UI翻訳だけでなく国別フォーム理解、`locale_context`、Memory学習までを言語対応に含めます。
+多言語対応も初回提出前に強化しました。manifestは `default_locale: en` と `_locales` を使うChrome公式i18n構成で、21 localeに対応します。対象は英語、英語UK、日本語、スペイン語、ラテンアメリカスペイン語、フランス語、ドイツ語、イタリア語、オランダ語、ポーランド語、ブラジルポルトガル語、ロシア語、トルコ語、アラビア語、ヒンディー語、インドネシア語、タイ語、ベトナム語、韓国語、中国語簡体、中国語繁体です。2026-06-01 13:28 JST時点でExtension UIは65キー x 21 localeで欠落なしです。フォーム認識ルールも主要グローバル市場の氏名、メール、電話、国番号、郵便番号、国、住所、会社、部署、役職、パスワードに広げています。世界配信の販売戦略は `docs/15_global_language_distribution_plan.md` を正本にし、UI翻訳だけでなく国別フォーム理解、`locale_context`、Memory学習までを言語対応に含めます。
 
-Chrome Web Store提出向けのロゴ、manifestアイコン、小プロモ画像、1280x800スクリーンショット3枚、提出用ZIPを作成済みです。素材生成は `npm run assets:store`、ZIP作成は `npm run package:extension` で再現できます。2026-06-01 12:38 JST時点の提出用ZIPは、暗号鍵のIndexedDB分離と `locale_context` 収集入りで `66705 bytes` です。
+Chrome Web Store提出向けのロゴ、manifestアイコン、小プロモ画像、1280x800スクリーンショット3枚、提出用ZIPを作成済みです。素材生成は `npm run assets:store`、ZIP作成は `npm run package:extension` で再現できます。2026-06-01 13:28 JST時点の提出用ZIPは、本番schema API優先、21 locale/65キー、国/国番号semantic key、拡張 `locale_context` 収集入りで `69309 bytes` です。
 
-Chrome Web Store Dashboardには下書きitemを作成済みです。21 locale ZIPをアップロードし、Store Listing、Privacy、販売地域、テスト手順を入力保存済みです。Primary languageは英語、UI localeは21 locale、カテゴリは `Workflow and Planning`、販売地域は全155地域、決済表示はStripe有料導線に合わせて `In-app purchases`、公開設定は `Public` です。2026-06-01 12:38 JSTに最新版ZIP `66705 bytes` を再uploadし、Package画面でversion `0.1.0`、21言語、権限 `activeTab, scripting, storage`、Submit表示ありを確認しました。`Submit for review` は有効化されていますが、DDの最終確認が必要なため未クリックです。
+Chrome Web Store Dashboardには下書きitemを作成済みです。21 locale ZIPをアップロードし、Store Listing、Privacy、販売地域、テスト手順を入力保存済みです。Primary languageは英語、UI localeは21 locale、カテゴリは `Workflow and Planning`、販売地域は全155地域、決済表示はStripe有料導線に合わせて `In-app purchases`、公開設定は `Public` です。2026-06-01 13:35 JSTに最新ZIP `69309 bytes` をPackage画面から再uploadし、Package画面でversion `0.1.0`、21言語、権限 `activeTab, scripting, storage`、Submit表示ありを確認しました。`Submit for review` は有効化されていますが、DDの最終確認が必要なため未クリックです。
 
 Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry-run通過済みです。現時点では `STRIPE_SECRET_KEY` が未投入のため、本番Stripeへの商品作成と決済入金確認は未実行です。
 
-本番APIの置き場としてCloudflare Workerを実装済みです。`/api/schema/infer`、`/api/stripe/checkout-session`、`/api/stripe/webhook`、`/api/entitlement/check`、`/api/health` を同じWorkerで扱います。Stripe entitlementはD1に保存する設計です。Workers AI binding `env.AI.run()` がある場合はCloudflare API tokenなしで推論できます。
+本番APIの置き場としてCloudflare Workerを実装済みです。`/api/schema/infer`、`/api/stripe/checkout-session`、`/api/stripe/webhook`、`/api/entitlement/check`、`/api/health` を同じWorkerで扱います。Stripe entitlementはD1に保存する設計です。Workers AI binding `env.AI.run()` がある場合はCloudflare API tokenなしで推論できます。Cloudflare CLIは `dd.1107.11107@gmail.com` でlogin済み、D1 `ai-form-autofill-prod` はAPACに作成済み、database_idは `895767fa-8bc7-4811-9801-63d879eeb194` です。D1 migration適用済みで、Worker本番URLは `https://ai-form-autofill.dd-1107-11107.workers.dev` です。
 
-`npm run release:check` も追加済みです。Vercel本番APIを使う通常リリース判定ではブロッカー0です。Cloudflare D1 `database_id` placeholderは、将来Cloudflare Workerへ完全移行する時だけの警告として残しています。
+`npm run release:check` も追加済みです。Vercel本番APIを使う通常リリース判定ではブロッカー0です。Cloudflare用は `npm run check:cloudflare:live` で、Worker health、Workers AI live schema、Stripe Checkout bridge、Free entitlement bridgeを検証します。
 
-`npm run check:production` も追加済みです。本番 `https://formpilot-vault-api.vercel.app` に対して、health、schema inference、Stripe Checkout session、Free entitlement、Privacy、Support、Termsを一括確認します。2026-06-01 12:32 JSTの確認ではブロッカー0、Stripe Checkoutは `cs_live_` セッションを返し、AI schema inferenceのみ `azure_env_missing` による `rules_fallback` warningです。`npm run check:production:strict-ai` では、このAI live未投入をブロッカーとして検出できます。
+`npm run check:production` も追加済みです。本番 `https://formpilot-vault-api.vercel.app` に対して、health、schema inference、Stripe Checkout session、Free entitlement、Privacy、Support、Termsを一括確認します。2026-06-01 13:32 JSTの確認ではブロッカー0、Stripe Checkoutは `cs_live_` セッションを返し、AI schema inferenceのみ `azure_env_missing` による `rules_fallback` warningです。`npm run check:production:strict-ai` では、このAI live未投入をブロッカーとして検出できます。
 
-公開用LPは `FormPilot Vault` としてVercel本番へ反映済みです。`https://formpilot-vault-api.vercel.app/` はHTTP 200を確認済みです。2026-06-01 12:45 JSTにVercel deployment `dpl_21qL4KujvR2pXqd3irEvrgN1YmZT` を本番aliasへ反映し、英語初期表示とPrivacyの非exportable CryptoKey表現が配信されることを確認済みです。GitHub Pages版 `https://daideguchi.github.io/formpilot-vault/` も公開ミラーとして維持しています。
+公開用LPは `FormPilot Vault` としてVercel本番へ反映済みです。`https://formpilot-vault-api.vercel.app/` はHTTP 200を確認済みです。2026-06-01 13:32 JSTにVercel deployment `dpl_BkXLM2QPbuNSj159j2NQ1cgSgxTD` を本番aliasへ反映し、最新schema proxyとStripe bridge経路を本番へ反映しました。GitHub Pages版 `https://daideguchi.github.io/formpilot-vault/` も公開ミラーとして維持しています。
 
-Cloudflare移行用に `npm run check:cloudflare` を追加済みです。Worker実装、AI binding設定、D1 entitlement migration、`wrangler` devDependencyはrepo内にありますが、2026-06-01確認時点ではCloudflare loginとD1 database作成が未完了で、`wrangler.toml` のD1 `database_id` はplaceholderのままです。Worker deploy、D1作成、Workers AI binding本番確認は、Cloudflare login後の人間確認点です。現在の本番はVercel + Stripeブリッジで動いています。
+Cloudflare移行用に `npm run check:cloudflare` と `npm run check:cloudflare:live` を追加済みです。2026-06-01確認時点でCloudflare login、D1 database作成、migration、Worker deploy、Workers AI binding本番確認、Stripe bridge secret設定まで完了しています。現在のChrome Web Store提出用本番は引き続きVercel + Stripeブリッジですが、Cloudflare Workerへ切り替え可能な本番経路も検証済みです。
 
-Azure CLIは `degutidai@gmail.com` でログイン済みです。既存Azure AI Servicesは `degutidai-1418-resource` と `degutidai-5815-resource` の2つが見えますが、2026-06-01確認時点では両方ともmodel deploymentが空です。そのため、Azure DeepSeek V4をlive化するにはAzure AI Foundry/Serverless model deploymentの作成または既存endpoint/keyの投入が必要です。新しい有料/Marketplace条件付きdeployment作成はDD確認が必要な停止点として扱います。
+Azure CLIは `degutidai@gmail.com` でログイン済みです。既存Azure AI Servicesは `degutidai-1418-resource` と `degutidai-5815-resource` の2つが見えますが、2026-06-01確認時点では両方ともmodel deploymentが空です。Azure側では `DeepSeek-V4-Pro` と `DeepSeek-V4-Flash` のmodel listは見えますが、deployment作成は subscription `8bf38da5-83a9-4f59-b2f9-1b7cc66fc64d` が `ReadOnlyDisabledSubscription` のため失敗しました。Azureを6/6までlive利用するには、Azure subscriptionの再有効化が人間停止点です。
 
 実ブラウザ検証も通過済みです。Chromiumに拡張を `--load-extension` で読み込み、extension service worker / content script / DOM入力まで実行しました。12項目収集、12項目入力、Plus license表示、`locale_context` 収集、IndexedDB内の非exportable Vault鍵、`chrome.storage.local` に鍵/実値なしまで確認済みです。証跡は `docs/10_real_browser_verification.md` と `site/assets/real-extension-*.png` にあります。
 
@@ -123,10 +124,8 @@ Azure CLIは `degutidai@gmail.com` でログイン済みです。既存Azure AI 
 
 - Chrome Web Storeの最終 `Submit for review`
 - Chrome Web Store審査対応
-- Azure DeepSeek V4の本番endpoint/key投入
-- Cloudflare D1の作成と `database_id` 反映
-- Worker本番deploy
-- Cloudflare CLI login
+- Azure subscription再有効化、またはAzure期間をrules fallbackで運用する最終判断
+- Chrome Web Store最終提出前のDD確認
 - サイト別マッピングUI
 - 入力判断用RAG/Memory Spaceの実サイト評価
 
@@ -218,6 +217,6 @@ Mind the Product向けに、既存のNovus/Pendoアカウントの公開Web inst
 3. Chrome Web Storeは下書き入力済み。DD確認後に `Submit for review` を押す
 4. UiPath AgentHack: `Form Intake Case Room` のUiPath証拠を作る
 5. Google Rapid Agent: `FormOps Agent` のGemini / Agent Builder / Partner MCP証拠が作れるか判定する
-6. Azure DeepSeek V4の実endpoint/keyをVercelへ投入し、`rules_fallback` ではなくlive応答をsmoke testする
+6. DD確認後にChrome Web Storeの `Submit for review` を押す
 7. 日本語の公開/許可済みデモフォームを増やして認識率を測る
 8. mapping cacheの2回目成功率を測る
