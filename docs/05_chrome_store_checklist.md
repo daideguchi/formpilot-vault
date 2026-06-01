@@ -81,5 +81,6 @@ npm run release:check
 
 ## 現在の人間停止点
 
-- 最終 `Submit for Review`
-- 審査中/審査後に本人確認、公開確認、差し戻し対応が出た場合の承認
+- Chrome Web Storeは `審査待ち`
+- 審査完了後の公開確認、または差し戻し対応
+- Stripe実購入/入金確認

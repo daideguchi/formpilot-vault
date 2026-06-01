@@ -44,6 +44,7 @@ MVPは `Chrome拡張 + content script入力` を本線にします。Playwright�
 - 本番リリースRunbook: `docs/13_production_launch_runbook.md`
 - release readiness check: `scripts/release-readiness.mjs`
 - production connection check: `scripts/check-production-connections.mjs`
+- paid license live check: `scripts/check-paid-license-live.mjs`
 - 公開LP/GitHub repo: `https://daideguchi.github.io/formpilot-vault/`, `https://github.com/daideguchi/formpilot-vault`
 - 本番LP/API: `https://formpilot-vault-api.vercel.app/`
 - Stripe本番Checkoutブリッジ: `https://kurogane-edge-core-lp.vercel.app/api/formpilot/*`
@@ -65,15 +66,19 @@ DDの初期思想は実際のschema proxyプロンプトへ入れました。`bu
 
 Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/Teamボタンから `POST /api/stripe/checkout-session` を呼び、Checkout成功後にLicense keyを表示します。2026-06-01時点では、FormPilot本番APIがKurogane側のStripe本番secretを使う専用ブリッジへ中継し、Stripe Checkout Session作成まで本番で成功しています。2026-06-01 13:40 JSTにPlus/Pro/Teamの3プランすべてで `cs_live_` Checkout Session作成を確認しました。購入前のlicense checkはFree/月5回で返り、購入後はStripe subscription metadataの `license_key` / `plan` を照会して有料権利を返す設計です。
 
+実購入後の有料権利確認用に `npm run check:paid-license` を追加しました。`AFA_LICENSE_KEY=afa_xxx AFA_EXPECTED_PLAN=plus npm run check:paid-license` で、Vercel本番とCloudflare Worker本番の両方に対して、有料plan、active状態、月間fills権利を確認できます。
+
 公開LPは世界配信向けに、非日本語ブラウザでは英語を初期表示します。日本語は `?lang=ja` または言語ボタンで表示できます。2026-06-01 12:45 JSTの本番確認では、英語初期表示、英語Plusボタン、日本語モバイル表示、横スクロールなし、Stripe Checkout導線が通っています。
 
 AI schema proxyは、Azure/Cloudflareの実環境変数が未投入でも停止しないように `rules_fallback` を実装済みです。2026-06-06まではprovider_idは `azure_deepseek_v4` のまま、Azure環境変数が未設定の場合はローカルのフォーム理解ルールでsemantic keyを返します。Azure値が投入されたらlive modeへ戻せます。
 
 多言語対応も初回提出前に強化しました。manifestは `default_locale: en` と `_locales` を使うChrome公式i18n構成で、21 localeに対応します。対象は英語、英語UK、日本語、スペイン語、ラテンアメリカスペイン語、フランス語、ドイツ語、イタリア語、オランダ語、ポーランド語、ブラジルポルトガル語、ロシア語、トルコ語、アラビア語、ヒンディー語、インドネシア語、タイ語、ベトナム語、韓国語、中国語簡体、中国語繁体です。2026-06-01 13:28 JST時点でExtension UIは65キー x 21 localeで欠落なしです。フォーム認識ルールも主要グローバル市場の氏名、メール、電話、国番号、郵便番号、国、住所、会社、部署、役職、パスワードに広げています。世界配信の販売戦略は `docs/15_global_language_distribution_plan.md` を正本にし、UI翻訳だけでなく国別フォーム理解、`locale_context`、Memory学習までを言語対応に含めます。
 
+2026-06-01のlaunch decisionとして、世界配信は初期戦略に昇格しました。日本語フォームの強さは残しつつ、英語Primary、全155地域配信、21 locale拡張UI、英語初期LP、国別フォーム理解、Free月5回からの有料転換をセットで進めます。
+
 Chrome Web Store提出向けのロゴ、manifestアイコン、小プロモ画像、1280x800スクリーンショット3枚、提出用ZIPを作成済みです。素材生成は `npm run assets:store`、ZIP作成は `npm run package:extension` で再現できます。2026-06-01 13:28 JST時点の提出用ZIPは、本番schema API優先、21 locale/65キー、国/国番号semantic key、拡張 `locale_context` 収集入りで `69309 bytes` です。
 
-Chrome Web Store Dashboardには下書きitemを作成済みです。21 locale ZIPをアップロードし、Store Listing、Privacy、販売地域、テスト手順を入力保存済みです。Primary languageは英語、UI localeは21 locale、カテゴリは `Workflow and Planning`、販売地域は全155地域、決済表示はStripe有料導線に合わせて `In-app purchases`、公開設定は `Public` です。2026-06-01 13:35 JSTに最新ZIP `69309 bytes` をPackage画面から再uploadし、Package画面でversion `0.1.0`、21言語、権限 `activeTab, scripting, storage`、Submit表示ありを確認しました。`Submit for review` は有効化されていますが、DDの最終確認が必要なため未クリックです。
+Chrome Web Store Dashboardには下書きitemを作成済みです。21 locale ZIPをアップロードし、Store Listing、Privacy、販売地域、テスト手順を入力保存済みです。Primary languageは英語、UI localeは21 locale、カテゴリは `Workflow and Planning`、販売地域は全155地域、決済表示はStripe有料導線に合わせて `In-app purchases`、公開設定は `Public` です。2026-06-01 13:35 JSTに最新ZIP `69309 bytes` をPackage画面から再uploadし、Package画面でversion `0.1.0`、21言語、権限 `activeTab, scripting, storage` を確認しました。2026-06-01 13:43 JSTのDashboard実測でステータスは `審査待ち` です。`審査のため送信` はdisabledになっており、最終提出は完了済みです。
 
 Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry-run通過済みです。現時点では `STRIPE_SECRET_KEY` が未投入のため、本番Stripeへの商品作成と決済入金確認は未実行です。
 
@@ -122,10 +127,10 @@ Azure CLIは `degutidai@gmail.com` でログイン済みです。既存Azure AI 
 
 ## 未完了
 
-- Chrome Web Storeの最終 `Submit for review`
 - Chrome Web Store審査対応
 - Azure subscription再有効化、またはAzure期間をrules fallbackで運用する最終判断
-- Chrome Web Store最終提出前のDD確認
+- Chrome Web Store審査完了後の公開確認
+- Stripeの実購入/入金確認
 - サイト別マッピングUI
 - 入力判断用RAG/Memory Spaceの実サイト評価
 
@@ -214,9 +219,9 @@ Mind the Product向けに、既存のNovus/Pendoアカウントの公開Web inst
 
 1. Mind the Product: Devpostが外部動画URLを要求する場合、埋め込み済み2分デモを元に提出用動画を作る
 2. Devpostが外部動画URLを要求する場合、埋め込み済み2分デモを元に提出用動画を作る
-3. Chrome Web Storeは下書き入力済み。DD確認後に `Submit for review` を押す
+3. Chrome Web Storeは `審査待ち`。審査完了後に公開URLとインストール導線を確認する
 4. UiPath AgentHack: `Form Intake Case Room` のUiPath証拠を作る
 5. Google Rapid Agent: `FormOps Agent` のGemini / Agent Builder / Partner MCP証拠が作れるか判定する
-6. DD確認後にChrome Web Storeの `Submit for review` を押す
+6. Stripeの実購入/入金確認を行い、購入済みLicense keyが有料activeになることを確認する
 7. 日本語の公開/許可済みデモフォームを増やして認識率を測る
 8. mapping cacheの2回目成功率を測る

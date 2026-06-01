@@ -208,12 +208,13 @@ The extension uses only activeTab, so it reads and fills the current page only a
 - Privacy保存済み
 - Distribution: Public / Worldwide / In-app purchases
 - Test instructions保存済み
-- `Submit for review` ボタンは有効。ただし未クリック。
+- 2026-06-01 13:43 JST時点のDashboardステータスは `審査待ち`
+- `審査のため送信` ボタンはdisabled。最終提出は完了済み。
 
 ## 人間操作が必要な停止点
 
-- 最終 `Submit for Review` ボタン
 - 審査後の公開確認または差し戻し対応
+- Stripe実購入/入金確認
 
 ## 公式確認元
 

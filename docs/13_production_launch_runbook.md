@@ -37,6 +37,8 @@ Chrome拡張を公開し、Plus/Pro/Teamの課金がDDのStripeへ入り、拡�
 
 注意: 2026-06-01時点のChrome Web Store提出用本番はVercelを正にします。Cloudflare Worker/D1は6/7以降の無料枠移行先として本番検証済みですが、現在のChrome Web Store提出を止める条件ではありません。
 
+世界配信は初期リリース戦略です。Chrome Web Storeは英語Primary、全155地域、21 locale packageのまま進め、Store Listingの追加翻訳は公開後に拡張します。初版を遅らせる理由にはしません。
+
 ## 現行本番接続
 
 - LP/API: `https://formpilot-vault-api.vercel.app/`
@@ -96,6 +98,14 @@ curl -X POST https://formpilot-vault-api.vercel.app/api/entitlement/check \
   -d '{"license_key":"afa_smoke"}'
 ```
 
+実購入後のLicense確認:
+
+```bash
+AFA_LICENSE_KEY=afa_xxx AFA_EXPECTED_PLAN=plus npm run check:paid-license
+```
+
+このコマンドはVercel本番とCloudflare Worker本番の両方で、有料plan、active状態、月間fills権利を確認する。購入前のlicenseでは失敗するのが正しい。
+
 ## Chrome Web Store提出
 
 ```bash
@@ -153,8 +163,8 @@ npm run deploy:worker
 
 ## 現在のブロッカー
 
-- Chrome Web Storeの最終 `Submit for review` はDD確認が必要
-- Chrome Web Store最終 `Submit for review` 前のDD確認
+- Chrome Web Storeは `審査待ち`。次の停止点は審査結果確認、公開確認、または差し戻し対応。
+- Stripeの実購入/入金確認は決済操作またはDashboard確認が必要
 - Azure DeepSeek V4のdeployment作成は `ReadOnlyDisabledSubscription` で停止。Azure利用を続けるならsubscription再有効化が必要
 
 ## 現在の非ブロッカー
