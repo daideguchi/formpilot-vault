@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI Form Autofill</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="app-header">
+        <div>
+          <p class="eyebrow">Local profile / Schema only AI</p>
+          <h1>AI Form Autofill</h1>
+        </div>
+        <span class="status-pill" id="providerStatus">checking</span>
+      </header>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <h2>Profile Vault</h2>
+          <button id="loadSample" type="button">Sample</button>
+        </div>
+        <div id="memoryStatus" class="memory-status">Vault memory: loading</div>
+        <textarea id="profileJson" spellcheck="false"></textarea>
+        <div class="button-row">
+          <button id="saveProfile" type="button">Save</button>
+          <button id="scanPage" type="button" class="primary">Scan Form</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <h2>Input Plan</h2>
+          <button id="fillPage" type="button" disabled>Fill</button>
+        </div>
+        <div id="planSummary" class="muted">Open a form page and click Scan Form.</div>
+        <div id="planList" class="plan-list"></div>
+      </section>
+
+      <section class="panel monetization-panel">
+        <div class="panel-heading">
+          <h2>Plan</h2>
+          <button id="upgradePlan" type="button">Upgrade</button>
+        </div>
+        <div id="usageStatus" class="usage-status">Free usage: loading</div>
+        <div class="license-row">
+          <input id="licenseKey" type="password" autocomplete="off" placeholder="License key">
+          <button id="checkLicense" type="button">Check</button>
+        </div>
+        <p class="muted">Free is limited to 5 fills per month. Upgrade unlocks unlimited fills, multiple profiles, and learned site mappings.</p>
+      </section>
+
+      <footer class="footnote">
+        No submit click. Personal values stay local.
+      </footer>
+    </main>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

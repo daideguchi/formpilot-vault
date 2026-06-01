@@ -1,0 +1,23 @@
+{
+  "created_at": "2026-05-31T23:54:28.136Z",
+  "results": [
+    {
+      "id": "httpbin_forms_post",
+      "url": "https://httpbin.org/forms/post",
+      "fields_scanned": 12,
+      "fields_ready": 4,
+      "fields_filled": 4,
+      "asks": 8,
+      "screenshot": "site/assets/public-probe-httpbin_forms_post.png"
+    },
+    {
+      "id": "selenium_web_form",
+      "url": "https://www.selenium.dev/selenium/web/web-form.html",
+      "fields_scanned": 14,
+      "fields_ready": 1,
+      "fields_filled": 1,
+      "asks": 13,
+      "screenshot": "site/assets/public-probe-selenium_web_form.png"
+    }
+  ]
+}

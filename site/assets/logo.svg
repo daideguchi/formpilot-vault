@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="180" viewBox="0 0 720 180" role="img" aria-labelledby="title desc">
+  <title id="title">AIフォームオートフィル</title>
+  <desc id="desc">Personal Vault and form autofill product logo</desc>
+  <rect width="720" height="180" rx="28" fill="#f4f7f8"/>
+  <g transform="translate(42 38)">
+    <rect x="0" y="0" width="104" height="104" rx="24" fill="#0f766e"/>
+    <path d="M29 30h46c8 0 14 6 14 14v16c0 8-6 14-14 14H49L32 88v-14h-3c-8 0-14-6-14-14V44c0-8 6-14 14-14Z" fill="#ffffff"/>
+    <path d="M36 47h34M36 60h21" stroke="#0f766e" stroke-width="8" stroke-linecap="round"/>
+    <path d="M78 26l10-10 10 10M88 16v28" stroke="#9ee8dc" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g transform="translate(172 47)">
+    <text x="0" y="38" fill="#202a35" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="42" font-weight="900">AIフォームオートフィル</text>
+    <text x="2" y="82" fill="#0f766e" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="18" font-weight="800">Personal Vault + Profile Memory Autofill</text>
+  </g>
+</svg>

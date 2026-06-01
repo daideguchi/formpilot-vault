@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>決済完了 - AIフォームオートフィル</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <main class="success-shell">
+      <section class="success-panel">
+        <p class="eyebrow">Payment complete</p>
+        <h1>Plus/Proの準備ができました。</h1>
+        <p class="lead">Chrome拡張のPlan欄に下のLicense keyを入れて、Checkを押してください。</p>
+        <label class="license-copy">
+          License key
+          <input id="licenseKeyDisplay" readonly>
+        </label>
+        <button id="copyLicense" class="checkout-button" type="button">License keyをコピー</button>
+        <p id="copyStatus" class="checkout-status" role="status"></p>
+      </section>
+    </main>
+    <script type="module" src="success.js"></script>
+  </body>
+</html>

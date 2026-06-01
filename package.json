@@ -1,0 +1,25 @@
+{
+  "name": "formpilot-vault",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "scripts": {
+    "test": "npm run test:schema && npm run test:api && npm run test:checkout-site && npm run test:playwright",
+    "test:schema": "node --test tests/schema-engine.test.mjs",
+    "test:api": "node --test tests/api-contracts.test.mjs",
+    "test:playwright": "node tests/playwright-fill-smoke.mjs",
+    "test:checkout-site": "node tests/site-checkout-smoke.mjs",
+    "test:extension": "node tests/extension-real-browser-e2e.mjs",
+    "test:public-probe": "node tests/public-site-real-browser-probe.mjs",
+    "dev:schema-proxy": "AFA_SCHEMA_PROXY_MODE=mock node api/schema-proxy/server.mjs",
+    "dev:entitlement": "node api/entitlement/server.mjs",
+    "setup:stripe:dry": "DRY_RUN=1 node scripts/setup-stripe-products.mjs",
+    "setup:stripe": "node scripts/setup-stripe-products.mjs",
+    "assets:store": "node scripts/generate-store-assets.mjs",
+    "package:extension": "node scripts/package-extension.mjs",
+    "preview:shot": "node scripts/generate-product-preview.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.59.1"
+  }
+}

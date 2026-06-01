@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AIフォームオートフィル</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <header class="hero">
+      <nav class="topbar">
+        <strong data-i18n-ja="AIフォームオートフィル" data-i18n-en="AI Form Autofill">AIフォームオートフィル</strong>
+        <div class="topbar-actions">
+          <button class="lang-button active" type="button" data-lang="ja">日本語</button>
+          <button class="lang-button" type="button" data-lang="en">English</button>
+          <a href="#pricing" data-i18n-ja="料金" data-i18n-en="Pricing">料金</a>
+        </div>
+      </nav>
+
+      <section class="lang-panel active" data-lang-panel="ja">
+        <div class="hero-grid">
+          <section class="hero-copy">
+            <p class="eyebrow">Chrome拡張MVP</p>
+            <h1>フォーム入力を、確認つきで一気に終わらせる。</h1>
+            <p class="lead">会員登録、資料請求、問い合わせフォームのくり返し入力を減らします。AIはフォーム構造だけを読み、実際の氏名・住所・電話・メールは端末内Vaultから入れます。送信は必ず人間が確認します。</p>
+            <div class="hero-actions">
+              <a class="button" href="#proof">証拠を見る</a>
+              <a class="button secondary" href="#pricing">料金を見る</a>
+            </div>
+          </section>
+          <figure class="preview">
+            <img src="assets/product-preview.png" alt="AIフォームオートフィルで入力されたサンプルフォーム">
+          </figure>
+        </div>
+
+        <section class="judge-strip" id="proof">
+          <h2>30秒で確認できます</h2>
+          <div class="proof-grid">
+            <article>
+              <span>1</span>
+              <h3>誰のため？</h3>
+              <p>毎週いくつもの登録・申請・問い合わせフォームを書く人。</p>
+            </article>
+            <article>
+              <span>2</span>
+              <h3>何を解決？</h3>
+              <p>同じ名前、住所、会社情報を何度も入れる手間。</p>
+            </article>
+            <article>
+              <span>3</span>
+              <h3>どう動く？</h3>
+              <p>フォームを読み、入力案を作り、ユーザー確認後に入力します。送信は押しません。</p>
+            </article>
+            <article>
+              <span>4</span>
+              <h3>何が証拠？</h3>
+              <p>拡張E2Eで12項目入力。公開フォーム検証も送信なしで通過。</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="band compact">
+          <h2>勝ち筋</h2>
+          <div class="columns">
+            <article>
+              <h3>日本語フォームに強い</h3>
+              <p>姓/名、セイ/メイ、郵便番号、住所分割、生年月日selectを重点対象にします。</p>
+            </article>
+            <article>
+              <h3>個人情報を送らない</h3>
+              <p>AIへ送るのはフォーム構造だけ。実値は端末内Vaultから入力します。</p>
+            </article>
+            <article>
+              <h3>使うほど学習</h3>
+              <p>サイト別マッピングとユーザー修正から、2回目以降の精度を上げます。</p>
+            </article>
+          </div>
+        </section>
+      </section>
+
+      <section class="lang-panel" data-lang-panel="en">
+        <div class="hero-grid">
+          <section class="hero-copy">
+            <p class="eyebrow">Chrome extension MVP</p>
+            <h1>Finish repetitive forms with human review.</h1>
+            <p class="lead">AI Form Autofill reduces repeated signup, lead, and contact-form typing. AI reads the form structure only. Real names, addresses, phone numbers, and emails stay in the local Vault. The user reviews everything before submitting.</p>
+            <div class="hero-actions">
+              <a class="button" href="#proof-en">See proof</a>
+              <a class="button secondary" href="#pricing">See pricing</a>
+            </div>
+          </section>
+          <figure class="preview">
+            <img src="assets/product-preview-en.png" alt="Sample English form filled by AI Form Autofill">
+          </figure>
+        </div>
+
+        <section class="judge-strip" id="proof-en">
+          <h2>Verify it in 30 seconds</h2>
+          <div class="proof-grid">
+            <article>
+              <span>1</span>
+              <h3>Who is it for?</h3>
+              <p>People who fill out registration, application, and contact forms every week.</p>
+            </article>
+            <article>
+              <span>2</span>
+              <h3>What pain?</h3>
+              <p>Typing the same identity, address, and company details again and again.</p>
+            </article>
+            <article>
+              <span>3</span>
+              <h3>How it works?</h3>
+              <p>It reads fields, drafts a fill plan, and fills after user review. It never submits.</p>
+            </article>
+            <article>
+              <span>4</span>
+              <h3>What proof?</h3>
+              <p>Extension E2E fills 12 fields. Public form probes pass without submitting.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="band compact">
+          <h2>Why it can win</h2>
+          <div class="columns">
+            <article>
+              <h3>Clear user pain</h3>
+              <p>Small repeated typing work is boring, common, and easy to understand.</p>
+            </article>
+            <article>
+              <h3>Privacy-first AI</h3>
+              <p>The AI receives form structure, not raw personal values.</p>
+            </article>
+            <article>
+              <h3>Learning memory</h3>
+              <p>Site-specific mappings and user corrections improve the next fill.</p>
+            </article>
+          </div>
+        </section>
+      </section>
+    </header>
+
+    <main>
+      <section class="band" id="pricing">
+        <h2 data-i18n-ja="収益化" data-i18n-en="Monetization">収益化</h2>
+        <div class="pricing-grid">
+          <article>
+            <h3>Free</h3>
+            <p class="price" data-i18n-ja="0円" data-i18n-en="JPY 0">0円</p>
+            <p data-i18n-ja="月5回、基本プロフィール1つ。" data-i18n-en="5 fills per month, 1 basic profile.">月5回、基本プロフィール1つ。</p>
+          </article>
+          <article class="paid-plan">
+            <h3>Plus</h3>
+            <p class="price" data-i18n-ja="580円/月から" data-i18n-en="From JPY 580/mo">580円/月から</p>
+            <p data-i18n-ja="無制限入力、複数プロフィール、サイト別学習。" data-i18n-en="Unlimited fills, multiple profiles, site memory.">無制限入力、複数プロフィール、サイト別学習。</p>
+            <button class="checkout-button" type="button" data-plan="plus">Plusで始める</button>
+          </article>
+          <article class="paid-plan">
+            <h3>Pro</h3>
+            <p class="price" data-i18n-ja="1,480円/月から" data-i18n-en="From JPY 1,480/mo">1,480円/月から</p>
+            <p data-i18n-ja="会社プロフィール、住所複数、入力履歴。" data-i18n-en="Company profile, multiple addresses, fill history.">会社プロフィール、住所複数、入力履歴。</p>
+            <button class="checkout-button" type="button" data-plan="pro">Proで始める</button>
+          </article>
+          <article class="paid-plan">
+            <h3>Team</h3>
+            <p class="price" data-i18n-ja="1,500円/人/月から" data-i18n-en="From JPY 1,500/user/mo">1,500円/人/月から</p>
+            <p data-i18n-ja="チームプロフィール、共有テンプレート、監査ログ。" data-i18n-en="Team profiles, shared templates, audit log.">チームプロフィール、共有テンプレート、監査ログ。</p>
+            <button class="checkout-button" type="button" data-plan="team">Teamで始める</button>
+          </article>
+        </div>
+        <p id="checkoutStatus" class="checkout-status" role="status"></p>
+      </section>
+    </main>
+    <script type="module" src="pricing.js"></script>
+  </body>
+</html>
