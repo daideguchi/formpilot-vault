@@ -133,7 +133,7 @@ Mind the Product向けの別提出候補として、公開用パッケージを�
 
 - 公開URL: `https://daideguchi.github.io/formpilot-vault/`
 - GitHub: `https://github.com/daideguchi/formpilot-vault`
-- 公開パッケージ作業場所: `/Users/dd/000_AI組織/__hackason/formpilot-vault-public`
+- 公開パッケージ作業場所: local `formpilot-vault-public` workspace
 - 最新コミット: `84f7eea Document live FormPilot Vault URLs`
 
 公開前に削った/直したこと:

@@ -66,6 +66,10 @@ Secondary variants:
 
 See [docs/11_hackathon_submission_strategy.md](docs/11_hackathon_submission_strategy.md).
 
+Mind the Product draft package:
+
+- [submission/mind-the-product-devpost-draft.md](submission/mind-the-product-devpost-draft.md)
+
 ## Run Locally
 
 ```bash

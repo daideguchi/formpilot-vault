@@ -62,7 +62,7 @@ AFA_PUBLIC_URL=https://YOUR_PUBLIC_URL npm run configure:release
 4. Stripe商品/価格/Webhookを作る
 
 ```bash
-STRIPE_SECRET_KEY=sk_live_xxx \
+STRIPE_SECRET_KEY=<stripe_live_secret> \
 STRIPE_WEBHOOK_URL=https://YOUR_PUBLIC_URL/api/stripe/webhook \
 npm run setup:stripe
 ```
@@ -97,7 +97,7 @@ curl -X POST https://YOUR_PUBLIC_URL/api/entitlement/check \
 
 ```bash
 npm run release:check
-STRIPE_SECRET_KEY=sk_live_xxx \
+STRIPE_SECRET_KEY=<stripe_live_secret> \
 STRIPE_WEBHOOK_SECRET=whsec_xxx \
 STRIPE_PRICE_ID_PLUS=price_xxx \
 STRIPE_PRICE_ID_PRO=price_xxx \
