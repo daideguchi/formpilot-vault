@@ -4,6 +4,10 @@ FormPilot Vault is a Chrome extension MVP that helps people finish repetitive fo
 
 It reads the form structure, maps fields to a local profile, drafts a fill plan, and fills the page only after the user clicks. It does not press submit.
 
+Live app: https://daideguchi.github.io/formpilot-vault/
+
+Repository: https://github.com/daideguchi/formpilot-vault
+
 ## Who It Helps
 
 People who repeatedly fill out:
@@ -46,6 +50,7 @@ Current local proof:
 - Public form probe scans 2 public demo forms without submitting.
 - Checkout smoke proves the Plus plan flow reaches the license success page.
 - English/Japanese UI switch has no horizontal overflow on desktop or mobile.
+- Public GitHub Pages deployment returns HTTP 200 and passes English/Japanese desktop/mobile checks.
 
 ## Hackathon Strategy
 
