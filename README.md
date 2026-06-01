@@ -50,6 +50,9 @@ Freeは月5回までの自動入力に制限し、Plus/Pro/Teamで無制限入�
 
 このプロダクトは、賞金狙いのハッカソンにも転用します。
 
+ただし、すでに公開しているこのページを、そのまま別ハッカソンへ再提出しません。
+中核エンジンは使い回し、提出ごとにユーザー、課題、必要な証拠、見せ方を分けます。
+
 優先順位:
 
 1. Mind the Product: `FormPilot Vault`
@@ -57,6 +60,10 @@ Freeは月5回までの自動入力に制限し、Plus/Pro/Teamで無制限入�
 3. Google Cloud Rapid Agent: `FormOps Agent`
 
 詳細は `docs/11_hackathon_submission_strategy.md` を正本にします。
+
+公開LPには、2分の無音自動再生デモを埋め込み済みです。
+日本語表示では `assets/autoplay-demo-ja.mp4`、英語表示では `assets/autoplay-demo-en.mp4` を流します。
+ブラウザで確実に自動再生させるため、動画は `muted` / `playsinline` / `loop` にしています。
 
 ## API方針
 

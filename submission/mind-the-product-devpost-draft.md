@@ -51,6 +51,10 @@ FormPilot Vault reads the form structure, maps each field to a safe profile key,
 
 Target length: 2-3 minutes.
 
+Current public page includes a 2-minute muted autoplay demo near the top.
+Use it as the always-visible judge preview.
+If Devpost requires an external video URL, export or re-record this flow as the final hosted video.
+
 1. Open with the pain: repeated signup and contact forms waste time.
 2. Show the public page and 30-second proof path.
 3. Show the Chrome extension scanning a form.
@@ -105,7 +109,7 @@ npm run release:check
 Known release blockers before production launch:
 
 - Novus.ai install proof
-- 2-3 minute demo video
+- External hosted demo video, if Devpost requires a separate video URL
 - Production Worker URL
 - Cloudflare D1 database id
 - Stripe live values

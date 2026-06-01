@@ -145,6 +145,41 @@ h1 {
   box-shadow: 0 18px 42px rgba(31, 41, 51, 0.16);
 }
 
+.demo-strip {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.72fr) minmax(320px, 1.28fr);
+  align-items: center;
+  gap: 18px;
+  max-width: 1180px;
+  margin: 24px auto 0;
+  padding: 18px;
+  border: 1px solid #d9e4e5;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgba(31, 41, 51, 0.08);
+}
+
+.demo-copy h2 {
+  margin: 0 0 10px;
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+.demo-copy p:last-child {
+  margin: 0;
+  color: #526274;
+  line-height: 1.65;
+}
+
+.demo-video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid #cfe0e3;
+  border-radius: 8px;
+  background: #edf3f4;
+}
+
 .judge-strip {
   max-width: 1180px;
   margin: 26px auto 0;
@@ -376,6 +411,7 @@ article p {
 
   .hero-grid,
   .columns,
+  .demo-strip,
   .proof-grid,
   .pricing-grid {
     grid-template-columns: 1fr;

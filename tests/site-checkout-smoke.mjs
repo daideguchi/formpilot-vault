@@ -31,7 +31,13 @@ const server = http.createServer(async (request, response) => {
 
   try {
     const ext = path.extname(filePath);
-    const type = ext === ".js" ? "text/javascript" : ext === ".css" ? "text/css" : "text/html";
+    const type = ext === ".js"
+      ? "text/javascript"
+      : ext === ".css"
+        ? "text/css"
+        : ext === ".mp4"
+          ? "video/mp4"
+          : "text/html";
     response.writeHead(200, { "content-type": `${type}; charset=utf-8` });
     response.end(await fs.readFile(filePath));
   } catch {
@@ -47,6 +53,8 @@ const browser = await chromium.launch({ headless: true });
 try {
   const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
   await page.goto(`${server.baseUrl}/`);
+  const demoVideo = page.locator(".demo-video").first();
+  await assertAutoplayDemo(demoVideo);
   await page.getByRole("button", { name: "Plusで始める" }).dispatchEvent("click");
   await page.waitForURL(/success\.html/);
   assert.match(await page.locator("#licenseKeyDisplay").inputValue(), /^afa_/);
@@ -56,6 +64,14 @@ try {
 } finally {
   await browser.close();
   await new Promise((resolve) => server.close(resolve));
+}
+
+async function assertAutoplayDemo(locator) {
+  await assert.equal(await locator.getAttribute("autoplay"), "");
+  await assert.equal(await locator.getAttribute("muted"), "");
+  await assert.equal(await locator.getAttribute("loop"), "");
+  await assert.equal(await locator.getAttribute("playsinline"), "");
+  await assert.match(await locator.locator("source").getAttribute("src"), /autoplay-demo-ja\.mp4$/);
 }
 
 function readBody(request) {

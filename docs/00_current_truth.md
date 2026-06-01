@@ -139,7 +139,7 @@ Mind the Product向けの別提出候補として、公開用パッケージを�
 - 公開URL: `https://daideguchi.github.io/formpilot-vault/`
 - GitHub: `https://github.com/daideguchi/formpilot-vault`
 - 公開パッケージ作業場所: `local formpilot-vault-public workspace`
-- 最新コミット: `8103496 Add Novus install checklist`
+- 公開repoは継続更新中。提出前は `git log --oneline -5` と公開URLで最新状態を再確認する。
 
 公開前に削った/直したこと:
 
@@ -161,13 +161,28 @@ Mind the Product向けの別提出候補として、公開用パッケージを�
 - Cloudflare WorkerのローカルAPI契約テストも通過。追加課金になるdeployやD1作成は実行していない。
 - Mind the Product提出草案とNovus.ai導入チェックリストを `submission/` に追加。Novus dashboard screenshotが取れるまで提出はしない。
 
+## 2026-06-01 自動再生デモと使い回し境界
+
+ユーザー方針として、すでに公開されているページをそのまま別ハッカソンへ使い回す方針は採らない。
+使い回すのは中核エンジンと証拠であり、提出ごとにユーザー、課題、必要技術、見せ方を分ける。
+
+公開LPには2分の無音自動再生デモを追加した。
+
+- 日本語: `assets/autoplay-demo-ja.mp4`
+- 英語: `assets/autoplay-demo-en.mp4`
+- 埋め込み位置: ヒーロー直下、30秒確認導線の前
+- ブラウザ自動再生対策: `autoplay muted loop playsinline controls`
+
+この動画はページ上の審査員向けプレビューとして使う。
+Devpost側で外部動画URLが必須の場合は、この流れを元にYouTube等へ最終デモを載せる。
+
 ## 次の一歩
 
-1. Chrome Web Storeへ `dist/ai-form-autofill-0.1.0.zip` とストア素材を提出する。Dashboard貼り付け値は `docs/14_chrome_web_store_submission_packet.md`
-2. Chrome Web Store審査でPrivacy URLに `https://formpilot-vault-api.vercel.app/privacy.html` を指定する
-3. Azure DeepSeek V4の実endpoint/keyをVercelへ投入し、`rules_fallback` ではなくlive応答をsmoke testする
-4. 日本語の公開/許可済みデモフォームを増やして認識率を測る
-5. mapping cacheの2回目成功率を測る
-6. サイト別mapping cacheの一覧/削除UIを作る
-7. 2026-06-07のCloudflare切替前に無料枠モデルで同じJSON応答を返せるか確認
-8. 将来移行としてCloudflare login、D1 database_id、Worker deployを進める
+1. Mind the Product向けにNovus.ai導入証拠を取る。
+2. Devpostが外部動画URLを要求する場合、埋め込み済み2分デモを元に提出用動画を作る。
+3. Chrome Web Storeへ `dist/ai-form-autofill-0.1.0.zip` とストア素材を提出する。Dashboard貼り付け値は `docs/14_chrome_web_store_submission_packet.md`
+4. Chrome Web Store審査でPrivacy URLに `https://formpilot-vault-api.vercel.app/privacy.html` を指定する
+5. Azure DeepSeek V4の実endpoint/keyをVercelへ投入し、`rules_fallback` ではなくlive応答をsmoke testする
+6. 日本語の公開/許可済みデモフォームを増やして認識率を測る
+7. mapping cacheの2回目成功率を測る
+8. サイト別mapping cacheの一覧/削除UIを作る

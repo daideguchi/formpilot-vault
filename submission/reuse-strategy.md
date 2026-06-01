@@ -14,7 +14,7 @@ FormPilot Vault turns repetitive form work into a reviewed fill plan, while keep
 
 Yes, this local product can be reused.
 
-The safe way is not to submit the exact same story everywhere. The safe way is:
+The safe way is not to submit the already-public page or the exact same story everywhere. The safe way is:
 
 ```text
 Same engine
@@ -78,7 +78,7 @@ Priority 3 is Google Rapid Agent because the prize is large but the required Gem
 
 ## Next Build Steps
 
-1. Finish Mind the Product eligibility: Novus.ai proof and 2-3 min demo.
+1. Finish Mind the Product eligibility: Novus.ai proof and external hosted demo if needed.
 2. Create a UiPath-flavored public proof page only after UiPath evidence exists.
 3. Create a Google-flavored public proof page only after Gemini / Agent Builder / MCP evidence exists.
 4. Keep this repository as the reusable proof base.
