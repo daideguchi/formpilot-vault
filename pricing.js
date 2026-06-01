@@ -70,8 +70,8 @@ function setLanguage(language) {
   localStorage.setItem(LANGUAGE_STORAGE, activeLanguage);
   document.documentElement.lang = activeLanguage;
   document.title = activeLanguage === "ja"
-    ? "AIフォームオートフィル"
-    : "FormPilot Vault - Multilingual form autofill";
+    ? "フォーム入力を自動入力するAI Chrome拡張 | FormPilot Vault"
+    : "FormPilot Vault | AI form autofill Chrome extension";
 
   for (const panel of document.querySelectorAll("[data-lang-panel]")) {
     panel.classList.toggle("active", panel.dataset.langPanel === activeLanguage);
@@ -95,6 +95,7 @@ function setLanguage(language) {
 }
 
 function resolveInitialLanguage() {
+  if (/\/ja(?:\.html)?$/i.test(location.pathname)) return "ja";
   const queryLanguage = new URLSearchParams(location.search).get("lang");
   if (queryLanguage) return queryLanguage;
   const savedLanguage = localStorage.getItem(LANGUAGE_STORAGE);

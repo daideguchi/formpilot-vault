@@ -3,36 +3,100 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>FormPilot Vault - Multilingual form autofill</title>
+    <title>FormPilot Vault | AI form autofill Chrome extension</title>
+    <meta name="description" content="FormPilot Vault is an AI form autofill Chrome extension for signup, contact, lead, and application forms. It fills from an encrypted local Vault after human review.">
+    <link rel="canonical" href="https://formpilot-vault-api.vercel.app/">
+    <link rel="alternate" hreflang="en" href="https://formpilot-vault-api.vercel.app/">
+    <link rel="alternate" hreflang="ja" href="https://formpilot-vault-api.vercel.app/ja">
+    <link rel="alternate" hreflang="x-default" href="https://formpilot-vault-api.vercel.app/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="FormPilot Vault">
+    <meta property="og:title" content="FormPilot Vault | AI form autofill Chrome extension">
+    <meta property="og:description" content="Fill repetitive web forms from an encrypted local Vault. AI maps form fields; users review before submitting.">
+    <meta property="og:url" content="https://formpilot-vault-api.vercel.app/">
+    <meta property="og:image" content="https://formpilot-vault-api.vercel.app/assets/product-preview.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FormPilot Vault | AI form autofill Chrome extension">
+    <meta name="twitter:description" content="AI form autofill for repetitive signup, contact, lead, and application forms.">
+    <meta name="twitter:image" content="https://formpilot-vault-api.vercel.app/assets/product-preview.png">
     <link rel="stylesheet" href="style.css">
-    <!-- Pendo / Novus install: start -->
-    <script>
-      (function(apiKey) {
-        (function(p, e, n, d, o) {
-          var v, w, x, y, z;
-          o = p[d] = p[d] || {};
-          o._q = o._q || [];
-          v = ['initialize', 'identify', 'updateOptions', 'pageLoad', 'track'];
-          for (w = 0, x = v.length; w < x; ++w) (function(method) {
-            o[method] = o[method] || function() {
-              o._q[method === 'initialize' ? 'unshift' : 'push']([method].concat([].slice.call(arguments, 0)));
-            };
-          })(v[w]);
-          y = e.createElement(n);
-          y.async = true;
-          y.src = 'https://cdn.pendo.io/agent/static/' + apiKey + '/pendo.js';
-          z = e.getElementsByTagName(n)[0];
-          z.parentNode.insertBefore(y, z);
-        })(window, document, 'script', 'pendo');
-
-        pendo.initialize({
-          visitor: { id: "formpilot-public-demo" },
-          account: { id: "formpilot-vault" }
-        });
-      })("b147308a-8db6-4ecb-ba89-29c921a8ca58");
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://formpilot-vault-api.vercel.app/#organization",
+            "name": "FormPilot Vault",
+            "url": "https://formpilot-vault-api.vercel.app/",
+            "logo": "https://formpilot-vault-api.vercel.app/assets/logo.svg"
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://formpilot-vault-api.vercel.app/#website",
+            "name": "FormPilot Vault",
+            "url": "https://formpilot-vault-api.vercel.app/",
+            "inLanguage": ["en", "ja"],
+            "publisher": { "@id": "https://formpilot-vault-api.vercel.app/#organization" }
+          },
+          {
+            "@type": "SoftwareApplication",
+            "@id": "https://formpilot-vault-api.vercel.app/#software",
+            "name": "FormPilot Vault",
+            "alternateName": ["AI Form Autofill", "AIフォームオートフィル"],
+            "applicationCategory": "BrowserApplication",
+            "operatingSystem": "Chrome",
+            "browserRequirements": "Chrome extension",
+            "url": "https://formpilot-vault-api.vercel.app/",
+            "image": "https://formpilot-vault-api.vercel.app/assets/product-preview.png",
+            "description": "AI form autofill Chrome extension that maps signup, contact, lead, and application forms to an encrypted local profile Vault. Users review the fill plan before submitting.",
+            "featureList": [
+              "AI form field mapping",
+              "Encrypted local profile Vault",
+              "Human review before submit",
+              "Multilingual form understanding",
+              "Site-specific memory"
+            ],
+            "inLanguage": ["en", "ja"],
+            "offers": [
+              { "@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "JPY" },
+              { "@type": "Offer", "name": "Plus", "price": "580", "priceCurrency": "JPY" },
+              { "@type": "Offer", "name": "Pro", "price": "1480", "priceCurrency": "JPY" },
+              { "@type": "Offer", "name": "Team", "price": "1500", "priceCurrency": "JPY" }
+            ],
+            "publisher": { "@id": "https://formpilot-vault-api.vercel.app/#organization" }
+          }
+        ]
+      }
     </script>
-    <!-- Pendo / Novus install: end -->
-  </head>
+  <!-- Pendo / Novus install: start -->
+<script>
+  (function(apiKey) {
+    (function(p, e, n, d, o) {
+      var v, w, x, y, z;
+      o = p[d] = p[d] || {};
+      o._q = o._q || [];
+      v = ['initialize', 'identify', 'updateOptions', 'pageLoad', 'track'];
+      for (w = 0, x = v.length; w < x; ++w) (function(method) {
+        o[method] = o[method] || function() {
+          o._q[method === 'initialize' ? 'unshift' : 'push']([method].concat([].slice.call(arguments, 0)));
+        };
+      })(v[w]);
+      y = e.createElement(n);
+      y.async = true;
+      y.src = 'https://cdn.pendo.io/agent/static/' + apiKey + '/pendo.js';
+      z = e.getElementsByTagName(n)[0];
+      z.parentNode.insertBefore(y, z);
+    })(window, document, 'script', 'pendo');
+
+    pendo.initialize({
+      visitor: { id: "formpilot-public-demo" },
+      account: { id: "formpilot-vault" }
+    });
+  })("b147308a-8db6-4ecb-ba89-29c921a8ca58");
+</script>
+<!-- Pendo / Novus install: end -->
+</head>
   <body>
     <header class="hero">
       <nav class="topbar">
@@ -104,6 +168,12 @@
             </article>
           </div>
         </section>
+
+        <section class="band compact seo-copy" aria-label="フォーム入力 自動入力 Chrome拡張">
+          <h2>フォーム入力を自動化したい人へ</h2>
+          <p>FormPilot Vaultは、フォーム入力、フォーム自動入力、Chrome拡張、AI自動入力を探している人向けのプロダクトです。会員登録、問い合わせ、資料請求、イベント申込、無料トライアル登録のようなWebフォームで、名前、住所、電話番号、メール、会社情報を何度も入力する手間を減らします。</p>
+          <p>AIが個人情報を見るのではなく、フォームのラベル、placeholder、autocomplete、選択肢などの構造だけを理解し、暗号化された端末内Vaultのプロフィールキーへ対応づけます。不確定な項目は自動送信せず、ユーザー確認に残します。</p>
+        </section>
       </section>
 
       <section class="lang-panel active" data-lang-panel="en">
@@ -164,6 +234,12 @@
               <p>Site-specific mappings and user corrections improve the next fill.</p>
             </article>
           </div>
+        </section>
+
+        <section class="band compact seo-copy" aria-label="AI form autofill Chrome extension">
+          <h2>For people searching for form autofill</h2>
+          <p>FormPilot Vault is an AI form autofill Chrome extension for people who repeatedly fill signup forms, contact forms, lead forms, application forms, and free-trial registration forms. It reduces typing for names, addresses, phone numbers, emails, company details, and other common profile fields.</p>
+          <p>The AI reads form structure such as labels, placeholders, autocomplete hints, and select options. It maps fields to profile keys, then the browser extension fills values from an encrypted local Vault after the user reviews the plan.</p>
         </section>
       </section>
     </header>

@@ -106,6 +106,16 @@ async function checkEntitlement() {
 }
 
 async function checkPublicPages() {
+  await checkPage("home_page", "/", [
+    "FormPilot Vault | AI form autofill Chrome extension",
+    "AI form autofill Chrome extension",
+    "https://formpilot-vault-api.vercel.app/ja"
+  ]);
+  await checkPage("japanese_seo_page", "/ja", [
+    "フォーム入力を自動入力するAI Chrome拡張",
+    "フォーム入力を自動化したい人へ",
+    "https://formpilot-vault-api.vercel.app/ja"
+  ]);
   await checkPage("privacy_page", "/privacy.html", [
     "Privacy Policy - FormPilot Vault",
     "FormPilot Vault helps users fill forms",
@@ -119,6 +129,15 @@ async function checkPublicPages() {
   await checkPage("terms_page", "/terms.html", [
     "Terms - FormPilot Vault",
     "Free usage is limited to 5 fills per month"
+  ]);
+  await checkPage("robots_txt", "/robots.txt", [
+    "User-agent: *",
+    "Allow: /",
+    "Sitemap: https://formpilot-vault-api.vercel.app/sitemap.xml"
+  ]);
+  await checkPage("sitemap_xml", "/sitemap.xml", [
+    "<loc>https://formpilot-vault-api.vercel.app/</loc>",
+    "<loc>https://formpilot-vault-api.vercel.app/ja</loc>"
   ]);
 }
 

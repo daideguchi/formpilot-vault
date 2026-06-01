@@ -46,8 +46,11 @@ MVPは `Chrome拡張 + content script入力` を本線にします。Playwright�
 - production connection check: `scripts/check-production-connections.mjs`
 - paid license live check: `scripts/check-paid-license-live.mjs`
 - launch status check: `scripts/check-launch-status.mjs`
+- SEO readiness check: `scripts/check-seo.mjs`
 - 公開LP/GitHub repo: `https://daideguchi.github.io/formpilot-vault/`, `https://github.com/daideguchi/formpilot-vault`
 - 本番LP/API: `https://formpilot-vault-api.vercel.app/`
+- 日本語SEOページ: `https://formpilot-vault-api.vercel.app/ja`
+- SEO sitemap: `https://formpilot-vault-api.vercel.app/sitemap.xml`
 - Stripe本番Checkoutブリッジ: `https://kurogane-edge-core-lp.vercel.app/api/formpilot/*`
 - Extension UI locales: `en`, `en_GB`, `ja`, `es`, `es_419`, `fr`, `de`, `it`, `nl`, `pl`, `pt_BR`, `ru`, `tr`, `ar`, `hi`, `id`, `th`, `vi`, `ko`, `zh_CN`, `zh_TW`
 - Worldwide distribution方針
@@ -73,19 +76,21 @@ Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/
 
 2026-06-01 14:01 JST時点で `npm run check:launch` はブロッカー0です。Vercel health、Cloudflare health、GitHub Pages、Chrome Web Store Dashboard `審査待ち` を確認し、Chrome Web Store公開URLは未公開のためwarning、実購入license未投入もwarningです。`--require-published` は未公開をブロッカー化し、`--require-paid-license` は未購入/無効licenseをブロッカー化することも確認済みです。
 
+2026-06-01 15:47 JST時点でSEO公開面を強化済みです。英語トップに `AI form autofill Chrome extension` 向けのtitle/meta/本文/JSON-LDを追加し、日本語は `https://formpilot-vault-api.vercel.app/ja` を作って `フォーム入力`、`フォーム自動入力`、`Chrome拡張`、`AI自動入力` の検索意図へ合わせました。`robots.txt` と `sitemap.xml` も追加し、canonical/hreflangはVercelの最終到達URLに合わせています。`npm run check:seo -- --live`、`npm run check:production`、`npm run release:check` はブロッカー0です。Playwright実ブラウザでも英語desktopと日本語mobileの横スクロールなしを確認しました。
+
 公開LPは世界配信向けに、非日本語ブラウザでは英語を初期表示します。日本語は `?lang=ja` または言語ボタンで表示できます。2026-06-01 12:45 JSTの本番確認では、英語初期表示、英語Plusボタン、日本語モバイル表示、横スクロールなし、Stripe Checkout導線が通っています。
 
 AI schema proxyは、Azure/Cloudflareの実環境変数が未投入でも停止しないように `rules_fallback` を実装済みです。2026-06-06まではprovider_idは `azure_deepseek_v4` のまま、Azure環境変数が未設定の場合はローカルのフォーム理解ルールでsemantic keyを返します。Azure値が投入されたらlive modeへ戻せます。
 
 多言語対応も初回提出前に強化しました。manifestは `default_locale: en` と `_locales` を使うChrome公式i18n構成で、21 localeに対応します。対象は英語、英語UK、日本語、スペイン語、ラテンアメリカスペイン語、フランス語、ドイツ語、イタリア語、オランダ語、ポーランド語、ブラジルポルトガル語、ロシア語、トルコ語、アラビア語、ヒンディー語、インドネシア語、タイ語、ベトナム語、韓国語、中国語簡体、中国語繁体です。2026-06-01 13:28 JST時点でExtension UIは65キー x 21 localeで欠落なしです。フォーム認識ルールも主要グローバル市場の氏名、メール、電話、国番号、郵便番号、国、住所、会社、部署、役職、パスワードに広げています。世界配信の販売戦略は `docs/15_global_language_distribution_plan.md` を正本にし、UI翻訳だけでなく国別フォーム理解、`locale_context`、Memory学習までを言語対応に含めます。
 
-2026-06-01のlaunch decisionとして、世界配信は初期戦略に昇格しました。日本語フォームの強さは残しつつ、英語Primary、全155地域配信、21 locale拡張UI、英語初期LP、国別フォーム理解、Free月5回からの有料転換をセットで進めます。
+2026-06-01のDD判断として、世界配信は初期戦略に昇格しました。日本語フォームの強さは残しつつ、英語Primary、全155地域配信、21 locale拡張UI、英語初期LP、国別フォーム理解、Free月5回からの有料転換をセットで進めます。
 
 Chrome Web Store提出向けのロゴ、manifestアイコン、小プロモ画像、1280x800スクリーンショット3枚、提出用ZIPを作成済みです。素材生成は `npm run assets:store`、ZIP作成は `npm run package:extension` で再現できます。2026-06-01 13:28 JST時点の提出用ZIPは、本番schema API優先、21 locale/65キー、国/国番号semantic key、拡張 `locale_context` 収集入りで `69309 bytes` です。
 
-Chrome Web Store Dashboardには下書きitemを作成済みです。21 locale ZIPをアップロードし、Store Listing、Privacy、販売地域、テスト手順を入力保存済みです。Primary languageは英語、UI localeは21 locale、カテゴリは `Workflow and Planning`、販売地域は全155地域、決済表示はStripe有料導線に合わせて `In-app purchases`、公開設定は `Public` です。2026-06-01 13:35 JSTに最新ZIP `69309 bytes` をPackage画面から再uploadし、Package画面でversion `0.1.0`、21言語、権限 `activeTab, scripting, storage` を確認しました。2026-06-01 13:54 JSTのDashboard実測でもステータスは `審査待ち` です。`審査のため送信` はdisabledになっており、最終提出は完了済みです。
+Chrome Web Store Dashboardにはitem `kmlcabffhmenjajmlnkkglphjnbaahlf` を作成済みです。21 locale ZIPをアップロードし、Store Listing、Privacy、販売地域、テスト手順を入力保存済みです。Primary languageは英語、UI localeは21 locale、カテゴリは `Workflow and Planning`、販売地域は全155地域、決済表示はStripe有料導線に合わせて `In-app purchases`、公開設定は `Public` です。2026-06-01 13:35 JSTに最新ZIP `69309 bytes` をPackage画面から再uploadし、Package画面でversion `0.1.0`、21言語、権限 `activeTab, scripting, storage` を確認しました。2026-06-01 13:54 JSTのDashboard実測でもステータスは `審査待ち` です。`審査のため送信` はdisabledになっており、最終提出は完了済みです。
 
-Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry-run通過済みです。現時点では `STRIPE_SECRET_KEY` が未投入のため、本番Stripeへの商品作成と決済入金確認は未実行です。
+Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry-run通過済みです。現行本番はFormPilot専用Stripe bridgeでPlus/Pro/Teamの本番Checkout Sessionを作る構成です。実購入/入金確認だけは未実行で、DDの決済操作またはStripe Dashboard確認が必要です。
 
 本番APIの置き場としてCloudflare Workerを実装済みです。`/api/schema/infer`、`/api/stripe/checkout-session`、`/api/stripe/webhook`、`/api/entitlement/check`、`/api/health` を同じWorkerで扱います。Stripe entitlementはD1に保存する設計です。Workers AI binding `env.AI.run()` がある場合はCloudflare API tokenなしで推論できます。Cloudflare CLIは `dd.1107.11107@gmail.com` でlogin済み、D1 `ai-form-autofill-prod` はAPACに作成済み、database_idは `895767fa-8bc7-4811-9801-63d879eeb194` です。D1 migration適用済みで、Worker本番URLは `https://ai-form-autofill.dd-1107-11107.workers.dev` です。
 

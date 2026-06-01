@@ -21,7 +21,7 @@ const server = http.createServer(async (request, response) => {
     return;
   }
 
-  const file = url.pathname === "/" ? "index.html" : url.pathname.slice(1);
+  const file = url.pathname === "/" ? "index.html" : url.pathname === "/ja" ? "ja.html" : url.pathname.slice(1);
   const filePath = path.join(sitePath, file);
   if (!filePath.startsWith(sitePath)) {
     response.writeHead(403);
@@ -64,6 +64,15 @@ try {
   assert.equal(await japanesePage.getByRole("button", { name: "Teamで始める" }).isVisible(), true);
   const mobileOverflow = await japanesePage.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
   assert.equal(mobileOverflow, false);
+
+  const japaneseSeoPage = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  await japaneseSeoPage.goto(`${server.baseUrl}/ja`);
+  assert.equal(await japaneseSeoPage.locator("html").getAttribute("lang"), "ja");
+  assert.equal(await japaneseSeoPage.title(), "フォーム入力を自動入力するAI Chrome拡張 | FormPilot Vault");
+  assert.equal(await japaneseSeoPage.getByRole("heading", { name: "フォーム入力を自動化したい人へ" }).isVisible(), true);
+  assert.equal(await japaneseSeoPage.getByRole("button", { name: "Plusで始める" }).isVisible(), true);
+  const japaneseSeoOverflow = await japaneseSeoPage.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
+  assert.equal(japaneseSeoOverflow, false);
   console.log(JSON.stringify({ checkout: "ok", url: page.url() }, null, 2));
 } finally {
   await browser.close();

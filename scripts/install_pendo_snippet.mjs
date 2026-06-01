@@ -2,15 +2,17 @@ import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const root = path.resolve('.');
-const surfacePaths = [
-  path.join(root, 'index.html'),
-  path.join(root, 'demo.html'),
-  path.join(root, 'site', 'index.html'),
-  path.join(root, 'site', 'demo.html'),
-];
 const publicAppId = process.env.PENDO_PUBLIC_APP_ID || process.env.PENDO_API_KEY || '';
 const visitorId = process.env.PENDO_VISITOR_ID || 'formpilot-public-demo';
 const accountId = process.env.PENDO_ACCOUNT_ID || 'formpilot-vault';
+const surfacePaths = [
+  { path: path.join(root, 'index.html'), visitorId },
+  { path: path.join(root, 'ja.html'), visitorId },
+  { path: path.join(root, 'demo.html'), visitorId: `${visitorId}-video` },
+  { path: path.join(root, 'site', 'index.html'), visitorId },
+  { path: path.join(root, 'site', 'ja.html'), visitorId },
+  { path: path.join(root, 'site', 'demo.html'), visitorId: `${visitorId}-video` },
+];
 
 const start = '<!-- Pendo / Novus install: start -->';
 const end = '<!-- Pendo / Novus install: end -->';
@@ -30,7 +32,7 @@ function jsString(value) {
   return JSON.stringify(String(value));
 }
 
-function buildSnippet() {
+function buildSnippet(surfaceVisitorId = visitorId) {
   return `${start}
 <script>
   (function(apiKey) {
@@ -52,7 +54,7 @@ function buildSnippet() {
     })(window, document, 'script', 'pendo');
 
     pendo.initialize({
-      visitor: { id: ${jsString(visitorId)} },
+      visitor: { id: ${jsString(surfaceVisitorId)} },
       account: { id: ${jsString(accountId)} }
     });
   })(${jsString(publicAppId)});
@@ -73,11 +75,11 @@ function replaceOrInsert(html, snippet) {
 
 async function main() {
   assertSafePublicAppId(publicAppId);
-  for (const surfacePath of surfacePaths) {
-    const html = await readFile(surfacePath, 'utf8');
-    const next = replaceOrInsert(html, buildSnippet());
-    await writeFile(surfacePath, next, 'utf8');
-    }
+  for (const surface of surfacePaths) {
+    const html = await readFile(surface.path, 'utf8');
+    const next = replaceOrInsert(html, buildSnippet(surface.visitorId));
+    await writeFile(surface.path, next, 'utf8');
+  }
   console.log('pendo_snippet_installed');
   console.log('public_app_id_installed=true');
   console.log(`visitor_id=${visitorId}`);

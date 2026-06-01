@@ -32,6 +32,7 @@
     "check:cloudflare:live": "node scripts/check-cloudflare-live.mjs",
     "check:paid-license": "node scripts/check-paid-license-live.mjs",
     "check:launch": "node scripts/check-launch-status.mjs",
+    "check:seo": "node scripts/check-seo.mjs",
     "i18n:sync": "node scripts/sync-extension-locales.mjs",
     "assets:store": "node scripts/generate-store-assets.mjs",
     "package:extension": "node scripts/package-extension.mjs",

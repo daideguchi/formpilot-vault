@@ -72,6 +72,7 @@ vercel deploy --prod --yes --scope daideguchis-projects
 
 ```bash
 npm run check:production
+npm run check:seo
 ```
 
 AI providerまでlive必須で見る場合:
@@ -115,6 +116,15 @@ AFA_LICENSE_KEY=afa_xxx AFA_EXPECTED_PLAN=plus npm run check:launch -- --require
 ```
 
 `check:launch` はVercel、Cloudflare、GitHub Pages、Chrome Web Store公開URL、開いているChrome Web Store Dashboard、購入後ライセンスをまとめて確認する。審査待ち中は公開URLと有料ライセンス未確認をwarningにし、公開後は `--require-published`、実購入後は `--require-paid-license` でブロッカー化する。
+
+SEO公開面の確認:
+
+```bash
+npm run check:seo
+npm run check:seo -- --live
+```
+
+`check:seo` は英語トップ、日本語 `/ja`、canonical、hreflang、meta description、SoftwareApplication構造化データ、`robots.txt`、`sitemap.xml`、フォーム入力/AI form autofill系の本文コピーを確認する。Google Search Consoleへsitemapを登録できる場合は `https://formpilot-vault-api.vercel.app/sitemap.xml` を提出する。
 
 ## Chrome Web Store提出
 
@@ -174,7 +184,7 @@ npm run deploy:worker
 ## 現在のブロッカー
 
 - Chrome Web Storeは `審査待ち`。次の停止点は審査結果確認、公開確認、または差し戻し対応。
-- Stripeの実購入/入金確認は決済操作またはDashboard確認が必要
+- Stripeの実購入/入金確認はDDの決済操作またはDashboard確認が必要
 - Azure DeepSeek V4のdeployment作成は `ReadOnlyDisabledSubscription` で停止。Azure利用を続けるならsubscription再有効化が必要
 
 ## 現在の非ブロッカー
