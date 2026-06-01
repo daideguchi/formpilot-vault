@@ -25,6 +25,12 @@ Finish repetitive forms with human review.
 
 FormPilot Vault helps solo builders and small teams finish repetitive signup, contact, lead, event, and trial forms faster while keeping private values in a local Vault and leaving final submission to the human.
 
+## Why Judges Should Care
+
+World Product Day is about shipping real products with AI builders. FormPilot Vault focuses on a small but universal product-work pain: every new tool, trial, partner form, event signup, and customer workflow creates more repetitive form entry.
+
+The product is intentionally narrow. It does not try to become a risky autonomous browser agent. It solves one repeated job well: understand the form, prepare a safe fill plan, keep private values local, and let the human approve before anything is entered.
+
 ## Who It Is For
 
 Solo builders, operators, founders, and small teams who repeatedly fill out similar forms while shipping products, applying to platforms, setting up tools, and running customer or partner workflows.
@@ -49,6 +55,7 @@ FormPilot reads the form structure, maps each field to a profile key, and create
 - Real browser extension E2E proof
 - Public form probes with no submission
 - Novus/Pendo frontend install and dashboard proof
+- Public Novus/Pendo smoke check for the live app and demo page
 
 ## Built With
 
@@ -58,9 +65,10 @@ JavaScript, Chrome Extensions Manifest V3, Playwright, Cloudflare Worker entrypo
 
 1. Open the live app.
 2. Open the demo page.
-3. Check the four proof cards: user, problem, workflow, proof.
-4. Review the Novus/Pendo proof screenshot.
-5. Review the verification commands below.
+3. Watch the YouTube demo.
+4. Check the four proof cards: user, problem, workflow, proof.
+5. Review the Novus/Pendo proof screenshot.
+6. Review the verification commands below.
 
 ## Verification Commands
 
@@ -69,6 +77,7 @@ npm test
 npm run test:extension
 npm run test:public-probe
 npm run novus:verify
+npm run novus:public
 npm run release:check
 ```
 

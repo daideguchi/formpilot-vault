@@ -125,7 +125,7 @@ Playwrightで本番LPを開き、Plusボタンをクリックして `checkout.st
 
 ## 次
 
-1. Chrome手動読み込みでDD確認なしのローカル実サイト検証
+1. Chrome手動読み込みで人間確認なしのローカル実サイト検証
 2. 実サイト5件で `fields_scanned / ready / ask / filled` を記録
 3. mapping cacheの再利用率を見る
 4. Azure live投入後に `rules_fallback` ではなくlive応答で同じE2Eを再実行する

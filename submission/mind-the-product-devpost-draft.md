@@ -18,7 +18,7 @@ FormPilot Vault
 
 ## Tagline
 
-Finish repetitive forms with human review.
+AI form autofill that keeps private values on the user's device.
 
 ## Who It Is For
 
@@ -32,6 +32,12 @@ Browser autofill works for simple fields, but it breaks down when forms split na
 
 FormPilot Vault reads the form structure, maps each field to a safe profile key, and fills the page only after the user reviews the plan. Real names, addresses, phone numbers, emails, and passwords stay in the local Vault. AI can help understand the form, but it does not receive raw personal values and it never presses submit.
 
+## Why It Fits World Product Day
+
+Everyone is shipping faster now, but shipping creates more repetitive operational work: tool signups, trial forms, partner applications, event pages, lead forms, and support workflows. FormPilot Vault turns one common piece of that work into a narrow, understandable product.
+
+It also shows a practical AI boundary. The AI helps understand the page, but the sensitive values stay local and the final decision stays with the human.
+
 ## What Is Built
 
 - Chrome extension MVP
@@ -44,14 +50,17 @@ FormPilot Vault reads the form structure, maps each field to a safe profile key,
 - English/Japanese public landing page
 - Real browser extension E2E tests
 - Public form probes with no submission
+- Novus/Pendo installed on the public app and demo page
+- Public Novus/Pendo smoke verification
 
 ## 30-Second Judge Path
 
 1. Open the live app.
-2. Switch between Japanese and English.
-3. Read the four proof cards: who, pain, workflow, proof.
-4. Check the screenshots and evidence in the repository.
-5. Review the privacy boundary: form structure can go to AI, raw personal values stay local.
+2. Open the demo page or YouTube demo.
+3. Switch between English and Japanese.
+4. Read the four proof cards: who, pain, workflow, proof.
+5. Check the Novus/Pendo proof screenshot.
+6. Review the privacy boundary: form structure can go to AI, raw personal values stay local.
 
 ## Demo Video Outline
 
@@ -83,11 +92,11 @@ Current status:
 - Dashboard screenshot is attached.
 - Public page smoke confirms Pendo/Novus script and event requests are firing.
 
-Evidence to add after Novus setup:
+Evidence:
 
 - Screenshot of Novus/Pendo install state: `submission/evidence/novus-dashboard.png`
-- Screenshot or export showing page view / interaction events
-- Short note explaining what events are tracked
+- Install notes: `submission/evidence/novus-install-notes.md`
+- Public smoke command: `npm run novus:public`
 
 ## Submission Description
 
@@ -113,6 +122,8 @@ This matters because everyone is shipping faster now, but the boring operational
 npm test
 npm run test:extension
 npm run test:public-probe
+npm run novus:verify
+npm run novus:public
 npm run release:check
 ```
 

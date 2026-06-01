@@ -5,7 +5,7 @@
 
 ## ゴール
 
-Chrome拡張を公開し、Plus/Pro/Teamの課金がDDのStripeへ入り、拡張側のLicense checkで有料権利が解除される状態にする。
+Chrome拡張を公開し、Plus/Pro/Teamの課金がプロジェクトオーナーのStripeへ入り、拡張側のLicense checkで有料権利が解除される状態にする。
 
 ## いま達成済み
 
@@ -28,7 +28,7 @@ Chrome拡張を公開し、Plus/Pro/Teamの課金がDDのStripeへ入り、拡�
 - 実ブラウザ拡張E2E
 - release readiness check
 - Vercel本番LP/API: `https://formpilot-vault-api.vercel.app/`
-- Kurogane Stripe本番ブリッジ: `https://kurogane-edge-core-lp.vercel.app/api/formpilot/*`
+- 既存のStripe本番ブリッジ: `production-stripe-bridge/*`
 - 本番Stripe Checkout Session作成
 - 本番License check Free/月5回応答
 - AI schema proxyの `rules_fallback`
@@ -44,7 +44,7 @@ Chrome拡張を公開し、Plus/Pro/Teamの課金がDDのStripeへ入り、拡�
 - LP/API: `https://formpilot-vault-api.vercel.app/`
 - Checkout: `POST https://formpilot-vault-api.vercel.app/api/stripe/checkout-session`
 - Entitlement: `POST https://formpilot-vault-api.vercel.app/api/entitlement/check`
-- Stripe bridge: `https://kurogane-edge-core-lp.vercel.app/api/formpilot`
+- Stripe bridge: `production-stripe-bridge`
 - Extension config: `extension/src/release-config.js`
 - Extension ZIP: `dist/ai-form-autofill-0.1.0.zip`
 - Cloudflare Worker: `https://ai-form-autofill.dd-1107-11107.workers.dev`
@@ -62,7 +62,7 @@ vercel deploy --prod --yes --scope daideguchis-projects
 
 環境変数:
 
-- `FORMPILOT_STRIPE_BRIDGE_BASE_URL=https://kurogane-edge-core-lp.vercel.app/api/formpilot`
+- `FORMPILOT_STRIPE_BRIDGE_BASE_URL=production-stripe-bridge`
 - `PUBLIC_SITE_URL=https://formpilot-vault-api.vercel.app`
 - `ENTITLEMENT_SOURCE=stripe_bridge`
 
@@ -159,7 +159,7 @@ npm run check:cloudflare:live
 
 現在のCloudflare本番:
 
-- Account: `dd.1107.11107@gmail.com`
+- Account: `local Cloudflare operator account`
 - D1: `ai-form-autofill-prod`
 - database_id: `895767fa-8bc7-4811-9801-63d879eeb194`
 - Worker URL: `https://ai-form-autofill.dd-1107-11107.workers.dev`
@@ -184,7 +184,7 @@ npm run deploy:worker
 ## 現在のブロッカー
 
 - Chrome Web Storeは `審査待ち`。次の停止点は審査結果確認、公開確認、または差し戻し対応。
-- Stripeの実購入/入金確認はDDの決済操作またはDashboard確認が必要
+- Stripeの実購入/入金確認はプロジェクトオーナーの決済操作またはDashboard確認が必要
 - Azure DeepSeek V4のdeployment作成は `ReadOnlyDisabledSubscription` で停止。Azure利用を続けるならsubscription再有効化が必要
 
 ## 現在の非ブロッカー

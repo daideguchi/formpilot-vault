@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-06-01T00:15:31.825Z",
+  "created_at": "2026-06-01T07:08:22.571Z",
   "results": [
     {
       "id": "httpbin_forms_post",
@@ -14,9 +14,9 @@
       "id": "selenium_web_form",
       "url": "https://www.selenium.dev/selenium/web/web-form.html",
       "fields_scanned": 14,
-      "fields_ready": 1,
-      "fields_filled": 1,
-      "asks": 13,
+      "fields_ready": 3,
+      "fields_filled": 3,
+      "asks": 11,
       "screenshot": "site/assets/public-probe-selenium_web_form.png"
     }
   ]
