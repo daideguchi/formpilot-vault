@@ -78,6 +78,7 @@ AIへ渡してよいもの:
 - フォーム構造
 - label / placeholder / name / id / autocomplete
 - 選択肢
+- ページ言語、UI言語、文字方向、TLDなどの `locale_context`
 - semantic keyの候補
 - サイト別マッピングの抽象ルール
 - ユーザー修正から作った非実値の学習メモ
@@ -95,7 +96,9 @@ AIへ渡さないもの:
 
 ## データモデル案
 
-MVPでは `chrome.storage.local` に `vaultState` として保存します。プロフィール実値は `extension/src/vault-crypto.js` でAES-GCM暗号化した `encrypted_values` として保存し、popup実行中だけ復号して入力計画へ使います。サイト別mapping cacheやcorrection eventは実値ではなく `profile_key` とフィールド署名だけを保持します。
+MVPでは `chrome.storage.local` に `vaultState` として保存します。プロフィール実値は `extension/src/vault-crypto.js` でAES-GCM暗号化した `encrypted_values` として保存し、popup実行中だけ復号して入力計画へ使います。暗号鍵はChrome実行時にIndexedDBへ非exportable `CryptoKey` として保存し、`chrome.storage.local` には鍵も実値も置きません。サイト別mapping cacheやcorrection eventは実値ではなく `profile_key` とフィールド署名だけを保持します。
+
+世界配信では、RAG/Memory Spaceに言語と地域の文脈も持たせます。ただし、`locale_context` は補助情報です。明示的なlabel、autocomplete、name、id、select候補、過去に成功したサイト別Memoryがある場合は、そちらを優先します。
 
 ```json
 {
@@ -155,7 +158,7 @@ MVPでは `chrome.storage.local` に `vaultState` として保存します。プ
 - `learnMappingsFromPlan`: 入力成功後に実値なしでマッピングを保存
 - popupの `Learn` UI: 不確定項目をユーザーがプロフィールキーへ紐づけて保存
 - `extension/src/ai-payload.js`: AIへ渡すフォーム構造/Memory contextから実値とselectorを除外
-- `extension/src/vault-crypto.js`: プロフィール実値をAES-GCMで暗号化保存し、旧平文Vaultを初回起動時に自動移行
+- `extension/src/vault-crypto.js`: プロフィール実値をAES-GCMで暗号化保存し、鍵はIndexedDBの非exportable `CryptoKey` へ分離。旧平文Vaultは初回起動時に自動移行
 
 ## MVPでの実装順
 

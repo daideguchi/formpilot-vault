@@ -12,7 +12,10 @@
   if (globalThis.chrome?.runtime?.onMessage) {
     chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
       if (message?.type === "AFA_COLLECT_FIELDS") {
-        sendResponse({ fields: collectFormFields() });
+        sendResponse({
+          fields: collectFormFields(),
+          locale_context: collectLocaleContext()
+        });
         return true;
       }
       if (message?.type === "AFA_FILL_FIELDS") {
@@ -51,6 +54,17 @@
         options: getOptions(element)
       };
     });
+  }
+
+  function collectLocaleContext() {
+    const html = document.documentElement;
+    return {
+      page_language: html.lang || document.querySelector("meta[http-equiv='content-language']")?.content || navigator.language || "",
+      text_direction: html.dir || window.getComputedStyle(html).direction || "",
+      host_tld: hostTld(location.hostname),
+      charset: document.characterSet || "",
+      origin: location.origin
+    };
   }
 
   function fillFormFields(plan) {
@@ -152,6 +166,11 @@
     return String(text).replace(/\s+/g, " ").trim();
   }
 
+  function hostTld(hostname = "") {
+    const parts = String(hostname).split(".").filter(Boolean);
+    return parts.length > 1 ? parts.at(-1) : "";
+  }
+
   function cssPath(element) {
     if (element.id) return `#${CSS.escape(element.id)}`;
     const parts = [];
@@ -171,4 +190,3 @@
     return parts.join(" > ");
   }
 })();
-

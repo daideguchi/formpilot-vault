@@ -16,12 +16,23 @@ const SAFE_FIELD_KEYS = [
   "options"
 ];
 
+const SAFE_LOCALE_CONTEXT_KEYS = [
+  "ui_language",
+  "page_language",
+  "text_direction",
+  "host_tld",
+  "charset",
+  "origin"
+];
+
 export function buildSchemaInferencePayload({
   fields = [],
   memoryContext = null,
+  localeContext = null,
   provider = null,
   date = new Date()
 } = {}) {
+  const effectiveLocaleContext = localeContext || memoryContext?.locale_context || null;
   return {
     version: 1,
     task: "form_schema_mapping",
@@ -30,6 +41,7 @@ export function buildSchemaInferencePayload({
     origin: memoryContext?.origin || null,
     path_pattern: memoryContext?.path_pattern || null,
     instruction: "Return field_id to semantic_key mappings only. Do not request or infer personal values.",
+    locale_context: sanitizeLocaleContext(effectiveLocaleContext),
     fields: fields.map(sanitizeField),
     memory_context: sanitizeMemoryContext(memoryContext)
   };
@@ -63,9 +75,10 @@ function sanitizeOptions(options) {
 }
 
 function sanitizeMemoryContext(memoryContext) {
-  if (!memoryContext) return { field_mappings: {}, mapping_cache: [], semantic_memory: [] };
+  if (!memoryContext) return { field_mappings: {}, mapping_cache: [], semantic_memory: [], locale_context: {} };
 
   return {
+    locale_context: sanitizeLocaleContext(memoryContext.locale_context),
     field_mappings: Object.fromEntries(
       Object.entries(memoryContext.field_mappings || {}).map(([fieldId, mapping]) => [
         fieldId,
@@ -94,6 +107,16 @@ function sanitizeMemoryContext(memoryContext) {
       source: entry.source
     }))
   };
+}
+
+function sanitizeLocaleContext(localeContext) {
+  if (!localeContext || typeof localeContext !== "object") return {};
+  const safe = {};
+  for (const key of SAFE_LOCALE_CONTEXT_KEYS) {
+    if (localeContext[key] === undefined || localeContext[key] === null || localeContext[key] === "") continue;
+    safe[key] = String(localeContext[key]).slice(0, 160);
+  }
+  return safe;
 }
 
 function collectPrimitiveValues(source) {

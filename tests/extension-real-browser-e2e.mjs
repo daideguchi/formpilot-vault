@@ -7,7 +7,13 @@ import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 import { buildSchema, buildInputPlan } from "../extension/src/schema-engine.js";
 import { SAMPLE_PROFILE } from "../extension/src/profile-formatters.js";
-import { storageDumpContainsProfileValues } from "../extension/src/vault-crypto.js";
+import {
+  VAULT_CRYPTO_STORAGE_KEY,
+  VAULT_KEY_DB_ID,
+  VAULT_KEY_DB_NAME,
+  VAULT_KEY_DB_STORE,
+  storageDumpContainsProfileValues
+} from "../extension/src/vault-crypto.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
@@ -58,6 +64,8 @@ try {
     await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ["src/collector.js"] });
     return chrome.tabs.sendMessage(tab.id, { type: "AFA_COLLECT_FIELDS" });
   });
+  assert.equal(fields.locale_context.page_language, "ja");
+  assert.equal(fields.locale_context.text_direction, "ltr");
   const plan = buildInputPlan({
     fields: fields.fields,
     schema: buildSchema(fields.fields),
@@ -75,11 +83,42 @@ try {
   await popup.goto(`chrome-extension://${extensionId}/popup.html`);
   await popup.waitForSelector("#memoryStatus");
   assert.equal(await popup.locator("h1").textContent(), "FormPilot Vault");
-  const storedVault = await serviceWorker.evaluate(async () => chrome.storage.local.get(null));
+  const storedVault = await serviceWorker.evaluate(async () => {
+    for (let attempt = 0; attempt < 20; attempt += 1) {
+      const stored = await chrome.storage.local.get(null);
+      if (stored.vaultState?.vault_profiles?.[0]?.encrypted_values) return stored;
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+    return chrome.storage.local.get(null);
+  });
   assert.equal(storageDumpContainsProfileValues(storedVault, SAMPLE_PROFILE), false);
   assert.equal(storedVault.vaultState.vault_profiles[0].values, undefined);
   assert.equal(storedVault.vaultState.vault_profiles[0].encrypted_values.alg, "AES-GCM");
+  assert.equal(storedVault[VAULT_CRYPTO_STORAGE_KEY], undefined);
   assert.equal(storedVault.profile, undefined);
+  const vaultKeyRecord = await popup.evaluate(async ({ dbName, storeName, keyId }) => {
+    const db = await new Promise((resolve, reject) => {
+      const request = indexedDB.open(dbName, 1);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    return new Promise((resolve, reject) => {
+      const request = db.transaction(storeName, "readonly").objectStore(storeName).get(keyId);
+      request.onsuccess = () => resolve({
+        alg: request.result?.alg,
+        has_key: Boolean(request.result?.key),
+        key_type: request.result?.key?.type,
+        key_extractable: request.result?.key?.extractable
+      });
+      request.onerror = () => reject(request.error);
+    });
+  }, { dbName: VAULT_KEY_DB_NAME, storeName: VAULT_KEY_DB_STORE, keyId: VAULT_KEY_DB_ID });
+  assert.deepEqual(vaultKeyRecord, {
+    alg: "AES-GCM",
+    has_key: true,
+    key_type: "secret",
+    key_extractable: false
+  });
   await popup.screenshot({ path: path.join(evidenceDir, "real-extension-popup-loaded.png"), fullPage: true });
 
   assert.equal(await signupPage.locator("#lastName").inputValue(), "山田");

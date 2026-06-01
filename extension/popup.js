@@ -33,6 +33,7 @@ const PRICING_URL = PUBLIC_BASE_URL;
 
 let currentPlan = [];
 let currentFields = [];
+let currentLocaleContext = {};
 let entitlement = { plan: "free" };
 let usage = {};
 let vaultState = null;
@@ -81,8 +82,9 @@ scanPage.addEventListener("click", async () => {
   await ensureContentScript(tab.id);
   const response = await chrome.tabs.sendMessage(tab.id, { type: "AFA_COLLECT_FIELDS" });
   const fields = response?.fields || [];
+  currentLocaleContext = response?.locale_context || {};
   currentFields = fields;
-  const memoryContext = buildMemoryContext({ vaultState, url: tab.url || "", fields });
+  const memoryContext = buildMemoryContext({ vaultState, url: tab.url || "", fields, localeContext: currentLocaleContext });
   const schema = buildSchema(fields, { memoryContext });
   currentPlan = buildInputPlan({ fields, schema, profile });
   renderPlan(currentPlan, fields.length);
@@ -126,7 +128,7 @@ fillPage.addEventListener("click", async () => {
     };
     await chrome.storage.local.set({ usage });
     await persistVaultState(chrome.storage.local, vaultState);
-    renderMemory(buildMemoryContext({ vaultState, url: tab.url || "", fields: currentFields }));
+    renderMemory(buildMemoryContext({ vaultState, url: tab.url || "", fields: currentFields, localeContext: currentLocaleContext }));
   }
   planSummary.textContent = t("filledReview", [String(response?.filled || 0)]);
   renderUsage();
@@ -272,7 +274,7 @@ async function rememberCorrection(item, profileKey) {
   await persistVaultState(chrome.storage.local, vaultState);
 
   const profile = parseProfile();
-  const memoryContext = buildMemoryContext({ vaultState, url: tab.url || "", fields: currentFields });
+  const memoryContext = buildMemoryContext({ vaultState, url: tab.url || "", fields: currentFields, localeContext: currentLocaleContext });
   const schema = buildSchema(currentFields, { memoryContext });
   currentPlan = buildInputPlan({ fields: currentFields, schema, profile });
   renderPlan(currentPlan, currentFields.length);

@@ -66,6 +66,8 @@ export function buildSchemaPrompt(payload) {
     "This product exists to remove the tiny repeated work of filling forms.",
     "The core value is Personal Vault + Profile RAG/Memory Space + form understanding.",
     "Use memory to select profile semantic keys, not personal values.",
+    "Treat language and locale as first-class product behavior: use locale_context, page language, text direction, TLD hints, labels, placeholders, and options to understand forms from global markets.",
+    "Locale context is a hint, not proof. Prefer explicit labels, autocomplete, names, ids, options, and learned memory when they conflict.",
     "Be conservative: confident fields are mapped, uncertain fields remain for user review.",
     "Never automate submission, CAPTCHA, SMS verification, email verification, or mass account creation.",
     "",
@@ -76,6 +78,7 @@ export function buildSchemaPrompt(payload) {
     "Use null semantic_key and low confidence when uncertain.",
     "",
     JSON.stringify({
+      locale_context: payload.locale_context || {},
       fields: payload.fields,
       memory_context: payload.memory_context || {},
       allowed_semantic_keys: payload.allowed_semantic_keys || null

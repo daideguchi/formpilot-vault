@@ -5,7 +5,11 @@ export const VAULT_ENCRYPTION_VERSION = 1;
 
 const AES_ALGORITHM = "AES-GCM";
 const IV_BYTES = 12;
-const KEY_BYTES = 32;
+export const VAULT_KEY_DB_NAME = "formpilot-vault-crypto";
+export const VAULT_KEY_DB_STORE = "keys";
+export const VAULT_KEY_DB_ID = "profile-vault-v1";
+
+let memoryKeyForNonBrowserTests = null;
 
 export async function loadRuntimeVaultState(rawVaultState, { storage, profile = {}, now = new Date() } = {}) {
   const state = normalizeVaultState(rawVaultState, { profile, now });
@@ -80,28 +84,100 @@ export function storageDumpContainsProfileValues(storageDump, profile) {
 }
 
 async function getOrCreateAesKey(storage) {
+  const indexedDbKey = await readKeyFromIndexedDb();
+  if (indexedDbKey) return indexedDbKey;
+
   const stored = await storageGet(storage, [VAULT_CRYPTO_STORAGE_KEY]);
   const existing = stored?.[VAULT_CRYPTO_STORAGE_KEY]?.key_b64;
-  const keyBytes = existing ? base64ToBytes(existing) : randomBytes(KEY_BYTES);
-
-  if (!existing) {
-    await storageSet(storage, {
-      [VAULT_CRYPTO_STORAGE_KEY]: {
-        version: VAULT_ENCRYPTION_VERSION,
-        alg: AES_ALGORITHM,
-        key_b64: bytesToBase64(keyBytes),
-        created_at: new Date().toISOString()
-      }
-    });
+  if (existing) {
+    const imported = await globalThis.crypto.subtle.importKey(
+      "raw",
+      base64ToBytes(existing),
+      { name: AES_ALGORITHM },
+      false,
+      ["encrypt", "decrypt"]
+    );
+    await writeKeyToIndexedDb(imported);
+    await storageRemove(storage, VAULT_CRYPTO_STORAGE_KEY);
+    return imported;
   }
 
-  return globalThis.crypto.subtle.importKey(
-    "raw",
-    keyBytes,
-    { name: AES_ALGORITHM },
+  if (!hasIndexedDb()) {
+    if (!memoryKeyForNonBrowserTests) {
+      memoryKeyForNonBrowserTests = await generateAesKey();
+    }
+    return memoryKeyForNonBrowserTests;
+  }
+
+  const generated = await generateAesKey();
+  await writeKeyToIndexedDb(generated);
+  return generated;
+}
+
+function generateAesKey() {
+  return globalThis.crypto.subtle.generateKey(
+    { name: AES_ALGORITHM, length: 256 },
     false,
     ["encrypt", "decrypt"]
   );
+}
+
+function hasIndexedDb() {
+  return typeof globalThis.indexedDB !== "undefined";
+}
+
+async function readKeyFromIndexedDb() {
+  if (!hasIndexedDb()) return null;
+  try {
+    const db = await openKeyDb();
+    return await new Promise((resolve, reject) => {
+      const request = db.transaction(VAULT_KEY_DB_STORE, "readonly").objectStore(VAULT_KEY_DB_STORE).get(VAULT_KEY_DB_ID);
+      request.onsuccess = () => resolve(request.result?.key || null);
+      request.onerror = () => reject(request.error);
+    });
+  } catch {
+    return null;
+  }
+}
+
+async function writeKeyToIndexedDb(key) {
+  if (!hasIndexedDb()) return false;
+  const db = await openKeyDb();
+  await new Promise((resolve, reject) => {
+    const request = db.transaction(VAULT_KEY_DB_STORE, "readwrite").objectStore(VAULT_KEY_DB_STORE).put({
+      id: VAULT_KEY_DB_ID,
+      key,
+      alg: AES_ALGORITHM,
+      version: VAULT_ENCRYPTION_VERSION,
+      updated_at: new Date().toISOString()
+    });
+    request.onsuccess = () => resolve();
+    request.onerror = () => reject(request.error);
+  });
+  return true;
+}
+
+function openKeyDb() {
+  return new Promise((resolve, reject) => {
+    const request = globalThis.indexedDB.open(VAULT_KEY_DB_NAME, 1);
+    request.onupgradeneeded = () => {
+      const db = request.result;
+      if (!db.objectStoreNames.contains(VAULT_KEY_DB_STORE)) {
+        db.createObjectStore(VAULT_KEY_DB_STORE, { keyPath: "id" });
+      }
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+export function __resetVaultCryptoForTests() {
+  memoryKeyForNonBrowserTests = null;
+}
+
+async function storageRemove(storage, keys) {
+  if (!storage?.remove) return;
+  await storage.remove(keys);
 }
 
 function randomBytes(length) {

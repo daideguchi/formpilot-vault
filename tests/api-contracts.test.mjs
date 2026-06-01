@@ -30,6 +30,7 @@ test("schema proxy rejects unsafe field payloads and accepts safe memory context
   assert.match(buildSchemaPrompt(payload), /Return strict JSON only/);
   assert.match(buildSchemaPrompt(payload), /DD_CORE_PROMPT/);
   assert.match(buildSchemaPrompt(payload), /Personal Vault \+ Profile RAG\/Memory Space/);
+  assert.match(buildSchemaPrompt(payload), /locale_context/);
 
   const result = await inferSchemaWithProxy({
     payload,

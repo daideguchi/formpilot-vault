@@ -19,7 +19,7 @@
       </section>
       <section>
         <h2>Data Stored Locally</h2>
-        <p>The extension stores profile data, learned field mappings, usage counts, and license status in browser local storage. Profile values are encrypted at rest with device-local AES-GCM before they are stored. This data is used to prepare fill plans and improve repeated use on the same site.</p>
+        <p>The extension stores profile data, learned field mappings, usage counts, and license status in browser local storage. Profile values are encrypted at rest with device-local AES-GCM before they are stored. The encryption key is kept as a non-exportable browser CryptoKey instead of being stored with the encrypted profile values. This data is used to prepare fill plans and improve repeated use on the same site.</p>
       </section>
       <section>
         <h2>Data Sent for AI Inference</h2>

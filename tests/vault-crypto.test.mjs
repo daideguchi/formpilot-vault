@@ -4,6 +4,7 @@ import { SAMPLE_PROFILE } from "../extension/src/profile-formatters.js";
 import { createVaultState, getActiveProfileValues } from "../extension/src/profile-memory.js";
 import {
   VAULT_CRYPTO_STORAGE_KEY,
+  __resetVaultCryptoForTests,
   loadRuntimeVaultState,
   persistVaultState,
   serializeVaultStateForStorage,
@@ -11,13 +12,14 @@ import {
 } from "../extension/src/vault-crypto.js";
 
 test("encrypts profile values at rest and restores them at runtime", async () => {
+  __resetVaultCryptoForTests();
   const storage = new MemoryStorage();
   const vaultState = createVaultState({ profile: SAMPLE_PROFILE, now: new Date("2026-06-01T00:00:00Z") });
   const encrypted = await serializeVaultStateForStorage(vaultState, { storage });
 
   assert.equal(encrypted.vault_profiles[0].values, undefined);
   assert.equal(encrypted.vault_profiles[0].encrypted_values.alg, "AES-GCM");
-  assert.ok(storage.data[VAULT_CRYPTO_STORAGE_KEY].key_b64);
+  assert.equal(storage.data[VAULT_CRYPTO_STORAGE_KEY], undefined);
   assert.equal(storageDumpContainsProfileValues({ vaultState: encrypted }, SAMPLE_PROFILE), false);
 
   const restored = await loadRuntimeVaultState(encrypted, { storage });
@@ -25,6 +27,7 @@ test("encrypts profile values at rest and restores them at runtime", async () =>
 });
 
 test("migrates legacy plaintext Vault storage into encrypted storage", async () => {
+  __resetVaultCryptoForTests();
   const storage = new MemoryStorage();
   const legacy = createVaultState({ profile: SAMPLE_PROFILE, now: new Date("2026-06-01T00:00:00Z") });
   storage.data.vaultState = legacy;

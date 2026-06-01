@@ -227,7 +227,13 @@ test("AI schema payload includes memory context but excludes raw profile values"
   const memoryContext = buildMemoryContext({
     vaultState,
     url: "https://example.com/signup?next=1",
-    fields
+    fields,
+    localeContext: {
+      ui_language: "ja-JP",
+      page_language: "ja",
+      text_direction: "ltr",
+      host_tld: "com"
+    }
   });
 
   const payload = buildSchemaInferencePayload({
@@ -240,6 +246,8 @@ test("AI schema payload includes memory context but excludes raw profile values"
   assert.equal(payload.provider_id, "azure_deepseek_v4");
   assert.equal(payload.fields[0].selector, undefined);
   assert.equal(payload.fields[0].value, undefined);
+  assert.equal(payload.locale_context.page_language, "ja");
+  assert.equal(payload.memory_context.locale_context.ui_language, "ja-JP");
   assert.equal(payload.memory_context.mapping_cache.length, 2);
   assert.equal(payloadContainsProfileValues(payload, profile), false);
 });

@@ -67,7 +67,7 @@ export function updateActiveProfileValues(vaultState, values, { now = new Date()
   return state;
 }
 
-export function buildMemoryContext({ vaultState, url = "", fields = [] }) {
+export function buildMemoryContext({ vaultState, url = "", fields = [], localeContext = null }) {
   const state = normalizeVaultState(vaultState);
   const origin = normalizeOrigin(url);
   const path_pattern = pathPatternFromUrl(url);
@@ -92,6 +92,7 @@ export function buildMemoryContext({ vaultState, url = "", fields = [] }) {
   return {
     origin,
     path_pattern,
+    locale_context: localeContext || {},
     field_mappings,
     mapping_cache,
     semantic_memory: state.semantic_memory.filter((entry) => !entry.origin || entry.origin === origin)
