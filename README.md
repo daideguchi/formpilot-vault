@@ -1,130 +1,85 @@
-# FormPilot Vault
+# AIフォームオートフィル
 
-**AI form autofill that keeps private values on the user's device.**
+状態: `vercel_live_checkout_ready`
+作成日: 2026-06-01
+最終ゴール: `Chrome拡張のリリースと課金開始`
 
-FormPilot Vault is a Chrome extension MVP for people who repeatedly fill out signup, contact, lead, event, trial, and application forms. It reads the form structure, prepares a fill plan, and fills fields only after the user reviews the plan. It never presses submit.
+## 事業の芯
 
-The product thesis is simple:
+フォームを入力する人たちの細かな手間を、自動入力で解決する。
 
-> AI should understand the form, not collect the user's private data.
+日本語の新規登録フォーム、資料請求フォーム、問い合わせフォームで毎回発生する、名前、住所、電話番号、会社情報、カナ、郵便番号、生年月日などの反復入力を、ユーザー本人の確認つきで減らす。
 
-## 30-Second Judge Path
+一番のコアは、個人情報をためておく `Profile Vault` と、AIがどの情報を使うべきか推論するための `入力判断用RAG/記憶スペース` です。ここが事業価値の中心です。
 
-1. Open the live app: <https://daideguchi.github.io/formpilot-vault/>
-2. Watch the demo: <https://youtu.be/q-HreuLw5F8>
-3. Open the judge demo page: <https://daideguchi.github.io/formpilot-vault/demo.html>
-4. Check the Novus/Pendo proof: [`submission/evidence/novus-dashboard.png`](submission/evidence/novus-dashboard.png)
-5. Run the verification commands below.
+最初の中核はこの4つです。
 
-## Who It Helps
+1. DOMを収集する
+2. AIまたはルールでフォームスキーマを作る
+3. 端末内のプロフィールDBから値を選ぶ
+4. Chrome拡張のcontent scriptで入力する
 
-FormPilot Vault is for solo builders, operators, founders, and small teams who fill out the same kinds of forms every week while shipping products, joining tools, applying to platforms, setting up trials, contacting partners, and running customer workflows.
+初期MVPでは送信ボタンを押しません。入力後、ユーザーが画面で確認して送信します。
 
-## The Problem
+## いま作るもの
 
-Browser autofill works for simple forms, but it breaks down when forms:
+- `extension/`: Chrome拡張MVP
+- `tests/`: サンプルフォームと精度検証
+- `site/`: リリース前LPのたたき台
+- `docs/`: 事業、API、リリース、課金の正本
+- `data/templates/`: プロフィールDBと意味キーのテンプレート
 
-- split first and last names in unusual ways
-- ask for kana, company, department, or role fields
-- divide addresses into multiple fields
-- use different wording for the same meaning
-- need site-specific context
-- require the user to check uncertain fields before sending
+Vault/RAGの最小DBは `extension/src/profile-memory.js` に実装済みです。ローカルVault、サイト別mapping cache、ユーザー修正イベント、フォーム単位のmemory retrievalを持ち、入力成功後に次回用のマッピングを学習します。不確定項目はpopup上の `Learn` UIでプロフィールキーへ紐づけられます。AIへ渡す安全ペイロードは `extension/src/ai-payload.js` で作り、実値とselectorを除外します。
 
-People still waste time typing the same safe information into slightly different forms.
+リリース/課金用のAPI土台も入っています。AI schema proxyは `api/schema-proxy/`、課金解除用のentitlement APIは `api/entitlement/` です。拡張側にはLicense key確認UIを追加済みです。
 
-## The Solution
+DDの初期思想は `api/schema-proxy/schema-proxy.js` の実プロンプトへ組み込み済みです。Stripe CheckoutはPlus/Pro/Teamのボタンから `POST /api/stripe/checkout-session` を呼ぶ形で実装済みです。
 
-FormPilot Vault turns repeated form typing into a reviewed workflow:
+Chrome Web Store向けのロゴ/アイコン/プロモ画像/スクリーンショットは `npm run assets:store` で生成します。提出用ZIPは `npm run package:extension` で `dist/ai-form-autofill-0.1.0.zip` に作成します。
+Dashboardに貼る提出項目は `docs/14_chrome_web_store_submission_packet.md` にまとめています。
 
-1. The extension scans the form structure.
-2. The form schema engine maps fields to safe profile keys.
-3. Private values stay in the encrypted local Vault.
-4. The user reviews the fill plan.
-5. The extension fills the page after user action.
-6. The user decides whether to submit.
+現行本番はVercelで、LP、AI schema proxy、Stripe Checkout、license entitlementを `https://formpilot-vault-api.vercel.app/` にまとめています。StripeはKurogane側の本番secretを使うFormPilot専用ブリッジへ中継し、Checkout Session作成まで本番で確認済みです。Cloudflare Worker/D1は、2026-06-07以降の無料枠移行に向けた将来経路です。手順は `docs/13_production_launch_runbook.md` が正本です。
 
-Raw names, addresses, phone numbers, emails, passwords, cookies, and selectors are not sent to AI.
+実ブラウザ検証は `tests/extension-real-browser-e2e.mjs` で通過済みです。Chromiumへ拡張を読み込み、content scriptを実DOMへ投入して14項目を入力し、登録台帳の会員ID/紹介コード、License key確認UIのPlus表示まで確認しています。フォーム確認で見つけた未登録項目を、その場で登録台帳へ追加する導線も入っています。
 
-## What Is Built
+公開デモフォーム検証は `tests/public-site-real-browser-probe.mjs` で通過済みです。送信はせず、公開ページ上でDOM収集と入力反映だけ確認しています。
 
-- Chrome extension MVP
-- Encrypted local Profile Vault
-- Site memory and mapping cache
-- Safe AI schema payload that excludes raw personal values
-- Human review before filling
-- No automatic submit
-- English/Japanese public landing page
-- 21 Chrome extension locales
-- Real browser extension E2E proof
-- Public form probes with no submission
-- Novus/Pendo install and public event verification
-- Demo video under three minutes
+Freeは月20回までの自動入力に制限し、Plus/Pro/Teamで無制限入力、複数プロフィール、会社プロフィール、チーム共有へ広げます。
 
-## Hackathon Fit
+## ハッカソン転用
 
-This repository is prepared for the **Mind the Product Presents: World Product Day Hackathon**.
+このプロダクトは、賞金狙いのハッカソンにも転用します。
 
-Submission requirements covered:
+優先順位:
 
-- Public deployed app: <https://daideguchi.github.io/formpilot-vault/>
-- Demo video under 3 minutes: <https://youtu.be/q-HreuLw5F8>
-- Demo page: <https://daideguchi.github.io/formpilot-vault/demo.html>
-- Novus/Pendo install proof: [`submission/evidence/novus-dashboard.png`](submission/evidence/novus-dashboard.png)
-- Novus install notes: [`submission/evidence/novus-install-notes.md`](submission/evidence/novus-install-notes.md)
-- Devpost draft: [`submission/mind-the-product-devpost-draft.md`](submission/mind-the-product-devpost-draft.md)
-- Submit packet: [`submission/mind-the-product-submit-packet.md`](submission/mind-the-product-submit-packet.md)
+1. Mind the Product: `FormPilot Vault`
+2. UiPath AgentHack: `Form Intake Case Room`
+3. Google Cloud Rapid Agent: `FormOps Agent`
 
-## Built With
+詳細は `docs/11_hackathon_submission_strategy.md` を正本にします。
 
-- JavaScript
-- Chrome Extensions Manifest V3
-- Playwright
-- GitHub Pages
-- Novus/Pendo
-- Cloudflare Worker entrypoint
-- D1 schema for future entitlement storage
-- Stripe Checkout API contracts
+## API方針
 
-## Verification
+- 2026-06-06 までは `Azure DeepSeek V4`
+- 2026-06-07 以降は `Cloudflare Workers AI` の無料枠モデル
+- AIへ送るのはフォーム構造だけ
+- 氏名、住所、電話、メール、パスワードなどの実値は送らない
+- Azure/Cloudflareのlive環境変数が未投入または障害時は `rules_fallback` でフォーム理解を継続する
+
+## 実行コマンド
 
 ```bash
+cd /Users/dd/000_AI組織/10_事業記録/事業別/90_AIフォームオートフィル
 npm test
+npm run test:checkout-site
 npm run test:extension
 npm run test:public-probe
-npm run novus:verify
-npm run novus:public
+npm run assets:store
+npm run package:extension
+npm run setup:stripe:dry
 npm run release:check
+npm run dev:schema-proxy
+npm run dev:entitlement
 ```
 
-Latest verified state:
-
-- Extension E2E fills 12 fields.
-- Public probes run without submitting forms.
-- Novus/Pendo is installed on the public app and demo page.
-- Public smoke observes `cdn.pendo.io` and `data.pendo.io` requests.
-- GitHub Pages is live.
-
-## Honest Boundaries
-
-- FormPilot Vault does not submit forms.
-- It does not bypass CAPTCHA, SMS, email verification, identity checks, or login gates.
-- It does not bulk-create accounts.
-- AI receives form structure, not raw personal values.
-- If live AI credentials are unavailable, deterministic rules fallback keeps the demo working.
-- Cloudflare Worker/D1 is prepared as a production path; the current hackathon proof is the public app plus local extension verification.
-
-## Japanese Summary
-
-FormPilot Vaultは、同じようなフォーム入力を何度もする人のためのChrome拡張MVPです。
-
-AIはフォームの形だけを読みます。名前、住所、電話番号、メールなどの実データは、端末内の暗号化Vaultに置きます。入力前に人間が確認し、送信ボタンは自動で押しません。
-
-一言で言うと、**AIに個人情報を渡さず、面倒なフォーム入力を速くする道具**です。
-
-審査員向けの確認先:
-
-- 公開ページ: <https://daideguchi.github.io/formpilot-vault/>
-- デモ動画: <https://youtu.be/q-HreuLw5F8>
-- デモページ: <https://daideguchi.github.io/formpilot-vault/demo.html>
-- Novus/Pendo証拠: [`submission/evidence/novus-dashboard.png`](submission/evidence/novus-dashboard.png)
+Chromeで試す時は `chrome://extensions` から `extension/` を「パッケージ化されていない拡張機能」として読み込みます。

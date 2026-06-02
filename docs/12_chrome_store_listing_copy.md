@@ -38,7 +38,7 @@ Use it for signups, trial registrations, contact forms, event forms, application
 
 Saved information stays in your browser. FormPilot Vault reads and fills the current page only after you click the extension button and start the action.
 
-Free includes 5 fills per month. Paid plans add more fills, multiple saved information sets, and site-specific learning.
+Free includes 20 fills per month. Paid plans add more fills, multiple saved information sets, and site-specific learning.
 
 ## 単一目的
 

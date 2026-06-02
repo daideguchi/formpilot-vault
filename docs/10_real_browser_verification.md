@@ -121,7 +121,7 @@ npm run test:extension
   "checkout_host": "checkout.stripe.com",
 	  "entitlement_before_purchase": {
 	    "plan": "free",
-	    "monthly_fills": 5
+	    "monthly_fills": 20
 	  }
 }
 ```

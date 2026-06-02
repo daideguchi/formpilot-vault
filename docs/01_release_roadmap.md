@@ -82,7 +82,7 @@
 
 完了条件:
 
-- Free: 月5回まで
+- Free: 月20回まで
 - Plus: 無制限 + 複数プロフィール
 - Pro: 会社プロフィール + 履歴 + 長文補助
 - Stripe CheckoutまたはChrome Web Store外の安全な課金導線

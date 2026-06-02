@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 
 export const PLAN_LIMITS = {
-  free: { monthly_fills: 5, multiple_profiles: false, learned_mappings: "local_basic" },
+  free: { monthly_fills: 20, multiple_profiles: false, learned_mappings: "local_basic" },
   plus: { monthly_fills: Infinity, multiple_profiles: true, learned_mappings: "local" },
   pro: { monthly_fills: Infinity, multiple_profiles: true, learned_mappings: "local_plus_company" },
   team: { monthly_fills: Infinity, multiple_profiles: true, learned_mappings: "team_shared" }

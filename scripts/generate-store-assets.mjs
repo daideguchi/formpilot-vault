@@ -83,13 +83,13 @@ async function renderScreenshots() {
   });
   await renderStoreScreenshot({
     output: "screenshot-popup-1280x800.png",
-    title: "不明項目だけ確認して学習",
-    subtitle: "サイト別マッピングとユーザー修正で、2回目以降の精度を上げます。",
-    image: path.join(assetsDir, "real-extension-popup-license.png")
+    title: "登録台帳でよく使う情報を管理",
+    subtitle: "会員IDやお客様番号などを1行ずつ追加。呼び名でフォーム表記の違いにも合わせます。",
+    image: path.join(assetsDir, "real-extension-popup-ledger.png")
   });
   await renderStoreScreenshot({
     output: "screenshot-pricing-1280x800.png",
-    title: "月5回のFreeからPlusへ",
+    title: "月20回のFreeからPlusへ",
     subtitle: "無制限入力、複数プロフィール、サイト別学習で課金へつなげます。",
     image: path.join(assetsDir, "checkout-pricing-preview.png")
   });

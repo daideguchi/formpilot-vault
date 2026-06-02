@@ -78,13 +78,13 @@ Chrome拡張にAPIキーや課金秘密情報を入れず、リリース時に�
   - `/api/health` は `entitlement_source: stripe_bridge`
   - `/api/schema/infer` はAzure未投入時に `rules_fallback` で `person.email.primary` を返す
   - `/api/stripe/checkout-session` はStripe Checkout URLを返す
-  - `/api/entitlement/check` は購入前licenseをFree/月5回で返す
+  - `/api/entitlement/check` は購入前licenseをFree/月20回で返す
 
 ### Extension接続
 
 - 実装: `extension/src/entitlement-client.js`
 - popupにLicense key欄と `Check` ボタンを追加
-- Plus/Pro/Teamがactiveなら月5回制限を解除する
+- Plus/Pro/Teamがactiveなら月20回制限を解除する
 
 ### Checkout UI
 

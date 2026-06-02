@@ -70,13 +70,15 @@ async function checkCheckoutAndEntitlement() {
 
   const licenseKey = `afa_cf_livecheck_entitlement_${probeId}`;
   const entitlement = await getJson(`/api/entitlement/check?license_key=${encodeURIComponent(licenseKey)}`);
-  const entitlementOk = entitlement.ok && entitlement.body?.plan === "free";
+  const entitlementOk = entitlement.ok
+    && entitlement.body?.plan === "free"
+    && entitlement.body?.limits?.monthly_fills === 20;
   addCheck("cloudflare_entitlement_bridge", entitlementOk, {
     status: entitlement.status,
     plan: entitlement.body?.plan || null,
     monthly_fills: entitlement.body?.limits?.monthly_fills || null
   });
-  if (!entitlementOk) warnings.push({ name: "cloudflare_entitlement_bridge_unexpected" });
+  if (!entitlementOk) blockers.push({ name: "cloudflare_entitlement_bridge_unexpected" });
 }
 
 async function getJson(path) {

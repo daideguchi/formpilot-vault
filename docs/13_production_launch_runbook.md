@@ -30,7 +30,7 @@ Chrome拡張を公開し、Plus/Pro/Teamの課金がDDのStripeへ入り、拡�
 - Vercel本番LP/API: `https://formpilot-vault-api.vercel.app/`
 - Kurogane Stripe本番ブリッジ: `https://kurogane-edge-core-lp.vercel.app/api/formpilot/*`
 - 本番Stripe Checkout Session作成
-- 本番License check Free/月5回応答
+- 本番License check Free/月20回応答
 - AI schema proxyの `rules_fallback`
 - GitHub Pages静的公開LP: `https://daideguchi.github.io/formpilot-vault/`
 - 公開Privacy URL: `https://daideguchi.github.io/formpilot-vault/privacy.html`

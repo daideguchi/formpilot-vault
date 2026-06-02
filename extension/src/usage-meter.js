@@ -1,4 +1,4 @@
-export const FREE_MONTHLY_FILL_LIMIT = 5;
+export const FREE_MONTHLY_FILL_LIMIT = 20;
 
 export const PLAN_LIMITS = {
   free: { monthly_fills: FREE_MONTHLY_FILL_LIMIT, multiple_profiles: false },

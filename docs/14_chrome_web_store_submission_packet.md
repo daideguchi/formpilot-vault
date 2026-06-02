@@ -72,7 +72,7 @@ Use it for signups, trial registrations, contact forms, event forms, application
 
 Saved information stays in your browser. FormPilot Vault reads and fills the current page only after you click the extension button and start the action.
 
-Free includes 5 fills per month. Paid plans add more fills, multiple saved information sets, and site-specific learning.
+Free includes 20 fills per month. Paid plans add more fills, multiple saved information sets, and site-specific learning.
 ```
 
 ## Privacy Practices
@@ -152,7 +152,7 @@ In-app purchases. The extension can be installed without paying, and paid upgrad
 Paid plans:
 
 ```text
-Free: 月5回まで
+Free: 月20回まで
 Plus: 580円/月
 Pro: 1,480円/月
 Team: 1,500円/人/月
@@ -169,7 +169,7 @@ Automatic publish after review is acceptable for MVP unless DD wants staged publ
 Chrome extension package localization:
 
 ```text
-The latest built ZIP includes default_locale: en and _locales for en, en_GB, ja, es, es_419, fr, de, it, nl, pl, pt_BR, ru, tr, ar, hi, id, th, vi, ko, zh_CN, and zh_TW. As of 2026-06-02 09:47 JST, the package has 152 localized message keys per locale, a clearer non-selectable 3-step popup flow, clearer "will autofill" status copy, tabbed saved info / ledger / plan settings, a user-friendly registration ledger used as a personal dictionary, ledger search, row categories, quick-add dictionary rows for customer IDs, spreadsheet terms, and internal IDs, aliases for custom matching, an in-scan action to add newly detected fields to the ledger with a highlighted saved row, blank initial values with examples as placeholders, split phone-number inputs, ZipCloud postal-code address lookup for Japanese addresses, a visible "Registered." save confirmation, Free 5 fills per month, and the rebuilt ZIP size is 105168 bytes.
+The latest built ZIP includes default_locale: en and _locales for en, en_GB, ja, es, es_419, fr, de, it, nl, pl, pt_BR, ru, tr, ar, hi, id, th, vi, ko, zh_CN, and zh_TW. As of 2026-06-02 09:47 JST, the package has 152 localized message keys per locale, a clearer non-selectable 3-step popup flow, clearer "will autofill" status copy, tabbed saved info / ledger / plan settings, a user-friendly registration ledger used as a personal dictionary, ledger search, row categories, quick-add dictionary rows for customer IDs, spreadsheet terms, and internal IDs, aliases for custom matching, an in-scan action to add newly detected fields to the ledger with a highlighted saved row, blank initial values with examples as placeholders, split phone-number inputs, ZipCloud postal-code address lookup for Japanese addresses, a visible "Registered." save confirmation, Free 20 fills per month, and the rebuilt ZIP size is 105168 bytes.
 ```
 
 Recommended first Store Listing locales:
@@ -214,7 +214,7 @@ The extension uses only activeTab, so it reads and fills the current page only a
 
 - Item ID: `kmlcabffhmenjajmlnkkglphjnbaahlf`
 - 多言語ZIP upload済み。2026-06-02 08:36 JSTの公開URL確認で `published: true`
-- 2026-06-02 09:47 JSTにUIUX改善/辞書登録強化/住所自動検索/電話番号3分割/空の初期値/Free月5回版ZIP `0.1.1` / `105168 bytes` をCWS Dashboardへuploadし、更新審査へ送信済み
+- 2026-06-02 09:47 JSTにUIUX改善/辞書登録強化/住所自動検索/電話番号3分割/空の初期値/Free月20回版ZIP `0.1.1` / `105168 bytes` をCWS Dashboardへuploadし、更新審査へ送信済み
 - Dashboard読み戻しは `ステータス: 審査待ち`、ドラフト `0.1.1`、公開済み `0.1.0`
 - `store-assets/screenshot-popup-1280x800.png` は辞書登録UI版へ更新済み
 - Store Listing保存済み。短い説明と詳細説明は「repeated name/address/email typing」「saved info」「Check this form」「Fill matching fields」に統一済み

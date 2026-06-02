@@ -12,7 +12,7 @@
 | user_correction_rate | ユーザー修正率 | 30%未満 |
 | time_saved_estimate | 推定削減時間 | 1フォーム60秒以上 |
 | repeat_site_success | 2回目以降の成功率 | 90%以上 |
-| free_limit_hit_rate | 月5回到達率 | 20%以上 |
+| free_limit_hit_rate | 月20回到達率 | 20%以上 |
 | upgrade_click_rate | Upgradeクリック率 | 3%以上 |
 
 ## 価格実験
@@ -41,7 +41,7 @@
 次の2つを満たしたら課金導線を前面に出します。
 
 1. 初回フォームで70%以上入力できる
-2. Free利用者の20%以上が月5回に近づく
+2. Free利用者の20%以上が月20回に近づく
 
 ## 逆に止める判断
 

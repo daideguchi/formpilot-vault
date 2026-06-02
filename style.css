@@ -283,6 +283,12 @@ article p {
   opacity: 0.6;
 }
 
+.checkout-button.secondary-action {
+  border: 1px solid #b7c7c5;
+  background: #ffffff;
+  color: #0f766e;
+}
+
 .checkout-status {
   min-height: 24px;
   margin: 14px 0 0;
@@ -309,6 +315,36 @@ article p {
 
 .success-panel h1 {
   font-size: 38px;
+}
+
+.success-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.entitlement-status {
+  margin: 14px 0 0;
+  padding: 12px;
+  border: 1px solid #c7d0dd;
+  border-radius: 7px;
+  background: #f8fafc;
+  color: #435366;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.55;
+}
+
+.entitlement-status[data-status="success"] {
+  border-color: #9dd8c9;
+  background: #ecfdf8;
+  color: #0f766e;
+}
+
+.entitlement-status[data-status="warning"] {
+  border-color: #f4c7a1;
+  background: #fff7ed;
+  color: #9a3412;
 }
 
 .doc-page {
@@ -423,7 +459,8 @@ article p {
   .hero-grid,
   .columns,
   .proof-grid,
-  .pricing-grid {
+  .pricing-grid,
+  .success-actions {
     grid-template-columns: 1fr;
   }
 

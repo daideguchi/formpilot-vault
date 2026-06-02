@@ -139,6 +139,7 @@ function normalizeBridgeBaseUrl(value = "") {
 `);
 
   await fs.writeFile(path.join(out, "api/entitlement/check.js"), `
+import { normalizeEntitlementResponse } from "../../server/entitlement.js";
 import { checkStripeEntitlement } from "../../server/stripe-source.js";
 
 export default async function handler(request, response) {
@@ -170,7 +171,7 @@ export default async function handler(request, response) {
 async function proxyJson({ url, response }) {
   const upstream = await fetch(url, { method: "GET" });
   const payload = await readJson(upstream);
-  return response.status(upstream.status).json(payload);
+  return response.status(upstream.status).json(normalizeEntitlementResponse(payload));
 }
 
 async function readJson(upstream) {
@@ -222,7 +223,7 @@ function readRawBody(request) {
 async function writeProjectFiles() {
   await fs.writeFile(path.join(out, "package.json"), JSON.stringify({
     name: "formpilot-vault-vercel",
-    version: "0.1.0",
+    version: "0.1.1",
     private: true,
     type: "module"
   }, null, 2));

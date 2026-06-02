@@ -94,7 +94,7 @@ test("worker checkout and entitlement can proxy to the production Stripe bridge"
     if (url === "https://bridge.example.test/entitlement?license_key=afa_free") {
       return {
         ok: true,
-        json: async () => ({ license_key: "afa_free", plan: "free", active: false, limits: { monthly_fills: 5 } })
+        json: async () => ({ license_key: "afa_free", plan: "free", active: false, limits: { monthly_fills: 20 } })
       };
     }
     throw new Error(`unexpected_bridge_url:${url}`);
@@ -119,7 +119,7 @@ test("worker checkout and entitlement can proxy to the production Stripe bridge"
   assert.equal(freeEntitlement.status, 200);
   const freeJson = await freeEntitlement.json();
   assert.equal(freeJson.plan, "free");
-  assert.equal(freeJson.limits.monthly_fills, 5);
+  assert.equal(freeJson.limits.monthly_fills, 20);
   assert.equal(calls.length, 3);
 });
 

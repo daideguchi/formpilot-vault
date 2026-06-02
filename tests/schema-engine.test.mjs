@@ -210,7 +210,7 @@ test("enforces free monthly fill limit and tracks safe usage events", () => {
   const monthKey = getCurrentMonthKey(date);
   assert.equal(monthKey, "2026-06");
   assert.equal(canUseFill({ entitlement: { plan: "free" }, usage: { [monthKey]: { fills: 4 } }, date }).allowed, true);
-  assert.equal(canUseFill({ entitlement: { plan: "free" }, usage: { [monthKey]: { fills: 5 } }, date }).allowed, false);
+  assert.equal(canUseFill({ entitlement: { plan: "free" }, usage: { [monthKey]: { fills: 20 } }, date }).allowed, false);
   assert.equal(canUseFill({ entitlement: { plan: "plus" }, usage: { [monthKey]: { fills: 200 } }, date }).allowed, true);
 
   const event = createUsageEvent({
