@@ -79,6 +79,8 @@ Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/
 
 2026-06-01 15:56 JST時点でSEO公開面を強化済みです。英語トップに `AI form autofill Chrome extension` 向けのtitle/meta/本文/JSON-LDを追加し、日本語は `https://formpilot-vault-api.vercel.app/ja` を作って `フォーム入力`、`フォーム自動入力`、`Chrome拡張`、`AI自動入力` の検索意図へ合わせました。`robots.txt` と `sitemap.xml` も追加し、canonical/hreflangはVercelの最終到達URLに合わせています。`npm run check:seo -- --live`、`npm run check:production`、`npm run release:check` はブロッカー0です。Playwright実ブラウザでも英語desktopと日本語mobileの横スクロールなしを確認しました。公開repo `daideguchi/formpilot-vault` へcommit `0fa2cc8 Add SEO launch surfaces` をpushし、GitHub Pages build/deploy成功、`/`、`/ja.html`、`/robots.txt`、`/sitemap.xml` のHTTP 200とSEO head/Pendo snippet配信を確認済みです。
 
+2026-06-02 10:01 JSTに、公開repo `daideguchi/formpilot-vault` へFree月5回、`0.1.1`、CWS更新審査待ち、登録台帳/ZipCloud/電話番号3分割UI、SEO、Pendo/Novus維持を同期しました。commitは `486b44f Ship Free limit and CWS review update` と `d02e772 Fix public demo overflow` です。GitHub Pages build/deployは最新commitで成功し、`https://daideguchi.github.io/formpilot-vault/`、`/ja.html`、`/demo.html`、`/robots.txt`、`/sitemap.xml` はHTTP 200です。公開トップ/日本語ページはPendo snippet、Free月5回、SEO語句を確認済みで、`npm run novus:public` はトップとdemoのPendo request、`pendo.initialize`、横スクロールなしを確認して通過しました。
+
 公開LPは世界配信向けに、非日本語ブラウザでは英語を初期表示します。日本語は `?lang=ja` または言語ボタンで表示できます。2026-06-01 12:45 JSTの本番確認では、英語初期表示、英語Plusボタン、日本語モバイル表示、横スクロールなし、Stripe Checkout導線が通っています。
 
 AI schema proxyは、Azure/Cloudflareの実環境変数が未投入でも停止しないように `rules_fallback` を実装済みです。2026-06-06まではprovider_idは `azure_deepseek_v4` のまま、Azure環境変数が未設定の場合はローカルのフォーム理解ルールでsemantic keyを返します。Azure値が投入されたらlive modeへ戻せます。
