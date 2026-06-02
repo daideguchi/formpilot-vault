@@ -51,6 +51,7 @@ MVPは `Chrome拡張 + content script入力` を本線にします。Playwright�
 - 公開LP/GitHub repo: `https://daideguchi.github.io/formpilot-vault/`, `https://github.com/daideguchi/formpilot-vault`
 - 本番LP/API: `https://formpilot-vault-api.vercel.app/`
 - 日本語SEOページ: `https://formpilot-vault-api.vercel.app/ja`
+- フォーム入力SEO専用ページ: `https://formpilot-vault-api.vercel.app/form-input`
 - SEO sitemap: `https://formpilot-vault-api.vercel.app/sitemap.xml`
 - Stripe本番Checkoutブリッジ: `https://kurogane-edge-core-lp.vercel.app/api/formpilot/*`
 - Extension UI locales: `en`, `en_GB`, `ja`, `es`, `es_419`, `fr`, `de`, `it`, `nl`, `pl`, `pt_BR`, `ru`, `tr`, `ar`, `hi`, `id`, `th`, `vi`, `ko`, `zh_CN`, `zh_TW`
@@ -84,6 +85,8 @@ Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/
 2026-06-02 10:07 JSTにGoogle Search Consoleへ本番URL prefix `https://formpilot-vault-api.vercel.app/` を追加し、HTML file `google429836ef33603a29.html` で所有権確認を通しました。確認ファイルはVercel本番でHTTP 200です。Search Consoleへ `/sitemap.xml` を送信し、送信自体は成功しましたが、初回読み込みステータスは `取得できませんでした` です。外部確認ではGooglebot UAでも `https://formpilot-vault-api.vercel.app/sitemap.xml` はHTTP 200 / `application/xml` なので、Search Console側の再取得を後続確認対象にします。
 
 2026-06-02 10:21 JSTに、検索語 `フォーム入力` / `フォーム自動入力` / `会員登録 自動入力` へより直接合わせるため、日本語SEO専用ページ `https://formpilot-vault-api.vercel.app/form-input` を追加しました。canonical、hreflang、OG/Twitter、SoftwareApplication + FAQPage JSON-LD、Free月5回、暗号化Vault、送信しない安全性、会員登録/問い合わせ/資料請求フォームの本文を入れています。`sitemap.xml` へ `/form-input` を追加し、`npm run check:seo -- --live` はブロッカー0です。Vercel deploymentは `dpl_o8Jak85iGAF83QBBFmBswq4r2GQE` です。Search Console URL検査では `/form-input` は `URL が Google に登録されていません` で、インデックス登録リクエストを試しましたが `1日の割り当て量を超えています` と表示されたため、明日以降の再リクエスト対象です。
+
+2026-06-02 10:27 JSTに、公開repo `daideguchi/formpilot-vault` へ `/form-input.html` と `site/form-input.html` を同期しました。commitは `51a452e Add form input SEO page` です。GitHub Pages build/deploy run `26792599595` は成功し、`https://daideguchi.github.io/formpilot-vault/form-input.html` と `/sitemap.xml` はHTTP 200です。`npm run novus:public` は `/`、`/form-input.html`、`/demo.html` でPendo request、`pendo.initialize`、横スクロールなしを確認して通過しました。
 
 公開LPは世界配信向けに、非日本語ブラウザでは英語を初期表示します。日本語は `?lang=ja` または言語ボタンで表示できます。2026-06-01 12:45 JSTの本番確認では、英語初期表示、英語Plusボタン、日本語モバイル表示、横スクロールなし、Stripe Checkout導線が通っています。
 

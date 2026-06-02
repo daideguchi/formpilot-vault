@@ -12,6 +12,8 @@
 
 - 英語トップ: `https://formpilot-vault-api.vercel.app/`
 - 日本語SEOページ: `https://formpilot-vault-api.vercel.app/ja`
+- フォーム入力SEO専用ページ: `https://formpilot-vault-api.vercel.app/form-input`
+- 公開ミラー: `https://daideguchi.github.io/formpilot-vault/form-input.html`
 - robots: `https://formpilot-vault-api.vercel.app/robots.txt`
 - sitemap: `https://formpilot-vault-api.vercel.app/sitemap.xml`
 
@@ -38,6 +40,8 @@
 `/sitemap.xml` はSearch Consoleへ送信済み。ただし初回読み込みステータスは `取得できませんでした`。外部HTTP確認では、Googlebot User-Agentでも `https://formpilot-vault-api.vercel.app/sitemap.xml` はHTTP 200 / `application/xml`。後続でSearch Console側の再取得結果を確認する。
 
 2026-06-02 10:21 JSTに `https://formpilot-vault-api.vercel.app/form-input` を追加。狙う検索意図は `フォーム入力`、`フォーム自動入力`、`会員登録 自動入力`、`問い合わせフォーム 自動入力`。Search Console URL検査では `URL が Google に登録されていません`。インデックス登録リクエストは日次割り当て超過のため、明日以降に再実行する。
+
+2026-06-02 10:27 JSTに公開repo `daideguchi/formpilot-vault` へも `/form-input.html` を同期。GitHub Pagesはcommit `51a452e Add form input SEO page` のdeploy成功後、`https://daideguchi.github.io/formpilot-vault/form-input.html` と `/sitemap.xml` がHTTP 200。`npm run novus:public` でPendo送信と横スクロールなしを確認済み。
 
 ## 重要キーワード
 
