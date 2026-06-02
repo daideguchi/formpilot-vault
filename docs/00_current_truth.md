@@ -74,6 +74,8 @@ Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/
 
 実購入後の有料権利確認用に `npm run check:paid-license` を追加しました。`AFA_LICENSE_KEY=afa_xxx AFA_EXPECTED_PLAN=plus npm run check:paid-license` で、Vercel本番とCloudflare Worker本番の両方に対して、有料plan、active状態、月間fills権利を確認できます。
 
+実購入テスト開始用に `npm run purchase:verify` も追加しました。`npm run purchase:verify -- --plan plus --open --wait` で、本番Checkout Sessionを作成し、Stripe Checkoutを開き、DDが支払い完了後に購入済みLicense keyがVercel本番とCloudflare Worker本番の両方で有料activeになるまで待機確認できます。2026-06-02 10:52 JSTに、支払いなしでPlusの本番Checkout Session作成まで通過し、`cs_live_` session id、Checkout URL、success URLが出ることを確認しました。
+
 審査中/公開後/購入後を一括確認する `npm run check:launch` も追加しました。通常モードではVercel、Cloudflare、GitHub Pages、Chrome Web Store公開URL、Chrome Web Store Dashboard、購入後ライセンスの状態をまとめて出し、審査待ち中の未公開URLと未購入ライセンスはwarning扱いにします。公開後は `-- --require-published`、実購入後は `-- --require-paid-license` を付けてブロッカー化できます。
 
 2026-06-01 14:01 JST時点で `npm run check:launch` はブロッカー0です。Vercel health、Cloudflare health、GitHub Pages、Chrome Web Store Dashboard `審査待ち` を確認し、Chrome Web Store公開URLは未公開のためwarning、実購入license未投入もwarningです。`--require-published` は未公開をブロッカー化し、`--require-paid-license` は未購入/無効licenseをブロッカー化することも確認済みです。

@@ -112,6 +112,14 @@ AFA_LICENSE_KEY=afa_xxx AFA_EXPECTED_PLAN=plus npm run check:paid-license
 
 このコマンドはVercel本番とCloudflare Worker本番の両方で、有料plan、active状態、月間fills権利を確認する。購入前のlicenseでは失敗するのが正しい。
 
+実購入テストを1コマンドで始める場合:
+
+```bash
+npm run purchase:verify -- --plan plus --open --wait
+```
+
+このコマンドは本番Checkout Sessionを作り、Checkout URL、License key、success URLを表示し、`--open` でStripe Checkoutを開く。DDが支払いを完了すると、`--wait` がVercel本番とCloudflare Worker本番のEntitlementをポーリングし、有料activeになるまで確認する。支払い前に止める場合は、表示されたCheckout URLを閉じればよい。
+
 Checkout成功ページも確認する:
 
 ```bash
