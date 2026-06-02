@@ -393,6 +393,29 @@ DDの「Freeは月20回で課金させたい」という方針を、コード、
 - `npm run check:launch -- --require-published` 通過。CWS公開URLはpublished
 - CWS Dashboardへ `0.1.1` ZIPをアップロードし、更新審査へ送信済み。Dashboard読み戻しでは `ステータス: 審査待ち`、ドラフト `0.1.1`、公開済み `0.1.0`
 
+## 2026-06-02 11:48 JST Free月20回の再固定・本番/公開ミラー再反映
+
+DDの最新指定「月20回だよ、フリー」を正として、Free制限を再確認し、本体、Vercel本番、Cloudflare Worker本番、公開GitHub Pagesミラーを月20回へ揃えた。`月5回` / `5 fills` / `monthly_fills: 5` の残存検索は対象範囲で0件。
+
+確認結果:
+
+- `npm test` 通過。schema / i18n / Vault暗号化 / API / Worker / Checkout site / Playwright smokeを確認
+- `npm run assets:store` 通過
+- `npm run package:extension` 通過。ローカル最新ZIP `dist/ai-form-autofill-0.1.1.zip` は `105172 bytes`
+- `npm run release:check` 通過。ブロッカー0、21 locale / 152キー
+- `npm run deploy:vercel` 通過。Vercel deploymentは `dpl_2Sz1QfJmP7DYE44VU2zguRTvPYob`、production aliasは `https://formpilot-vault-api.vercel.app`
+- `npm run deploy:worker` 通過。Cloudflare Worker version idは `dfffe4e1-856b-4768-8125-97aaea970e0b`
+- `scripts/check-cloudflare-live.mjs` はFree entitlementの `monthly_fills === 20` を必須条件に強化した
+- `npm run check:seo -- --live`、`npm run check:production`、`npm run check:cloudflare:live`、`npm run check:launch -- --require-published` はブロッカー0で通過
+- `npm run check:production` はVercel本番Free entitlement月20回、Plus/Pro/Teamの `cs_live_` Checkout Session作成を確認
+- `npm run check:cloudflare:live` はCloudflare schema live、Stripe checkout bridge、Free entitlement月20回を確認
+- 公開repo `daideguchi/formpilot-vault` へcommit `6c7ad36 Set Free plan to 20 monthly fills` をpush
+- GitHub Pages pages-build-deployment run `26795204977` は成功。Node 20 deprecation annotationのみ
+- `npm run novus:public` 通過。`/`、`/form-input.html`、`/form-autofill.html`、`/signup-autofill.html`、`/contact-form-autofill.html`、`/success.html?license_key=afa_public_probe_success`、`/demo.html` でPendo request、`pendo.initialize`、横スクロールなしを確認
+- Vercel本番とGitHub Pages公開ミラーの主要SEOページはHTTP 200、`月20回` / `20 fills` あり、`月5回` / `5 fills` なしを実測
+
+Chrome Web Storeは引き続き公開済みで、Dashboard読み戻しは `ステータス: 審査待ち`、ドラフト `0.1.1`、公開済み `0.1.0`。今回11:48 JSTのローカル最新ZIP `105172 bytes` は再生成済みだが、このパスでは審査中Packageの差し替えuploadは実行していない。Dashboardが審査中Package差し替えを許すなら `105172 bytes` を差し替え、許さない場合は審査通過後に `0.1.2` として再提出する。
+
 ## 次の一歩
 
 1. Mind the Product: Devpostが外部動画URLを要求する場合、埋め込み済み2分デモを元に提出用動画を作る

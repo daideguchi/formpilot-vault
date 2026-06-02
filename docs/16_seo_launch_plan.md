@@ -53,6 +53,8 @@
 
 2026-06-02 11:31 JSTに、SEOページから課金までのクリック数を減らすため、`/form-input`、`/form-autofill`、`/signup-autofill`、`/contact-form-autofill` にFree/Plus/Pro/Teamの料金カードとPlus/Pro/Team Checkoutボタンを直接追加。`site/pricing.js` はSEO専用ページの静的title/langを保持したままCheckout処理だけ使うようにした。Vercel deployment `dpl_BHoz4wbEmubUbJodJKkjcgdefjm2` を本番aliasへ反映し、`npm run test`、`npm run check:seo -- --live`、`npm run check:production`、`npm run check:launch -- --require-published` が通過。`npm run purchase:verify -- --plan plus` でPlusの `cs_live_` Checkout Session作成も確認済み。これは支払いなしの導線確認であり、実購入/入金確認ではない。
 
+2026-06-02 11:48 JSTに、DDの最新指定としてFreeを月20回で再固定し、SEOページ、本番API、公開ミラーを再検証した。Vercel deployment `dpl_2Sz1QfJmP7DYE44VU2zguRTvPYob`、Cloudflare Worker version id `dfffe4e1-856b-4768-8125-97aaea970e0b`、公開repo commit `6c7ad36 Set Free plan to 20 monthly fills`、GitHub Pages run `26795204977`。`npm run check:seo -- --live`、`npm run check:production`、`npm run check:cloudflare:live`、`npm run novus:public` は通過。Vercel本番とGitHub Pages公開ミラーの `/form-input` / `/form-autofill` / `/signup-autofill` / `/contact-form-autofill` はHTTP 200、`月20回` / `20 fills` あり、`月5回` / `5 fills` なしを確認。
+
 ## 重要キーワード
 
 日本語:
