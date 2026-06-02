@@ -343,6 +343,28 @@ article p {
   gap: 28px;
 }
 
+.doc-main > * {
+  min-width: 0;
+}
+
+.demo-page .demo-focus,
+.demo-page .judge-strip,
+.demo-page .band {
+  width: 100%;
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.demo-video {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  background: #0f172a;
+}
+
 .doc-main h1 {
   font-size: 42px;
 }
