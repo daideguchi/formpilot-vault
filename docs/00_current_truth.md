@@ -78,6 +78,8 @@ popup上で不確定項目をプロフィールキーへ紐づける `Learn` UI�
 
 2026-06-02 14:40 JSTに、専門UI/UX最終レビューの追加P0を実装しました。manifest/packageは `0.1.3` です。追加内容は、高機密項目のSensitivity Tier分類、パスワード/クレジットカード/口座/政府ID/OTPの既定スキップ、Confidence band、Safe Fill Modeのsubmit/Enter/clickガード、30秒Undo Stack、値を保存しないReceipts、Security内のDelete Everything、AI fallback表示、AI payload preview上の `[NEVER SENT]` 表示です。実ブラウザE2Eでは14項目収集、13項目入力、パスワード1項目スキップ、undo token発行を確認しました。`npm test`、`npm run test:extension`、`npm run assets:store`、`npm run package:extension`、`npm run release:check` は通過済みで、次回提出候補ZIPは `dist/ai-form-autofill-0.1.3.zip` / `152862 bytes` です。
 
+2026-06-02 14:53 JSTに、0.1.3候補の実装を公開repo `daideguchi/formpilot-vault` へpushしました。commitは `916b296 Implement safe fill release candidate` です。GitHub Pages deploy run `26801238626` は成功し、`npm run check:launch -- --require-published` はVercel health、Cloudflare health、GitHub Pages、Chrome Web Store公開URL、Dashboard `審査待ち` までブロッカー0で通過しました。有料licenseは環境変数未投入のためwarning扱いで未再確認です。
+
 AIへ渡すschema inference payloadも実装済みです。フォーム構造、Memory context、ページ言語、UI言語、ブラウザ言語、TLD、タイムゾーン、calendar、numbering systemなどの `locale_context` は渡しますが、input value、CSS selector、プロフィール実値は入れないテストを固定しています。
 
 リリース/課金に必要なAPI土台も実装済みです。`api/schema-proxy/` はAzure DeepSeek V4からCloudflare Workers AIへ日付で切替し、`api/entitlement/` はStripe webhookとlicense checkを扱います。popupにはLicense key確認欄を追加済みです。2026-06-01 13:28 JSTに、拡張popup本体も `extension/src/schema-client.js` 経由で本番schema APIを優先利用する形へ変更しました。API失敗時はローカルルールへfallbackします。
