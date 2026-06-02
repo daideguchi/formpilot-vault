@@ -31,6 +31,7 @@ Chrome拡張を公開し、Plus/Pro/Teamの課金がDDのStripeへ入り、拡�
 - Kurogane Stripe本番ブリッジ: `https://kurogane-edge-core-lp.vercel.app/api/formpilot/*`
 - 本番Stripe Checkout Session作成
 - 本番License check Free/月20回応答
+- 0円Checkout後のPlus active license確認
 - AI schema proxyの `rules_fallback`
 - GitHub Pages静的公開LP: `https://daideguchi.github.io/formpilot-vault/`
 - 公開Privacy URL: `https://daideguchi.github.io/formpilot-vault/privacy.html`
@@ -120,6 +121,8 @@ npm run purchase:verify -- --plan plus --open --wait
 
 このコマンドは本番Checkout Sessionを作り、Checkout URL、License key、success URLを表示し、`--open` でStripe Checkoutを開く。DDが支払いを完了すると、`--wait` がVercel本番とCloudflare Worker本番のEntitlementをポーリングし、有料activeになるまで確認する。支払い前に止める場合は、表示されたCheckout URLを閉じればよい。
 
+2026-06-02 12:04 JSTに、DD指定のプロモーションコードを使ってPlusの0円Checkoutを完了した。Stripe画面上は `今日期日の合計額 ￥0`、`1カ月間 100% 割引`、`その後、￥580/月、来月以降` の表示。`npm run purchase:verify -- --plan plus --open --wait` は `live_purchase_verified` で完了し、Vercel本番とCloudflare Worker本番の両方で `plan: plus`、`active: true`、`monthly_fills: unlimited`、`current_period_end: 2026-07-02T03:02:05.000Z` を確認した。続けて `npm run check:paid-license` と `npm run check:launch -- --require-published --require-paid-license` もブロッカー0で通過した。これは0円Checkoutなので即時入金は発生していない。
+
 Checkout成功ページも確認する:
 
 ```bash
@@ -145,7 +148,7 @@ npm run check:seo
 npm run check:seo -- --live
 ```
 
-`check:seo` は英語トップ、日本語 `/ja`、日本語SEO専用 `/form-input`、ロングテールSEO専用 `/form-autofill`、`/signup-autofill`、`/contact-form-autofill`、canonical、hreflang、meta description、SoftwareApplication/FAQPage構造化データ、`robots.txt`、`sitemap.xml`、フォーム入力/フォーム自動入力/会員登録 自動入力/問い合わせフォーム 自動入力/AI form autofill系の本文コピーを確認する。Google Search Consoleは2026-06-02 10:07 JSTに `https://formpilot-vault-api.vercel.app/` のURL prefix所有権確認済み。`/sitemap.xml` は送信済みだが、初回読み込みステータスは `取得できませんでした`。外部HTTPではGooglebot UAでも200/`application/xml` のため、後続でSearch Consoleの再取得結果を読み戻す。`/form-input` はURL検査で未登録、インデックス登録リクエストは日次割り当て超過のため明日以降に再実行する。2026-06-02 11:05 JSTに3つのロングテールSEOページを追加し、Vercel deployment `dpl_GBRpH16xHpyhWVFqWhjRaEinr11u`、公開repo commit `0c4be7d`、Pages run `26793869132`、`npm run check:seo -- --live` / `npm run check:production` / `npm run novus:public` 通過まで確認済み。2026-06-02 11:31 JSTには各SEOページへ料金カードとCheckoutボタンを直接追加し、Vercel deployment `dpl_BHoz4wbEmubUbJodJKkjcgdefjm2`、`npm run test`、`npm run check:seo -- --live`、`npm run check:production`、`npm run check:launch -- --require-published`、`npm run purchase:verify -- --plan plus` 通過まで確認済み。
+`check:seo` は英語トップ、日本語 `/ja`、日本語SEO専用 `/form-input`、ロングテールSEO専用 `/form-autofill`、`/signup-autofill`、`/contact-form-autofill`、canonical、hreflang、meta description、SoftwareApplication/FAQPage構造化データ、`robots.txt`、`sitemap.xml`、フォーム入力/フォーム自動入力/会員登録 自動入力/問い合わせフォーム 自動入力/AI form autofill系の本文コピーを確認する。Google Search Consoleは2026-06-02 10:07 JSTに `https://formpilot-vault-api.vercel.app/` のURL prefix所有権確認済み。`/sitemap.xml` は送信済みだが、初回読み込みステータスは `取得できませんでした`。外部HTTPではGooglebot UAでも200/`application/xml` のため、後続でSearch Consoleの再取得結果を読み戻す。`/form-input` はURL検査で未登録、インデックス登録リクエストは日次割り当て超過のため明日以降に再実行する。2026-06-02 11:05 JSTに3つのロングテールSEOページを追加し、Vercel deployment `dpl_GBRpH16xHpyhWVFqWhjRaEinr11u`、公開repo commit `0c4be7d`、Pages run `26793869132`、`npm run check:seo -- --live` / `npm run check:production` / `npm run novus:public` 通過まで確認済み。2026-06-02 11:31 JSTには各SEOページへ料金カードとCheckoutボタンを直接追加し、Vercel deployment `dpl_BHoz4wbEmubUbJodJKkjcgdefjm2`、`npm run test`、`npm run check:seo -- --live`、`npm run check:production`、`npm run check:launch -- --require-published`、`npm run purchase:verify -- --plan plus` 通過まで確認済み。2026-06-02 12:06 JST時点でもSearch Consoleは `割り当て量を超えています` のため、インデックス登録リクエストは翌日以降の停止点。
 
 ## Chrome Web Store提出
 
@@ -209,7 +212,7 @@ npm run deploy:worker
 ## 現在のブロッカー
 
 - Chrome Web Storeは2026-06-02 08:36 JST時点で公開済み。`0.1.1` 更新版は2026-06-02 09:47 JSTに更新審査へ送信済み。次の停止点は審査通過後の公開版 `0.1.1` 読み戻し、または差し戻し対応。
-- Stripeの実購入/入金確認はDDの決済操作またはDashboard確認が必要
+- 0円CheckoutのPlus active確認は完了。即時入金確認は無料プロモーションなしの有料決済またはStripe Dashboard上の売上確認が必要
 - Azure DeepSeek V4のdeployment作成は `ReadOnlyDisabledSubscription` で停止。Azure利用を続けるならsubscription再有効化が必要
 
 ## 現在の非ブロッカー

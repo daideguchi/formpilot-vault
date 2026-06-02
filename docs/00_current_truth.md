@@ -119,6 +119,8 @@ Chrome Web Storeは、2026-06-02 08:36 JST時点で公開済みです。公開UR
 
 Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry-run通過済みです。現行本番はFormPilot専用Stripe bridgeでPlus/Pro/Teamの本番Checkout Sessionを作る構成です。実購入/入金確認だけは未実行で、DDの決済操作またはStripe Dashboard確認が必要です。
 
+2026-06-02 12:04 JSTに、DD指定のプロモーションコードをStripe Checkoutへ適用し、Plusの0円Checkoutを完了しました。Stripe画面上は `今日期日の合計額 ￥0`、`1カ月間 100% 割引`、`その後、￥580/月、来月以降` の表示でした。Checkout成功後、license key `afa_purchase...eb0f` はVercel本番とCloudflare Worker本番の両方で `plan: plus`、`active: true`、`monthly_fills: unlimited` を返しました。`current_period_end` は `2026-07-02T03:02:05.000Z` です。`npm run check:paid-license` と `npm run check:launch -- --require-published --require-paid-license` はブロッカー0で通過しました。これは0円Checkoutなので即時入金は発生していませんが、本番Checkout、Stripe subscription metadata、Webhook/bridge由来の有料entitlement、成功ページUIのPlus表示まで確認済みです。
+
 本番APIの置き場としてCloudflare Workerを実装済みです。`/api/schema/infer`、`/api/stripe/checkout-session`、`/api/stripe/webhook`、`/api/entitlement/check`、`/api/health` を同じWorkerで扱います。Stripe entitlementはD1に保存する設計です。Workers AI binding `env.AI.run()` がある場合はCloudflare API tokenなしで推論できます。Cloudflare CLIは `dd.1107.11107@gmail.com` でlogin済み、D1 `ai-form-autofill-prod` はAPACに作成済み、database_idは `895767fa-8bc7-4811-9801-63d879eeb194` です。D1 migration適用済みで、Worker本番URLは `https://ai-form-autofill.dd-1107-11107.workers.dev` です。2026-06-02 09:47 JST時点のCloudflare Worker version idは `a1c1eca3-084f-4a44-a5e1-1264227ab73e` です。
 
 `npm run release:check` も追加済みです。Vercel本番APIを使う通常リリース判定ではブロッカー0です。Cloudflare用は `npm run check:cloudflare:live` で、Worker health、Workers AI live schema、Stripe Checkout bridge、Free entitlement bridgeを検証します。
@@ -416,11 +418,13 @@ DDの最新指定「月20回だよ、フリー」を正として、Free制限を
 
 Chrome Web Storeは引き続き公開済みで、Dashboard読み戻しは `ステータス: 審査待ち`、ドラフト `0.1.1`、公開済み `0.1.0`。今回11:48 JSTのローカル最新ZIP `105172 bytes` は再生成済み。11:52 JSTに実ブラウザでDashboard Package画面を確認したところ、`新しいパッケージをアップロード` ボタンはdisabledで、審査待ち中の差し替えuploadは不可だった。審査通過後、必要なら `0.1.2` として再提出する。
 
+2026-06-02 12:06 JST時点のSearch Console URL検査では、`https://formpilot-vault-api.vercel.app/form-input` はまだ `URL が Google に登録されていません`、理由は `URL が Google に認識されていません`。`インデックス登録をリクエスト` は表示されているが、画面下部に `割り当て量を超えています`、`1日の割り当て量を超えたため、リクエストを処理できませんでした。明日、もう一度お試しください。` が出ている。外部HTTPではVercel本番とsitemapは200確認済みなので、残作業は翌日以降の再リクエスト。
+
 ## 次の一歩
 
 1. Mind the Product: Devpostが外部動画URLを要求する場合、埋め込み済み2分デモを元に提出用動画を作る
 2. Chrome Web Storeは公開済み。`0.1.1` は更新審査待ちなので、審査通過後に公開版が `0.1.1` になったことを読み戻す
-3. Stripeの実購入/入金確認を行い、購入済みLicense keyが有料activeになることを確認する
+3. 0円CheckoutでPlus activeは確認済み。実売上の入金確認は、無料プロモーションなしの有料決済またはStripe Dashboard上の売上確認で行う
 4. UiPath AgentHack: `Form Intake Case Room` のUiPath証拠を作る
 5. Google Rapid Agent: `FormOps Agent` のGemini / Agent Builder / Partner MCP証拠が作れるか判定する
 6. 日本語の公開/許可済みデモフォームを増やして認識率を測る

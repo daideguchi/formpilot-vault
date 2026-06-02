@@ -55,6 +55,8 @@
 
 2026-06-02 11:48 JSTに、DDの最新指定としてFreeを月20回で再固定し、SEOページ、本番API、公開ミラーを再検証した。Vercel deployment `dpl_2Sz1QfJmP7DYE44VU2zguRTvPYob`、Cloudflare Worker version id `dfffe4e1-856b-4768-8125-97aaea970e0b`、公開repo commit `6c7ad36 Set Free plan to 20 monthly fills`、GitHub Pages run `26795204977`。`npm run check:seo -- --live`、`npm run check:production`、`npm run check:cloudflare:live`、`npm run novus:public` は通過。Vercel本番とGitHub Pages公開ミラーの `/form-input` / `/form-autofill` / `/signup-autofill` / `/contact-form-autofill` はHTTP 200、`月20回` / `20 fills` あり、`月5回` / `5 fills` なしを確認。
 
+2026-06-02 12:06 JSTのSearch Console URL検査では、`/form-input` はまだ `URL が Google に登録されていません`、理由は `URL が Google に認識されていません`。`インデックス登録をリクエスト` は表示されているが、`割り当て量を超えています` と表示され、日次割り当て超過で処理不可。翌日以降に再リクエストする。
+
 ## 重要キーワード
 
 日本語:
