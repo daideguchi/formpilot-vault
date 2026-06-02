@@ -168,7 +168,7 @@ npm run release:check
 
 2026-06-02 09:47 JST時点のローカル更新用ZIPは `dist/ai-form-autofill-0.1.1.zip` / `105168 bytes`。Chrome Web Store初版は公開済みで、この `0.1.1` 版はDashboardへuploadし、更新審査へ送信済み。Dashboard読み戻しは `ステータス: 審査待ち`、ドラフト `0.1.1`、公開済み `0.1.0`。
 
-2026-06-02 11:48 JSTに、DDの最新指定としてFreeは月20回を再固定した。ローカル最新ZIPは `dist/ai-form-autofill-0.1.1.zip` / `105172 bytes`、Vercel deploymentは `dpl_2Sz1QfJmP7DYE44VU2zguRTvPYob`、Cloudflare Worker version idは `dfffe4e1-856b-4768-8125-97aaea970e0b`。`npm run check:production` はVercel本番Free月20回とPlus/Pro/Team `cs_live_` Checkout Sessionを確認し、`npm run check:cloudflare:live` はCloudflare schema live / Stripe bridge / Free月20回を確認した。公開repo commit `6c7ad36`、GitHub Pages run `26795204977` も成功。審査中CWS Packageの差し替えはこのパスでは未実行なので、Dashboardが許せば `105172 bytes` を差し替え、許さなければ審査通過後に `0.1.2` で再提出する。
+2026-06-02 11:48 JSTに、DDの最新指定としてFreeは月20回を再固定した。ローカル最新ZIPは `dist/ai-form-autofill-0.1.1.zip` / `105172 bytes`、Vercel deploymentは `dpl_2Sz1QfJmP7DYE44VU2zguRTvPYob`、Cloudflare Worker version idは `dfffe4e1-856b-4768-8125-97aaea970e0b`。`npm run check:production` はVercel本番Free月20回とPlus/Pro/Team `cs_live_` Checkout Sessionを確認し、`npm run check:cloudflare:live` はCloudflare schema live / Stripe bridge / Free月20回を確認した。公開repo commit `6c7ad36`、GitHub Pages run `26795204977` も成功。11:52 JSTに実ブラウザでCWS Package画面を確認し、審査待ち中は `新しいパッケージをアップロード` ボタンがdisabledで差し替え不可と確認した。審査通過後、必要なら `0.1.2` で再提出する。
 
 ## Cloudflare移行/再確認
 

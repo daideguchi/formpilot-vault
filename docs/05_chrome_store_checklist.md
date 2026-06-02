@@ -71,7 +71,7 @@ npm run release:check
 
 Chrome Web Storeは2026-06-02 08:36 JST実測で公開済み。公開URLは `https://chromewebstore.google.com/detail/formpilot-vault/kmlcabffhmenjajmlnkkglphjnbaahlf`。2026-06-02 09:47 JSTに最新Free月20回版 `0.1.1` / `105168 bytes` をDashboardへuploadし、更新審査へ送信済み。Dashboard読み戻しは `ステータス: 審査待ち`、ドラフト `0.1.1`、公開済み `0.1.0`。
 
-2026-06-02 11:48 JSTに、Free月20回を再固定したローカル最新ZIP `dist/ai-form-autofill-0.1.1.zip` / `105172 bytes` を再生成し、`npm test`、`npm run assets:store`、`npm run package:extension`、`npm run release:check` を通過した。このパスでは審査中Packageの差し替えuploadは未実行。CWS Dashboardで審査中Package差し替えが可能なら `105172 bytes` を差し替え、不可なら審査通過後に `0.1.2` で再提出する。
+2026-06-02 11:48 JSTに、Free月20回を再固定したローカル最新ZIP `dist/ai-form-autofill-0.1.1.zip` / `105172 bytes` を再生成し、`npm test`、`npm run assets:store`、`npm run package:extension`、`npm run release:check` を通過した。11:52 JSTに実ブラウザでCWS Package画面を確認したところ、審査待ち中は `新しいパッケージをアップロード` ボタンがdisabledで、Package差し替えは不可。審査通過後、必要なら `0.1.2` で再提出する。
 
 ## 提出前の停止条件
 

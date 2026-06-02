@@ -414,7 +414,7 @@ DDの最新指定「月20回だよ、フリー」を正として、Free制限を
 - `npm run novus:public` 通過。`/`、`/form-input.html`、`/form-autofill.html`、`/signup-autofill.html`、`/contact-form-autofill.html`、`/success.html?license_key=afa_public_probe_success`、`/demo.html` でPendo request、`pendo.initialize`、横スクロールなしを確認
 - Vercel本番とGitHub Pages公開ミラーの主要SEOページはHTTP 200、`月20回` / `20 fills` あり、`月5回` / `5 fills` なしを実測
 
-Chrome Web Storeは引き続き公開済みで、Dashboard読み戻しは `ステータス: 審査待ち`、ドラフト `0.1.1`、公開済み `0.1.0`。今回11:48 JSTのローカル最新ZIP `105172 bytes` は再生成済みだが、このパスでは審査中Packageの差し替えuploadは実行していない。Dashboardが審査中Package差し替えを許すなら `105172 bytes` を差し替え、許さない場合は審査通過後に `0.1.2` として再提出する。
+Chrome Web Storeは引き続き公開済みで、Dashboard読み戻しは `ステータス: 審査待ち`、ドラフト `0.1.1`、公開済み `0.1.0`。今回11:48 JSTのローカル最新ZIP `105172 bytes` は再生成済み。11:52 JSTに実ブラウザでDashboard Package画面を確認したところ、`新しいパッケージをアップロード` ボタンはdisabledで、審査待ち中の差し替えuploadは不可だった。審査通過後、必要なら `0.1.2` として再提出する。
 
 ## 次の一歩
 
