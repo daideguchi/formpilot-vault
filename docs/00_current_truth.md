@@ -38,7 +38,7 @@ MVPは `Chrome拡張 + content script入力` を本線にします。Playwright�
 - Full-page Vault Manager: `extension/manager.html`, `extension/manager.js`, `extension/manager.css`
 - Chrome Web Store素材: `store-assets/`
 - 拡張アイコン: `extension/icons/`
-- 次回提出候補ZIP: `dist/ai-form-autofill-0.1.2.zip`
+- 次回提出候補ZIP: `dist/ai-form-autofill-0.1.3.zip`
 - ストア掲載文面: `docs/12_chrome_store_listing_copy.md`
 - Chrome Web Store提出パケット: `docs/14_chrome_web_store_submission_packet.md`
 - プライバシー/利用規約下書き: `site/privacy.html`, `site/terms.html`
@@ -75,6 +75,8 @@ popup上で不確定項目をプロフィールキーへ紐づける `Learn` UI�
 2026-06-02に専門UI/UXレビューを採用し、`docs/19_professional_uiux_review_decisions.md` へ正本化しました。以後のUI/UXは、popupを `検出 -> 確認 -> 入力` の3歩へ絞る、ユーザー向け中心概念を `Ledger` に寄せる、`Profile` はLedgerのビュー、`Capture Inbox` は未確定情報、`Site Memory` はサイト固有の入力習慣として扱う、という方針で進めます。Trust UXとして、AI送信payload preview、`送信ボタンは押しません` の毎回表示、ローカル暗号化状態、15分無操作ロックを優先します。課金転換はFree上限だけでなく、Ledger項目数、学習サイト数、節約時間、Inbox件数など `貯まった` 軸でも設計します。
 
 2026-06-02 13:49 JSTに、専門UI/UXレビューのP0を実装しました。popupは `検出 -> 確認 -> 入力` の3歩表示、ヘッダーのVault Manager導線、`この端末で暗号化中` / `AIに値を送りません` の常時Trust表示、入力プラン上の `送信ボタンは押しません`、AIへ送る値なしpayload preview、下部の `台帳 / 学習 / 今月 / 節約` 育成バーを持ちます。full-page Vault Managerも追加し、Dashboard、Ledger、Profiles、Capture Inbox、Sites、Plan、Security、Languageを分離しました。CWSで0.1.1更新審査待ちのため、今回の実装はmanifest/package `0.1.2` として次回提出候補に切り、`dist/ai-form-autofill-0.1.2.zip` / `136431 bytes` を生成済みです。
+
+2026-06-02 14:40 JSTに、専門UI/UX最終レビューの追加P0を実装しました。manifest/packageは `0.1.3` です。追加内容は、高機密項目のSensitivity Tier分類、パスワード/クレジットカード/口座/政府ID/OTPの既定スキップ、Confidence band、Safe Fill Modeのsubmit/Enter/clickガード、30秒Undo Stack、値を保存しないReceipts、Security内のDelete Everything、AI fallback表示、AI payload preview上の `[NEVER SENT]` 表示です。実ブラウザE2Eでは14項目収集、13項目入力、パスワード1項目スキップ、undo token発行を確認しました。`npm test`、`npm run test:extension`、`npm run assets:store`、`npm run package:extension`、`npm run release:check` は通過済みで、次回提出候補ZIPは `dist/ai-form-autofill-0.1.3.zip` / `152862 bytes` です。
 
 AIへ渡すschema inference payloadも実装済みです。フォーム構造、Memory context、ページ言語、UI言語、ブラウザ言語、TLD、タイムゾーン、calendar、numbering systemなどの `locale_context` は渡しますが、input value、CSS selector、プロフィール実値は入れないテストを固定しています。
 
@@ -114,7 +116,7 @@ Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/
 
 AI schema proxyは、Azure/Cloudflareの実環境変数が未投入でも停止しないように `rules_fallback` を実装済みです。さらに2026-06-02 12:17 JSTに、Vercel本番ではAzure環境変数が未設定の場合、先にCloudflare Workerのlive schema APIへ委譲するfallbackを追加しました。2026-06-06まではprovider routing上のprimaryは `azure_deepseek_v4` のままですが、Vercel本番の実応答は `provider_id: cloudflare_workers_ai_free`、`mode: live`、`delegated_from_provider_id: azure_deepseek_v4`、`delegated_from_error: azure_env_missing` で通過しています。`rules_fallback` はAzureとCloudflare live委譲の両方が使えない時の最後の継続手段として残します。
 
-多言語対応も初回提出前に強化しました。manifestは `default_locale: en` と `_locales` を使うChrome公式i18n構成で、21 localeに対応します。対象は英語、英語UK、日本語、スペイン語、ラテンアメリカスペイン語、フランス語、ドイツ語、イタリア語、オランダ語、ポーランド語、ブラジルポルトガル語、ロシア語、トルコ語、アラビア語、ヒンディー語、インドネシア語、タイ語、ベトナム語、韓国語、中国語簡体、中国語繁体です。2026-06-02 13:49 JST時点でExtension UIは204キー x 21 localeで欠落なしです。フォーム認識ルールも主要グローバル市場の氏名、メール、電話、国番号、郵便番号、国、住所、会社、部署、役職、パスワードに広げています。世界配信の販売戦略は `docs/15_global_language_distribution_plan.md` を正本にし、UI翻訳だけでなく国別フォーム理解、`locale_context`、Memory学習までを言語対応に含めます。
+多言語対応も初回提出前に強化しました。manifestは `default_locale: en` と `_locales` を使うChrome公式i18n構成で、21 localeに対応します。対象は英語、英語UK、日本語、スペイン語、ラテンアメリカスペイン語、フランス語、ドイツ語、イタリア語、オランダ語、ポーランド語、ブラジルポルトガル語、ロシア語、トルコ語、アラビア語、ヒンディー語、インドネシア語、タイ語、ベトナム語、韓国語、中国語簡体、中国語繁体です。2026-06-02 14:40 JST時点でExtension UIは231キー x 21 localeで欠落なしです。フォーム認識ルールも主要グローバル市場の氏名、メール、電話、国番号、郵便番号、国、住所、会社、部署、役職、パスワードに広げています。世界配信の販売戦略は `docs/15_global_language_distribution_plan.md` を正本にし、UI翻訳だけでなく国別フォーム理解、`locale_context`、Memory学習までを言語対応に含めます。
 
 2026-06-01のDD判断として、世界配信は初期戦略に昇格しました。日本語フォームの強さは残しつつ、英語Primary、全155地域配信、21 locale拡張UI、英語初期LP、国別フォーム理解、Free月20回からの有料転換をセットで進めます。
 
@@ -126,7 +128,7 @@ Chrome Web Store Dashboardにはitem `kmlcabffhmenjajmlnkkglphjnbaahlf` を作�
 
 Chrome Web Storeは、2026-06-02 08:36 JST時点で公開済みです。公開URLは `https://chromewebstore.google.com/detail/formpilot-vault/kmlcabffhmenjajmlnkkglphjnbaahlf`。2026-06-02 09:47 JSTに更新用ZIP `dist/ai-form-autofill-0.1.1.zip` をDashboardへアップロードし、更新審査へ送信済みです。Dashboard読み戻しでは、全体ステータスは `審査待ち`、ドラフトは `0.1.1`、公開済み版は `0.1.0` です。審査通過後に `0.1.1` が公開反映されます。
 
-2026-06-02 13:49 JST時点で、CWSへはまだ0.1.2をアップロードしていません。審査待ち中の0.1.1を差し替えられないため、0.1.2は次回提出候補としてローカル生成・検証済みです。通過確認は `npm test`、`npm run test:extension`、`npm run assets:store`、`npm run package:extension`、`npm run release:check` です。
+2026-06-02 14:40 JST時点で、CWSへはまだ0.1.3をアップロードしていません。審査待ち中の0.1.1を差し替えられないため、0.1.3は次回提出候補としてローカル生成・検証済みです。通過確認は `npm test`、`npm run test:extension`、`npm run assets:store`、`npm run package:extension`、`npm run release:check` です。
 
 Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry-run通過済みです。現行本番はFormPilot専用Stripe bridgeでPlus/Pro/Teamの本番Checkout Sessionを作る構成です。実購入/入金確認だけは未実行で、DDの決済操作またはStripe Dashboard確認が必要です。
 
@@ -148,7 +150,7 @@ Cloudflare移行用に `npm run check:cloudflare` と `npm run check:cloudflare:
 
 Azure CLIは `degutidai@gmail.com` でログイン済みです。既存Azure AI Servicesは `degutidai-1418-resource` と `degutidai-5815-resource` の2つが見えますが、2026-06-01確認時点では両方ともmodel deploymentが空です。Azure側では `DeepSeek-V4-Pro` と `DeepSeek-V4-Flash` のmodel listは見えますが、deployment作成は subscription `8bf38da5-83a9-4f59-b2f9-1b7cc66fc64d` が `ReadOnlyDisabledSubscription` のため失敗しました。Azureを6/6までlive利用するには、Azure subscriptionの再有効化が人間停止点です。
 
-実ブラウザ検証も通過済みです。Chromiumに拡張を `--load-extension` で読み込み、extension service worker / content script / DOM入力まで実行しました。14項目収集、14項目入力、初期登録情報が空でプレースホルダーだけ表示されること、郵便番号 `1500001` から住所が自動入力されること、保存後に `登録しました` が表示されること、電話番号が `090 / 1234 / 5678` の3分割で表示されること、3ステップ導線の選択不可表示、登録台帳タブ、台帳検索、辞書追加ボタン、登録台帳の `会員ID` / `紹介コード` / `スプレッドシート項目`、設定ボタン内の `登録台帳` 表示、台帳説明文、Plus license表示、Vault Manager Dashboard/Ledger/Planの起動、`locale_context` 収集、IndexedDB内の非exportable Vault鍵、`chrome.storage.local` に鍵/実値なしまで確認済みです。フォーム確認で見つけた未登録項目を、その場で台帳へ追加する導線も入っています。証跡は `docs/10_real_browser_verification.md` と `site/assets/real-extension-*.png` にあります。
+実ブラウザ検証も通過済みです。Chromiumに拡張を `--load-extension` で読み込み、extension service worker / content script / DOM入力まで実行しました。14項目収集、13項目入力、パスワード1項目スキップ、Undo token発行、初期登録情報が空でプレースホルダーだけ表示されること、郵便番号 `1500001` から住所が自動入力されること、保存後に `登録しました` が表示されること、電話番号が `090 / 1234 / 5678` の3分割で表示されること、3ステップ導線の選択不可表示、登録台帳タブ、台帳検索、辞書追加ボタン、登録台帳の `会員ID` / `紹介コード` / `スプレッドシート項目`、設定ボタン内の `登録台帳` 表示、台帳説明文、Plus license表示、Vault Manager Dashboard/Ledger/Planの起動、`locale_context` 収集、IndexedDB内の非exportable Vault鍵、`chrome.storage.local` に鍵/実値なしまで確認済みです。フォーム確認で見つけた未登録項目を、その場で台帳へ追加する導線も入っています。証跡は `docs/10_real_browser_verification.md` と `site/assets/real-extension-*.png` にあります。
 
 公開デモフォームでも実ブラウザ検証済みです。`httpbin.org/forms/post` は12項目収集、4項目入力。`selenium.dev/selenium/web/web-form.html` は14項目収集、1項目入力。送信はしていません。不確定項目をaskへ残す挙動も確認しました。
 
@@ -182,7 +184,7 @@ Azure CLIは `degutidai@gmail.com` でログイン済みです。既存Azure AI 
 ## 未完了
 
 - Chrome Web Store `0.1.1` 更新審査の結果確認と公開反映確認
-- `0.1.1` 公開反映または差し戻し後、必要なら `0.1.2` のVault Manager/Trust UX版をCWSへ再提出する
+- `0.1.1` 公開反映または差し戻し後、必要なら `0.1.3` のVault Manager/Trust UX/Safe Fill版をCWSへ再提出する
 - Azure subscription再有効化、またはAzure期間をCloudflare live委譲で運用し続ける最終判断
 - Stripeの実購入/入金確認。0円Plus Checkoutは実機検証として完了済みだが、実売上ではない
 - 0円Plus subscriptionの将来請求回避確認。次回請求を発生させない場合は、2026-07-02T03:02:05.000Zより前にStripe Dashboardでキャンセルまたは割引継続設定を確認する
@@ -434,7 +436,7 @@ DDの最新指定「月20回だよ、フリー」を正として、Free制限を
 - `npm run novus:public` 通過。`/`、`/form-input.html`、`/form-autofill.html`、`/signup-autofill.html`、`/contact-form-autofill.html`、`/success.html?license_key=afa_public_probe_success`、`/demo.html` でPendo request、`pendo.initialize`、横スクロールなしを確認
 - Vercel本番とGitHub Pages公開ミラーの主要SEOページはHTTP 200、`月20回` / `20 fills` あり、`月5回` / `5 fills` なしを実測
 
-Chrome Web Storeは引き続き公開済みで、Dashboard読み戻しは `ステータス: 審査待ち`、ドラフト `0.1.1`、公開済み `0.1.0`。今回11:48 JSTのローカル最新ZIP `105172 bytes` は再生成済み。11:52 JSTに実ブラウザでDashboard Package画面を確認したところ、`新しいパッケージをアップロード` ボタンはdisabledで、審査待ち中の差し替えuploadは不可だった。審査通過後、必要なら `0.1.2` として再提出する。
+Chrome Web Storeは引き続き公開済みで、Dashboard読み戻しは `ステータス: 審査待ち`、ドラフト `0.1.1`、公開済み `0.1.0`。今回11:48 JSTのローカル最新ZIP `105172 bytes` は再生成済み。11:52 JSTに実ブラウザでDashboard Package画面を確認したところ、`新しいパッケージをアップロード` ボタンはdisabledで、審査待ち中の差し替えuploadは不可だった。審査通過後、必要なら後続の `0.1.3` として再提出する。
 
 2026-06-02 12:06 JST時点のSearch Console URL検査では、`https://formpilot-vault-api.vercel.app/form-input` はまだ `URL が Google に登録されていません`、理由は `URL が Google に認識されていません`。`インデックス登録をリクエスト` は表示されているが、画面下部に `割り当て量を超えています`、`1日の割り当て量を超えたため、リクエストを処理できませんでした。明日、もう一度お試しください。` が出ている。外部HTTPではVercel本番とsitemapは200確認済みなので、残作業は翌日以降の再リクエスト。
 

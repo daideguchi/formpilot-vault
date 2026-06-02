@@ -95,7 +95,9 @@ try {
   }, plan);
 
   assert.equal(fields.fields.length, 14);
-  assert.equal(fillResult.filled, 14);
+  assert.equal(fillResult.filled, 13);
+  assert.equal(fillResult.skipped, 1);
+  assert.ok(fillResult.undo_token);
 
   const popup = await context.newPage();
   await popup.goto(`chrome-extension://${extensionId}/popup.html`);
@@ -151,6 +153,7 @@ try {
   assert.equal(await signupPage.locator("#company").inputValue(), "株式会社サンプル");
   assert.equal(await signupPage.locator("#memberId").inputValue(), "MEMBER-001");
   assert.equal(await signupPage.locator("#referralCode").inputValue(), "FORMPILOT");
+  assert.equal(await signupPage.locator("#password").inputValue(), "");
 
   await popup.locator("#settingsToggle").click();
   await expectExpandedSettings(popup);

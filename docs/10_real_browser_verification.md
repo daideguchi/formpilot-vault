@@ -22,6 +22,7 @@ npm run test:extension
 - `AFA_COLLECT_FIELDS` でDOMを収集
 - ルール/プロフィールDBから入力プランを作成
 - `AFA_FILL_FIELDS` で実DOMに入力
+- 高機密項目の既定スキップ、Safe Fill Mode、30秒Undo token発行を確認
 - extension popupページを開き、License key確認UIを操作
 - popupのTrust表示、送信しない約束、育成バーを確認
 - 登録情報の初期値が空で、例がプレースホルダーに出ることを確認
@@ -41,7 +42,9 @@ npm run test:extension
 ```json
 {
   "fields_scanned": 14,
-  "fields_filled": 14,
+  "fields_filled": 13,
+  "fields_skipped": 1,
+  "undo_token": "created",
   "usage_status": "PLUSプラン / 今月0回入力",
   "vault_storage": "AES-GCM encrypted_values, no plaintext profile values, no storage-local key",
   "vault_key": "IndexedDB non-exportable CryptoKey",
@@ -69,7 +72,7 @@ npm run test:extension
 - 住所: 東京都渋谷区神宮前1-2-3 サンプルマンション101
 - 会社名: 株式会社サンプル
 - 役職: 代表
-- パスワード: 生成値
+- パスワード: 空欄のままスキップ
 
 ## 証跡
 
@@ -80,7 +83,7 @@ npm run test:extension
 - `site/assets/real-extension-manager-dashboard.png`
 - `site/assets/real-extension-filled-form.png`
 
-2026-06-02 13:49 JSTの再実行では、専門UI/UXレビューP0実装後のpopupとVault Managerを含めて `npm run test:extension` が通過した。`dist/ai-form-autofill-0.1.2.zip` はこの検証済みコードから生成した次回提出候補。
+2026-06-02 14:40 JSTの再実行では、専門UI/UX最終レビューP0実装後のpopupとVault Managerを含めて `npm run test:extension` が通過した。14項目収集、13項目入力、パスワード1項目スキップ、undo token発行、値を保存しないReceipts導線を確認した。`dist/ai-form-autofill-0.1.3.zip` はこの検証済みコードから生成した次回提出候補。
 
 ### Public demo forms
 

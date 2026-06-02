@@ -43,6 +43,9 @@ const previewPayload = document.getElementById("previewPayload");
 const payloadPreview = document.getElementById("payloadPreview");
 const payloadPreviewJson = document.getElementById("payloadPreviewJson");
 const growthBar = document.getElementById("growthBar");
+const undoPanel = document.getElementById("undoPanel");
+const undoFill = document.getElementById("undoFill");
+const undoCountdown = document.getElementById("undoCountdown");
 const customFieldList = document.getElementById("customFieldList");
 const addCustomField = document.getElementById("addCustomField");
 const ledgerSearch = document.getElementById("ledgerSearch");
@@ -77,6 +80,9 @@ let entitlement = { plan: "free" };
 let usage = {};
 let vaultState = null;
 let currentAiPayload = null;
+let currentUndoToken = null;
+let currentUndoExpiresAt = null;
+let undoTimer = null;
 
 init();
 
@@ -147,6 +153,21 @@ previewPayload?.addEventListener("click", () => {
   payloadPreview.hidden = !payloadPreview.hidden;
 });
 
+undoFill?.addEventListener("click", async () => {
+  if (!currentUndoToken) return;
+  const tab = await getActiveTab();
+  await ensureContentScript(tab.id);
+  const response = await chrome.tabs.sendMessage(tab.id, {
+    type: "AFA_UNDO_FILL_FIELDS",
+    undo_token: currentUndoToken
+  });
+  hideUndoPanel();
+  planSummary.textContent = response?.expired
+    ? t("undoExpired")
+    : t("undoComplete", [String(response?.undone || 0)]);
+  setWorkflowStage("review");
+});
+
 saveProfile.addEventListener("click", async () => {
   const profile = readProfileForm();
   vaultState = updateActiveProfileValues(vaultState, profile);
@@ -162,6 +183,7 @@ scanPage.addEventListener("click", async () => {
   fillPage.disabled = true;
   scanPage.textContent = t("checkingForm");
   fillPage.textContent = t("fillAfterCheck");
+  hideUndoPanel();
   setWorkflowStage("scan");
   try {
     const profile = readProfileForm();
@@ -209,7 +231,8 @@ fillPage.addEventListener("click", async () => {
   const tab = await getActiveTab();
   await ensureContentScript(tab.id);
   const response = await chrome.tabs.sendMessage(tab.id, { type: "AFA_FILL_FIELDS", plan: fillable });
-  if ((response?.filled || 0) > 0) {
+  const filledCount = response?.filled || 0;
+  if (filledCount > 0) {
     vaultState = learnMappingsFromPlan({
       vaultState,
       url: tab.url || "",
@@ -220,8 +243,9 @@ fillPage.addEventListener("click", async () => {
     const event = createUsageEvent({
       url: tab.url || "",
       fields_scanned: currentPlan.length,
-      fields_filled: response.filled,
+      fields_filled: filledCount,
       plan: entitlement.plan,
+      items: fillable,
       date: new Date()
     });
     const monthKey = getCurrentMonthKey(new Date());
@@ -229,7 +253,7 @@ fillPage.addEventListener("click", async () => {
       ...usage,
       [monthKey]: {
         fills: (usage[monthKey]?.fills || 0) + 1,
-        fields_filled: (usage[monthKey]?.fields_filled || 0) + response.filled,
+        fields_filled: (usage[monthKey]?.fields_filled || 0) + filledCount,
         events: [...(usage[monthKey]?.events || []), event].slice(-100)
       }
     };
@@ -237,9 +261,10 @@ fillPage.addEventListener("click", async () => {
     await persistVaultState(chrome.storage.local, vaultState);
     renderMemory(buildMemoryContext({ vaultState, url: tab.url || "", fields: currentFields, localeContext: currentLocaleContext }));
   }
-  planSummary.textContent = t("filledReview", [String(response?.filled || 0)]);
-  fillPage.textContent = t("filledButton", [String(response?.filled || 0)]);
+  planSummary.textContent = t("filledReview", [String(filledCount)]);
+  fillPage.textContent = t("filledButton", [String(filledCount)]);
   setWorkflowStage("done");
+  showUndoPanel(response);
   renderUsage();
   renderGrowthBar();
 });
@@ -593,7 +618,7 @@ function renderPlan(plan, fieldCount) {
 
   for (const item of plan) {
     const row = document.createElement("div");
-    row.className = `plan-item ${item.action === "ask" ? "ask" : ""}`;
+    row.className = `plan-item ${item.action === "ask" ? "ask" : ""} ${item.action === "skip" ? "skip" : ""}`;
 
     const field = fieldById.get(item.field_id);
     const left = document.createElement("div");
@@ -604,9 +629,13 @@ function renderPlan(plan, fieldCount) {
       text: pageFieldLabel(field, item)
     });
     const savedSide = createPlanSide({
-      caption: item.action === "ask" ? t("manualEntry") : t("savedSide"),
-      text: item.action === "ask" ? t("uncertainManual") : formatSavedValue(item),
-      strong: item.action !== "ask"
+      caption: item.action === "ask" || item.action === "skip" ? t("manualEntry") : t("savedSide"),
+      text: item.action === "ask"
+        ? t("uncertainManual")
+        : item.action === "skip"
+          ? skipReasonText(item)
+          : formatSavedValue(item),
+      strong: item.action !== "ask" && item.action !== "skip"
     });
     pair.append(pageSide, savedSide);
     left.append(pair);
@@ -616,8 +645,9 @@ function renderPlan(plan, fieldCount) {
     }
 
     const confidence = document.createElement("div");
-    confidence.className = `status-badge ${item.action === "ask" ? "needs-check" : "ready"}`;
-    confidence.textContent = item.action === "ask" ? t("needsManual") : t("inputOk");
+    const status = planItemStatus(item);
+    confidence.className = `status-badge ${status.className}`;
+    confidence.textContent = status.label;
     confidence.title = `${Math.round((item.confidence || 0) * 100)}%`;
 
     row.append(left, confidence);
@@ -655,10 +685,58 @@ function pageFieldLabel(field, item) {
   return field?.label || field?.placeholder || field?.name || field?.id || item.display_label || item.field_id;
 }
 
+function planItemStatus(item) {
+  if (item.action === "skip") {
+    return {
+      className: item.sensitive_tier >= 4 ? "sensitive" : "skipped",
+      label: item.sensitive_tier >= 4 ? t("sensitiveSkipped") : t("skipped")
+    };
+  }
+  if (item.action === "ask") return { className: "needs-check", label: t("needsManual") };
+  if (item.confidence_band === "medium") return { className: "medium", label: t("needsReview") };
+  return { className: "ready", label: t("inputOk") };
+}
+
+function skipReasonText(item) {
+  if (item.skip_reason === "password_default_skip") return t("passwordSkipped");
+  if (item.skip_reason === "payment_card_skip") return t("paymentSkipped");
+  if (item.skip_reason === "bank_account_skip") return t("bankSkipped");
+  if (item.skip_reason === "government_id_skip") return t("governmentIdSkipped");
+  if (item.skip_reason === "verification_code_skip") return t("verificationSkipped");
+  return t("sensitiveSkippedHint");
+}
+
 function formatSavedValue(item) {
   const label = semanticLabel(item.profile_key) || item.display_label || item.profile_key || "";
   const value = item.profile_key === "account.password.generated" ? "********" : maskPreviewValue(item.value_preview);
   return label ? `${label}: ${value}` : value;
+}
+
+function showUndoPanel(response = {}) {
+  currentUndoToken = response?.undo_token || null;
+  currentUndoExpiresAt = response?.undo_expires_at ? new Date(response.undo_expires_at).getTime() : null;
+  if (!undoPanel || !undoCountdown || !currentUndoToken || !currentUndoExpiresAt) {
+    hideUndoPanel();
+    return;
+  }
+
+  undoPanel.hidden = false;
+  clearInterval(undoTimer);
+  const render = () => {
+    const seconds = Math.max(0, Math.ceil((currentUndoExpiresAt - Date.now()) / 1000));
+    undoCountdown.textContent = t("undoSeconds", [String(seconds)]);
+    if (seconds <= 0) hideUndoPanel();
+  };
+  render();
+  undoTimer = setInterval(render, 1000);
+}
+
+function hideUndoPanel() {
+  currentUndoToken = null;
+  currentUndoExpiresAt = null;
+  clearInterval(undoTimer);
+  undoTimer = null;
+  if (undoPanel) undoPanel.hidden = true;
 }
 
 function renderUsage() {
@@ -990,9 +1068,28 @@ function renderPayloadPreview() {
   if (!previewPayload || !payloadPreview || !payloadPreviewJson) return;
   previewPayload.disabled = !currentAiPayload;
   payloadPreviewJson.textContent = currentAiPayload
-    ? JSON.stringify(currentAiPayload, null, 2)
+    ? JSON.stringify(createDisplayPayloadPreview(currentAiPayload), null, 2)
     : "{}";
   if (!currentAiPayload) payloadPreview.hidden = true;
+}
+
+function createDisplayPayloadPreview(payload) {
+  return {
+    ...payload,
+    fields: (payload.fields || []).map((field) => ({
+      ...field,
+      value: "[NEVER SENT]"
+    })),
+    never_sent: [
+      "saved_profile_values",
+      "vault_contents",
+      "cookies",
+      "session_tokens",
+      "typed_input_values",
+      "passwords",
+      "payment_card_values"
+    ]
+  };
 }
 
 async function inferSchemaWithFallback({ fields, memoryContext, provider }) {
@@ -1001,7 +1098,7 @@ async function inferSchemaWithFallback({ fields, memoryContext, provider }) {
     providerStatus.textContent = "";
     return schema;
   } catch (error) {
-    providerStatus.textContent = "";
+    providerStatus.textContent = t("aiFallbackActive");
     return buildSchema(fields, { memoryContext });
   }
 }

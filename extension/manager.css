@@ -42,6 +42,12 @@ button.primary {
   color: #ffffff;
 }
 
+button.danger {
+  border-color: #cf222e;
+  background: #cf222e;
+  color: #ffffff;
+}
+
 input,
 select {
   min-height: 34px;
@@ -209,7 +215,8 @@ select {
 .action-list,
 .profile-list,
 .inbox-list,
-.site-list {
+.site-list,
+.receipt-list {
   display: grid;
   gap: 10px;
 }
@@ -217,7 +224,8 @@ select {
 .action-item,
 .profile-item,
 .inbox-item,
-.site-item {
+.site-item,
+.receipt-item {
   padding: 12px;
   border: 1px solid #eaeef2;
   border-radius: 7px;
@@ -230,10 +238,71 @@ select {
 .action-item strong,
 .profile-item strong,
 .inbox-item strong,
-.site-item strong {
+.site-item strong,
+.receipt-item strong {
   display: block;
   color: #24292f;
   font-size: 14px;
+}
+
+.receipt-toolbar {
+  margin-bottom: 12px;
+  color: #57606a;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.receipt-toolbar p {
+  margin: 0;
+}
+
+.receipt-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+  color: #57606a;
+  font-size: 12px;
+}
+
+.receipt-fields {
+  margin-top: 8px;
+  color: #57606a;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.danger-zone {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid #d8dee4;
+}
+
+.danger-zone h4,
+.danger-zone p {
+  margin: 0;
+}
+
+.danger-zone p {
+  color: #57606a;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.delete-panel {
+  display: grid;
+  gap: 10px;
+  max-width: 420px;
+}
+
+.delete-panel label {
+  display: grid;
+  gap: 5px;
+  color: #57606a;
+  font-size: 12px;
+  font-weight: 800;
 }
 
 .status-list {

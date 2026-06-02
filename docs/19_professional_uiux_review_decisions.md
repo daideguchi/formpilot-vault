@@ -126,7 +126,7 @@ Full-page Vault Managerは、情報を育てる管理画面にする。
 - Ledger
 - Capture Inbox
 - Sites
-- Activity
+- Receipts
 - Import / Export
 - Plan
 - Security
@@ -251,7 +251,8 @@ Control  = ユーザーが取れる行動
 ### Evidence
 
 - AI送信payload preview
-- 値なしJSONの表示
+- 値なしJSONと `[NEVER SENT]` の表示
+- 値を保存しないReceipts
 - AI送信ログ
 
 ### Control
@@ -261,6 +262,17 @@ Control  = ユーザーが取れる行動
 - ドメイン除外
 - エクスポート
 - 緊急ワイプ
+
+## 高機密項目とSafe Fill
+
+最終レビューの追加判断として、MVPから以下を実装対象にする。
+
+- パスワード、クレジットカード、銀行口座、政府ID、OTP/CAPTCHAはSensitivity Tier 4として既定スキップ
+- パスワードマネージャー機能は名乗らず、将来のopt-in連携に回す
+- 入力中はsubmit / Enter / submit button clickを一時ガードするSafe Fill Modeを使う
+- 入力後30秒はUndo Stackで元の値へ戻せる
+- 入力履歴はActivityではなくReceiptsとして扱い、実値を保存しない
+- SecurityからDelete Everythingを3クリック以内で実行できるようにする
 
 ## ロック設計
 
@@ -300,6 +312,10 @@ Vault言語: 日本語
 - Trustバッジ
 - AI送信payload preview
 - `送信ボタンは押しません` 表示
+- 高機密項目スキップ
+- Safe Fill Mode
+- 30秒Undo
+- Receipts
 - Free月20回
 - その場でLedger追加
 - 日本語/英語
@@ -397,6 +413,22 @@ Vault言語: 日本語
 - i18nを204キー x 21 localeへ拡張
 - `0.1.2` 次回提出候補ZIPを生成
 
+2026-06-02 14:40 JSTに、最終レビュー追加P0も実装済み。
+
+追加実装:
+
+- Sensitivity Tier分類
+- パスワード/決済/口座/政府ID/認証コードの既定スキップ
+- Confidence band
+- Safe Fill Mode
+- 30秒Undo Stack
+- Receipts view
+- Security内のDelete Everything
+- AI fallback表示
+- AI payload previewの `[NEVER SENT]` 表示
+- i18nを231キー x 21 localeへ拡張
+- `0.1.3` 次回提出候補ZIPを生成
+
 検証:
 
 - `npm test`
@@ -409,4 +441,4 @@ Vault言語: 日本語
 
 - `site/assets/real-extension-popup-loaded.png`
 - `site/assets/real-extension-manager-dashboard.png`
-- `dist/ai-form-autofill-0.1.2.zip`
+- `dist/ai-form-autofill-0.1.3.zip`

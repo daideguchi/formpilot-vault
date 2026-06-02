@@ -108,6 +108,29 @@ test("maps global market signup labels beyond first launch languages", () => {
   assert.equal(schema.tw_email.semantic_key, "person.email.primary");
 });
 
+test("skips password and highly sensitive fields by default", () => {
+  const fields = [
+    { field_id: "password", tag: "input", type: "password", label: "パスワード", visible: true },
+    { field_id: "card", tag: "input", type: "text", autocomplete: "cc-number", label: "Credit card number", visible: true },
+    { field_id: "otp", tag: "input", type: "text", autocomplete: "one-time-code", label: "SMS code", visible: true },
+    { field_id: "email", tag: "input", type: "email", label: "Email", visible: true }
+  ];
+
+  const schema = buildSchema(fields);
+  const plan = buildInputPlan({ fields, schema, profile: SAMPLE_PROFILE });
+
+  assert.equal(plan[0].action, "skip");
+  assert.equal(plan[0].profile_key, "account.password.generated");
+  assert.equal(plan[0].skip_reason, "password_default_skip");
+  assert.equal(plan[0].sensitive_tier, 4);
+  assert.equal(plan[1].action, "skip");
+  assert.equal(plan[1].skip_reason, "payment_card_skip");
+  assert.equal(plan[2].action, "skip");
+  assert.equal(plan[2].skip_reason, "verification_code_skip");
+  assert.equal(plan[3].action, "fill");
+  assert.equal(plan[3].value, "taro@example.com");
+});
+
 test("maps country and dialing code fields for worldwide signup forms", () => {
   const fields = [
     {

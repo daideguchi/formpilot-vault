@@ -5,7 +5,7 @@
 
 ## 使うファイル
 
-- 拡張ZIP: `dist/ai-form-autofill-0.1.2.zip`
+- 拡張ZIP: `dist/ai-form-autofill-0.1.3.zip`
 - アイコン: `store-assets/icon-128.png`
 - 小プロモ画像: `store-assets/promo-small-440x280.png`
 - スクリーンショット:
@@ -107,7 +107,7 @@ User data disclosure:
 ```text
 Collected/stored locally:
 - Personally identifiable information entered by the user into the local profile Vault, such as name, email, phone number, address, company, department, and title. Profile values are encrypted at rest before being stored.
-- Generated password values if the user keeps them in the local Vault.
+- Password fields are skipped by default in the current MVP. Password manager integration is reserved for a future opt-in mode.
 - Usage count, license key, entitlement state, site origin/path mapping memory, and correction memory.
 
 Sent to server:
@@ -121,6 +121,7 @@ Not sent:
 - Filled input values from the page.
 - Cookies, Authorization headers, browser credentials, CAPTCHA/SMS/email verification codes, or passwords.
 - Payment card details. Stripe handles checkout directly.
+- Passwords, bank account numbers, government IDs, verification codes, OTP, CAPTCHA values, or other highly sensitive fields.
 ```
 
 Limited use certification:
@@ -169,7 +170,7 @@ Automatic publish after review is acceptable for MVP unless DD wants staged publ
 Chrome extension package localization:
 
 ```text
-The latest local candidate ZIP includes default_locale: en and _locales for en, en_GB, ja, es, es_419, fr, de, it, nl, pl, pt_BR, ru, tr, ar, hi, id, th, vi, ko, zh_CN, and zh_TW. As of 2026-06-02 13:49 JST, the package has 204 localized message keys per locale, a focused Detect / Review / Fill popup flow, Trust badges, a no-submit promise, an AI payload preview that excludes saved values, a growth bar for ledger entries / learned sites / monthly usage / saved time, a full-page Vault Manager for Dashboard, Ledger, Profiles, Capture Inbox, Sites, Plan, Security, and Language, the existing registration ledger, ZipCloud address lookup, split phone-number inputs, blank initial values with examples as placeholders, Free 20 fills per month, and the rebuilt ZIP size is 136431 bytes. Chrome Web Store is still reviewing 0.1.1, so this 0.1.2 ZIP is the next update candidate and has not been uploaded yet.
+The latest local candidate ZIP includes default_locale: en and _locales for en, en_GB, ja, es, es_419, fr, de, it, nl, pl, pt_BR, ru, tr, ar, hi, id, th, vi, ko, zh_CN, and zh_TW. As of 2026-06-02 14:40 JST, the package has 231 localized message keys per locale, a focused Detect / Review / Fill popup flow, Trust badges, a no-submit promise, an AI payload preview that excludes saved values and marks values as [NEVER SENT], a growth bar for ledger entries / learned sites / monthly usage / saved time, Safe Fill Mode, 30-second Undo, default skipping for password/payment/bank/government ID/verification fields, and a full-page Vault Manager for Dashboard, Ledger, Profiles, Capture Inbox, Sites, Receipts, Plan, Security, and Language. It also keeps the existing registration ledger, ZipCloud address lookup, split phone-number inputs, blank initial values with examples as placeholders, and Free 20 fills per month. The rebuilt ZIP size is 152862 bytes. Chrome Web Store is still reviewing 0.1.1, so this 0.1.3 ZIP is the next update candidate and has not been uploaded yet.
 ```
 
 Recommended first Store Listing locales:
@@ -216,7 +217,7 @@ The extension uses only activeTab, so it reads and fills the current page only a
 - 多言語ZIP upload済み。2026-06-02 08:36 JSTの公開URL確認で `published: true`
 - 2026-06-02 09:47 JSTにUIUX改善/辞書登録強化/住所自動検索/電話番号3分割/空の初期値/Free月20回版ZIP `0.1.1` / `105168 bytes` をCWS Dashboardへuploadし、更新審査へ送信済み
 - Dashboard読み戻しは `ステータス: 審査待ち`、ドラフト `0.1.1`、公開済み `0.1.0`
-- 2026-06-02 13:49 JSTに0.1.2候補ZIP `136431 bytes` をローカル生成し、Vault Manager/Trust UX実装、204キー x 21 locale、実ブラウザE2E込みで検証済み。ただしCWSへは未アップロード。
+- 2026-06-02 14:40 JSTに0.1.3候補ZIP `152862 bytes` をローカル生成し、Vault Manager/Trust UX、Safe Fill Mode、30秒Undo、Receipts、Delete Everything、Sensitivity Tier、231キー x 21 locale、実ブラウザE2E込みで検証済み。ただしCWSへは未アップロード。
 - `store-assets/screenshot-popup-1280x800.png` は辞書登録UI版へ更新済み
 - Store Listing保存済み。短い説明と詳細説明は「repeated name/address/email typing」「saved info」「Check this form」「Fill matching fields」に統一済み
 - Privacy保存済み
@@ -228,7 +229,7 @@ The extension uses only activeTab, so it reads and fills the current page only a
 ## 人間操作が必要な停止点
 
 - `0.1.1` 更新審査の通過後公開確認、または差し戻し対応
-- 0.1.1反映後、必要なら0.1.2 Vault Manager/Trust UX版を再提出
+- 0.1.1反映後、必要なら0.1.3 Vault Manager/Trust UX/Safe Fill版を再提出
 - 実購入/入金確認
 
 ## 公式確認元

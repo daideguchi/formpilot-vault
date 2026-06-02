@@ -28,15 +28,17 @@ export function canUseFill({ entitlement = {}, usage = {}, date = new Date() }) 
   return { allowed: false, plan, current_fills: currentFills, limit: limits.monthly_fills };
 }
 
-export function createUsageEvent({ url, fields_scanned, fields_filled, plan, date = new Date() }) {
+export function createUsageEvent({ url, fields_scanned, fields_filled, plan, items = [], date = new Date() }) {
   return {
+    receipt_id: `rcpt_${date.getTime().toString(36)}_${Math.random().toString(36).slice(2, 8)}`,
     type: "form_fill",
     month: getCurrentMonthKey(date),
     timestamp: date.toISOString(),
     origin: safeOrigin(url),
     fields_scanned,
     fields_filled,
-    plan: plan || "free"
+    plan: plan || "free",
+    items: sanitizeReceiptItems(items)
   };
 }
 
@@ -47,4 +49,18 @@ function safeOrigin(url) {
   } catch {
     return "local_or_unknown";
   }
+}
+
+function sanitizeReceiptItems(items = []) {
+  return items
+    .filter((item) => item && ["fill", "select"].includes(item.action))
+    .slice(0, 80)
+    .map((item) => ({
+      field_id: item.field_id || "",
+      label: String(item.display_label || item.profile_key || item.field_id || "").slice(0, 120),
+      profile_key: item.profile_key || "",
+      confidence: Number.isFinite(Number(item.confidence)) ? Number(item.confidence) : 0,
+      confidence_band: item.confidence_band || "",
+      sensitive_tier: item.sensitive_tier || null
+    }));
 }

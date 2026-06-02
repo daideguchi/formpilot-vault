@@ -47,6 +47,12 @@ export async function persistVaultState(storage, vaultState) {
   return encrypted;
 }
 
+export async function destroyLocalVaultStorage(storage) {
+  if (storage?.clear) await storage.clear();
+  await deleteKeyDatabase();
+  memoryKeyForNonBrowserTests = null;
+}
+
 export async function encryptJson(value, { storage } = {}) {
   const key = await getOrCreateAesKey(storage);
   const iv = randomBytes(IV_BYTES);
@@ -168,6 +174,16 @@ function openKeyDb() {
     };
     request.onsuccess = () => resolve(request.result);
     request.onerror = () => reject(request.error);
+  });
+}
+
+function deleteKeyDatabase() {
+  if (!hasIndexedDb()) return Promise.resolve(false);
+  return new Promise((resolve) => {
+    const request = globalThis.indexedDB.deleteDatabase(VAULT_KEY_DB_NAME);
+    request.onsuccess = () => resolve(true);
+    request.onerror = () => resolve(false);
+    request.onblocked = () => resolve(false);
   });
 }
 

@@ -3,12 +3,13 @@ import { getCustomProfileEntries, readPath } from "./src/profile-formatters.js";
 import { FREE_MONTHLY_FILL_LIMIT, getCurrentMonthKey } from "./src/usage-meter.js";
 import {
   VAULT_STORAGE_KEY,
+  createVaultState,
   getActiveProfileValues,
   normalizeVaultState,
   summarizeMemory,
   updateActiveProfileValues
 } from "./src/profile-memory.js";
-import { loadRuntimeVaultState, persistVaultState } from "./src/vault-crypto.js";
+import { destroyLocalVaultStorage, loadRuntimeVaultState, persistVaultState } from "./src/vault-crypto.js";
 
 const navItems = Array.from(document.querySelectorAll(".nav-item"));
 const viewPanels = Array.from(document.querySelectorAll("[data-view-panel]"));
@@ -21,6 +22,11 @@ const ledgerStatus = document.getElementById("ledgerStatus");
 const planBadge = document.getElementById("planBadge");
 const openPricing = document.getElementById("openPricing");
 const upgradeFromManager = document.getElementById("upgradeFromManager");
+const showDeleteVault = document.getElementById("showDeleteVault");
+const deleteVaultPanel = document.getElementById("deleteVaultPanel");
+const deleteVaultConfirm = document.getElementById("deleteVaultConfirm");
+const confirmDeleteVault = document.getElementById("confirmDeleteVault");
+const deleteVaultStatus = document.getElementById("deleteVaultStatus");
 
 let vaultState = null;
 let usage = {};
@@ -54,6 +60,14 @@ addLedgerRow?.addEventListener("click", () => {
 saveLedger?.addEventListener("click", saveLedgerRows);
 openPricing?.addEventListener("click", openPricingPage);
 upgradeFromManager?.addEventListener("click", openPricingPage);
+showDeleteVault?.addEventListener("click", () => {
+  deleteVaultPanel.hidden = false;
+  deleteVaultConfirm?.focus();
+});
+deleteVaultConfirm?.addEventListener("input", () => {
+  confirmDeleteVault.disabled = deleteVaultConfirm.value !== "DELETE";
+});
+confirmDeleteVault?.addEventListener("click", deleteEverything);
 
 function renderAll() {
   renderTopbar();
@@ -62,6 +76,7 @@ function renderAll() {
   renderProfiles();
   renderInbox();
   renderSites();
+  renderReceipts();
   renderPlan();
 }
 
@@ -72,7 +87,6 @@ function renderTopbar() {
 
 function renderDashboard() {
   const profile = getActiveProfileValues(vaultState);
-  const summary = summarizeMemory(vaultState);
   const monthKey = getCurrentMonthKey(new Date());
   const fills = usage[monthKey]?.fills || 0;
   const fieldsFilled = usage[monthKey]?.fields_filled || 0;
@@ -242,6 +256,45 @@ function renderSites() {
   }
 }
 
+function renderReceipts() {
+  const list = document.getElementById("receiptList");
+  if (!list) return;
+  const events = Object.values(usage || {})
+    .flatMap((month) => Array.isArray(month?.events) ? month.events : [])
+    .filter((event) => event?.type === "form_fill")
+    .sort((left, right) => String(right.timestamp).localeCompare(String(left.timestamp)))
+    .slice(0, 80);
+
+  list.innerHTML = "";
+  if (events.length === 0) {
+    list.append(emptyItem(t("managerReceiptsEmpty"), t("managerReceiptsEmptyBody")));
+    return;
+  }
+
+  for (const event of events) {
+    const node = document.createElement("div");
+    node.className = "receipt-item";
+    const fields = (event.items || [])
+      .slice(0, 8)
+      .map((item) => `${item.label || item.profile_key || item.field_id} -> ${item.profile_key || ""}`)
+      .filter(Boolean)
+      .join(" / ");
+    node.innerHTML = `
+      <strong></strong>
+      <div class="receipt-meta"></div>
+      <div class="receipt-fields"></div>
+    `;
+    node.querySelector("strong").textContent = event.origin || "local_or_unknown";
+    node.querySelector(".receipt-meta").textContent = [
+      formatDateTime(event.timestamp),
+      t("managerReceiptFields", [String(event.fields_filled || 0)]),
+      event.plan ? String(event.plan).toUpperCase() : ""
+    ].filter(Boolean).join("  |  ");
+    node.querySelector(".receipt-fields").textContent = fields || t("managerReceiptNoValues");
+    list.append(node);
+  }
+}
+
 function renderPlan() {
   const plan = entitlement.plan || "free";
   setText("planSummaryManager", plan === "free"
@@ -324,6 +377,19 @@ function openPricingPage() {
   chrome.tabs.create({ url: `${PUBLIC_BASE_URL}/#pricing` });
 }
 
+async function deleteEverything() {
+  if (deleteVaultConfirm?.value !== "DELETE") return;
+  await destroyLocalVaultStorage(chrome.storage.local);
+  vaultState = createVaultState({ profile: createEmptyProfile() });
+  usage = {};
+  entitlement = { plan: "free" };
+  await persistVaultState(chrome.storage.local, vaultState);
+  if (deleteVaultConfirm) deleteVaultConfirm.value = "";
+  if (confirmDeleteVault) confirmDeleteVault.disabled = true;
+  if (deleteVaultStatus) deleteVaultStatus.textContent = t("managerDeleteDone");
+  renderAll();
+}
+
 function createEmptyProfile() {
   return {
     person: { name: {}, email: {}, phone: {}, address: { country: "日本", country_code: "JP" } },
@@ -349,6 +415,17 @@ function createCustomKey(seed = "") {
 
 function normalizeSearchText(value = "") {
   return String(value).normalize("NFKC").toLowerCase().replace(/\s+/g, " ").trim();
+}
+
+function formatDateTime(value) {
+  try {
+    return new Intl.DateTimeFormat(document.documentElement.lang || undefined, {
+      dateStyle: "medium",
+      timeStyle: "short"
+    }).format(new Date(value));
+  } catch {
+    return String(value || "");
+  }
 }
 
 function maskValue(value = "") {

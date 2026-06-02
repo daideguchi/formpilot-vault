@@ -22,6 +22,7 @@
           <button class="nav-item" type="button" data-view="profiles" data-i18n="managerProfiles">Profiles</button>
           <button class="nav-item" type="button" data-view="inbox" data-i18n="managerInbox">Capture Inbox</button>
           <button class="nav-item" type="button" data-view="sites" data-i18n="managerSites">Sites</button>
+          <button class="nav-item" type="button" data-view="receipts" data-i18n="managerReceipts">Receipts</button>
           <button class="nav-item" type="button" data-view="plan" data-i18n="managerPlan">Plan</button>
           <button class="nav-item" type="button" data-view="security" data-i18n="managerSecurity">Security</button>
           <button class="nav-item" type="button" data-view="language" data-i18n="managerLanguage">Language</button>
@@ -99,6 +100,13 @@
           <div id="siteMemoryList" class="site-list"></div>
         </section>
 
+        <section class="view" data-view-panel="receipts">
+          <div class="receipt-toolbar">
+            <p data-i18n="managerReceiptsCopy">Every fill creates a receipt without saving raw values.</p>
+          </div>
+          <div id="receiptList" class="receipt-list"></div>
+        </section>
+
         <section class="view" data-view-panel="plan">
           <div class="plan-panel">
             <h3 data-i18n="managerPlan">Plan</h3>
@@ -116,6 +124,19 @@
               <li data-i18n="payloadPreviewSafe">No saved values included.</li>
               <li data-i18n="managerLockPlanned">15-minute auto-lock is queued for the next security release.</li>
             </ul>
+            <div class="danger-zone">
+              <h4 data-i18n="managerDangerZone">Danger zone</h4>
+              <p data-i18n="managerDeleteCopy">Delete every local Vault entry, memory, usage receipt, and license state from this browser.</p>
+              <button id="showDeleteVault" type="button" class="danger" data-i18n="managerDeleteVault">Delete everything</button>
+              <div id="deleteVaultPanel" class="delete-panel" hidden>
+                <label>
+                  <span data-i18n="managerDeleteConfirm">Type DELETE to confirm.</span>
+                  <input id="deleteVaultConfirm" autocomplete="off" spellcheck="false">
+                </label>
+                <button id="confirmDeleteVault" type="button" class="danger" disabled data-i18n="managerDeleteConfirmButton">Delete Vault</button>
+                <div id="deleteVaultStatus" class="status-line" aria-live="polite"></div>
+              </div>
+            </div>
           </div>
         </section>
 

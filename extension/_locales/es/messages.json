@@ -263,11 +263,17 @@
   "profileCustom": {
     "message": "Saved info ledger"
   },
+  "customLedgerHint": {
+    "message": "Use this like a personal dictionary. Add IDs, spreadsheet terms, internal codes, and alternate labels so unusual forms can still match."
+  },
   "customKey": {
     "message": "Name"
   },
   "customValue": {
     "message": "Value to fill"
+  },
+  "customAliases": {
+    "message": "Aliases"
   },
   "addCustomField": {
     "message": "Add row"
@@ -278,17 +284,11 @@
   "customValuePlaceholder": {
     "message": "e.g. MEMBER-001 or Approved"
   },
-  "removeCustomField": {
-    "message": "Remove row"
-  },
-  "customLedgerHint": {
-    "message": "Use this like a personal dictionary. Add IDs, spreadsheet terms, internal codes, and alternate labels so unusual forms can still match."
-  },
-  "customAliases": {
-    "message": "Aliases"
-  },
   "customAliasPlaceholder": {
     "message": "e.g. Customer number, Member number"
+  },
+  "removeCustomField": {
+    "message": "Remove row"
   },
   "detectedLedgerTitle": {
     "message": "Add detected field to ledger"
@@ -610,5 +610,86 @@
   },
   "deleteEntry": {
     "message": "Delete entry"
+  },
+  "undoHint": {
+    "message": "You can undo this fill for 30 seconds."
+  },
+  "undoFill": {
+    "message": "Undo"
+  },
+  "undoSeconds": {
+    "message": "Undo available for $1s."
+  },
+  "undoExpired": {
+    "message": "Undo window expired."
+  },
+  "undoComplete": {
+    "message": "Restored $1 fields."
+  },
+  "skipped": {
+    "message": "Skipped"
+  },
+  "needsReview": {
+    "message": "Review"
+  },
+  "sensitiveSkipped": {
+    "message": "Sensitive"
+  },
+  "sensitiveSkippedHint": {
+    "message": "Skipped by safety policy. Fill manually if needed."
+  },
+  "passwordSkipped": {
+    "message": "Password fields are skipped by default."
+  },
+  "paymentSkipped": {
+    "message": "Payment card fields are skipped by default."
+  },
+  "bankSkipped": {
+    "message": "Bank account fields are skipped by default."
+  },
+  "governmentIdSkipped": {
+    "message": "Government ID fields are skipped by default."
+  },
+  "verificationSkipped": {
+    "message": "Verification code fields are skipped by default."
+  },
+  "aiFallbackActive": {
+    "message": "Local fallback"
+  },
+  "managerReceipts": {
+    "message": "Receipts"
+  },
+  "managerReceiptsCopy": {
+    "message": "Every fill creates a receipt without saving raw values."
+  },
+  "managerReceiptsEmpty": {
+    "message": "No receipts yet"
+  },
+  "managerReceiptsEmptyBody": {
+    "message": "Fill a form to create a local receipt."
+  },
+  "managerReceiptFields": {
+    "message": "$1 fields"
+  },
+  "managerReceiptNoValues": {
+    "message": "Values are not stored in receipts."
+  },
+  "managerDangerZone": {
+    "message": "Danger zone"
+  },
+  "managerDeleteCopy": {
+    "message": "Delete every local Vault entry, memory, usage receipt, and license state from this browser."
+  },
+  "managerDeleteVault": {
+    "message": "Delete everything"
+  },
+  "managerDeleteConfirm": {
+    "message": "Type DELETE to confirm."
+  },
+  "managerDeleteConfirmButton": {
+    "message": "Delete Vault"
+  },
+  "managerDeleteDone": {
+    "message": "Local Vault deleted. A new empty Vault is ready."
   }
 }

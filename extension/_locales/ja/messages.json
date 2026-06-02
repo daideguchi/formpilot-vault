@@ -610,5 +610,86 @@
   },
   "deleteEntry": {
     "message": "削除"
+  },
+  "undoHint": {
+    "message": "30秒以内なら入力を取り消せます。"
+  },
+  "undoFill": {
+    "message": "取り消す"
+  },
+  "undoSeconds": {
+    "message": "あと$1秒、取り消せます。"
+  },
+  "undoExpired": {
+    "message": "取り消し可能時間を過ぎました。"
+  },
+  "undoComplete": {
+    "message": "$1項目を元に戻しました。"
+  },
+  "skipped": {
+    "message": "スキップ"
+  },
+  "needsReview": {
+    "message": "要確認"
+  },
+  "sensitiveSkipped": {
+    "message": "高機密"
+  },
+  "sensitiveSkippedHint": {
+    "message": "安全ポリシーにより自動入力しません。必要なら手入力してください。"
+  },
+  "passwordSkipped": {
+    "message": "パスワード欄は標準では自動入力しません。"
+  },
+  "paymentSkipped": {
+    "message": "クレジットカード欄は標準では自動入力しません。"
+  },
+  "bankSkipped": {
+    "message": "銀行口座欄は標準では自動入力しません。"
+  },
+  "governmentIdSkipped": {
+    "message": "本人番号・公的ID欄は標準では自動入力しません。"
+  },
+  "verificationSkipped": {
+    "message": "認証コード欄は標準では自動入力しません。"
+  },
+  "aiFallbackActive": {
+    "message": "ローカル解析中"
+  },
+  "managerReceipts": {
+    "message": "Receipts"
+  },
+  "managerReceiptsCopy": {
+    "message": "入力ごとに、実値を保存しないローカルReceiptを残します。"
+  },
+  "managerReceiptsEmpty": {
+    "message": "まだReceiptはありません"
+  },
+  "managerReceiptsEmptyBody": {
+    "message": "フォームに入力すると、ここに記録が作られます。"
+  },
+  "managerReceiptFields": {
+    "message": "$1項目"
+  },
+  "managerReceiptNoValues": {
+    "message": "Receiptに値そのものは保存しません。"
+  },
+  "managerDangerZone": {
+    "message": "Danger zone"
+  },
+  "managerDeleteCopy": {
+    "message": "このブラウザ内のVault、記憶、利用Receipt、ライセンス状態をすべて削除します。"
+  },
+  "managerDeleteVault": {
+    "message": "すべて削除"
+  },
+  "managerDeleteConfirm": {
+    "message": "DELETE と入力して確定してください。"
+  },
+  "managerDeleteConfirmButton": {
+    "message": "Vaultを削除"
+  },
+  "managerDeleteDone": {
+    "message": "ローカルVaultを削除しました。空のVaultを作成済みです。"
   }
 }

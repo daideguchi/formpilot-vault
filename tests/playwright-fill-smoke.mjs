@@ -16,13 +16,23 @@ const page = await browser.newPage({ viewport: { width: 980, height: 820 } });
 try {
   await page.goto(`file://${fixturePath}`);
   await page.addScriptTag({ path: collectorPath });
+  await page.evaluate(() => {
+    window.__unsafeSubmitCount = 0;
+    const form = document.querySelector("form");
+    const trigger = document.querySelector("#lastName");
+    form.addEventListener("submit", () => {
+      window.__unsafeSubmitCount += 1;
+    });
+    trigger.addEventListener("change", () => form.requestSubmit());
+  });
   const fields = await page.evaluate(() => window.AIFormAutofillContent.collectFormFields());
   const schema = buildSchema(fields);
   const plan = buildInputPlan({ fields, schema, profile: SAMPLE_PROFILE });
-  const filled = await page.evaluate((inputPlan) => window.AIFormAutofillContent.fillFormFields(inputPlan), plan);
+  const fillResult = await page.evaluate((inputPlan) => window.AIFormAutofillContent.fillFormFields(inputPlan), plan);
 
   assert.ok(fields.length >= 10, `expected >= 10 fields, got ${fields.length}`);
-  assert.ok(filled >= 10, `expected >= 10 filled fields, got ${filled}`);
+  assert.ok(fillResult.filled >= 10, `expected >= 10 filled fields, got ${fillResult.filled}`);
+  assert.ok(fillResult.undo_token, "expected undo token after fill");
   assert.equal(await page.locator("#lastName").inputValue(), "山田");
   assert.equal(await page.locator("#firstName").inputValue(), "太郎");
   assert.equal(await page.locator("#email").inputValue(), "taro@example.com");
@@ -31,7 +41,12 @@ try {
   assert.equal(await page.locator("#company").inputValue(), "株式会社サンプル");
   assert.equal(await page.locator("#memberId").inputValue(), "MEMBER-001");
   assert.equal(await page.locator("#referralCode").inputValue(), "FORMPILOT");
-  console.log(`Playwright smoke passed: ${fields.length} fields scanned, ${filled} filled`);
+  assert.equal(await page.locator("#password").inputValue(), "");
+  assert.equal(await page.evaluate(() => window.__unsafeSubmitCount), 0);
+  const undoResult = await page.evaluate((token) => window.AIFormAutofillContent.undoFillFields(token), fillResult.undo_token);
+  assert.ok(undoResult.undone >= 10, `expected undo to restore fields, got ${undoResult.undone}`);
+  assert.equal(await page.locator("#lastName").inputValue(), "");
+  console.log(`Playwright smoke passed: ${fields.length} fields scanned, ${fillResult.filled} filled`);
 } finally {
   await browser.close();
 }

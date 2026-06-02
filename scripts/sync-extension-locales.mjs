@@ -817,6 +817,8 @@ const localeDefinitions = {
   }
 };
 
+const syncedLocales = new Set();
+
 for (const [locale, definition] of Object.entries(localeDefinitions)) {
   const source = definition.source ? await readMessages(definition.source) : null;
   const rawMessages = definition.messages || {};
@@ -833,10 +835,31 @@ for (const [locale, definition] of Object.entries(localeDefinitions)) {
   };
   assertComplete(locale, messages);
   await writeMessages(locale, messages);
+  syncedLocales.add(locale);
+}
+
+const existingLocales = (await fs.readdir(localesDir, { withFileTypes: true }))
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => entry.name)
+  .filter((locale) => locale !== "en" && !syncedLocales.has(locale))
+  .sort();
+
+for (const locale of existingLocales) {
+  const current = await readMessages(locale);
+  const baseMessages = Object.fromEntries(Object.entries(base).map(([key, value]) => [key, value.message]));
+  const currentMessages = Object.fromEntries(Object.entries(current).map(([key, value]) => [key, value.message]));
+  const messages = {
+    ...baseMessages,
+    ...currentMessages,
+    ...(globalSemanticAdditions[locale] || {})
+  };
+  assertComplete(locale, messages);
+  await writeMessages(locale, messages);
+  syncedLocales.add(locale);
 }
 
 console.log(JSON.stringify({
-  synced_locales: Object.keys(localeDefinitions),
+  synced_locales: [...syncedLocales].sort(),
   key_count: Object.keys(base).length
 }, null, 2));
 

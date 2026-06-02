@@ -1,4 +1,10 @@
 import { getCustomProfileEntries, getCustomProfileLabel, getProfileValue } from "./profile-formatters.js";
+import {
+  classifyFieldSensitivity,
+  getConfidenceBand,
+  getSemanticSensitivity,
+  shouldSkipAutofill
+} from "./security-policy.js";
 
 export const SEMANTIC_LABELS = {
   "person.name.full": "氏名",
@@ -116,6 +122,21 @@ export function buildInputPlan({ fields, schema, profile }) {
     const ruleInference = schema[field.field_id] || { semantic_key: null, confidence: 0 };
     const customInference = inferCustomProfileField(field, profile);
     const inference = pickInference(ruleInference, customInference);
+    const skipPolicy = shouldSkipAutofill({ field, semanticKey: inference.semantic_key });
+    if (skipPolicy.skip) {
+      return {
+        field_id: field.field_id,
+        action: "skip",
+        profile_key: skipPolicy.semantic_key || inference.semantic_key || null,
+        display_label: displayLabel(field),
+        value_preview: "",
+        confidence: inference.confidence || 0,
+        confidence_band: getConfidenceBand(inference.confidence || 0),
+        sensitive_tier: skipPolicy.tier,
+        skip_reason: skipPolicy.reason,
+        source: inference.source || "sensitive"
+      };
+    }
     if (!inference.semantic_key || inference.confidence < 0.68) {
       return {
         field_id: field.field_id,
@@ -124,12 +145,15 @@ export function buildInputPlan({ fields, schema, profile }) {
         display_label: displayLabel(field),
         value_preview: "",
         confidence: inference.confidence || 0,
+        confidence_band: getConfidenceBand(inference.confidence || 0),
+        sensitive_tier: classifyFieldSensitivity(field).tier || null,
         source: inference.source || "unknown"
       };
     }
 
     const value = getProfileValue(profile, inference.semantic_key, field);
     const customLabel = getCustomProfileLabel(profile, inference.semantic_key);
+    const sensitiveTier = getSemanticSensitivity(inference.semantic_key);
     if (value === undefined || value === null || value === "") {
       return {
         field_id: field.field_id,
@@ -138,6 +162,8 @@ export function buildInputPlan({ fields, schema, profile }) {
         display_label: customLabel || SEMANTIC_LABELS[inference.semantic_key] || displayLabel(field),
         value_preview: "",
         confidence: Math.min(inference.confidence, 0.66),
+        confidence_band: getConfidenceBand(Math.min(inference.confidence, 0.66)),
+        sensitive_tier: sensitiveTier,
         source: inference.source || "unknown"
       };
     }
@@ -150,6 +176,8 @@ export function buildInputPlan({ fields, schema, profile }) {
       value: normalizeForField(value, field),
       value_preview: normalizeForField(value, field),
       confidence: inference.confidence,
+      confidence_band: getConfidenceBand(inference.confidence),
+      sensitive_tier: sensitiveTier,
       source: inference.source || "rules"
     };
   });
@@ -158,6 +186,17 @@ export function buildInputPlan({ fields, schema, profile }) {
 export function inferField(field) {
   if (field.type === "hidden" || field.visible === false || field.disabled) {
     return { semantic_key: null, confidence: 0, source: "not_fillable" };
+  }
+
+  const fieldSensitivity = classifyFieldSensitivity(field);
+  if (fieldSensitivity.tier) {
+    return {
+      semantic_key: fieldSensitivity.semantic_key,
+      confidence: fieldSensitivity.semantic_key ? 0.99 : 0,
+      source: "sensitive",
+      sensitive_tier: fieldSensitivity.tier,
+      skip_reason: fieldSensitivity.reason
+    };
   }
 
   const autocomplete = normalizeAutocomplete(field.autocomplete);
