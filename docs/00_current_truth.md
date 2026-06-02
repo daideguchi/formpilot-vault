@@ -32,6 +32,7 @@ MVPは `Chrome拡張 + content script入力` を本線にします。Playwright�
 - Free/Plus/Pro/Teamの利用制限: `extension/src/usage-meter.js`
 - Vault/RAGコア設計: `docs/08_profile_vault_rag_core.md`
 - Vault登録UX設計: `docs/18_vault_registration_ux_architecture.md`
+- 専門UI/UXレビュー採用判断: `docs/19_professional_uiux_review_decisions.md`
 - Vault/RAG最小DB: `extension/src/profile-memory.js`
 - Vault実値暗号化: `extension/src/vault-crypto.js`
 - Chrome Web Store素材: `store-assets/`
@@ -69,6 +70,8 @@ MVPは `Chrome拡張 + content script入力` を本線にします。Playwright�
 popup上で不確定項目をプロフィールキーへ紐づける `Learn` UIも実装済みです。これにより、ユーザー修正を `correction_events` と `mapping_cache` に保存し、同じフォームでは次回からMemory優先で入力プランへ反映します。
 
 台帳登録UXの方針として、popupはフォーム上で未知項目をその場登録するQuick Captureに寄せ、たくさんの情報を登録・整理したいユーザーにはブラウザ全体で使うfull-page Vault Managerを用意します。どちらも同じ暗号化 `vaultState` を読み書きし、別DBにはしません。詳細設計は `docs/18_vault_registration_ux_architecture.md` に固定しました。
+
+2026-06-02に専門UI/UXレビューを採用し、`docs/19_professional_uiux_review_decisions.md` へ正本化しました。以後のUI/UXは、popupを `検出 -> 確認 -> 入力` の3歩へ絞る、ユーザー向け中心概念を `Ledger` に寄せる、`Profile` はLedgerのビュー、`Capture Inbox` は未確定情報、`Site Memory` はサイト固有の入力習慣として扱う、という方針で進めます。Trust UXとして、AI送信payload preview、`送信ボタンは押しません` の毎回表示、ローカル暗号化状態、15分無操作ロックを優先します。課金転換はFree上限だけでなく、Ledger項目数、学習サイト数、節約時間、Inbox件数など `貯まった` 軸でも設計します。
 
 AIへ渡すschema inference payloadも実装済みです。フォーム構造、Memory context、ページ言語、UI言語、ブラウザ言語、TLD、タイムゾーン、calendar、numbering systemなどの `locale_context` は渡しますが、input value、CSS selector、プロフィール実値は入れないテストを固定しています。
 

@@ -4,6 +4,7 @@
 状態: `core_concept`
 実装: `extension/src/profile-memory.js`, `extension/src/vault-crypto.js`
 関連UX設計: `docs/18_vault_registration_ux_architecture.md`
+専門UI/UXレビュー: `docs/19_professional_uiux_review_decisions.md`
 
 ## 結論
 
@@ -191,4 +192,8 @@ MVPでは `chrome.storage.local` に `vaultState` として保存します。プ
 
 どちらも同じ `vaultState` を読み書きします。別DBや別プロフィールを作らず、popupで仮登録した情報をfull-page側で整理できる形にします。
 
-詳細は `docs/18_vault_registration_ux_architecture.md` を正にします。
+専門レビューの判断により、UI上の中心概念は `Vault` ではなく `Ledger` に寄せます。`Vault` は暗号化ストレージの技術用語、`Ledger` はユーザーが育てる事実DB、`Profile` はLedgerのビュー、`Capture Inbox` は未確定情報、`Site Memory` はサイト固有の入力習慣です。
+
+popupは `検出 -> 確認 -> 入力` の3歩に絞り、情報管理はfull-page Vault Managerへ寄せます。AIへ送るpayload preview、`送信ボタンは押しません` の明示、ローカル暗号化状態、15分無操作ロックはTrust UXの必須要件です。
+
+詳細は `docs/18_vault_registration_ux_architecture.md` と `docs/19_professional_uiux_review_decisions.md` を正にします。

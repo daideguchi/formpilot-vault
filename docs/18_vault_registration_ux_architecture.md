@@ -2,6 +2,7 @@
 
 作成日: 2026-06-02
 状態: `product_design`
+専門レビュー正本: `docs/19_professional_uiux_review_decisions.md`
 
 ## 結論
 
@@ -11,6 +12,20 @@ FormPilot Vaultの登録体験は、2つに分ける。
 - full-page Vault Manager: たくさんの情報を登録・整理・育成するための、ブラウザ全体の管理画面
 
 どちらも同じ `vaultState` を読む。同じ情報を別々に持たない。
+
+専門UI/UXレビューの判断として、以後の実装では `popupは3歩のみ`、`Ledger/Profile/Inbox/Site Memoryの概念整理`、`AIに送らない証拠UI`、`貯まった軸の課金転換` を優先します。
+
+## ユーザー向け概念の決定
+
+UI上では、以下の意味で統一します。
+
+- `Vault`: 暗号化ストレージそのもの。技術用語なので、原則UIには出さない
+- `Ledger`: ユーザーが持つ事実のフラットDB。ユーザーに見せる中心概念
+- `Profiles`: Ledgerに対するビュー / ペルソナ
+- `Capture Inbox`: Ledgerへ入れる前の未確定情報の受信箱
+- `Site Memory`: サイト固有の入力習慣
+
+ユーザー体験は `1つのLedger x 複数Profile x サイトごとの記憶` に揃えます。
 
 ## なぜ分けるか
 
@@ -30,6 +45,8 @@ popupは、幅390px前後の現場UIです。フォームを見ながら、確�
 
 ### 1. Popup: Quick Capture / Fill Console
 
+popupは `検出 -> 確認 -> 入力` の3歩だけを中心にします。小さなpopupに情報整理機能を詰め込まない。
+
 目的:
 
 - フォーム検出
@@ -44,19 +61,22 @@ popupでやること:
 - `Scan Form`
 - `Fill`
 - 入力プランの確認
-- 不明項目を `Learn`
-- 未登録項目をその場で台帳へ追加
-- 最小プロフィールの編集
+- 不明項目の最小解決
+- 未登録項目をその場でLedgerへ追加
+- `送信ボタンは押しません` の常時確認
+- `AIに送る情報をプレビュー` の表示
+- `ローカル暗号化中` / `AIに値を送りません` のTrust表示
 - `Open Vault Manager` で全画面管理へ移動
 
 popupでやらないこと:
 
 - 大量項目の整理
-- 複数プロフィールの本格管理
+- 複数Profileの本格管理
 - import/export
 - サイト別memoryの詳細編集
 - 監査ログ表示
 - チーム共有管理
+- 内部用語 `profile_key` / `semantic_key` の表示
 
 ### 2. Full-page Vault Manager: Saved Info OS
 
@@ -92,10 +112,12 @@ chrome.tabs.create({ url: chrome.runtime.getURL("manager.html") });
 
 - 現在のプロフィール
 - 今月の入力回数
-- 登録情報の充実度
+- Ledgerの項目数
+- 推定節約時間
 - 最近学習したサイト
 - 未登録候補の件数
 - Plan状態
+- Privacy状態
 
 ここは説明ページではなく、作業を始める管理トップにする。
 
@@ -132,10 +154,15 @@ Freeは1プロフィール。Plus以上で複数プロフィールを解放す�
 - encrypted backup export
 - aliasの複数登録
 - `AIには実値を送らない` 状態表示
+- 使用回数
+- 最終使用
+- 信頼度
+- 形式バリエーション
+- 変更履歴
 
 ### Capture Inbox
 
-popupでフォーム検出した未知項目を、後で整理する場所。
+popupでフォーム検出した未知項目を、後で整理する場所。Inbox Zeroを目標にします。
 
 例:
 
@@ -144,7 +171,14 @@ popupでフォーム検出した未知項目を、後で整理する場所。
 - `担当者部署`
 - `代理店ID`
 
-popupでは仮登録だけ行い、full-pageでカテゴリ、alias、使うプロフィール、値を整理できる。
+popupでは仮登録だけ行い、full-pageでカテゴリ、alias、使うProfile、値を整理できる。
+
+すべての候補には同じ4アクションを置く。
+
+- 台帳に追加 / 上書き保存
+- 別の種類 / ラベルで追加
+- 1回限り
+- 破棄 / 無視
 
 ### Site Memory
 
@@ -159,6 +193,7 @@ popupでは仮登録だけ行い、full-pageでカテゴリ、alias、使うプ�
 - source: AI / rule / user correction / fill success
 - confidence
 - last used
+- forget control
 
 実値は表示しない。ここは `どのフォーム項目がどのプロフィールキーに対応したか` だけを見せる。
 
@@ -182,6 +217,12 @@ Freeでも手動入力はできるが、一括登録や複数プロフィール�
 - Team: 共有テンプレート、共有mapping、監査ログ
 
 課金訴求は、単に「無制限」ではなく、`自分用に育ったVaultを本格管理できる` にする。
+
+課金転換は3軸で行います。
+
+- 足りない軸: Free月20回、残り回数
+- 貯まった軸: Ledger項目数、学習サイト数、節約時間、Inbox件数
+- 欲しい軸: 2つ目のProfile、Site Memory、履歴、会社Profile
 
 ## Data Model方針
 
@@ -253,6 +294,10 @@ Freeでも手動入力はできるが、一括登録や複数プロフィール�
 - どちらから保存しても、同じVaultへ即反映する
 - 不明項目は、popupで即追加できる
 - 迷う項目は、Capture Inboxへ逃がして後で整理できる
+- AIへ送るpayload previewを見せる
+- 入力プラン画面では `送信ボタンは押しません` を必ず見せる
+- `profile_key` / `semantic_key` はユーザー向けUIに出さない
+- 15分無操作の自動ロックを標準にする
 - 送信ボタンは押さない
 - CAPTCHA、SMS、メール認証、大量アカウント作成は扱わない
 - AIに個人情報の実値を送らない
