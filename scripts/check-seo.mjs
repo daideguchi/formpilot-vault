@@ -19,6 +19,7 @@ const report = {
 
 const english = await readPage("/");
 const japanese = await readPage("/ja");
+const formInput = await readPage("/form-input");
 const robots = await readText("/robots.txt");
 const sitemap = await readText("/sitemap.xml");
 
@@ -50,8 +51,28 @@ checkPage("japanese_home", japanese, {
   ]
 });
 
+checkPage("form_input_keyword_page", formInput, {
+  title: "フォーム入力を自動化するChrome拡張 | FormPilot Vault",
+  description: "フォーム入力、フォーム自動入力、会員登録の入力作業を減らすChrome拡張",
+  canonical: `${baseUrl}/form-input`,
+  language: "ja",
+  hreflang: {
+    ja: `${baseUrl}/form-input`,
+    en: `${baseUrl}/`,
+    xDefault: `${baseUrl}/`
+  },
+  requiredText: [
+    "フォーム入力",
+    "フォーム自動入力",
+    "会員登録フォーム",
+    "暗号化された端末内Vault",
+    "Freeは月5回"
+  ]
+});
+
 checkStructuredData("english_structured_data", english);
 checkStructuredData("japanese_structured_data", japanese);
+checkStructuredData("form_input_structured_data", formInput);
 checkRobots(robots);
 checkSitemap(sitemap);
 
@@ -65,9 +86,14 @@ function checkPage(name, html, expected) {
   if (!html.includes(`<title>${expected.title}</title>`)) missing.push("title");
   if (!html.includes(`<meta name="description" content="${expected.description}`)) missing.push("meta_description");
   if (!html.includes(`<link rel="canonical" href="${expected.canonical}">`)) missing.push("canonical");
-  if (!html.includes(`<link rel="alternate" hreflang="en" href="${baseUrl}/">`)) missing.push("hreflang_en");
-  if (!html.includes(`<link rel="alternate" hreflang="ja" href="${baseUrl}/ja">`)) missing.push("hreflang_ja");
-  if (!html.includes(`<link rel="alternate" hreflang="x-default" href="${baseUrl}/">`)) missing.push("hreflang_x_default");
+  const hreflang = expected.hreflang || {
+    en: `${baseUrl}/`,
+    ja: `${baseUrl}/ja`,
+    xDefault: `${baseUrl}/`
+  };
+  if (!html.includes(`<link rel="alternate" hreflang="en" href="${hreflang.en}">`)) missing.push("hreflang_en");
+  if (!html.includes(`<link rel="alternate" hreflang="ja" href="${hreflang.ja}">`)) missing.push("hreflang_ja");
+  if (!html.includes(`<link rel="alternate" hreflang="x-default" href="${hreflang.xDefault}">`)) missing.push("hreflang_x_default");
   if (html.includes('name="keywords"')) missing.push("meta_keywords_should_not_be_used");
   for (const text of expected.requiredText) {
     if (!html.includes(text)) missing.push(`text:${text}`);
@@ -110,6 +136,7 @@ function checkSitemap(text) {
   for (const url of [
     `${baseUrl}/`,
     `${baseUrl}/ja`,
+    `${baseUrl}/form-input`,
     `${baseUrl}/privacy.html`,
     `${baseUrl}/terms.html`,
     `${baseUrl}/support.html`
@@ -132,7 +159,13 @@ async function readText(urlPath) {
     return text;
   }
 
-  const file = urlPath === "/" ? "index.html" : urlPath === "/ja" ? "ja.html" : urlPath.replace(/^\/+/, "");
+  const file = urlPath === "/"
+    ? "index.html"
+    : urlPath === "/ja"
+      ? "ja.html"
+      : urlPath === "/form-input"
+        ? "form-input.html"
+        : urlPath.replace(/^\/+/, "");
   return fs.readFile(path.join(sitePath, file), "utf8");
 }
 

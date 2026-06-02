@@ -53,6 +53,7 @@ try {
     'a[href="#proof-en"]',
     'a[href="#pricing"]',
   ]));
+  results.push(await checkPage(browser, '/form-input.html'));
   results.push(await checkPage(browser, '/demo.html'));
 } finally {
   await browser.close();

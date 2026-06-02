@@ -83,6 +83,8 @@ Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/
 
 2026-06-02 10:07 JSTにGoogle Search Consoleへ本番URL prefix `https://formpilot-vault-api.vercel.app/` を追加し、HTML file `google429836ef33603a29.html` で所有権確認を通しました。確認ファイルはVercel本番でHTTP 200です。Search Consoleへ `/sitemap.xml` を送信し、送信自体は成功しましたが、初回読み込みステータスは `取得できませんでした` です。外部確認ではGooglebot UAでも `https://formpilot-vault-api.vercel.app/sitemap.xml` はHTTP 200 / `application/xml` なので、Search Console側の再取得を後続確認対象にします。
 
+2026-06-02 10:21 JSTに、検索語 `フォーム入力` / `フォーム自動入力` / `会員登録 自動入力` へより直接合わせるため、日本語SEO専用ページ `https://formpilot-vault-api.vercel.app/form-input` を追加しました。canonical、hreflang、OG/Twitter、SoftwareApplication + FAQPage JSON-LD、Free月5回、暗号化Vault、送信しない安全性、会員登録/問い合わせ/資料請求フォームの本文を入れています。`sitemap.xml` へ `/form-input` を追加し、`npm run check:seo -- --live` はブロッカー0です。Vercel deploymentは `dpl_o8Jak85iGAF83QBBFmBswq4r2GQE` です。Search Console URL検査では `/form-input` は `URL が Google に登録されていません` で、インデックス登録リクエストを試しましたが `1日の割り当て量を超えています` と表示されたため、明日以降の再リクエスト対象です。
+
 公開LPは世界配信向けに、非日本語ブラウザでは英語を初期表示します。日本語は `?lang=ja` または言語ボタンで表示できます。2026-06-01 12:45 JSTの本番確認では、英語初期表示、英語Plusボタン、日本語モバイル表示、横スクロールなし、Stripe Checkout導線が通っています。
 
 AI schema proxyは、Azure/Cloudflareの実環境変数が未投入でも停止しないように `rules_fallback` を実装済みです。2026-06-06まではprovider_idは `azure_deepseek_v4` のまま、Azure環境変数が未設定の場合はローカルのフォーム理解ルールでsemantic keyを返します。Azure値が投入されたらlive modeへ戻せます。
@@ -107,7 +109,7 @@ Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry
 
 `npm run check:production` も追加済みです。本番 `https://formpilot-vault-api.vercel.app` に対して、health、schema inference、Plus/Pro/Team Stripe Checkout sessions、Free entitlement、Privacy、Support、Termsを一括確認します。2026-06-02 09:47 JSTの確認ではブロッカー0、Plus/Pro/Team Stripe Checkoutはいずれも `cs_live_` セッションを返し、Free entitlementは月5回で返っています。AI schema inferenceのみ `azure_env_missing` による `rules_fallback` warningです。`npm run check:production:strict-ai` では、このAI live未投入をブロッカーとして検出できます。
 
-公開用LPは `FormPilot Vault` としてVercel本番へ反映済みです。`https://formpilot-vault-api.vercel.app/` はHTTP 200を確認済みです。2026-06-02 10:07 JSTにVercel deployment `dpl_2XQexJK5PBV6c7W3XPq48hqsuVSF` を本番aliasへ反映し、Free月5回、SEOページ、Search Console確認ファイル、schema proxy、Stripe bridge経路を本番へ反映しました。GitHub Pages版 `https://daideguchi.github.io/formpilot-vault/` も公開ミラーとして維持しています。
+公開用LPは `FormPilot Vault` としてVercel本番へ反映済みです。`https://formpilot-vault-api.vercel.app/` はHTTP 200を確認済みです。2026-06-02 10:21 JSTにVercel deployment `dpl_o8Jak85iGAF83QBBFmBswq4r2GQE` を本番aliasへ反映し、Free月5回、SEOページ、Search Console確認ファイル、`/form-input` SEOページ、schema proxy、Stripe bridge経路を本番へ反映しました。GitHub Pages版 `https://daideguchi.github.io/formpilot-vault/` も公開ミラーとして維持しています。
 
 Cloudflare移行用に `npm run check:cloudflare` と `npm run check:cloudflare:live` を追加済みです。2026-06-02 09:47 JST確認時点でCloudflare login、D1 database作成、migration、Worker deploy、Workers AI binding本番確認、Stripe bridge secret設定まで完了しています。`npm run check:cloudflare:live` はブロッカー0で、Cloudflare schema live、Stripe checkout bridge、Free entitlement月5回を確認済みです。現在のChrome Web Store提出用本番は引き続きVercel + Stripeブリッジですが、Cloudflare Workerへ切り替え可能な本番経路も検証済みです。
 

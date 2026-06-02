@@ -8,9 +8,11 @@ const accountId = process.env.PENDO_ACCOUNT_ID || 'formpilot-vault';
 const surfacePaths = [
   { path: path.join(root, 'index.html'), visitorId },
   { path: path.join(root, 'ja.html'), visitorId },
+  { path: path.join(root, 'form-input.html'), visitorId: `${visitorId}-form-input` },
   { path: path.join(root, 'demo.html'), visitorId: `${visitorId}-video` },
   { path: path.join(root, 'site', 'index.html'), visitorId },
   { path: path.join(root, 'site', 'ja.html'), visitorId },
+  { path: path.join(root, 'site', 'form-input.html'), visitorId: `${visitorId}-form-input` },
   { path: path.join(root, 'site', 'demo.html'), visitorId: `${visitorId}-video` },
 ];
 

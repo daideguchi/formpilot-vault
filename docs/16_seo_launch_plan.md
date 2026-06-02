@@ -18,6 +18,7 @@
 ## 実装済み
 
 - 英語/日本語の静的titleとmeta description
+- 日本語SEO専用ページ `/form-input`
 - canonical URL
 - `hreflang="en"`, `hreflang="ja"`, `hreflang="x-default"`
 - Open Graph / Twitter card
@@ -35,6 +36,8 @@
 2026-06-02 10:07 JSTに `https://formpilot-vault-api.vercel.app/` をURL prefixで追加し、HTML file `google429836ef33603a29.html` で所有権確認済み。
 
 `/sitemap.xml` はSearch Consoleへ送信済み。ただし初回読み込みステータスは `取得できませんでした`。外部HTTP確認では、Googlebot User-Agentでも `https://formpilot-vault-api.vercel.app/sitemap.xml` はHTTP 200 / `application/xml`。後続でSearch Console側の再取得結果を確認する。
+
+2026-06-02 10:21 JSTに `https://formpilot-vault-api.vercel.app/form-input` を追加。狙う検索意図は `フォーム入力`、`フォーム自動入力`、`会員登録 自動入力`、`問い合わせフォーム 自動入力`。Search Console URL検査では `URL が Google に登録されていません`。インデックス登録リクエストは日次割り当て超過のため、明日以降に再実行する。
 
 ## 重要キーワード
 
