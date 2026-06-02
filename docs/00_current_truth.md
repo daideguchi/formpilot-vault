@@ -88,6 +88,8 @@ Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/
 
 2026-06-02 10:27 JSTに、公開repo `daideguchi/formpilot-vault` へ `/form-input.html` と `site/form-input.html` を同期しました。commitは `51a452e Add form input SEO page` です。GitHub Pages build/deploy run `26792599595` は成功し、`https://daideguchi.github.io/formpilot-vault/form-input.html` と `/sitemap.xml` はHTTP 200です。`npm run novus:public` は `/`、`/form-input.html`、`/demo.html` でPendo request、`pendo.initialize`、横スクロールなしを確認して通過しました。
 
+2026-06-02 10:33 JSTに、SEO内部リンクを追加しました。Vercel本番のトップ/日本語ページから `form-input` へ、GitHub Pages公開ミラーのトップ/日本語ページから `form-input.html` へ自然なテキストリンクを張っています。Vercel deploymentは `dpl_GY7n8bUsLzMUn4hbFeJnPoNLTnXm` です。公開repo commitは `cce223c Link home pages to form input SEO page`、GitHub Pages deploy runは `26792823545` です。`npm run check:seo -- --live`、`npm run check:production`、`npm run novus:public` はブロッカー0で通過しました。
+
 公開LPは世界配信向けに、非日本語ブラウザでは英語を初期表示します。日本語は `?lang=ja` または言語ボタンで表示できます。2026-06-01 12:45 JSTの本番確認では、英語初期表示、英語Plusボタン、日本語モバイル表示、横スクロールなし、Stripe Checkout導線が通っています。
 
 AI schema proxyは、Azure/Cloudflareの実環境変数が未投入でも停止しないように `rules_fallback` を実装済みです。2026-06-06まではprovider_idは `azure_deepseek_v4` のまま、Azure環境変数が未設定の場合はローカルのフォーム理解ルールでsemantic keyを返します。Azure値が投入されたらlive modeへ戻せます。

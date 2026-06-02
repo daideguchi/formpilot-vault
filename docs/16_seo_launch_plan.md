@@ -43,6 +43,8 @@
 
 2026-06-02 10:27 JSTに公開repo `daideguchi/formpilot-vault` へも `/form-input.html` を同期。GitHub Pagesはcommit `51a452e Add form input SEO page` のdeploy成功後、`https://daideguchi.github.io/formpilot-vault/form-input.html` と `/sitemap.xml` がHTTP 200。`npm run novus:public` でPendo送信と横スクロールなしを確認済み。
 
+2026-06-02 10:33 JSTに、トップ/日本語ページのSEO本文から専用ページへの内部リンクを追加。Vercel本番は `form-input`、GitHub Pages公開ミラーは `form-input.html` へリンクする。Vercel deployment `dpl_GY7n8bUsLzMUn4hbFeJnPoNLTnXm`、公開repo commit `cce223c Link home pages to form input SEO page`。`npm run check:seo -- --live`、`npm run check:production`、`npm run novus:public` は通過。
+
 ## 重要キーワード
 
 日本語:
