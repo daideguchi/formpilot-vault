@@ -3,6 +3,7 @@
 作成日: 2026-06-01
 状態: `core_concept`
 実装: `extension/src/profile-memory.js`, `extension/src/vault-crypto.js`
+関連UX設計: `docs/18_vault_registration_ux_architecture.md`
 
 ## 結論
 
@@ -180,3 +181,14 @@ MVPでは `chrome.storage.local` に `vaultState` として保存します。プ
 - Team: 共有Vault、共有mapping、監査ログ、承認
 
 つまり、課金させる理由は「AIがすごい」ではなく、`自分用に育った入力記憶があるから、戻れなくなる` ことです。
+
+## 登録UXの方針
+
+台帳登録は2つの入口を持ちます。
+
+- popup: 今開いているフォーム上で未知項目をその場登録するためのQuick Capture
+- full-page Vault Manager: たくさんの情報を整理して登録するためのブラウザ全体UI
+
+どちらも同じ `vaultState` を読み書きします。別DBや別プロフィールを作らず、popupで仮登録した情報をfull-page側で整理できる形にします。
+
+詳細は `docs/18_vault_registration_ux_architecture.md` を正にします。
