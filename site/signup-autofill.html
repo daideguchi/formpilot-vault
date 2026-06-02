@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>会員登録を自動入力するChrome拡張 | FormPilot Vault</title>
+    <meta name="description" content="会員登録の自動入力を支援するAI Chrome拡張。氏名、フリガナ、メール、電話番号、住所を暗号化Vaultから確認つきで入力します。">
+    <link rel="canonical" href="https://formpilot-vault-api.vercel.app/signup-autofill">
+    <link rel="alternate" hreflang="ja" href="https://formpilot-vault-api.vercel.app/signup-autofill">
+    <link rel="alternate" hreflang="en" href="https://formpilot-vault-api.vercel.app/">
+    <link rel="alternate" hreflang="x-default" href="https://formpilot-vault-api.vercel.app/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="FormPilot Vault">
+    <meta property="og:title" content="会員登録を自動入力するChrome拡張 | FormPilot Vault">
+    <meta property="og:description" content="会員登録フォームの氏名、住所、電話番号、メール入力を確認つきで補助します。">
+    <meta property="og:url" content="https://formpilot-vault-api.vercel.app/signup-autofill">
+    <meta property="og:image" content="https://formpilot-vault-api.vercel.app/assets/product-preview.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="会員登録を自動入力するChrome拡張 | FormPilot Vault">
+    <meta name="twitter:description" content="会員登録 自動入力、登録フォーム 自動入力を探している人向けのFormPilot Vault。">
+    <meta name="twitter:image" content="https://formpilot-vault-api.vercel.app/assets/product-preview.png">
+    <link rel="stylesheet" href="style.css">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://formpilot-vault-api.vercel.app/#organization",
+            "name": "FormPilot Vault",
+            "url": "https://formpilot-vault-api.vercel.app/",
+            "logo": "https://formpilot-vault-api.vercel.app/assets/logo.svg"
+          },
+          {
+            "@type": "SoftwareApplication",
+            "@id": "https://formpilot-vault-api.vercel.app/#software",
+            "name": "FormPilot Vault",
+            "alternateName": ["会員登録 自動入力", "登録フォーム 自動入力", "AI Form Autofill"],
+            "applicationCategory": "BrowserApplication",
+            "operatingSystem": "Chrome",
+            "browserRequirements": "Chrome extension",
+            "url": "https://formpilot-vault-api.vercel.app/",
+            "image": "https://formpilot-vault-api.vercel.app/assets/product-preview.png",
+            "description": "会員登録フォームの入力作業を減らすAI Chrome拡張。フォーム構造を読み、暗号化Vaultから確認つきで入力します。",
+            "featureList": [
+              "会員登録フォームの入力補助",
+              "氏名とフリガナの分割対応",
+              "郵便番号と住所入力",
+              "暗号化された端末内Vault",
+              "送信前の人間確認"
+            ],
+            "inLanguage": ["ja", "en"],
+            "offers": [
+              { "@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "JPY" },
+              { "@type": "Offer", "name": "Plus", "price": "580", "priceCurrency": "JPY" },
+              { "@type": "Offer", "name": "Pro", "price": "1480", "priceCurrency": "JPY" },
+              { "@type": "Offer", "name": "Team", "price": "1500", "priceCurrency": "JPY" }
+            ],
+            "publisher": { "@id": "https://formpilot-vault-api.vercel.app/#organization" }
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://formpilot-vault-api.vercel.app/signup-autofill#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "会員登録フォームを自動送信しますか？",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "いいえ。FormPilot Vaultは入力補助のChrome拡張です。送信ボタンはユーザーが確認して押します。"
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "パスワードや認証も自動化しますか？",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "入力補助とパスワード生成補助は対象ですが、CAPTCHA、SMS認証、メール認証、本人確認の突破は行いません。"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  <!-- Pendo / Novus install: start -->
+<script>
+  (function(apiKey) {
+    (function(p, e, n, d, o) {
+      var v, w, x, y, z;
+      o = p[d] = p[d] || {};
+      o._q = o._q || [];
+      v = ['initialize', 'identify', 'updateOptions', 'pageLoad', 'track'];
+      for (w = 0, x = v.length; w < x; ++w) (function(method) {
+        o[method] = o[method] || function() {
+          o._q[method === 'initialize' ? 'unshift' : 'push']([method].concat([].slice.call(arguments, 0)));
+        };
+      })(v[w]);
+      y = e.createElement(n);
+      y.async = true;
+      y.src = 'https://cdn.pendo.io/agent/static/' + apiKey + '/pendo.js';
+      z = e.getElementsByTagName(n)[0];
+      z.parentNode.insertBefore(y, z);
+    })(window, document, 'script', 'pendo');
+
+    pendo.initialize({
+      visitor: { id: "formpilot-public-demo-signup-autofill" },
+      account: { id: "formpilot-vault" }
+    });
+  })("b147308a-8db6-4ecb-ba89-29c921a8ca58");
+</script>
+<!-- Pendo / Novus install: end -->
+</head>
+  <body>
+    <header class="hero">
+      <nav class="topbar">
+        <strong>FormPilot Vault</strong>
+        <div class="topbar-actions">
+          <a href="ja.html">日本語トップ</a>
+          <a href="form-input.html">フォーム入力</a>
+          <a href="ja.html#pricing">料金</a>
+          <a href="privacy.html">プライバシー</a>
+        </div>
+      </nav>
+      <div class="hero-grid">
+        <section class="hero-copy">
+          <p class="eyebrow">会員登録 自動入力</p>
+          <h1>会員登録フォームを、確認つきで短くする。</h1>
+          <p class="lead">氏名、フリガナ、メール、電話番号、郵便番号、住所、生年月日などを何度も入力する作業を減らします。FormPilot Vaultはフォーム構造を読み、端末内Vaultの情報を安全に入力案へ変換します。</p>
+          <div class="hero-actions">
+            <a class="button" href="ja.html#pricing">料金を見る</a>
+            <a class="button secondary" href="https://chromewebstore.google.com/detail/formpilot-vault/kmlcabffhmenjajmlnkkglphjnbaahlf">Chrome Web Store</a>
+          </div>
+        </section>
+        <figure class="preview">
+          <img src="assets/product-preview.png" alt="会員登録フォームを自動入力するFormPilot Vaultの画面">
+        </figure>
+      </div>
+    </header>
+    <main>
+      <section class="band compact seo-copy">
+        <h2>会員登録で面倒な入力</h2>
+        <p>会員登録フォームでは、同じ個人情報を何度も入力します。特に日本語フォームでは、氏名一体型、姓/名分離型、フリガナ一体型、セイ/メイ分離型、郵便番号ハイフンあり/なし、生年月日select分離など、入力の形がサイトごとに変わります。</p>
+        <p>FormPilot Vaultは、フォーム項目をプロフィールキーへ対応づけ、必要なら形式変換します。不明項目やメルマガ選択のような判断が必要な項目は、ユーザー確認へ残します。</p>
+      </section>
+      <section class="band compact">
+        <h2>会員登録で対応しやすい項目</h2>
+        <div class="columns">
+          <article>
+            <h3>氏名とフリガナ</h3>
+            <p>姓名分離、カナ、ひらがな、全角/半角の違いに合わせた入力案を作ります。</p>
+          </article>
+          <article>
+            <h3>連絡先</h3>
+            <p>メール、電話番号、電話番号3分割、国番号のような入力形式に対応します。</p>
+          </article>
+          <article>
+            <h3>住所</h3>
+            <p>郵便番号、都道府県、市区町村、番地、建物名を分けるフォームに対応しやすい設計です。</p>
+          </article>
+        </div>
+      </section>
+      <section class="band compact seo-copy" id="faq">
+        <h2>会員登録 自動入力のFAQ</h2>
+        <h3>登録ボタンも押しますか？</h3>
+        <p>押しません。FormPilot Vaultは入力補助に徹し、送信はユーザー確認のままにします。</p>
+        <h3>無料プランはありますか？</h3>
+        <p>Freeは月5回まで使えます。日常的に会員登録や申込フォームを使う人はPlus以上への移行を想定しています。</p>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <a href="index.html">English</a>
+      <a href="ja.html">日本語トップ</a>
+      <a href="form-autofill.html">フォーム自動入力</a>
+      <a href="contact-form-autofill.html">問い合わせフォーム 自動入力</a>
+      <span>FormPilot Vault</span>
+    </footer>
+  </body>
+</html>

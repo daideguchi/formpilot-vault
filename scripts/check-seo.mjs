@@ -20,6 +20,9 @@ const report = {
 const english = await readPage("/");
 const japanese = await readPage("/ja");
 const formInput = await readPage("/form-input");
+const formAutofill = await readPage("/form-autofill");
+const signupAutofill = await readPage("/signup-autofill");
+const contactFormAutofill = await readPage("/contact-form-autofill");
 const robots = await readText("/robots.txt");
 const sitemap = await readText("/sitemap.xml");
 
@@ -73,9 +76,69 @@ checkPage("form_input_keyword_page", formInput, {
   ]
 });
 
+checkPage("form_autofill_keyword_page", formAutofill, {
+  title: "フォーム自動入力のAI Chrome拡張 | FormPilot Vault",
+  description: "フォーム自動入力を探している人向けのAI Chrome拡張",
+  canonical: `${baseUrl}/form-autofill`,
+  language: "ja",
+  hreflang: {
+    ja: `${baseUrl}/form-autofill`,
+    en: `${baseUrl}/`,
+    xDefault: `${baseUrl}/`
+  },
+  requiredText: [
+    "フォーム自動入力",
+    "会員登録",
+    "問い合わせ",
+    "暗号化Vault",
+    "Freeは月5回"
+  ]
+});
+
+checkPage("signup_autofill_keyword_page", signupAutofill, {
+  title: "会員登録を自動入力するChrome拡張 | FormPilot Vault",
+  description: "会員登録の自動入力を支援するAI Chrome拡張",
+  canonical: `${baseUrl}/signup-autofill`,
+  language: "ja",
+  hreflang: {
+    ja: `${baseUrl}/signup-autofill`,
+    en: `${baseUrl}/`,
+    xDefault: `${baseUrl}/`
+  },
+  requiredText: [
+    "会員登録 自動入力",
+    "氏名",
+    "フリガナ",
+    "送信はユーザー確認",
+    "Freeは月5回"
+  ]
+});
+
+checkPage("contact_form_autofill_keyword_page", contactFormAutofill, {
+  title: "問い合わせフォームを自動入力するChrome拡張 | FormPilot Vault",
+  description: "問い合わせフォームの自動入力を支援するAI Chrome拡張",
+  canonical: `${baseUrl}/contact-form-autofill`,
+  language: "ja",
+  hreflang: {
+    ja: `${baseUrl}/contact-form-autofill`,
+    en: `${baseUrl}/`,
+    xDefault: `${baseUrl}/`
+  },
+  requiredText: [
+    "問い合わせフォーム 自動入力",
+    "資料請求フォーム",
+    "会社プロフィール",
+    "Team課金",
+    "Freeは月5回"
+  ]
+});
+
 checkStructuredData("english_structured_data", english);
 checkStructuredData("japanese_structured_data", japanese);
 checkStructuredData("form_input_structured_data", formInput);
+checkStructuredData("form_autofill_structured_data", formAutofill);
+checkStructuredData("signup_autofill_structured_data", signupAutofill);
+checkStructuredData("contact_form_autofill_structured_data", contactFormAutofill);
 checkRobots(robots);
 checkSitemap(sitemap);
 
@@ -145,6 +208,9 @@ function checkSitemap(text) {
     `${baseUrl}/`,
     `${baseUrl}/ja`,
     `${baseUrl}/form-input`,
+    `${baseUrl}/form-autofill`,
+    `${baseUrl}/signup-autofill`,
+    `${baseUrl}/contact-form-autofill`,
     `${baseUrl}/privacy.html`,
     `${baseUrl}/terms.html`,
     `${baseUrl}/support.html`
@@ -173,6 +239,12 @@ async function readText(urlPath) {
       ? "ja.html"
       : urlPath === "/form-input"
         ? "form-input.html"
+        : urlPath === "/form-autofill"
+          ? "form-autofill.html"
+          : urlPath === "/signup-autofill"
+            ? "signup-autofill.html"
+            : urlPath === "/contact-form-autofill"
+              ? "contact-form-autofill.html"
         : urlPath.replace(/^\/+/, "");
   return fs.readFile(path.join(sitePath, file), "utf8");
 }

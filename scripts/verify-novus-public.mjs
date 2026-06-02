@@ -54,6 +54,9 @@ try {
     'a[href="#pricing"]',
   ]));
   results.push(await checkPage(browser, '/form-input.html'));
+  results.push(await checkPage(browser, '/form-autofill.html'));
+  results.push(await checkPage(browser, '/signup-autofill.html'));
+  results.push(await checkPage(browser, '/contact-form-autofill.html'));
   results.push(await checkPage(browser, '/success.html?license_key=afa_public_probe_success'));
   results.push(await checkPage(browser, '/demo.html'));
 } finally {
