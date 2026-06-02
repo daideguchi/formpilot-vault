@@ -33,6 +33,7 @@ Chrome拡張を公開し、Plus/Pro/Teamの課金がDDのStripeへ入り、拡�
 - 本番License check Free/月20回応答
 - 0円Checkout後のPlus active license確認
 - AI schema proxyの `rules_fallback`
+- Azure未投入時のVercel -> Cloudflare Worker live schema委譲
 - GitHub Pages静的公開LP: `https://daideguchi.github.io/formpilot-vault/`
 - 公開Privacy URL: `https://daideguchi.github.io/formpilot-vault/privacy.html`
 - Chrome Web Store公開URL: `https://chromewebstore.google.com/detail/formpilot-vault/kmlcabffhmenjajmlnkkglphjnbaahlf`
@@ -54,7 +55,7 @@ Chrome拡張を公開し、Plus/Pro/Teamの課金がDDのStripeへ入り、拡�
 - Extension config: `extension/src/release-config.js`
 - Extension ZIP: `dist/ai-form-autofill-0.1.1.zip`
 - Cloudflare Worker: `https://ai-form-autofill.dd-1107-11107.workers.dev`
-- Latest Vercel deployment: `dpl_2Sz1QfJmP7DYE44VU2zguRTvPYob`
+- Latest Vercel deployment: `dpl_HMAXzQgody4kr7zCQ6CLSCHo97US`
 
 ## 現行本番の再デプロイ
 
@@ -122,6 +123,8 @@ npm run purchase:verify -- --plan plus --open --wait
 このコマンドは本番Checkout Sessionを作り、Checkout URL、License key、success URLを表示し、`--open` でStripe Checkoutを開く。DDが支払いを完了すると、`--wait` がVercel本番とCloudflare Worker本番のEntitlementをポーリングし、有料activeになるまで確認する。支払い前に止める場合は、表示されたCheckout URLを閉じればよい。
 
 2026-06-02 12:04 JSTに、DD指定のプロモーションコードを使ってPlusの0円Checkoutを完了した。Stripe画面上は `今日期日の合計額 ￥0`、`1カ月間 100% 割引`、`その後、￥580/月、来月以降` の表示。`npm run purchase:verify -- --plan plus --open --wait` は `live_purchase_verified` で完了し、Vercel本番とCloudflare Worker本番の両方で `plan: plus`、`active: true`、`monthly_fills: unlimited`、`current_period_end: 2026-07-02T03:02:05.000Z` を確認した。続けて `npm run check:paid-license` と `npm run check:launch -- --require-published --require-paid-license` もブロッカー0で通過した。これは0円Checkoutなので即時入金は発生していない。
+
+2026-06-02 12:17 JSTにVercel本番へAzure未投入時のCloudflare Worker live schema委譲を追加し、deployment `dpl_HMAXzQgody4kr7zCQ6CLSCHo97US` をproduction aliasへ反映した。`npm run check:production:strict-ai` はブロッカー0/警告0で通過し、schema inferenceは `provider_id: cloudflare_workers_ai_free`、`mode: live`、`delegated_from_provider_id: azure_deepseek_v4`、`delegated_from_error: azure_env_missing`、`semantic_key: person.email.primary` を返した。`npm run check:seo -- --live`、`npm run check:cloudflare:live`、`npm run check:launch -- --require-published` も通過した。有料licenseの生値は公開正本へ残していないため、この12:17 JSTの再検証では `--require-paid-license` は再実行していない。
 
 Checkout成功ページも確認する:
 
@@ -213,9 +216,9 @@ npm run deploy:worker
 
 - Chrome Web Storeは2026-06-02 08:36 JST時点で公開済み。`0.1.1` 更新版は2026-06-02 09:47 JSTに更新審査へ送信済み。次の停止点は審査通過後の公開版 `0.1.1` 読み戻し、または差し戻し対応。
 - 0円CheckoutのPlus active確認は完了。即時入金確認は無料プロモーションなしの有料決済またはStripe Dashboard上の売上確認が必要
-- Azure DeepSeek V4のdeployment作成は `ReadOnlyDisabledSubscription` で停止。Azure利用を続けるならsubscription再有効化が必要
+- Azure DeepSeek V4のdeployment作成は `ReadOnlyDisabledSubscription` で停止。Azureそのものを使い続けるならsubscription再有効化が必要。ただしVercel本番はCloudflare Worker live schemaへ委譲済みなので、公開運用上のAI liveブロッカーではない
 
 ## 現在の非ブロッカー
 
-- 通常リリースではAI provider未投入時も `rules_fallback` で動作する。`check:production:strict-ai` だけはこれをブロッカー扱いにする。
-- Cloudflare Workerはlive検証済み。Chrome拡張の公開初版はVercel endpointのまま出し、6/7以降にWorkerへ切替可能。
+- 通常リリースでは、Azure env未投入時にVercelがCloudflare Worker live schemaへ委譲する。それも失敗した時だけ `rules_fallback` で継続する。
+- Cloudflare Workerはlive検証済み。Chrome拡張の公開初版はVercel endpointのままでも、Vercel内部でCloudflare liveを使える。6/7以降にWorkerへ直接切替も可能。

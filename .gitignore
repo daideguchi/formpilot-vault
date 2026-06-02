@@ -6,6 +6,7 @@ data/runtime/
 *.local.json
 .DS_Store
 coverage/
+deploy/
 dist/
 tmp/
 submission/*.local.json

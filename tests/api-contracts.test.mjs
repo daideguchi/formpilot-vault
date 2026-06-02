@@ -131,6 +131,51 @@ test("schema proxy falls back to local rules when live provider env is missing",
   assert.equal(result.mappings.field_001.semantic_key, "person.email.primary");
 });
 
+test("schema proxy can delegate to Cloudflare live fallback when Azure env is missing", async () => {
+  const payload = {
+    task: "form_schema_mapping",
+    fields: [
+      { field_id: "field_001", tag: "input", type: "text", label: "Contact", name: "contact" }
+    ]
+  };
+  let fallbackCalled = false;
+
+  const result = await inferSchemaWithProxy({
+    payload,
+    env: {
+      AFA_SCHEMA_LIVE_FALLBACK_URL: "https://worker.example.test/api/schema/infer"
+    },
+    date: new Date("2026-06-01T12:00:00+09:00"),
+    fetchImpl: async (url, request) => {
+      fallbackCalled = true;
+      assert.equal(url, "https://worker.example.test/api/schema/infer");
+      assert.equal(request.method, "POST");
+      assert.equal(JSON.parse(request.body).fields[0].field_id, "field_001");
+      return {
+        ok: true,
+        json: async () => ({
+          provider_id: "cloudflare_workers_ai_free",
+          mode: "live",
+          mappings: {
+            field_001: {
+              semantic_key: "person.email.primary",
+              confidence: 0.91,
+              reason: "remote live fallback"
+            }
+          }
+        })
+      };
+    }
+  });
+
+  assert.equal(fallbackCalled, true);
+  assert.equal(result.provider_id, "cloudflare_workers_ai_free");
+  assert.equal(result.mode, "live");
+  assert.equal(result.delegated_from_provider_id, "azure_deepseek_v4");
+  assert.equal(result.delegated_from_error, "azure_env_missing");
+  assert.equal(result.mappings.field_001.semantic_key, "person.email.primary");
+});
+
 test("entitlement API applies Stripe events and checks plan limits", () => {
   const store = {};
   const entitlement = applyStripeEvent({

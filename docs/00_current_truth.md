@@ -103,7 +103,7 @@ Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/
 
 公開LPは世界配信向けに、非日本語ブラウザでは英語を初期表示します。日本語は `?lang=ja` または言語ボタンで表示できます。2026-06-01 12:45 JSTの本番確認では、英語初期表示、英語Plusボタン、日本語モバイル表示、横スクロールなし、Stripe Checkout導線が通っています。
 
-AI schema proxyは、Azure/Cloudflareの実環境変数が未投入でも停止しないように `rules_fallback` を実装済みです。2026-06-06まではprovider_idは `azure_deepseek_v4` のまま、Azure環境変数が未設定の場合はローカルのフォーム理解ルールでsemantic keyを返します。Azure値が投入されたらlive modeへ戻せます。
+AI schema proxyは、Azure/Cloudflareの実環境変数が未投入でも停止しないように `rules_fallback` を実装済みです。さらに2026-06-02 12:17 JSTに、Vercel本番ではAzure環境変数が未設定の場合、先にCloudflare Workerのlive schema APIへ委譲するfallbackを追加しました。2026-06-06まではprovider routing上のprimaryは `azure_deepseek_v4` のままですが、Vercel本番の実応答は `provider_id: cloudflare_workers_ai_free`、`mode: live`、`delegated_from_provider_id: azure_deepseek_v4`、`delegated_from_error: azure_env_missing` で通過しています。`rules_fallback` はAzureとCloudflare live委譲の両方が使えない時の最後の継続手段として残します。
 
 多言語対応も初回提出前に強化しました。manifestは `default_locale: en` と `_locales` を使うChrome公式i18n構成で、21 localeに対応します。対象は英語、英語UK、日本語、スペイン語、ラテンアメリカスペイン語、フランス語、ドイツ語、イタリア語、オランダ語、ポーランド語、ブラジルポルトガル語、ロシア語、トルコ語、アラビア語、ヒンディー語、インドネシア語、タイ語、ベトナム語、韓国語、中国語簡体、中国語繁体です。2026-06-02 08:36 JST時点でExtension UIは152キー x 21 localeで欠落なしです。フォーム認識ルールも主要グローバル市場の氏名、メール、電話、国番号、郵便番号、国、住所、会社、部署、役職、パスワードに広げています。世界配信の販売戦略は `docs/15_global_language_distribution_plan.md` を正本にし、UI翻訳だけでなく国別フォーム理解、`locale_context`、Memory学習までを言語対応に含めます。
 
@@ -125,9 +125,11 @@ Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry
 
 `npm run release:check` も追加済みです。Vercel本番APIを使う通常リリース判定ではブロッカー0です。Cloudflare用は `npm run check:cloudflare:live` で、Worker health、Workers AI live schema、Stripe Checkout bridge、Free entitlement bridgeを検証します。
 
-`npm run check:production` も追加済みです。本番 `https://formpilot-vault-api.vercel.app` に対して、health、schema inference、Plus/Pro/Team Stripe Checkout sessions、Free entitlement、Privacy、Support、Termsを一括確認します。2026-06-02 09:47 JSTの確認ではブロッカー0、Plus/Pro/Team Stripe Checkoutはいずれも `cs_live_` セッションを返し、Free entitlementは月20回で返っています。AI schema inferenceのみ `azure_env_missing` による `rules_fallback` warningです。`npm run check:production:strict-ai` では、このAI live未投入をブロッカーとして検出できます。
+`npm run check:production` も追加済みです。本番 `https://formpilot-vault-api.vercel.app` に対して、health、schema inference、Plus/Pro/Team Stripe Checkout sessions、Free entitlement、Privacy、Support、Termsを一括確認します。2026-06-02 09:47 JSTの確認では、Azure env未投入によりAI schema inferenceだけ `rules_fallback` warningでしたが、2026-06-02 12:17 JSTの再デプロイ後はCloudflare Worker live委譲により `npm run check:production:strict-ai` もブロッカー0/警告0で通過しています。
 
-公開用LPは `FormPilot Vault` としてVercel本番へ反映済みです。`https://formpilot-vault-api.vercel.app/` はHTTP 200を確認済みです。2026-06-02 10:45 JSTにVercel deployment `dpl_6G3NQHHE4BhuenCtkZqcXvMqqYF9` を本番aliasへ反映し、Free月20回、SEOページ、Search Console確認ファイル、`/form-input` SEOページ、schema proxy、Stripe bridge経路、Checkout success上の有料権利確認を本番へ反映しました。GitHub Pages版 `https://daideguchi.github.io/formpilot-vault/` も公開ミラーとして維持し、`github.io` 上のCheckout/Entitlement API呼び出しはVercel本番へ向けています。
+2026-06-02 12:17 JSTにVercel本番を再デプロイしました。deployment idは `dpl_HMAXzQgody4kr7zCQ6CLSCHo97US`、production aliasは `https://formpilot-vault-api.vercel.app` です。`npm run check:production:strict-ai` はブロッカー0/警告0で通過し、schema inferenceはCloudflare Worker liveへ委譲されました。`npm run check:seo -- --live`、`npm run check:cloudflare:live`、`npm run check:launch -- --require-published` も通過しました。Plus/Pro/TeamのCheckout Sessionはいずれも `cs_live_`、Free entitlementは月20回、Chrome Web Store公開URLはpublished、Dashboard上の `0.1.1` は引き続き `審査待ち` です。有料licenseの生値は公開正本に残していないため、この12:17 JSTの再検証では `--require-paid-license` は再実行していません。12:04 JSTの0円Plus Checkout検証記録は有効です。
+
+公開用LPは `FormPilot Vault` としてVercel本番へ反映済みです。`https://formpilot-vault-api.vercel.app/` はHTTP 200を確認済みです。2026-06-02 12:17 JSTにVercel deployment `dpl_HMAXzQgody4kr7zCQ6CLSCHo97US` を本番aliasへ反映し、Free月20回、SEOページ、Search Console確認ファイル、`/form-input` SEOページ、schema proxy、Stripe bridge経路、Checkout success上の有料権利確認、Azure未投入時のCloudflare live schema委譲を本番へ反映しました。GitHub Pages版 `https://daideguchi.github.io/formpilot-vault/` も公開ミラーとして維持し、`github.io` 上のCheckout/Entitlement API呼び出しはVercel本番へ向けています。
 
 Cloudflare移行用に `npm run check:cloudflare` と `npm run check:cloudflare:live` を追加済みです。2026-06-02 09:47 JST確認時点でCloudflare login、D1 database作成、migration、Worker deploy、Workers AI binding本番確認、Stripe bridge secret設定まで完了しています。`npm run check:cloudflare:live` はブロッカー0で、Cloudflare schema live、Stripe checkout bridge、Free entitlement月20回を確認済みです。現在のChrome Web Store提出用本番は引き続きVercel + Stripeブリッジですが、Cloudflare Workerへ切り替え可能な本番経路も検証済みです。
 
@@ -167,7 +169,7 @@ Azure CLIは `degutidai@gmail.com` でログイン済みです。既存Azure AI 
 ## 未完了
 
 - Chrome Web Store `0.1.1` 更新審査の結果確認と公開反映確認
-- Azure subscription再有効化、またはAzure期間をrules fallbackで運用する最終判断
+- Azure subscription再有効化、またはAzure期間をCloudflare live委譲で運用し続ける最終判断
 - Stripeの実購入/入金確認
 - サイト別マッピングUI
 - 入力判断用RAG/Memory Spaceの実サイト評価

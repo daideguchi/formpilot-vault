@@ -28,6 +28,7 @@ export async function inferSchemaWithProxy({
       payload,
       mode: "live",
       env,
+      fetchImpl,
       call: () => callAzureDeepSeek({ payload, env, fetchImpl })
     });
   }
@@ -37,6 +38,7 @@ export async function inferSchemaWithProxy({
     payload,
     mode: "live",
     env,
+    fetchImpl,
     call: () => callCloudflareWorkersAI({ payload, provider, env, fetchImpl })
   });
 }
@@ -196,7 +198,7 @@ function mockMappings(payload) {
   );
 }
 
-async function callWithRulesFallback({ provider, payload, mode, env, call }) {
+async function callWithRulesFallback({ provider, payload, mode, env, fetchImpl, call }) {
   try {
     const providerMappings = await call();
     return {
@@ -205,6 +207,14 @@ async function callWithRulesFallback({ provider, payload, mode, env, call }) {
       mappings: mergeProviderMappingsWithRules(payload, providerMappings)
     };
   } catch (error) {
+    const remoteFallback = await tryRemoteSchemaFallback({
+      provider,
+      payload,
+      env,
+      fetchImpl,
+      primaryError: error
+    });
+    if (remoteFallback) return remoteFallback;
     if (env.AFA_SCHEMA_PROXY_REQUIRE_LIVE === "true") throw error;
     return {
       provider_id: provider.id,
@@ -212,6 +222,42 @@ async function callWithRulesFallback({ provider, payload, mode, env, call }) {
       provider_error: error instanceof Error ? error.message : String(error),
       mappings: ruleFallbackMappings(payload)
     };
+  }
+}
+
+async function tryRemoteSchemaFallback({ provider, payload, env, fetchImpl, primaryError }) {
+  const fallbackUrl = String(env.AFA_SCHEMA_LIVE_FALLBACK_URL || "").trim();
+  if (!fallbackUrl) return null;
+
+  try {
+    const timeoutMs = Number(env.AFA_SCHEMA_PROVIDER_TIMEOUT_MS || 12_000);
+    const response = await withTimeout(fetchImpl(fallbackUrl, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(payload)
+    }), timeoutMs, "schema_live_fallback_timeout");
+
+    if (!response?.ok) {
+      const text = response?.text ? await response.text() : "";
+      throw new Error(`schema_live_fallback_http_${response?.status || "unknown"}:${text.slice(0, 240)}`);
+    }
+
+    const remote = await response.json();
+    if (!remote?.mappings || typeof remote.mappings !== "object") {
+      throw new Error("schema_live_fallback_unreadable");
+    }
+
+    return {
+      provider_id: remote.provider_id || "remote_schema_fallback",
+      mode: remote.mode || "live",
+      delegated_from_provider_id: provider.id,
+      delegated_from_error: primaryError instanceof Error ? primaryError.message : String(primaryError),
+      provider_error: remote.provider_error || null,
+      mappings: mergeProviderMappingsWithRules(payload, remote.mappings)
+    };
+  } catch (fallbackError) {
+    if (env.AFA_SCHEMA_PROXY_REQUIRE_LIVE === "true") throw fallbackError;
+    return null;
   }
 }
 

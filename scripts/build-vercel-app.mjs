@@ -74,9 +74,13 @@ import { inferSchemaWithProxy } from "../../server/schema-proxy.js";
 export default async function handler(request, response) {
   if (request.method !== "POST") return response.status(405).json({ error: "method_not_allowed" });
   try {
+    const env = {
+      ...process.env,
+      AFA_SCHEMA_LIVE_FALLBACK_URL: process.env.AFA_SCHEMA_LIVE_FALLBACK_URL || "https://ai-form-autofill.dd-1107-11107.workers.dev/api/schema/infer"
+    };
     const result = await inferSchemaWithProxy({
       payload: request.body,
-      env: process.env,
+      env,
       fetchImpl: globalThis.fetch,
       date: new Date()
     });

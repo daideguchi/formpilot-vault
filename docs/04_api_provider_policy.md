@@ -72,7 +72,9 @@ Chrome拡張popupは本番schema APIを優先します。APIが失敗した場�
 - `DeepSeek-V4-Pro` / `DeepSeek-V4-Flash` はmodel listで確認済み
 - deployment作成は subscription `8bf38da5-83a9-4f59-b2f9-1b7cc66fc64d` が `ReadOnlyDisabledSubscription` のため失敗
 - Vercel本番にも `AZURE_DEEPSEEK_ENDPOINT` / `AZURE_DEEPSEEK_API_KEY` は未投入
-- 現在は `rules_fallback` で継続稼働する
+- 現在のVercel本番は、Azure env未投入時に `AFA_SCHEMA_LIVE_FALLBACK_URL` 経由でCloudflare Workerのlive schema APIへ委譲する
+- 2026-06-02 12:17 JSTに `npm run check:production:strict-ai` で、Vercel schema inferenceが `provider_id: cloudflare_workers_ai_free`、`mode: live`、`delegated_from_provider_id: azure_deepseek_v4`、`delegated_from_error: azure_env_missing` で通過した
+- `rules_fallback` は、AzureとCloudflare live委譲の両方が使えない時の最後の継続手段として残す
 
 ## Cloudflare期間
 

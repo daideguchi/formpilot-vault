@@ -64,7 +64,7 @@ Freeは月20回までの自動入力に制限し、Plus/Pro/Teamで無制限入�
 - 2026-06-07 以降は `Cloudflare Workers AI` の無料枠モデル
 - AIへ送るのはフォーム構造だけ
 - 氏名、住所、電話、メール、パスワードなどの実値は送らない
-- Azure/Cloudflareのlive環境変数が未投入または障害時は `rules_fallback` でフォーム理解を継続する
+- Azure未投入時のVercel本番はCloudflare Worker live schemaへ委譲し、それも失敗した時だけ `rules_fallback` でフォーム理解を継続する
 
 ## 実行コマンド
 

@@ -56,6 +56,8 @@ async function checkSchemaInference() {
   addCheck("schema_inference", ok, {
     provider_id: response.payload?.provider_id,
     mode,
+    delegated_from_provider_id: response.payload?.delegated_from_provider_id || null,
+    delegated_from_error: response.payload?.delegated_from_error || null,
     provider_error: response.payload?.provider_error || null,
     semantic_key: mapping?.semantic_key || null
   });
