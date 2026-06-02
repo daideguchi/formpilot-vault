@@ -126,6 +126,10 @@ npm run purchase:verify -- --plan plus --open --wait
 
 2026-06-02 12:17 JSTにVercel本番へAzure未投入時のCloudflare Worker live schema委譲を追加し、deployment `dpl_HMAXzQgody4kr7zCQ6CLSCHo97US` をproduction aliasへ反映した。`npm run check:production:strict-ai` はブロッカー0/警告0で通過し、schema inferenceは `provider_id: cloudflare_workers_ai_free`、`mode: live`、`delegated_from_provider_id: azure_deepseek_v4`、`delegated_from_error: azure_env_missing`、`semantic_key: person.email.primary` を返した。`npm run check:seo -- --live`、`npm run check:cloudflare:live`、`npm run check:launch -- --require-published` も通過した。有料licenseの生値は公開正本へ残していないため、この12:17 JSTの再検証では `--require-paid-license` は再実行していない。
 
+2026-06-02 12:32 JSTに本番再確認を実施した。`npm run check:production:strict-ai`、`npm run check:cloudflare:live`、`npm run check:seo -- --live`、`npm run check:launch -- --require-published` はすべてブロッカー0。Chrome Web Store公開URLはpublished、Dashboard上の `0.1.1` は `審査待ち`。FormPilot本番経由のFree entitlementは月20回で返る。Kurogane Stripe bridgeのFree権利も商品設計に合わせるため、bridge生コードの `planLimits.free.monthly_fills` を20へ修正し、`npm run typecheck` 通過を確認した。ただしKurogane bridge直接本番URLは未デプロイのため、直叩きではまだ月5回を返す。FormPilot/Vercel/Cloudflare側はFree20へ正規化しているため、公開運用上のブロッカーではない。
+
+0円Checkoutは本番Checkout、Stripe subscription metadata、successページ、Vercel/Cloudflare両方の有料entitlementを確認するための実機検証として扱う。即時入金は発生していない。今回のPlus subscriptionは `current_period_end: 2026-07-02T03:02:05.000Z` が確認済みなので、将来請求を発生させない場合はこの日時より前にStripe Dashboardでキャンセル、または100%割引の継続設定を確認する。
+
 Checkout成功ページも確認する:
 
 ```bash
@@ -216,6 +220,8 @@ npm run deploy:worker
 
 - Chrome Web Storeは2026-06-02 08:36 JST時点で公開済み。`0.1.1` 更新版は2026-06-02 09:47 JSTに更新審査へ送信済み。次の停止点は審査通過後の公開版 `0.1.1` 読み戻し、または差し戻し対応。
 - 0円CheckoutのPlus active確認は完了。即時入金確認は無料プロモーションなしの有料決済またはStripe Dashboard上の売上確認が必要
+- 0円Plus subscriptionの将来請求回避確認。次回請求を発生させない場合は、2026-07-02T03:02:05.000Zより前にStripe Dashboardでキャンセルまたは割引継続設定を確認する
+- Kurogane bridge直接本番URLのFree月20回反映。FormPilot本番は正規化済みで月20回を返すが、bridge直叩きは未デプロイのため月5回を返す。汚れた作業ディレクトリを巻き込むローカルデプロイは避け、安全なbridge反映手順で進める
 - Azure DeepSeek V4のdeployment作成は `ReadOnlyDisabledSubscription` で停止。Azureそのものを使い続けるならsubscription再有効化が必要。ただしVercel本番はCloudflare Worker live schemaへ委譲済みなので、公開運用上のAI liveブロッカーではない
 
 ## 現在の非ブロッカー

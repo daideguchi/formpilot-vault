@@ -129,6 +129,8 @@ Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry
 
 2026-06-02 12:17 JSTにVercel本番を再デプロイしました。deployment idは `dpl_HMAXzQgody4kr7zCQ6CLSCHo97US`、production aliasは `https://formpilot-vault-api.vercel.app` です。`npm run check:production:strict-ai` はブロッカー0/警告0で通過し、schema inferenceはCloudflare Worker liveへ委譲されました。`npm run check:seo -- --live`、`npm run check:cloudflare:live`、`npm run check:launch -- --require-published` も通過しました。Plus/Pro/TeamのCheckout Sessionはいずれも `cs_live_`、Free entitlementは月20回、Chrome Web Store公開URLはpublished、Dashboard上の `0.1.1` は引き続き `審査待ち` です。有料licenseの生値は公開正本に残していないため、この12:17 JSTの再検証では `--require-paid-license` は再実行していません。12:04 JSTの0円Plus Checkout検証記録は有効です。
 
+2026-06-02 12:32 JSTに本番状態を再確認しました。`npm run check:production:strict-ai`、`npm run check:cloudflare:live`、`npm run check:seo -- --live`、`npm run check:launch -- --require-published` はすべてブロッカー0です。Chrome Web Store公開URLはpublished、Dashboard上の `0.1.1` は `審査待ち` です。FormPilot本番経由のFree entitlementは月20回で返っています。Stripe bridge生コード側にもFree月20回を合わせるため、Kurogane bridgeの `planLimits.free.monthly_fills` を20へ修正し、`npm run typecheck` 通過を確認しました。ただしKurogane bridgeの直接本番URLは未デプロイのため、直叩きではまだ月5回を返します。FormPilot/Vercel/Cloudflare側はFree20へ正規化しているため、公開運用上のブロッカーではありません。0円Plus Checkoutは本番課金導線の実機検証として有効ですが、即時入金は発生していません。次回請求を発生させない運用にする場合、`current_period_end` の `2026-07-02T03:02:05.000Z` より前にStripe Dashboardでキャンセル、または100%割引を継続する設定確認が必要です。
+
 公開用LPは `FormPilot Vault` としてVercel本番へ反映済みです。`https://formpilot-vault-api.vercel.app/` はHTTP 200を確認済みです。2026-06-02 12:17 JSTにVercel deployment `dpl_HMAXzQgody4kr7zCQ6CLSCHo97US` を本番aliasへ反映し、Free月20回、SEOページ、Search Console確認ファイル、`/form-input` SEOページ、schema proxy、Stripe bridge経路、Checkout success上の有料権利確認、Azure未投入時のCloudflare live schema委譲を本番へ反映しました。GitHub Pages版 `https://daideguchi.github.io/formpilot-vault/` も公開ミラーとして維持し、`github.io` 上のCheckout/Entitlement API呼び出しはVercel本番へ向けています。
 
 Cloudflare移行用に `npm run check:cloudflare` と `npm run check:cloudflare:live` を追加済みです。2026-06-02 09:47 JST確認時点でCloudflare login、D1 database作成、migration、Worker deploy、Workers AI binding本番確認、Stripe bridge secret設定まで完了しています。`npm run check:cloudflare:live` はブロッカー0で、Cloudflare schema live、Stripe checkout bridge、Free entitlement月20回を確認済みです。現在のChrome Web Store提出用本番は引き続きVercel + Stripeブリッジですが、Cloudflare Workerへ切り替え可能な本番経路も検証済みです。
@@ -170,7 +172,9 @@ Azure CLIは `degutidai@gmail.com` でログイン済みです。既存Azure AI 
 
 - Chrome Web Store `0.1.1` 更新審査の結果確認と公開反映確認
 - Azure subscription再有効化、またはAzure期間をCloudflare live委譲で運用し続ける最終判断
-- Stripeの実購入/入金確認
+- Stripeの実購入/入金確認。0円Plus Checkoutは実機検証として完了済みだが、実売上ではない
+- 0円Plus subscriptionの将来請求回避確認。次回請求を発生させない場合は、2026-07-02T03:02:05.000Zより前にStripe Dashboardでキャンセルまたは割引継続設定を確認する
+- Kurogane bridge直接本番URLのFree月20回反映。FormPilot本番は正規化済みで月20回を返すが、bridge直叩きは未デプロイのため月5回を返す。汚れた作業ディレクトリを巻き込むローカルデプロイは避け、安全なbridge反映手順で進める
 - サイト別マッピングUI
 - 入力判断用RAG/Memory Spaceの実サイト評価
 
