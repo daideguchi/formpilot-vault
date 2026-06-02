@@ -54,6 +54,7 @@ try {
     'a[href="#pricing"]',
   ]));
   results.push(await checkPage(browser, '/form-input.html'));
+  results.push(await checkPage(browser, '/success.html?license_key=afa_public_probe_success'));
   results.push(await checkPage(browser, '/demo.html'));
 } finally {
   await browser.close();

@@ -114,7 +114,19 @@ async function checkPublicPages() {
   await checkPage("japanese_seo_page", "/ja", [
     "フォーム入力を自動入力するAI Chrome拡張",
     "フォーム入力を自動化したい人へ",
+    "フォーム入力の自動化について詳しく見る",
     "https://formpilot-vault-api.vercel.app/ja"
+  ]);
+  await checkPage("form_input_keyword_page", "/form-input", [
+    "フォーム入力を自動化するChrome拡張",
+    "フォーム入力を、毎回手で書かない。",
+    "Freeは月5回"
+  ]);
+  await checkPage("checkout_success_page", "/success.html", [
+    "ライセンスを確認します",
+    "License key",
+    "権利を再確認",
+    "entitlementStatus"
   ]);
   await checkPage("privacy_page", "/privacy.html", [
     "Privacy Policy - FormPilot Vault",

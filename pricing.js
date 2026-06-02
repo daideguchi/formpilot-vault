@@ -1,4 +1,5 @@
-const CHECKOUT_ENDPOINT = "/api/stripe/checkout-session";
+const PRODUCTION_API_BASE = "https://formpilot-vault-api.vercel.app";
+const CHECKOUT_ENDPOINT = `${resolveApiBase()}/api/stripe/checkout-session`;
 const LICENSE_KEY_STORAGE = "afa_license_key";
 const LANGUAGE_STORAGE = "afa_site_language";
 
@@ -110,4 +111,8 @@ function normalizeLanguage(language = "") {
 
 function capitalize(value = "") {
   return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+function resolveApiBase() {
+  return location.hostname.endsWith("github.io") ? PRODUCTION_API_BASE : "";
 }

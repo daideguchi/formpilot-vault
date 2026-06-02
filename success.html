@@ -5,19 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>決済完了 - AIフォームオートフィル</title>
     <link rel="stylesheet" href="style.css">
-  </head>
+  <!-- Pendo / Novus install: start -->
+<script>
+  (function(apiKey) {
+    (function(p, e, n, d, o) {
+      var v, w, x, y, z;
+      o = p[d] = p[d] || {};
+      o._q = o._q || [];
+      v = ['initialize', 'identify', 'updateOptions', 'pageLoad', 'track'];
+      for (w = 0, x = v.length; w < x; ++w) (function(method) {
+        o[method] = o[method] || function() {
+          o._q[method === 'initialize' ? 'unshift' : 'push']([method].concat([].slice.call(arguments, 0)));
+        };
+      })(v[w]);
+      y = e.createElement(n);
+      y.async = true;
+      y.src = 'https://cdn.pendo.io/agent/static/' + apiKey + '/pendo.js';
+      z = e.getElementsByTagName(n)[0];
+      z.parentNode.insertBefore(y, z);
+    })(window, document, 'script', 'pendo');
+
+    pendo.initialize({
+      visitor: { id: "formpilot-public-demo-success" },
+      account: { id: "formpilot-vault" }
+    });
+  })("b147308a-8db6-4ecb-ba89-29c921a8ca58");
+</script>
+<!-- Pendo / Novus install: end -->
+</head>
   <body>
     <main class="success-shell">
       <section class="success-panel">
         <p class="eyebrow">Payment complete</p>
-        <h1>Plus/Proの準備ができました。</h1>
-        <p class="lead">Chrome拡張のPlan欄に下のLicense keyを入れて、Checkを押してください。</p>
+        <h1>ライセンスを確認します。</h1>
+        <p class="lead">Chrome拡張のPlan欄に下のLicense keyを入れて、Checkを押してください。権利がまだ反映されていない場合は、少し待ってから再確認できます。</p>
         <label class="license-copy">
           License key
           <input id="licenseKeyDisplay" readonly>
         </label>
-        <button id="copyLicense" class="checkout-button" type="button">License keyをコピー</button>
+        <div class="success-actions">
+          <button id="copyLicense" class="checkout-button" type="button">License keyをコピー</button>
+          <button id="recheckEntitlement" class="checkout-button secondary-action" type="button">権利を再確認</button>
+        </div>
         <p id="copyStatus" class="checkout-status" role="status"></p>
+        <p id="entitlementStatus" class="entitlement-status" role="status"></p>
       </section>
     </main>
     <script type="module" src="success.js"></script>

@@ -21,6 +21,19 @@ const server = http.createServer(async (request, response) => {
     return;
   }
 
+  if (request.method === "GET" && url.pathname === "/api/entitlement/check") {
+    assert.match(url.searchParams.get("license_key") || "", /^afa_/);
+    response.writeHead(200, { "content-type": "application/json" });
+    response.end(JSON.stringify({
+      license_key: url.searchParams.get("license_key"),
+      plan: "plus",
+      status: "active",
+      active: true,
+      limits: { monthly_fills: "unlimited" }
+    }));
+    return;
+  }
+
   const file = url.pathname === "/" ? "index.html" : url.pathname === "/ja" ? "ja.html" : url.pathname.slice(1);
   const filePath = path.join(sitePath, file);
   if (!filePath.startsWith(sitePath)) {
@@ -53,6 +66,7 @@ try {
   await page.getByRole("button", { name: "Start Plus" }).dispatchEvent("click");
   await page.waitForURL(/success\.html/);
   assert.match(await page.locator("#licenseKeyDisplay").inputValue(), /^afa_/);
+  await page.getByText("PLUSが有効です").waitFor();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
   assert.equal(overflow, false);
 

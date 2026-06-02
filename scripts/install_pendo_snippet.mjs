@@ -9,10 +9,12 @@ const surfacePaths = [
   { path: path.join(root, 'index.html'), visitorId },
   { path: path.join(root, 'ja.html'), visitorId },
   { path: path.join(root, 'form-input.html'), visitorId: `${visitorId}-form-input` },
+  { path: path.join(root, 'success.html'), visitorId: `${visitorId}-success` },
   { path: path.join(root, 'demo.html'), visitorId: `${visitorId}-video` },
   { path: path.join(root, 'site', 'index.html'), visitorId },
   { path: path.join(root, 'site', 'ja.html'), visitorId },
   { path: path.join(root, 'site', 'form-input.html'), visitorId: `${visitorId}-form-input` },
+  { path: path.join(root, 'site', 'success.html'), visitorId: `${visitorId}-success` },
   { path: path.join(root, 'site', 'demo.html'), visitorId: `${visitorId}-video` },
 ];
 
