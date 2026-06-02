@@ -35,9 +35,10 @@ MVPは `Chrome拡張 + content script入力` を本線にします。Playwright�
 - 専門UI/UXレビュー採用判断: `docs/19_professional_uiux_review_decisions.md`
 - Vault/RAG最小DB: `extension/src/profile-memory.js`
 - Vault実値暗号化: `extension/src/vault-crypto.js`
+- Full-page Vault Manager: `extension/manager.html`, `extension/manager.js`, `extension/manager.css`
 - Chrome Web Store素材: `store-assets/`
 - 拡張アイコン: `extension/icons/`
-- 提出用ZIP: `dist/ai-form-autofill-0.1.1.zip`
+- 次回提出候補ZIP: `dist/ai-form-autofill-0.1.2.zip`
 - ストア掲載文面: `docs/12_chrome_store_listing_copy.md`
 - Chrome Web Store提出パケット: `docs/14_chrome_web_store_submission_packet.md`
 - プライバシー/利用規約下書き: `site/privacy.html`, `site/terms.html`
@@ -72,6 +73,8 @@ popup上で不確定項目をプロフィールキーへ紐づける `Learn` UI�
 台帳登録UXの方針として、popupはフォーム上で未知項目をその場登録するQuick Captureに寄せ、たくさんの情報を登録・整理したいユーザーにはブラウザ全体で使うfull-page Vault Managerを用意します。どちらも同じ暗号化 `vaultState` を読み書きし、別DBにはしません。詳細設計は `docs/18_vault_registration_ux_architecture.md` に固定しました。
 
 2026-06-02に専門UI/UXレビューを採用し、`docs/19_professional_uiux_review_decisions.md` へ正本化しました。以後のUI/UXは、popupを `検出 -> 確認 -> 入力` の3歩へ絞る、ユーザー向け中心概念を `Ledger` に寄せる、`Profile` はLedgerのビュー、`Capture Inbox` は未確定情報、`Site Memory` はサイト固有の入力習慣として扱う、という方針で進めます。Trust UXとして、AI送信payload preview、`送信ボタンは押しません` の毎回表示、ローカル暗号化状態、15分無操作ロックを優先します。課金転換はFree上限だけでなく、Ledger項目数、学習サイト数、節約時間、Inbox件数など `貯まった` 軸でも設計します。
+
+2026-06-02 13:49 JSTに、専門UI/UXレビューのP0を実装しました。popupは `検出 -> 確認 -> 入力` の3歩表示、ヘッダーのVault Manager導線、`この端末で暗号化中` / `AIに値を送りません` の常時Trust表示、入力プラン上の `送信ボタンは押しません`、AIへ送る値なしpayload preview、下部の `台帳 / 学習 / 今月 / 節約` 育成バーを持ちます。full-page Vault Managerも追加し、Dashboard、Ledger、Profiles、Capture Inbox、Sites、Plan、Security、Languageを分離しました。CWSで0.1.1更新審査待ちのため、今回の実装はmanifest/package `0.1.2` として次回提出候補に切り、`dist/ai-form-autofill-0.1.2.zip` / `136431 bytes` を生成済みです。
 
 AIへ渡すschema inference payloadも実装済みです。フォーム構造、Memory context、ページ言語、UI言語、ブラウザ言語、TLD、タイムゾーン、calendar、numbering systemなどの `locale_context` は渡しますが、input value、CSS selector、プロフィール実値は入れないテストを固定しています。
 
@@ -111,7 +114,7 @@ Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/
 
 AI schema proxyは、Azure/Cloudflareの実環境変数が未投入でも停止しないように `rules_fallback` を実装済みです。さらに2026-06-02 12:17 JSTに、Vercel本番ではAzure環境変数が未設定の場合、先にCloudflare Workerのlive schema APIへ委譲するfallbackを追加しました。2026-06-06まではprovider routing上のprimaryは `azure_deepseek_v4` のままですが、Vercel本番の実応答は `provider_id: cloudflare_workers_ai_free`、`mode: live`、`delegated_from_provider_id: azure_deepseek_v4`、`delegated_from_error: azure_env_missing` で通過しています。`rules_fallback` はAzureとCloudflare live委譲の両方が使えない時の最後の継続手段として残します。
 
-多言語対応も初回提出前に強化しました。manifestは `default_locale: en` と `_locales` を使うChrome公式i18n構成で、21 localeに対応します。対象は英語、英語UK、日本語、スペイン語、ラテンアメリカスペイン語、フランス語、ドイツ語、イタリア語、オランダ語、ポーランド語、ブラジルポルトガル語、ロシア語、トルコ語、アラビア語、ヒンディー語、インドネシア語、タイ語、ベトナム語、韓国語、中国語簡体、中国語繁体です。2026-06-02 08:36 JST時点でExtension UIは152キー x 21 localeで欠落なしです。フォーム認識ルールも主要グローバル市場の氏名、メール、電話、国番号、郵便番号、国、住所、会社、部署、役職、パスワードに広げています。世界配信の販売戦略は `docs/15_global_language_distribution_plan.md` を正本にし、UI翻訳だけでなく国別フォーム理解、`locale_context`、Memory学習までを言語対応に含めます。
+多言語対応も初回提出前に強化しました。manifestは `default_locale: en` と `_locales` を使うChrome公式i18n構成で、21 localeに対応します。対象は英語、英語UK、日本語、スペイン語、ラテンアメリカスペイン語、フランス語、ドイツ語、イタリア語、オランダ語、ポーランド語、ブラジルポルトガル語、ロシア語、トルコ語、アラビア語、ヒンディー語、インドネシア語、タイ語、ベトナム語、韓国語、中国語簡体、中国語繁体です。2026-06-02 13:49 JST時点でExtension UIは204キー x 21 localeで欠落なしです。フォーム認識ルールも主要グローバル市場の氏名、メール、電話、国番号、郵便番号、国、住所、会社、部署、役職、パスワードに広げています。世界配信の販売戦略は `docs/15_global_language_distribution_plan.md` を正本にし、UI翻訳だけでなく国別フォーム理解、`locale_context`、Memory学習までを言語対応に含めます。
 
 2026-06-01のDD判断として、世界配信は初期戦略に昇格しました。日本語フォームの強さは残しつつ、英語Primary、全155地域配信、21 locale拡張UI、英語初期LP、国別フォーム理解、Free月20回からの有料転換をセットで進めます。
 
@@ -122,6 +125,8 @@ Chrome Web Store Dashboardにはitem `kmlcabffhmenjajmlnkkglphjnbaahlf` を作�
 2026-06-02 09:40 JSTに、DDの「Freeは月20回で課金させたい」という方針へ戻すため、拡張内usage meter、API entitlement、LP/Terms、Chrome Store文面、検証スクリプト、正本をFree月20回へ統一しました。2026-06-01 18:10 JST以降に進んでいた登録台帳のプレースホルダー、3ステップ導線、設定内タブ、台帳検索、種類、よく使う辞書追加ボタン、ZipCloud住所検索、電話番号3分割、空の初期値とプレースホルダー、保存後の `登録しました` 表示は維持します。公開済みChrome Web Storeの更新用にmanifest/package versionを `0.1.1` へ上げ、`npm test`、`npm run assets:store`、`npm run package:extension`、`npm run release:check` を通過しました。
 
 Chrome Web Storeは、2026-06-02 08:36 JST時点で公開済みです。公開URLは `https://chromewebstore.google.com/detail/formpilot-vault/kmlcabffhmenjajmlnkkglphjnbaahlf`。2026-06-02 09:47 JSTに更新用ZIP `dist/ai-form-autofill-0.1.1.zip` をDashboardへアップロードし、更新審査へ送信済みです。Dashboard読み戻しでは、全体ステータスは `審査待ち`、ドラフトは `0.1.1`、公開済み版は `0.1.0` です。審査通過後に `0.1.1` が公開反映されます。
+
+2026-06-02 13:49 JST時点で、CWSへはまだ0.1.2をアップロードしていません。審査待ち中の0.1.1を差し替えられないため、0.1.2は次回提出候補としてローカル生成・検証済みです。通過確認は `npm test`、`npm run test:extension`、`npm run assets:store`、`npm run package:extension`、`npm run release:check` です。
 
 Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry-run通過済みです。現行本番はFormPilot専用Stripe bridgeでPlus/Pro/Teamの本番Checkout Sessionを作る構成です。実購入/入金確認だけは未実行で、DDの決済操作またはStripe Dashboard確認が必要です。
 
@@ -143,7 +148,7 @@ Cloudflare移行用に `npm run check:cloudflare` と `npm run check:cloudflare:
 
 Azure CLIは `degutidai@gmail.com` でログイン済みです。既存Azure AI Servicesは `degutidai-1418-resource` と `degutidai-5815-resource` の2つが見えますが、2026-06-01確認時点では両方ともmodel deploymentが空です。Azure側では `DeepSeek-V4-Pro` と `DeepSeek-V4-Flash` のmodel listは見えますが、deployment作成は subscription `8bf38da5-83a9-4f59-b2f9-1b7cc66fc64d` が `ReadOnlyDisabledSubscription` のため失敗しました。Azureを6/6までlive利用するには、Azure subscriptionの再有効化が人間停止点です。
 
-実ブラウザ検証も通過済みです。Chromiumに拡張を `--load-extension` で読み込み、extension service worker / content script / DOM入力まで実行しました。14項目収集、14項目入力、初期登録情報が空でプレースホルダーだけ表示されること、郵便番号 `1500001` から住所が自動入力されること、保存後に `登録しました` が表示されること、電話番号が `090 / 1234 / 5678` の3分割で表示されること、3ステップ導線の選択不可表示、登録台帳タブ、台帳検索、辞書追加ボタン、登録台帳の `会員ID` / `紹介コード` / `スプレッドシート項目`、設定ボタン内の `登録台帳` 表示、台帳説明文、Plus license表示、`locale_context` 収集、IndexedDB内の非exportable Vault鍵、`chrome.storage.local` に鍵/実値なしまで確認済みです。フォーム確認で見つけた未登録項目を、その場で台帳へ追加する導線も入っています。証跡は `docs/10_real_browser_verification.md` と `site/assets/real-extension-*.png` にあります。
+実ブラウザ検証も通過済みです。Chromiumに拡張を `--load-extension` で読み込み、extension service worker / content script / DOM入力まで実行しました。14項目収集、14項目入力、初期登録情報が空でプレースホルダーだけ表示されること、郵便番号 `1500001` から住所が自動入力されること、保存後に `登録しました` が表示されること、電話番号が `090 / 1234 / 5678` の3分割で表示されること、3ステップ導線の選択不可表示、登録台帳タブ、台帳検索、辞書追加ボタン、登録台帳の `会員ID` / `紹介コード` / `スプレッドシート項目`、設定ボタン内の `登録台帳` 表示、台帳説明文、Plus license表示、Vault Manager Dashboard/Ledger/Planの起動、`locale_context` 収集、IndexedDB内の非exportable Vault鍵、`chrome.storage.local` に鍵/実値なしまで確認済みです。フォーム確認で見つけた未登録項目を、その場で台帳へ追加する導線も入っています。証跡は `docs/10_real_browser_verification.md` と `site/assets/real-extension-*.png` にあります。
 
 公開デモフォームでも実ブラウザ検証済みです。`httpbin.org/forms/post` は12項目収集、4項目入力。`selenium.dev/selenium/web/web-form.html` は14項目収集、1項目入力。送信はしていません。不確定項目をaskへ残す挙動も確認しました。
 
@@ -177,6 +182,7 @@ Azure CLIは `degutidai@gmail.com` でログイン済みです。既存Azure AI 
 ## 未完了
 
 - Chrome Web Store `0.1.1` 更新審査の結果確認と公開反映確認
+- `0.1.1` 公開反映または差し戻し後、必要なら `0.1.2` のVault Manager/Trust UX版をCWSへ再提出する
 - Azure subscription再有効化、またはAzure期間をCloudflare live委譲で運用し続ける最終判断
 - Stripeの実購入/入金確認。0円Plus Checkoutは実機検証として完了済みだが、実売上ではない
 - 0円Plus subscriptionの将来請求回避確認。次回請求を発生させない場合は、2026-07-02T03:02:05.000Zより前にStripe Dashboardでキャンセルまたは割引継続設定を確認する

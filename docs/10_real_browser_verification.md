@@ -23,6 +23,7 @@ npm run test:extension
 - ルール/プロフィールDBから入力プランを作成
 - `AFA_FILL_FIELDS` で実DOMに入力
 - extension popupページを開き、License key確認UIを操作
+- popupのTrust表示、送信しない約束、育成バーを確認
 - 登録情報の初期値が空で、例がプレースホルダーに出ることを確認
 - 郵便番号から住所を自動入力するUIを確認
 - 保存後に `登録しました` が表示されることを確認
@@ -31,6 +32,7 @@ npm run test:extension
 - `chrome.storage.local` 内のVault保存状態を確認し、プロフィール実値が平文で残らないことを検証
 - IndexedDB内のVault暗号鍵が非exportable `CryptoKey` として存在し、`chrome.storage.local` には鍵が残らないことを検証
 - content scriptが `locale_context` を収集することを検証
+- full-page Vault Managerを開き、Dashboard / Ledger / Plan が表示できることを検証
 
 ## 結果
 
@@ -46,6 +48,7 @@ npm run test:extension
   "postal_lookup": "1500001 -> 東京都 / 渋谷区 / 神宮前",
   "save_status": "登録しました",
   "phone_parts": ["090", "1234", "5678"],
+  "manager": "dashboard, ledger, and plan views opened",
   "locale_context": {
     "page_language": "ja",
     "text_direction": "ltr"
@@ -74,7 +77,10 @@ npm run test:extension
 - `site/assets/real-extension-popup-profile.png`
 - `site/assets/real-extension-popup-ledger.png`
 - `site/assets/real-extension-popup-license.png`
+- `site/assets/real-extension-manager-dashboard.png`
 - `site/assets/real-extension-filled-form.png`
+
+2026-06-02 13:49 JSTの再実行では、専門UI/UXレビューP0実装後のpopupとVault Managerを含めて `npm run test:extension` が通過した。`dist/ai-form-autofill-0.1.2.zip` はこの検証済みコードから生成した次回提出候補。
 
 ### Public demo forms
 

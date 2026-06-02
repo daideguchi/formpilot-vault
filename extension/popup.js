@@ -6,6 +6,7 @@ import { getProviderForDate } from "./src/provider-router.js";
 import { canUseFill, createUsageEvent, FREE_MONTHLY_FILL_LIMIT, getCurrentMonthKey } from "./src/usage-meter.js";
 import { fetchEntitlement } from "./src/entitlement-client.js";
 import { PUBLIC_BASE_URL } from "./src/release-config.js";
+import { buildSchemaInferencePayload } from "./src/ai-payload.js";
 import {
   VAULT_STORAGE_KEY,
   buildMemoryContext,
@@ -36,6 +37,12 @@ const settingsToggle = document.getElementById("settingsToggle");
 const settingsContent = document.getElementById("settingsContent");
 const saveProfileRow = document.getElementById("saveProfileRow");
 const helpButton = document.querySelector(".help-button");
+const openManager = document.getElementById("openManager");
+const openManagerInline = document.getElementById("openManagerInline");
+const previewPayload = document.getElementById("previewPayload");
+const payloadPreview = document.getElementById("payloadPreview");
+const payloadPreviewJson = document.getElementById("payloadPreviewJson");
+const growthBar = document.getElementById("growthBar");
 const customFieldList = document.getElementById("customFieldList");
 const addCustomField = document.getElementById("addCustomField");
 const ledgerSearch = document.getElementById("ledgerSearch");
@@ -69,6 +76,7 @@ let currentLocaleContext = {};
 let entitlement = { plan: "free" };
 let usage = {};
 let vaultState = null;
+let currentAiPayload = null;
 
 init();
 
@@ -79,6 +87,7 @@ async function init() {
   settingsToggle.setAttribute("aria-expanded", "false");
   fillPage.textContent = t("fillAfterCheck");
   helpButton.title = t("footnote");
+  openManager?.setAttribute("aria-label", t("openManager"));
   setSettingsTab("profile");
 
   const stored = await chrome.storage.local.get(["profile", "entitlement", "usage", "licenseKey", VAULT_STORAGE_KEY]);
@@ -94,6 +103,7 @@ async function init() {
   if (stored.profile) await chrome.storage.local.remove("profile");
   renderUsage();
   renderMemory();
+  renderPayloadPreview();
 }
 
 settingsToggle.addEventListener("click", () => {
@@ -129,6 +139,14 @@ for (const button of ledgerPresetButtons) {
   button.addEventListener("click", () => addLedgerPreset(button.dataset.ledgerPreset));
 }
 
+openManager?.addEventListener("click", openVaultManager);
+openManagerInline?.addEventListener("click", openVaultManager);
+
+previewPayload?.addEventListener("click", () => {
+  if (!currentAiPayload) return;
+  payloadPreview.hidden = !payloadPreview.hidden;
+});
+
 saveProfile.addEventListener("click", async () => {
   const profile = readProfileForm();
   vaultState = updateActiveProfileValues(vaultState, profile);
@@ -157,13 +175,15 @@ scanPage.addEventListener("click", async () => {
     currentLocaleContext = response?.locale_context || {};
     currentFields = fields;
     const memoryContext = buildMemoryContext({ vaultState, url: tab.url || "", fields, localeContext: currentLocaleContext });
+    const provider = getProviderForDate(new Date());
+    currentAiPayload = buildSchemaInferencePayload({ fields, memoryContext, provider, date: new Date() });
+    renderPayloadPreview();
     if (fields.length === 0) {
       currentPlan = [];
       renderNoFormFound();
       renderMemory(memoryContext);
       return;
     }
-    const provider = getProviderForDate(new Date());
     const schema = await inferSchemaWithFallback({ fields, memoryContext, provider });
     currentPlan = buildInputPlan({ fields, schema, profile });
     renderPlan(currentPlan, fields.length);
@@ -178,8 +198,12 @@ fillPage.addEventListener("click", async () => {
   const fillable = currentPlan.filter((item) => item.action === "fill" || item.action === "select");
   const gate = canUseFill({ entitlement, usage, date: new Date() });
   if (!gate.allowed) {
-    planSummary.textContent = t("freeLimitReached");
+    planSummary.textContent = t("freeLimitReachedGrowth", [
+      String(countLedgerEntries(getActiveProfileValues(vaultState))),
+      String(estimateSavedMinutes())
+    ]) || t("freeLimitReached");
     renderUsage();
+    renderGrowthBar();
     return;
   }
   const tab = await getActiveTab();
@@ -217,6 +241,7 @@ fillPage.addEventListener("click", async () => {
   fillPage.textContent = t("filledButton", [String(response?.filled || 0)]);
   setWorkflowStage("done");
   renderUsage();
+  renderGrowthBar();
 });
 
 upgradePlan.addEventListener("click", () => {
@@ -239,6 +264,10 @@ checkLicense.addEventListener("click", async () => {
     planSummary.textContent = t("licenseFailed", [error.message]);
   }
 });
+
+function openVaultManager() {
+  chrome.tabs.create({ url: chrome.runtime.getURL("manager.html") });
+}
 
 function readProfileForm() {
   const base = cloneProfile(getActiveProfileValues(vaultState) || SAMPLE_PROFILE);
@@ -559,7 +588,7 @@ function renderPlan(plan, fieldCount) {
   fillPage.textContent = fillable.length > 0 ? t("fillCount", [String(fillable.length)]) : t("fillAfterCheck");
   planSummary.textContent = t("planSummary", [String(fieldCount), String(fillable.length), String(asks.length)]);
   renderPlanStats({ fieldCount, fillableCount: fillable.length, askCount: asks.length });
-  setWorkflowStage(fillable.length > 0 ? "fill" : "scan");
+  setWorkflowStage("review");
   planList.innerHTML = "";
 
   for (const item of plan) {
@@ -628,7 +657,7 @@ function pageFieldLabel(field, item) {
 
 function formatSavedValue(item) {
   const label = semanticLabel(item.profile_key) || item.display_label || item.profile_key || "";
-  const value = item.profile_key === "account.password.generated" ? "••••••••" : item.value_preview;
+  const value = item.profile_key === "account.password.generated" ? "********" : maskPreviewValue(item.value_preview);
   return label ? `${label}: ${value}` : value;
 }
 
@@ -640,6 +669,51 @@ function renderUsage() {
     return;
   }
   usageStatus.textContent = t("freeUsage", [String(fills), String(FREE_MONTHLY_FILL_LIMIT)]);
+}
+
+function renderGrowthBar() {
+  if (!growthBar || !vaultState) return;
+  const profile = getActiveProfileValues(vaultState);
+  const summary = summarizeMemory(vaultState);
+  const monthKey = getCurrentMonthKey(new Date());
+  const fills = usage[monthKey]?.fills || 0;
+  const ledgerCount = countLedgerEntries(profile);
+  const savedMinutes = estimateSavedMinutes();
+  growthBar.textContent = t("growthBar", [
+    String(ledgerCount),
+    String(summary.mapping_cache),
+    String(fills),
+    String(FREE_MONTHLY_FILL_LIMIT),
+    String(savedMinutes)
+  ]);
+}
+
+function countLedgerEntries(profile = {}) {
+  const paths = [
+    "person.name.last",
+    "person.name.first",
+    "person.name.last_kana",
+    "person.name.first_kana",
+    "person.email.primary",
+    "person.phone.mobile",
+    "person.phone.mobile_hyphen",
+    "person.address.postal_code",
+    "person.address.prefecture",
+    "person.address.city",
+    "person.address.line1",
+    "person.address.line2",
+    "company.name",
+    "company.department",
+    "company.title"
+  ];
+  const baseCount = paths.filter((path) => Boolean(readPath(profile, path))).length;
+  return baseCount + getCustomProfileEntries(profile).filter((entry) => entry.value).length;
+}
+
+function estimateSavedMinutes() {
+  const monthKey = getCurrentMonthKey(new Date());
+  const fieldsFilled = usage[monthKey]?.fields_filled || 0;
+  return Math.max(0, Math.round(fieldsFilled * 8 / 60));
 }
 
 function ensureLicenseKey() {
@@ -881,7 +955,7 @@ function renderPlanStats({ fieldCount, fillableCount, askCount, noForm = false }
 }
 
 function setWorkflowStage(stage) {
-  const order = ["profile", "scan", "fill"];
+  const order = ["scan", "review", "fill"];
   const activeIndex = stage === "done" ? order.length : Math.max(0, order.indexOf(stage));
   for (const step of document.querySelectorAll(".workflow-step")) {
     const index = order.indexOf(step.dataset.step);
@@ -909,6 +983,16 @@ function renderMemory(memoryContext = null) {
   const summary = summarizeMemory(vaultState);
   const hits = memoryContext ? Object.keys(memoryContext.field_mappings || {}).length : 0;
   memoryStatus.textContent = t("memorySummary", [String(summary.profiles), String(summary.mapping_cache), String(hits)]);
+  renderGrowthBar();
+}
+
+function renderPayloadPreview() {
+  if (!previewPayload || !payloadPreview || !payloadPreviewJson) return;
+  previewPayload.disabled = !currentAiPayload;
+  payloadPreviewJson.textContent = currentAiPayload
+    ? JSON.stringify(currentAiPayload, null, 2)
+    : "{}";
+  if (!currentAiPayload) payloadPreview.hidden = true;
 }
 
 async function inferSchemaWithFallback({ fields, memoryContext, provider }) {
@@ -936,6 +1020,13 @@ function localizeStaticText() {
     const value = t(node.dataset.i18nPlaceholder);
     if (value) node.setAttribute("placeholder", value);
   }
+  for (const node of document.querySelectorAll("[data-i18n-title]")) {
+    const value = t(node.dataset.i18nTitle);
+    if (value) {
+      node.setAttribute("title", value);
+      node.setAttribute("aria-label", value);
+    }
+  }
 }
 
 function semanticLabel(key = "") {
@@ -945,4 +1036,16 @@ function semanticLabel(key = "") {
 
 function t(key, substitutions = []) {
   return chrome.i18n?.getMessage?.(key, substitutions) || "";
+}
+
+function maskPreviewValue(value = "") {
+  const text = String(value || "");
+  if (!text) return "";
+  if (text.includes("@")) {
+    const [name, domain] = text.split("@");
+    return `${name.slice(0, 1)}***@${domain || "***"}`;
+  }
+  const digits = text.replace(/\D/g, "");
+  if (digits.length >= 8) return text.replace(/\d(?=\d{2})/g, "*");
+  return text;
 }

@@ -75,7 +75,7 @@ const localeDefinitions = {
     source: "es",
     overrides: {
       extDescription: "Autorrelleno multilingüe de formularios con bóveda de perfil local y confirmación del usuario.",
-      upgradeCopy: "Free está limitado a 5 autocompletados al mes. Upgrade desbloquea autocompletados ilimitados, varios perfiles y asignaciones de sitios aprendidas."
+      upgradeCopy: "Free está limitado a 20 autocompletados al mes. Upgrade desbloquea autocompletados ilimitados, varios perfiles y asignaciones de sitios aprendidas."
     }
   },
   it: {
@@ -98,7 +98,7 @@ const localeDefinitions = {
       freeUsageLoading: "Uso Free: caricamento",
       licenseKey: "Chiave licenza",
       check: "Controlla",
-      upgradeCopy: "Free è limitato a 5 compilazioni al mese. Upgrade sblocca compilazioni illimitate, più profili e mapping dei siti appresi.",
+      upgradeCopy: "Free è limitato a 20 compilazioni al mese. Upgrade sblocca compilazioni illimitate, più profili e mapping dei siti appresi.",
       footnote: "Nessun clic di invio. I valori personali restano locali.",
       profileSaved: "Profilo salvato nel Vault locale.",
       freeLimitReached: "Limite mensile Free raggiunto. Fai upgrade per continuare.",
@@ -165,7 +165,7 @@ const localeDefinitions = {
       freeUsageLoading: "Free-gebruik: laden",
       licenseKey: "Licentiesleutel",
       check: "Controleren",
-      upgradeCopy: "Free is beperkt tot 5 invullingen per maand. Upgrade ontgrendelt onbeperkt invullen, meerdere profielen en geleerde site-mappings.",
+      upgradeCopy: "Free is beperkt tot 20 invullingen per maand. Upgrade ontgrendelt onbeperkt invullen, meerdere profielen en geleerde site-mappings.",
       footnote: "Geen verzendklik. Persoonlijke waarden blijven lokaal.",
       profileSaved: "Profiel opgeslagen in lokale Vault.",
       freeLimitReached: "Maandlimiet van Free bereikt. Upgrade om verder te gaan.",
@@ -232,7 +232,7 @@ const localeDefinitions = {
       freeUsageLoading: "Użycie Free: ładowanie",
       licenseKey: "Klucz licencji",
       check: "Sprawdź",
-      upgradeCopy: "Free jest ograniczony do 5 wypełnień miesięcznie. Upgrade odblokowuje nielimitowane wypełnienia, wiele profili i zapamiętane mapowania stron.",
+      upgradeCopy: "Free jest ograniczony do 20 wypełnień miesięcznie. Upgrade odblokowuje nielimitowane wypełnienia, wiele profili i zapamiętane mapowania stron.",
       footnote: "Bez klikania wyślij. Dane osobowe zostają lokalnie.",
       profileSaved: "Profil zapisany w lokalnym Vault.",
       freeLimitReached: "Osiągnięto miesięczny limit Free. Ulepsz plan, aby kontynuować.",
@@ -366,7 +366,7 @@ const localeDefinitions = {
       freeUsageLoading: "Free kullanımı: yükleniyor",
       licenseKey: "Lisans anahtarı",
       check: "Kontrol et",
-      upgradeCopy: "Free ayda 5 doldurma ile sınırlıdır. Yükseltme sınırsız doldurma, birden çok profil ve öğrenilen site eşleştirmelerini açar.",
+      upgradeCopy: "Free ayda 20 doldurma ile sınırlıdır. Yükseltme sınırsız doldurma, birden çok profil ve öğrenilen site eşleştirmelerini açar.",
       footnote: "Gönder düğmesine tıklanmaz. Kişisel değerler yerelde kalır.",
       profileSaved: "Profil yerel Vault'a kaydedildi.",
       freeLimitReached: "Free aylık sınırına ulaşıldı. Devam etmek için yükseltin.",
@@ -500,7 +500,7 @@ const localeDefinitions = {
       freeUsageLoading: "Free उपयोग: लोड हो रहा है",
       licenseKey: "लाइसेंस कुंजी",
       check: "जांचें",
-      upgradeCopy: "Free में हर महीने 5 ऑटोफिल की सीमा है. Upgrade से असीमित ऑटोफिल, कई प्रोफाइल और सीखी हुई साइट मैपिंग मिलती है.",
+      upgradeCopy: "Free में हर महीने 20 ऑटोफिल की सीमा है. Upgrade से असीमित ऑटोफिल, कई प्रोफाइल और सीखी हुई साइट मैपिंग मिलती है.",
       footnote: "सबमिट क्लिक नहीं. निजी मान स्थानीय रहते हैं.",
       profileSaved: "प्रोफाइल स्थानीय Vault में सहेजा गया.",
       freeLimitReached: "Free मासिक सीमा पूरी हो गई. जारी रखने के लिए अपग्रेड करें.",
@@ -701,7 +701,7 @@ const localeDefinitions = {
       freeUsageLoading: "Mức dùng Free: đang tải",
       licenseKey: "Khóa giấy phép",
       check: "Kiểm tra",
-      upgradeCopy: "Free giới hạn 5 lần điền mỗi tháng. Nâng cấp để mở khóa điền không giới hạn, nhiều hồ sơ và mapping trang đã học.",
+      upgradeCopy: "Free giới hạn 20 lần điền mỗi tháng. Nâng cấp để mở khóa điền không giới hạn, nhiều hồ sơ và mapping trang đã học.",
       footnote: "Không bấm gửi. Giá trị cá nhân ở lại cục bộ.",
       profileSaved: "Đã lưu hồ sơ vào Vault cục bộ.",
       freeLimitReached: "Đã đạt giới hạn Free hằng tháng. Nâng cấp để tiếp tục.",
@@ -820,16 +820,18 @@ const localeDefinitions = {
 for (const [locale, definition] of Object.entries(localeDefinitions)) {
   const source = definition.source ? await readMessages(definition.source) : null;
   const rawMessages = definition.messages || {};
+  const baseMessages = Object.fromEntries(Object.entries(base).map(([key, value]) => [key, value.message]));
   const sourceMessages = source
     ? Object.fromEntries(Object.entries(source).map(([key, value]) => [key, value.message]))
     : {};
   const messages = {
+    ...baseMessages,
     ...sourceMessages,
     ...rawMessages,
     ...(globalSemanticAdditions[locale] || {}),
     ...(definition.overrides || {})
   };
-  if (!source) assertComplete(locale, messages);
+  assertComplete(locale, messages);
   await writeMessages(locale, messages);
 }
 

@@ -51,12 +51,12 @@ Dashboardへ貼る最終値は `docs/14_chrome_web_store_submission_packet.md` �
 - `store-assets/screenshot-main-1280x800.png`
 - `store-assets/screenshot-popup-1280x800.png`
 - `store-assets/screenshot-pricing-1280x800.png`
-- `dist/ai-form-autofill-0.1.1.zip`
+- `dist/ai-form-autofill-0.1.2.zip`
 - `site/privacy.html`
 - `site/terms.html`
 - `docs/13_production_launch_runbook.md`
 - `docs/14_chrome_web_store_submission_packet.md`
-- `extension/_locales/*/messages.json` 21 locale分 / 152 message keys
+- `extension/_locales/*/messages.json` 21 locale分 / 204 message keys
   - `en`, `en_GB`, `ja`, `es`, `es_419`, `fr`, `de`, `it`, `nl`, `pl`, `pt_BR`, `ru`, `tr`, `ar`, `hi`, `id`, `th`, `vi`, `ko`, `zh_CN`, `zh_TW`
 
 再生成:
@@ -73,6 +73,8 @@ Chrome Web Storeは2026-06-02 08:36 JST実測で公開済み。公開URLは `htt
 
 2026-06-02 11:48 JSTに、Free月20回を再固定したローカル最新ZIP `dist/ai-form-autofill-0.1.1.zip` / `105172 bytes` を再生成し、`npm test`、`npm run assets:store`、`npm run package:extension`、`npm run release:check` を通過した。11:52 JSTに実ブラウザでCWS Package画面を確認したところ、審査待ち中は `新しいパッケージをアップロード` ボタンがdisabledで、Package差し替えは不可。審査通過後、必要なら `0.1.2` で再提出する。
 
+2026-06-02 13:49 JSTに専門UI/UXレビューのP0実装を入れた次回候補 `dist/ai-form-autofill-0.1.2.zip` / `136431 bytes` を生成した。popupは `検出 -> 確認 -> 入力`、Trustバッジ、送信しない約束、AI送信payload preview、育成バー、Vault Manager導線を持つ。full-page Vault ManagerはDashboard/Ledger/Profiles/Capture Inbox/Sites/Plan/Security/Languageを持つ。`npm test`、`npm run test:extension`、`npm run assets:store`、`npm run package:extension`、`npm run release:check` は通過済み。CWSは0.1.1審査待ち中のため、0.1.2は未アップロードの次回提出候補。
+
 ## 提出前の停止条件
 
 - APIキーが拡張内にある
@@ -87,4 +89,5 @@ Chrome Web Storeは2026-06-02 08:36 JST実測で公開済み。公開URLは `htt
 
 - Chrome Web Storeは公開済み
 - `0.1.1` 更新審査の差し戻し対応、または審査通過後の公開版読み戻し
+- 0.1.1反映後、必要なら0.1.2 Vault Manager/Trust UX版を再提出
 - Stripeの実購入/入金確認

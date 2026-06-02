@@ -192,6 +192,18 @@ try {
   await popup.locator("#checkLicense").click();
   await popup.waitForFunction(() => document.querySelector("#usageStatus")?.textContent?.includes("PLUS"));
   await popup.screenshot({ path: path.join(evidenceDir, "real-extension-popup-license.png"), fullPage: true });
+  const manager = await context.newPage();
+  await manager.goto(`chrome-extension://${extensionId}/manager.html`);
+  await manager.waitForSelector("#metricLedger");
+  assert.equal(await manager.locator(".brand h1").textContent(), "FormPilot Manager");
+  assert.equal(await manager.locator("[data-view-panel='dashboard']").isVisible(), true);
+  assert.match(await manager.locator("#metricUsage").textContent(), /0|20|PLUS/i);
+  await manager.locator("[data-view='ledger']").click();
+  assert.equal(await manager.locator("[data-view-panel='ledger']").isVisible(), true);
+  await manager.locator("[data-view='plan']").click();
+  assert.match(await manager.locator("#planSummaryManager").textContent(), /Plus|PLUS|Free|20/i);
+  await manager.locator("[data-view='dashboard']").click();
+  await manager.screenshot({ path: path.join(evidenceDir, "real-extension-manager-dashboard.png"), fullPage: true });
   await signupPage.screenshot({ path: path.join(evidenceDir, "real-extension-filled-form.png"), fullPage: true });
 
   const result = {
@@ -204,6 +216,7 @@ try {
       "site/assets/real-extension-popup-profile.png",
       "site/assets/real-extension-popup-ledger.png",
       "site/assets/real-extension-popup-license.png",
+      "site/assets/real-extension-manager-dashboard.png",
       "site/assets/real-extension-filled-form.png"
     ]
   };

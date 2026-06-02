@@ -454,5 +454,161 @@
   },
   "postalLookupFailed": {
     "message": "住所検索に失敗しました。手入力してください"
+  },
+  "openManager": {
+    "message": "Managerを開く"
+  },
+  "trustEncrypted": {
+    "message": "この端末で暗号化中"
+  },
+  "trustNoValues": {
+    "message": "AIに値を送りません"
+  },
+  "submitPromise": {
+    "message": "送信ボタンは押しません。"
+  },
+  "previewAiPayload": {
+    "message": "AI送信内容"
+  },
+  "payloadPreviewTitle": {
+    "message": "AIに送る内容"
+  },
+  "payloadPreviewSafe": {
+    "message": "登録情報の値は含まれていません。"
+  },
+  "stepDetect": {
+    "message": "検出"
+  },
+  "stepReview": {
+    "message": "確認"
+  },
+  "growthBar": {
+    "message": "台帳 $1 / 学習 $2 / 今月 $3/$4 / 節約 $5分"
+  },
+  "freeLimitReachedGrowth": {
+    "message": "今月の無料枠を使い切りました。台帳は$1件、今月の節約は約$2分です。続けるにはアップグレードしてください。"
+  },
+  "savedMinutes": {
+    "message": "$1分"
+  },
+  "managerEyebrow": {
+    "message": "登録情報OS"
+  },
+  "managerTitle": {
+    "message": "FormPilot Manager"
+  },
+  "managerDashboard": {
+    "message": "Dashboard"
+  },
+  "managerLedger": {
+    "message": "Ledger"
+  },
+  "managerProfiles": {
+    "message": "Profiles"
+  },
+  "managerInbox": {
+    "message": "Capture Inbox"
+  },
+  "managerSites": {
+    "message": "Sites"
+  },
+  "managerPlan": {
+    "message": "Plan"
+  },
+  "managerSecurity": {
+    "message": "Security"
+  },
+  "managerLanguage": {
+    "message": "Language"
+  },
+  "managerMetricLedger": {
+    "message": "台帳項目"
+  },
+  "managerMetricSites": {
+    "message": "学習サイト"
+  },
+  "managerMetricUsage": {
+    "message": "今月"
+  },
+  "managerMetricSaved": {
+    "message": "推定節約"
+  },
+  "managerNextActions": {
+    "message": "次にやること"
+  },
+  "managerPrivacyStatus": {
+    "message": "Privacy状態"
+  },
+  "managerSearchLedger": {
+    "message": "台帳を検索"
+  },
+  "managerSource": {
+    "message": "ソース"
+  },
+  "managerSourceBuiltIn": {
+    "message": "基本情報"
+  },
+  "managerSourceLedger": {
+    "message": "台帳"
+  },
+  "managerLedgerSaved": {
+    "message": "台帳$1件を保存しました。"
+  },
+  "managerActionLedgerTitle": {
+    "message": "台帳を育てる"
+  },
+  "managerActionLedgerBody": {
+    "message": "登録情報は$1件です。会員ID、紹介コード、部署など繰り返し使う項目を追加できます。"
+  },
+  "managerActionInboxTitle": {
+    "message": "Capture Inboxを片付ける"
+  },
+  "managerActionInboxBody": {
+    "message": "$1件の候補があります。"
+  },
+  "managerActionTrustTitle": {
+    "message": "Trust確認"
+  },
+  "managerActionTrustBody": {
+    "message": "AIへ送るのはフォーム構造だけです。登録情報の値はこの端末で暗号化されます。"
+  },
+  "managerInboxZero": {
+    "message": "Inboxは空です"
+  },
+  "managerInboxZeroBody": {
+    "message": "popupからの未知項目キャプチャを拡張すると、ここに候補が届きます。"
+  },
+  "managerSitesEmpty": {
+    "message": "まだサイト記憶はありません"
+  },
+  "managerSitesEmptyBody": {
+    "message": "入力成功や学習後に、サイトごとの記憶がここに表示されます。"
+  },
+  "managerSiteSummary": {
+    "message": "$1項目を学習 / 信頼度$2%"
+  },
+  "managerPlanFree": {
+    "message": "Free: 月20回、基本プロフィール1つ。Plusで無制限入力、複数プロフィール、Ledger本格管理を解放します。"
+  },
+  "managerPlanPaid": {
+    "message": "$1が有効です。無制限入力とサイト別学習を使えます。"
+  },
+  "managerSecurityCopy": {
+    "message": "登録情報の値はローカルで暗号化されています。Passkeyと時間ロックは次のセキュリティ実装です。"
+  },
+  "managerLockPlanned": {
+    "message": "15分自動ロックは次のセキュリティリリースで実装します。"
+  },
+  "managerLanguageCopy": {
+    "message": "拡張UIの言語と、フォームページの言語を別々に取得します。"
+  },
+  "managerProfileActive": {
+    "message": "現在のプロフィール"
+  },
+  "managerProfilePlus": {
+    "message": "複数プロフィール切替はPlusの導線です。"
+  },
+  "deleteEntry": {
+    "message": "削除"
   }
 }

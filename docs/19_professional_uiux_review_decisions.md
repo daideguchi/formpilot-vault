@@ -1,7 +1,7 @@
 # Professional UI/UX Review Decisions
 
 作成日: 2026-06-02
-状態: `accepted_design_direction`
+状態: `accepted_and_p0_implemented`
 対象: FormPilot Vault
 
 ## 結論
@@ -378,3 +378,35 @@ Vault言語: 日本語
 5. 貯まった軸の課金転換
 
 この順番を崩さない。
+
+## P0実装記録
+
+2026-06-02 13:49 JSTに、上記レビューのP0を実装済み。
+
+実装したこと:
+
+- popupを `検出 -> 確認 -> 入力` の3歩に再整理
+- headerにVault Manager導線を追加
+- `この端末で暗号化中` / `AIに値を送りません` を常時表示
+- 入力プランに `送信ボタンは押しません` を表示
+- AIに送る値なしpayload previewを追加
+- 下部に `台帳 / 学習 / 今月 / 節約` の育成バーを追加
+- Free上限到達文言を `台帳が育った` 軸へ変更
+- full-page Vault Managerを追加し、Dashboard / Ledger / Profiles / Capture Inbox / Sites / Plan / Security / Languageを分離
+- `capture_inbox` をVault正規化で保持するように変更
+- i18nを204キー x 21 localeへ拡張
+- `0.1.2` 次回提出候補ZIPを生成
+
+検証:
+
+- `npm test`
+- `npm run test:extension`
+- `npm run assets:store`
+- `npm run package:extension`
+- `npm run release:check`
+
+証跡:
+
+- `site/assets/real-extension-popup-loaded.png`
+- `site/assets/real-extension-manager-dashboard.png`
+- `dist/ai-form-autofill-0.1.2.zip`

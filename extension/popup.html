@@ -14,8 +14,16 @@
           <p class="eyebrow" data-i18n="eyebrow">Local profile / Schema-only AI</p>
           <h1 data-i18n="appTitle">FormPilot Vault</h1>
         </div>
-        <button class="help-button" type="button" title="No submit click. Values stay local.">?</button>
+        <div class="header-actions">
+          <button id="openManager" class="icon-button" type="button" data-i18n-title="openManager" aria-label="Open Manager">↗</button>
+          <button class="help-button" type="button" title="No submit click. Values stay local.">?</button>
+        </div>
       </header>
+
+      <section class="trust-strip" aria-label="Trust status">
+        <span data-i18n="trustEncrypted">Encrypted on this device</span>
+        <span data-i18n="trustNoValues">AI never sees your values</span>
+      </section>
 
       <section class="panel action-panel">
         <div class="panel-heading">
@@ -23,9 +31,20 @@
           <span class="status-pill" id="providerStatus">checking</span>
         </div>
         <div id="planSummary" class="muted" data-i18n="openFormPrompt">Open a form page and click Scan Form.</div>
+        <div class="plan-trust-note">
+          <span data-i18n="submitPromise">Submit button will not be clicked.</span>
+          <button id="previewPayload" type="button" class="link-button" disabled data-i18n="previewAiPayload">Preview AI payload</button>
+        </div>
+        <div id="payloadPreview" class="payload-preview" hidden>
+          <div class="payload-preview-heading">
+            <strong data-i18n="payloadPreviewTitle">AI payload preview</strong>
+            <span data-i18n="payloadPreviewSafe">No saved values included.</span>
+          </div>
+          <pre id="payloadPreviewJson">{}</pre>
+        </div>
         <div class="workflow-strip" id="workflowStrip" aria-label="Workflow">
-          <span class="workflow-step is-done" data-step="profile"><span class="step-number">1</span><span data-i18n="stepSavedInfo">Saved info</span></span>
-          <span class="workflow-step is-active" data-step="scan"><span class="step-number">2</span><span data-i18n="stepCheckForm">Check form</span></span>
+          <span class="workflow-step is-active" data-step="scan"><span class="step-number">1</span><span data-i18n="stepDetect">Detect</span></span>
+          <span class="workflow-step" data-step="review"><span class="step-number">2</span><span data-i18n="stepReview">Review</span></span>
           <span class="workflow-step" data-step="fill"><span class="step-number">3</span><span data-i18n="stepFill">Fill</span></span>
         </div>
         <div id="planStats" class="plan-stats" hidden></div>
@@ -41,7 +60,10 @@
         <div id="settingsContent" class="settings-content" hidden>
           <div class="panel-heading">
             <h2 data-i18n="settingsTitle">Saved info settings</h2>
-            <button id="loadSample" type="button" data-i18n="sample">Sample</button>
+            <div class="panel-actions">
+              <button id="openManagerInline" type="button" data-i18n="openManager">Open Manager</button>
+              <button id="loadSample" type="button" data-i18n="sample">Sample</button>
+            </div>
           </div>
           <div id="memoryStatus" class="memory-status" data-i18n="memoryLoading">Vault memory: loading</div>
           <div class="settings-tabs" role="tablist" aria-label="Saved information sections">
@@ -125,8 +147,11 @@
         </div>
       </section>
 
-      <footer class="footnote" data-i18n="footnote">
-        No submit click. Personal values stay local.
+      <footer class="footer-shell">
+        <div id="growthBar" class="growth-bar" aria-live="polite"></div>
+        <div class="footnote" data-i18n="footnote">
+          No submit click. Personal values stay local.
+        </div>
       </footer>
     </main>
     <script type="module" src="popup.js"></script>

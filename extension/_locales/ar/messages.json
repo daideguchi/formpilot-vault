@@ -54,7 +54,7 @@
     "message": "تحقق"
   },
   "upgradeCopy": {
-    "message": "خطة Free محدودة إلى 20 تعبئات شهريا. الترقية تفتح تعبئة غير محدودة وملفات متعددة وتعيينات مواقع متعلمة."
+    "message": "خطة Free محدودة إلى 20 تعبئة شهريا. الترقية تفتح تعبئة غير محدودة وملفات متعددة وتعيينات مواقع متعلمة."
   },
   "footnote": {
     "message": "لا يتم الضغط على زر الإرسال. تبقى القيم الشخصية محلية."
@@ -263,11 +263,17 @@
   "profileCustom": {
     "message": "Saved info ledger"
   },
+  "customLedgerHint": {
+    "message": "Use this like a personal dictionary. Add IDs, spreadsheet terms, internal codes, and alternate labels so unusual forms can still match."
+  },
   "customKey": {
     "message": "Name"
   },
   "customValue": {
     "message": "Value to fill"
+  },
+  "customAliases": {
+    "message": "Aliases"
   },
   "addCustomField": {
     "message": "Add row"
@@ -278,17 +284,11 @@
   "customValuePlaceholder": {
     "message": "e.g. MEMBER-001 or Approved"
   },
-  "removeCustomField": {
-    "message": "Remove row"
-  },
-  "customLedgerHint": {
-    "message": "Use this like a personal dictionary. Add IDs, spreadsheet terms, internal codes, and alternate labels so unusual forms can still match."
-  },
-  "customAliases": {
-    "message": "Aliases"
-  },
   "customAliasPlaceholder": {
     "message": "e.g. Customer number, Member number"
+  },
+  "removeCustomField": {
+    "message": "Remove row"
   },
   "detectedLedgerTitle": {
     "message": "Add detected field to ledger"
@@ -454,5 +454,161 @@
   },
   "postalLookupFailed": {
     "message": "Address lookup failed. Enter the address manually."
+  },
+  "openManager": {
+    "message": "Open Manager"
+  },
+  "trustEncrypted": {
+    "message": "Encrypted on this device"
+  },
+  "trustNoValues": {
+    "message": "AI never sees your values"
+  },
+  "submitPromise": {
+    "message": "Submit button will not be clicked."
+  },
+  "previewAiPayload": {
+    "message": "Preview AI payload"
+  },
+  "payloadPreviewTitle": {
+    "message": "AI payload preview"
+  },
+  "payloadPreviewSafe": {
+    "message": "No saved values included."
+  },
+  "stepDetect": {
+    "message": "Detect"
+  },
+  "stepReview": {
+    "message": "Review"
+  },
+  "growthBar": {
+    "message": "Ledger $1 / Sites $2 / This month $3/$4 / Saved $5 min"
+  },
+  "freeLimitReachedGrowth": {
+    "message": "Free quota reached. Your ledger has $1 entries and saved about $2 minutes this month. Upgrade to keep using it."
+  },
+  "savedMinutes": {
+    "message": "$1 min"
+  },
+  "managerEyebrow": {
+    "message": "Saved info OS"
+  },
+  "managerTitle": {
+    "message": "FormPilot Manager"
+  },
+  "managerDashboard": {
+    "message": "Dashboard"
+  },
+  "managerLedger": {
+    "message": "Ledger"
+  },
+  "managerProfiles": {
+    "message": "Profiles"
+  },
+  "managerInbox": {
+    "message": "Capture Inbox"
+  },
+  "managerSites": {
+    "message": "Sites"
+  },
+  "managerPlan": {
+    "message": "Plan"
+  },
+  "managerSecurity": {
+    "message": "Security"
+  },
+  "managerLanguage": {
+    "message": "Language"
+  },
+  "managerMetricLedger": {
+    "message": "Ledger entries"
+  },
+  "managerMetricSites": {
+    "message": "Learned sites"
+  },
+  "managerMetricUsage": {
+    "message": "This month"
+  },
+  "managerMetricSaved": {
+    "message": "Estimated saved"
+  },
+  "managerNextActions": {
+    "message": "Next actions"
+  },
+  "managerPrivacyStatus": {
+    "message": "Privacy status"
+  },
+  "managerSearchLedger": {
+    "message": "Search ledger"
+  },
+  "managerSource": {
+    "message": "Source"
+  },
+  "managerSourceBuiltIn": {
+    "message": "Built-in"
+  },
+  "managerSourceLedger": {
+    "message": "Ledger"
+  },
+  "managerLedgerSaved": {
+    "message": "Saved $1 ledger items."
+  },
+  "managerActionLedgerTitle": {
+    "message": "Grow your ledger"
+  },
+  "managerActionLedgerBody": {
+    "message": "You have $1 saved entries. Add IDs, referral codes, departments, and other repeated fields here."
+  },
+  "managerActionInboxTitle": {
+    "message": "Clear Capture Inbox"
+  },
+  "managerActionInboxBody": {
+    "message": "$1 observations need triage."
+  },
+  "managerActionTrustTitle": {
+    "message": "Trust check"
+  },
+  "managerActionTrustBody": {
+    "message": "AI receives form structure only. Saved values stay encrypted on this device."
+  },
+  "managerInboxZero": {
+    "message": "Inbox zero"
+  },
+  "managerInboxZeroBody": {
+    "message": "New field observations will appear here after popup capture is expanded."
+  },
+  "managerSitesEmpty": {
+    "message": "No site memory yet"
+  },
+  "managerSitesEmptyBody": {
+    "message": "Sites will appear after successful fills or manual learning."
+  },
+  "managerSiteSummary": {
+    "message": "$1 learned fields / $2% confidence"
+  },
+  "managerPlanFree": {
+    "message": "Free: 20 fills per month and one basic profile. Plus unlocks unlimited fills, multiple profiles, and full ledger management."
+  },
+  "managerPlanPaid": {
+    "message": "$1 is active. Unlimited filling and learned site mappings are available."
+  },
+  "managerSecurityCopy": {
+    "message": "Profile values are encrypted locally. Passkey and timed lock are the next security milestone."
+  },
+  "managerLockPlanned": {
+    "message": "15-minute auto-lock is queued for the next security release."
+  },
+  "managerLanguageCopy": {
+    "message": "The extension uses your browser language and captures the form page language separately."
+  },
+  "managerProfileActive": {
+    "message": "Active profile"
+  },
+  "managerProfilePlus": {
+    "message": "Multiple profile switching is a Plus workflow."
+  },
+  "deleteEntry": {
+    "message": "Delete entry"
   }
 }

@@ -57,11 +57,17 @@ button.primary {
 
 .app-header {
   display: grid;
-  grid-template-columns: 42px minmax(0, 1fr) 30px;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
   align-items: center;
   gap: 10px;
   padding: 16px 18px;
   border-bottom: 1px solid #d8dee4;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .app-icon {
@@ -91,6 +97,33 @@ button.primary {
   font-size: 17px;
 }
 
+.icon-button {
+  width: 30px;
+  min-height: 30px;
+  padding: 0;
+  color: #0f6e63;
+  font-size: 15px;
+}
+
+.trust-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  border-bottom: 1px solid #d8dee4;
+  background: #d8dee4;
+}
+
+.trust-strip span {
+  min-width: 0;
+  padding: 8px 10px;
+  background: #e8f5f2;
+  color: #0f6e63;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1.25;
+  text-align: center;
+}
+
 .panel {
   padding: 14px 18px;
   border-bottom: 1px solid #d8dee4;
@@ -109,6 +142,18 @@ button.primary {
   margin: 0;
   font-size: 14px;
   line-height: 1.2;
+}
+
+.panel-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.panel-actions button {
+  min-height: 30px;
+  padding: 0 8px;
+  font-size: 11px;
 }
 
 .status-pill {
@@ -130,6 +175,66 @@ button.primary {
   color: #57606a;
   font-size: 12px;
   line-height: 1.45;
+}
+
+.plan-trust-note {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  margin-top: 10px;
+  padding: 8px 9px;
+  border: 1px solid #d8eee9;
+  border-radius: 6px;
+  background: #f0faf7;
+  color: #0f6e63;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.link-button {
+  min-height: 28px;
+  padding: 0 8px;
+  border-color: #9fd5ca;
+  color: #0f6e63;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.payload-preview {
+  margin-top: 8px;
+  border: 1px solid #d8dee4;
+  border-radius: 6px;
+  background: #f6f8fa;
+  overflow: hidden;
+}
+
+.payload-preview-heading {
+  display: grid;
+  gap: 2px;
+  padding: 8px 9px;
+  border-bottom: 1px solid #d8dee4;
+  color: #57606a;
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.payload-preview-heading strong {
+  color: #24292f;
+}
+
+.payload-preview pre {
+  max-height: 180px;
+  margin: 0;
+  padding: 9px;
+  overflow: auto;
+  color: #24292f;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 10px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 .workflow-strip {
@@ -664,8 +769,22 @@ input::placeholder {
   line-height: 1.4;
 }
 
+.footer-shell {
+  border-top: 1px solid #d8dee4;
+  background: #ffffff;
+}
+
+.growth-bar {
+  padding: 9px 18px 0;
+  color: #0f6e63;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1.35;
+  text-align: center;
+}
+
 .footnote {
-  padding: 11px 18px 13px;
+  padding: 8px 18px 13px;
   color: #6e7781;
   font-size: 11px;
   text-align: center;

@@ -17,7 +17,8 @@ export function createVaultState({ profile = {}, now = new Date() } = {}) {
     ],
     semantic_memory: [],
     mapping_cache: [],
-    correction_events: []
+    correction_events: [],
+    capture_inbox: []
   };
 }
 
@@ -30,7 +31,8 @@ export function normalizeVaultState(raw, { profile = {}, now = new Date() } = {}
     vault_profiles: Array.isArray(raw.vault_profiles) ? clone(raw.vault_profiles) : [],
     semantic_memory: Array.isArray(raw.semantic_memory) ? clone(raw.semantic_memory) : [],
     mapping_cache: Array.isArray(raw.mapping_cache) ? clone(raw.mapping_cache) : [],
-    correction_events: Array.isArray(raw.correction_events) ? clone(raw.correction_events) : []
+    correction_events: Array.isArray(raw.correction_events) ? clone(raw.correction_events) : [],
+    capture_inbox: Array.isArray(raw.capture_inbox) ? clone(raw.capture_inbox) : []
   };
 
   if (state.vault_profiles.length === 0) {

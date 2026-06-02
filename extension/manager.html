@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FormPilot Vault Manager</title>
+    <link rel="stylesheet" href="manager.css">
+  </head>
+  <body>
+    <main class="manager-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <img src="icons/icon48.png" alt="">
+          <div>
+            <p data-i18n="managerEyebrow">Saved info OS</p>
+            <h1 data-i18n="managerTitle">FormPilot Manager</h1>
+          </div>
+        </div>
+        <nav class="nav" aria-label="Manager sections">
+          <button class="nav-item is-active" type="button" data-view="dashboard" data-i18n="managerDashboard">Dashboard</button>
+          <button class="nav-item" type="button" data-view="ledger" data-i18n="managerLedger">Ledger</button>
+          <button class="nav-item" type="button" data-view="profiles" data-i18n="managerProfiles">Profiles</button>
+          <button class="nav-item" type="button" data-view="inbox" data-i18n="managerInbox">Capture Inbox</button>
+          <button class="nav-item" type="button" data-view="sites" data-i18n="managerSites">Sites</button>
+          <button class="nav-item" type="button" data-view="plan" data-i18n="managerPlan">Plan</button>
+          <button class="nav-item" type="button" data-view="security" data-i18n="managerSecurity">Security</button>
+          <button class="nav-item" type="button" data-view="language" data-i18n="managerLanguage">Language</button>
+        </nav>
+      </aside>
+
+      <section class="content">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow" data-i18n="trustNoValues">AI never sees your values</p>
+            <h2 id="viewTitle" data-i18n="managerDashboard">Dashboard</h2>
+          </div>
+          <div class="topbar-actions">
+            <span id="planBadge" class="plan-badge">Free</span>
+            <button id="openPricing" type="button" data-i18n="upgrade">Upgrade</button>
+          </div>
+        </header>
+
+        <section class="view is-active" data-view-panel="dashboard">
+          <div class="metrics-grid">
+            <div class="metric"><span data-i18n="managerMetricLedger">Ledger entries</span><strong id="metricLedger">0</strong></div>
+            <div class="metric"><span data-i18n="managerMetricSites">Learned sites</span><strong id="metricSites">0</strong></div>
+            <div class="metric"><span data-i18n="managerMetricUsage">This month</span><strong id="metricUsage">0/20</strong></div>
+            <div class="metric"><span data-i18n="managerMetricSaved">Estimated saved</span><strong id="metricSaved">0 min</strong></div>
+          </div>
+          <div class="work-grid">
+            <section class="work-section">
+              <h3 data-i18n="managerNextActions">Next actions</h3>
+              <div id="nextActions" class="action-list"></div>
+            </section>
+            <section class="work-section">
+              <h3 data-i18n="managerPrivacyStatus">Privacy status</h3>
+              <ul class="status-list">
+                <li data-i18n="trustEncrypted">Encrypted on this device</li>
+                <li data-i18n="trustNoValues">AI never sees your values</li>
+                <li data-i18n="submitPromise">Submit button will not be clicked.</li>
+              </ul>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" data-view-panel="ledger">
+          <div class="toolbar">
+            <input id="ledgerFilter" type="search" data-i18n-placeholder="managerSearchLedger" placeholder="Search ledger">
+            <button id="addLedgerRow" type="button" data-i18n="addCustomField">Add item</button>
+            <button id="saveLedger" type="button" class="primary" data-i18n="save">Save info</button>
+          </div>
+          <div id="ledgerStatus" class="status-line" aria-live="polite"></div>
+          <div class="table-wrap">
+            <table class="ledger-table">
+              <thead>
+                <tr>
+                  <th data-i18n="customCategory">Category</th>
+                  <th data-i18n="customKey">Label</th>
+                  <th data-i18n="customValue">Value</th>
+                  <th data-i18n="customAliases">Aliases</th>
+                  <th data-i18n="managerSource">Source</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="ledgerRows"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="view" data-view-panel="profiles">
+          <div id="profilesList" class="profile-list"></div>
+        </section>
+
+        <section class="view" data-view-panel="inbox">
+          <div id="inboxList" class="inbox-list"></div>
+        </section>
+
+        <section class="view" data-view-panel="sites">
+          <div id="siteMemoryList" class="site-list"></div>
+        </section>
+
+        <section class="view" data-view-panel="plan">
+          <div class="plan-panel">
+            <h3 data-i18n="managerPlan">Plan</h3>
+            <p id="planSummaryManager"></p>
+            <button id="upgradeFromManager" type="button" class="primary" data-i18n="upgrade">Upgrade</button>
+          </div>
+        </section>
+
+        <section class="view" data-view-panel="security">
+          <div class="security-panel">
+            <h3 data-i18n="managerSecurity">Security</h3>
+            <p data-i18n="managerSecurityCopy">Profile values are encrypted locally. Passkey and timed lock are the next security milestone.</p>
+            <ul class="status-list">
+              <li data-i18n="trustEncrypted">Encrypted on this device</li>
+              <li data-i18n="payloadPreviewSafe">No saved values included.</li>
+              <li data-i18n="managerLockPlanned">15-minute auto-lock is queued for the next security release.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="view" data-view-panel="language">
+          <div class="language-panel">
+            <h3 data-i18n="managerLanguage">Language</h3>
+            <p data-i18n="managerLanguageCopy">The extension uses your browser language and captures the form page language separately.</p>
+          </div>
+        </section>
+      </section>
+    </main>
+    <script type="module" src="manager.js"></script>
+  </body>
+</html>

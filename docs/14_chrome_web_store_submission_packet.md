@@ -1,11 +1,11 @@
 # Chrome Web Store Submission Packet
 
 作成日: 2026-06-01
-状態: `published_update_package_ready`
+状態: `next_update_package_ready`
 
 ## 使うファイル
 
-- 拡張ZIP: `dist/ai-form-autofill-0.1.1.zip`
+- 拡張ZIP: `dist/ai-form-autofill-0.1.2.zip`
 - アイコン: `store-assets/icon-128.png`
 - 小プロモ画像: `store-assets/promo-small-440x280.png`
 - スクリーンショット:
@@ -169,7 +169,7 @@ Automatic publish after review is acceptable for MVP unless DD wants staged publ
 Chrome extension package localization:
 
 ```text
-The latest built ZIP includes default_locale: en and _locales for en, en_GB, ja, es, es_419, fr, de, it, nl, pl, pt_BR, ru, tr, ar, hi, id, th, vi, ko, zh_CN, and zh_TW. As of 2026-06-02 09:47 JST, the package has 152 localized message keys per locale, a clearer non-selectable 3-step popup flow, clearer "will autofill" status copy, tabbed saved info / ledger / plan settings, a user-friendly registration ledger used as a personal dictionary, ledger search, row categories, quick-add dictionary rows for customer IDs, spreadsheet terms, and internal IDs, aliases for custom matching, an in-scan action to add newly detected fields to the ledger with a highlighted saved row, blank initial values with examples as placeholders, split phone-number inputs, ZipCloud postal-code address lookup for Japanese addresses, a visible "Registered." save confirmation, Free 20 fills per month, and the rebuilt ZIP size is 105168 bytes.
+The latest local candidate ZIP includes default_locale: en and _locales for en, en_GB, ja, es, es_419, fr, de, it, nl, pl, pt_BR, ru, tr, ar, hi, id, th, vi, ko, zh_CN, and zh_TW. As of 2026-06-02 13:49 JST, the package has 204 localized message keys per locale, a focused Detect / Review / Fill popup flow, Trust badges, a no-submit promise, an AI payload preview that excludes saved values, a growth bar for ledger entries / learned sites / monthly usage / saved time, a full-page Vault Manager for Dashboard, Ledger, Profiles, Capture Inbox, Sites, Plan, Security, and Language, the existing registration ledger, ZipCloud address lookup, split phone-number inputs, blank initial values with examples as placeholders, Free 20 fills per month, and the rebuilt ZIP size is 136431 bytes. Chrome Web Store is still reviewing 0.1.1, so this 0.1.2 ZIP is the next update candidate and has not been uploaded yet.
 ```
 
 Recommended first Store Listing locales:
@@ -216,6 +216,7 @@ The extension uses only activeTab, so it reads and fills the current page only a
 - 多言語ZIP upload済み。2026-06-02 08:36 JSTの公開URL確認で `published: true`
 - 2026-06-02 09:47 JSTにUIUX改善/辞書登録強化/住所自動検索/電話番号3分割/空の初期値/Free月20回版ZIP `0.1.1` / `105168 bytes` をCWS Dashboardへuploadし、更新審査へ送信済み
 - Dashboard読み戻しは `ステータス: 審査待ち`、ドラフト `0.1.1`、公開済み `0.1.0`
+- 2026-06-02 13:49 JSTに0.1.2候補ZIP `136431 bytes` をローカル生成し、Vault Manager/Trust UX実装、204キー x 21 locale、実ブラウザE2E込みで検証済み。ただしCWSへは未アップロード。
 - `store-assets/screenshot-popup-1280x800.png` は辞書登録UI版へ更新済み
 - Store Listing保存済み。短い説明と詳細説明は「repeated name/address/email typing」「saved info」「Check this form」「Fill matching fields」に統一済み
 - Privacy保存済み
@@ -227,6 +228,7 @@ The extension uses only activeTab, so it reads and fills the current page only a
 ## 人間操作が必要な停止点
 
 - `0.1.1` 更新審査の通過後公開確認、または差し戻し対応
+- 0.1.1反映後、必要なら0.1.2 Vault Manager/Trust UX版を再提出
 - 実購入/入金確認
 
 ## 公式確認元
