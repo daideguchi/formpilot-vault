@@ -13,6 +13,9 @@
 - 英語トップ: `https://formpilot-vault-api.vercel.app/`
 - 日本語SEOページ: `https://formpilot-vault-api.vercel.app/ja`
 - フォーム入力SEO専用ページ: `https://formpilot-vault-api.vercel.app/form-input`
+- フォーム自動入力SEO専用ページ: `https://formpilot-vault-api.vercel.app/form-autofill`
+- 会員登録自動入力SEO専用ページ: `https://formpilot-vault-api.vercel.app/signup-autofill`
+- 問い合わせフォーム自動入力SEO専用ページ: `https://formpilot-vault-api.vercel.app/contact-form-autofill`
 - 公開ミラー: `https://daideguchi.github.io/formpilot-vault/form-input.html`
 - robots: `https://formpilot-vault-api.vercel.app/robots.txt`
 - sitemap: `https://formpilot-vault-api.vercel.app/sitemap.xml`
@@ -21,6 +24,7 @@
 
 - 英語/日本語の静的titleとmeta description
 - 日本語SEO専用ページ `/form-input`
+- 日本語ロングテールSEOページ `/form-autofill`, `/signup-autofill`, `/contact-form-autofill`
 - canonical URL
 - `hreflang="en"`, `hreflang="ja"`, `hreflang="x-default"`
 - Open Graph / Twitter card
@@ -44,6 +48,8 @@
 2026-06-02 10:27 JSTに公開repo `daideguchi/formpilot-vault` へも `/form-input.html` を同期。GitHub Pagesはcommit `51a452e Add form input SEO page` のdeploy成功後、`https://daideguchi.github.io/formpilot-vault/form-input.html` と `/sitemap.xml` がHTTP 200。`npm run novus:public` でPendo送信と横スクロールなしを確認済み。
 
 2026-06-02 10:33 JSTに、トップ/日本語ページのSEO本文から専用ページへの内部リンクを追加。Vercel本番は `form-input`、GitHub Pages公開ミラーは `form-input.html` へリンクする。Vercel deployment `dpl_GY7n8bUsLzMUn4hbFeJnPoNLTnXm`、公開repo commit `cce223c Link home pages to form input SEO page`。`npm run check:seo -- --live`、`npm run check:production`、`npm run novus:public` は通過。
+
+2026-06-02 11:05 JSTに、検索意図をさらに分けるため `/form-autofill`、`/signup-autofill`、`/contact-form-autofill` を追加。狙う検索意図は `フォーム自動入力`、`会員登録 自動入力`、`問い合わせフォーム 自動入力`、`資料請求フォーム 自動入力`。各ページにtitle/meta、canonical、hreflang、OG/Twitter、SoftwareApplication + FAQPage JSON-LD、Free月5回、暗号化Vault、AIに個人情報実値を送らない、送信しない安全性を入れた。`sitemap.xml` へ3URLを追加し、トップ/日本語/フォーム入力ページから内部リンクを追加。Vercel deployment `dpl_GBRpH16xHpyhWVFqWhjRaEinr11u` を本番aliasへ反映し、`npm run check:seo -- --live`、`npm run check:production`、`npm run check:launch -- --require-published` はブロッカー0で通過。公開repo commit `0c4be7d Add SEO keyword landing pages`、GitHub Pages pages-build-deployment run `26793869132` は成功。公開ミラーの `/form-autofill.html`、`/signup-autofill.html`、`/contact-form-autofill.html` はHTTP 200で、`npm run novus:public` はPendo requestと横スクロールなしを確認して通過。
 
 ## 重要キーワード
 

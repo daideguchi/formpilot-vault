@@ -145,7 +145,7 @@ npm run check:seo
 npm run check:seo -- --live
 ```
 
-`check:seo` は英語トップ、日本語 `/ja`、日本語SEO専用 `/form-input`、canonical、hreflang、meta description、SoftwareApplication/FAQPage構造化データ、`robots.txt`、`sitemap.xml`、フォーム入力/AI form autofill系の本文コピーを確認する。Google Search Consoleは2026-06-02 10:07 JSTに `https://formpilot-vault-api.vercel.app/` のURL prefix所有権確認済み。`/sitemap.xml` は送信済みだが、初回読み込みステータスは `取得できませんでした`。外部HTTPではGooglebot UAでも200/`application/xml` のため、後続でSearch Consoleの再取得結果を読み戻す。`/form-input` はURL検査で未登録、インデックス登録リクエストは日次割り当て超過のため明日以降に再実行する。
+`check:seo` は英語トップ、日本語 `/ja`、日本語SEO専用 `/form-input`、ロングテールSEO専用 `/form-autofill`、`/signup-autofill`、`/contact-form-autofill`、canonical、hreflang、meta description、SoftwareApplication/FAQPage構造化データ、`robots.txt`、`sitemap.xml`、フォーム入力/フォーム自動入力/会員登録 自動入力/問い合わせフォーム 自動入力/AI form autofill系の本文コピーを確認する。Google Search Consoleは2026-06-02 10:07 JSTに `https://formpilot-vault-api.vercel.app/` のURL prefix所有権確認済み。`/sitemap.xml` は送信済みだが、初回読み込みステータスは `取得できませんでした`。外部HTTPではGooglebot UAでも200/`application/xml` のため、後続でSearch Consoleの再取得結果を読み戻す。`/form-input` はURL検査で未登録、インデックス登録リクエストは日次割り当て超過のため明日以降に再実行する。2026-06-02 11:05 JSTに3つのロングテールSEOページを追加し、Vercel deployment `dpl_GBRpH16xHpyhWVFqWhjRaEinr11u`、公開repo commit `0c4be7d`、Pages run `26793869132`、`npm run check:seo -- --live` / `npm run check:production` / `npm run novus:public` 通過まで確認済み。
 
 ## Chrome Web Store提出
 

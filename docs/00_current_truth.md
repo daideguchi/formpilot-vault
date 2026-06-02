@@ -52,6 +52,9 @@ MVPは `Chrome拡張 + content script入力` を本線にします。Playwright�
 - 本番LP/API: `https://formpilot-vault-api.vercel.app/`
 - 日本語SEOページ: `https://formpilot-vault-api.vercel.app/ja`
 - フォーム入力SEO専用ページ: `https://formpilot-vault-api.vercel.app/form-input`
+- フォーム自動入力SEO専用ページ: `https://formpilot-vault-api.vercel.app/form-autofill`
+- 会員登録自動入力SEO専用ページ: `https://formpilot-vault-api.vercel.app/signup-autofill`
+- 問い合わせフォーム自動入力SEO専用ページ: `https://formpilot-vault-api.vercel.app/contact-form-autofill`
 - SEO sitemap: `https://formpilot-vault-api.vercel.app/sitemap.xml`
 - Stripe本番Checkoutブリッジ: `https://kurogane-edge-core-lp.vercel.app/api/formpilot/*`
 - Extension UI locales: `en`, `en_GB`, `ja`, `es`, `es_419`, `fr`, `de`, `it`, `nl`, `pl`, `pt_BR`, `ru`, `tr`, `ar`, `hi`, `id`, `th`, `vi`, `ko`, `zh_CN`, `zh_TW`
@@ -91,6 +94,8 @@ Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/
 2026-06-02 10:27 JSTに、公開repo `daideguchi/formpilot-vault` へ `/form-input.html` と `site/form-input.html` を同期しました。commitは `51a452e Add form input SEO page` です。GitHub Pages build/deploy run `26792599595` は成功し、`https://daideguchi.github.io/formpilot-vault/form-input.html` と `/sitemap.xml` はHTTP 200です。`npm run novus:public` は `/`、`/form-input.html`、`/demo.html` でPendo request、`pendo.initialize`、横スクロールなしを確認して通過しました。
 
 2026-06-02 10:33 JSTに、SEO内部リンクを追加しました。Vercel本番のトップ/日本語ページから `form-input` へ、GitHub Pages公開ミラーのトップ/日本語ページから `form-input.html` へ自然なテキストリンクを張っています。Vercel deploymentは `dpl_GY7n8bUsLzMUn4hbFeJnPoNLTnXm` です。公開repo commitは `cce223c Link home pages to form input SEO page`、GitHub Pages deploy runは `26792823545` です。`npm run check:seo -- --live`、`npm run check:production`、`npm run novus:public` はブロッカー0で通過しました。
+
+2026-06-02 11:05 JSTに、SEOロングテールページを追加しました。`https://formpilot-vault-api.vercel.app/form-autofill` は `フォーム自動入力`、`https://formpilot-vault-api.vercel.app/signup-autofill` は `会員登録 自動入力`、`https://formpilot-vault-api.vercel.app/contact-form-autofill` は `問い合わせフォーム 自動入力` / `資料請求フォーム 自動入力` を狙います。各ページはtitle/meta、canonical、hreflang、OG/Twitter、SoftwareApplication + FAQPage JSON-LD、Free月5回、暗号化Vault、AIに個人情報実値を送らない、送信しない安全性を含みます。`sitemap.xml` に3URLを追加し、トップ/日本語/フォーム入力ページから内部リンクを張りました。Vercel deploymentは `dpl_GBRpH16xHpyhWVFqWhjRaEinr11u` です。`npm run check:seo -- --live`、`npm run check:production`、`npm run check:launch -- --require-published` はブロッカー0で通過し、Googlebot UAで`sitemap.xml` はHTTP 200 / `application/xml` です。公開repo commitは `0c4be7d Add SEO keyword landing pages`、GitHub Pages deploy runは `26793869132` で成功し、`/form-autofill.html`、`/signup-autofill.html`、`/contact-form-autofill.html` はHTTP 200、`npm run novus:public` は全対象ページでPendo requestと横スクロールなしを確認して通過しました。
 
 2026-06-02 10:45 JSTに、課金成功後のライセンス導線を強化しました。`site/success.html` / `site/success.js` は、License keyを表示し、コピーし、`/api/entitlement/check` で有料権利のactive状態を即時確認し、反映待ちの場合は再確認できるようにしています。GitHub Pages公開ミラーからも本番Vercel APIへ届くよう、`pricing.js` と `success.js` は `github.io` 上では `https://formpilot-vault-api.vercel.app` をAPI baseにします。Vercel deploymentは `dpl_6G3NQHHE4BhuenCtkZqcXvMqqYF9` です。公開repo commitは `d83584b Harden paid license success flow`、GitHub Pages deploy runは `26793230495` です。`npm test`、`npm run test:checkout-site`、`npm run check:production`、`npm run check:seo -- --live`、`npm run novus:public` は通過済みです。`npm run novus:public` は `/success.html?license_key=afa_public_probe_success` でもPendo request、`pendo.initialize`、横スクロールなしを確認しています。
 
