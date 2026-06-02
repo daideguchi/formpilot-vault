@@ -4,7 +4,8 @@ const LICENSE_KEY_STORAGE = "afa_license_key";
 const LANGUAGE_STORAGE = "afa_site_language";
 
 const checkoutStatus = document.getElementById("checkoutStatus");
-let activeLanguage = "en";
+const hasLanguageControls = Boolean(document.querySelector("[data-lang-panel], [data-lang]"));
+let activeLanguage = normalizeLanguage(document.documentElement.lang || navigator.language || "en");
 
 for (const button of document.querySelectorAll(".checkout-button")) {
   button.addEventListener("click", () => startCheckout(button));
@@ -19,7 +20,9 @@ if (query.get("license_key")) {
   localStorage.setItem(LICENSE_KEY_STORAGE, query.get("license_key"));
 }
 
-setLanguage(resolveInitialLanguage());
+if (hasLanguageControls) {
+  setLanguage(resolveInitialLanguage());
+}
 
 async function startCheckout(button) {
   const plan = button.dataset.plan;
@@ -67,6 +70,11 @@ function setButtonsDisabled(disabled) {
 }
 
 function setLanguage(language) {
+  if (!hasLanguageControls) {
+    activeLanguage = normalizeLanguage(document.documentElement.lang || language);
+    return;
+  }
+
   activeLanguage = normalizeLanguage(language);
   localStorage.setItem(LANGUAGE_STORAGE, activeLanguage);
   document.documentElement.lang = activeLanguage;

@@ -120,22 +120,26 @@ async function checkPublicPages() {
   await checkPage("form_input_keyword_page", "/form-input", [
     "フォーム入力を自動化するChrome拡張",
     "フォーム入力を、毎回手で書かない。",
-    "Freeは月5回"
+    "Freeは月5回",
+    "Plusで始める"
   ]);
   await checkPage("form_autofill_keyword_page", "/form-autofill", [
     "フォーム自動入力のAI Chrome拡張",
     "フォーム自動入力を、信頼できる入力補助に。",
-    "Freeは月5回"
+    "Freeは月5回",
+    "Plusで始める"
   ]);
   await checkPage("signup_autofill_keyword_page", "/signup-autofill", [
     "会員登録を自動入力するChrome拡張",
     "会員登録フォームを、確認つきで短くする。",
-    "Freeは月5回"
+    "Freeは月5回",
+    "Plusで始める"
   ]);
   await checkPage("contact_form_autofill_keyword_page", "/contact-form-autofill", [
     "問い合わせフォームを自動入力するChrome拡張",
     "問い合わせフォームの入力を、毎回ゼロから書かない。",
-    "Freeは月5回"
+    "Freeは月5回",
+    "Plusで始める"
   ]);
   await checkPage("checkout_success_page", "/success.html", [
     "ライセンスを確認します",

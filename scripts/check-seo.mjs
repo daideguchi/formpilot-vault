@@ -72,7 +72,8 @@ checkPage("form_input_keyword_page", formInput, {
     "フォーム自動入力",
     "会員登録フォーム",
     "暗号化された端末内Vault",
-    "Freeは月5回"
+    "Freeは月5回",
+    "Plusで始める"
   ]
 });
 
@@ -91,7 +92,8 @@ checkPage("form_autofill_keyword_page", formAutofill, {
     "会員登録",
     "問い合わせ",
     "暗号化Vault",
-    "Freeは月5回"
+    "Freeは月5回",
+    "Plusで始める"
   ]
 });
 
@@ -110,7 +112,8 @@ checkPage("signup_autofill_keyword_page", signupAutofill, {
     "氏名",
     "フリガナ",
     "送信はユーザー確認",
-    "Freeは月5回"
+    "Freeは月5回",
+    "Plusで始める"
   ]
 });
 
@@ -129,7 +132,8 @@ checkPage("contact_form_autofill_keyword_page", contactFormAutofill, {
     "資料請求フォーム",
     "会社プロフィール",
     "Team課金",
-    "Freeは月5回"
+    "Freeは月5回",
+    "Plusで始める"
   ]
 });
 

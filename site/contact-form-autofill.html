@@ -167,6 +167,35 @@
         <h3>法人向けの課金余地はありますか？</h3>
         <p>あります。Freeは月5回に絞り、Plus/Pro/Teamでは無制限入力、会社プロフィール、複数プロフィール、共有テンプレート、サイト別Memoryを有料価値にします。</p>
       </section>
+      <section class="band compact" id="pricing">
+        <h2>仕事で使うならPro/Team</h2>
+        <div class="pricing-grid">
+          <article>
+            <h3>Free</h3>
+            <p class="price">0円</p>
+            <p>月5回、基本プロフィール1つ。まず問い合わせフォーム入力を試せます。</p>
+          </article>
+          <article class="paid-plan">
+            <h3>Plus</h3>
+            <p class="price">580円/月から</p>
+            <p>無制限入力、複数プロフィール、サイト別Memory。</p>
+            <button class="checkout-button" type="button" data-plan="plus">Plusで始める</button>
+          </article>
+          <article class="paid-plan">
+            <h3>Pro</h3>
+            <p class="price">1,480円/月から</p>
+            <p>会社プロフィール、住所複数、入力履歴。</p>
+            <button class="checkout-button" type="button" data-plan="pro">Proで始める</button>
+          </article>
+          <article class="paid-plan">
+            <h3>Team</h3>
+            <p class="price">1,500円/人/月から</p>
+            <p>共有テンプレート、チームプロフィール、監査ログ。</p>
+            <button class="checkout-button" type="button" data-plan="team">Teamで始める</button>
+          </article>
+        </div>
+        <p id="checkoutStatus" class="checkout-status" role="status"></p>
+      </section>
     </main>
     <footer class="site-footer">
       <a href="index.html">English</a>
@@ -175,5 +204,6 @@
       <a href="signup-autofill.html">会員登録 自動入力</a>
       <span>FormPilot Vault</span>
     </footer>
+    <script type="module" src="pricing.js"></script>
   </body>
 </html>

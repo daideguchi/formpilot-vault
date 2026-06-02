@@ -9,6 +9,13 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const sitePath = path.join(root, "site");
 
+const pricingSource = await fs.readFile(path.join(sitePath, "pricing.js"), "utf8");
+const successSource = await fs.readFile(path.join(sitePath, "success.js"), "utf8");
+assert.match(pricingSource, /formpilot-vault-api\.vercel\.app/);
+assert.match(successSource, /formpilot-vault-api\.vercel\.app/);
+assert.match(pricingSource, /github\.io/);
+assert.match(successSource, /github\.io/);
+
 const server = http.createServer(async (request, response) => {
   const url = new URL(request.url, "http://127.0.0.1");
   if (request.method === "POST" && url.pathname === "/api/stripe/checkout-session") {
@@ -87,6 +94,23 @@ try {
   assert.equal(await japaneseSeoPage.getByRole("button", { name: "Plusで始める" }).isVisible(), true);
   const japaneseSeoOverflow = await japaneseSeoPage.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
   assert.equal(japaneseSeoOverflow, false);
+
+  for (const path of [
+    "/form-input.html",
+    "/form-autofill.html",
+    "/signup-autofill.html",
+    "/contact-form-autofill.html"
+  ]) {
+    const seoCheckoutPage = await browser.newPage({ viewport: { width: 390, height: 844 } });
+    await seoCheckoutPage.goto(`${server.baseUrl}${path}`);
+    assert.equal(await seoCheckoutPage.locator("html").getAttribute("lang"), "ja");
+    assert.equal(await seoCheckoutPage.getByRole("button", { name: "Plusで始める" }).isVisible(), true);
+    await seoCheckoutPage.getByRole("button", { name: "Plusで始める" }).dispatchEvent("click");
+    await seoCheckoutPage.waitForURL(/success\.html/);
+    assert.match(await seoCheckoutPage.locator("#licenseKeyDisplay").inputValue(), /^afa_/);
+    await seoCheckoutPage.getByText("PLUSが有効です").waitFor();
+  }
+
   console.log(JSON.stringify({ checkout: "ok", url: page.url() }, null, 2));
 } finally {
   await browser.close();
