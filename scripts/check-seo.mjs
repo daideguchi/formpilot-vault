@@ -48,6 +48,9 @@ checkPage("japanese_home", japanese, {
     "Chrome拡張",
     "AI自動入力",
     "暗号化された端末内Vault"
+  ],
+  requiredAnyText: [
+    ["href=\"form-input\"", "href=\"form-input.html\""]
   ]
 });
 
@@ -97,6 +100,11 @@ function checkPage(name, html, expected) {
   if (html.includes('name="keywords"')) missing.push("meta_keywords_should_not_be_used");
   for (const text of expected.requiredText) {
     if (!html.includes(text)) missing.push(`text:${text}`);
+  }
+  for (const alternatives of expected.requiredAnyText || []) {
+    if (!alternatives.some((text) => html.includes(text))) {
+      missing.push(`one_of:${alternatives.join("|")}`);
+    }
   }
   addCheck(name, missing.length === 0, { missing });
 }
