@@ -1,7 +1,7 @@
 # API Provider Policy
 
 作成日: 2026-06-01
-決定者: project owner
+決定者: DD
 
 ## 決定
 
@@ -41,9 +41,9 @@ extension popup
 
 Chrome拡張popupは本番schema APIを優先します。APIが失敗した場合だけ、拡張内のローカルルールへfallbackします。
 
-## 実プロンプトへ入れたプロダクト方針
+## 実プロンプトへ入れたDD方針
 
-`api/schema-proxy/schema-proxy.js` の `buildSchemaPrompt()` に、初期のプロダクト思想を実際のプロンプトとして入れています。
+`api/schema-proxy/schema-proxy.js` の `buildSchemaPrompt()` に、DDの初期思想を実際のプロンプトとして入れています。
 
 - フォーム入力の細かな手間をなくす
 - コア価値は `Personal Vault + Profile RAG/Memory Space + form understanding`
@@ -66,8 +66,8 @@ Chrome拡張popupは本番schema APIを優先します。APIが失敗した場�
 
 2026-06-01確認:
 
-- Azure CLIは `local Azure operator account` でログイン済み
-- 既存Azure AI Services: `azure-ai-resource-a`, `azure-ai-resource-b`
+- Azure CLIは `degutidai@gmail.com` でログイン済み
+- 既存Azure AI Services: `degutidai-1418-resource`, `degutidai-5815-resource`
 - 両方ともmodel deploymentは空
 - `DeepSeek-V4-Pro` / `DeepSeek-V4-Flash` はmodel listで確認済み
 - deployment作成は subscription `8bf38da5-83a9-4f59-b2f9-1b7cc66fc64d` が `ReadOnlyDisabledSubscription` のため失敗
@@ -91,7 +91,7 @@ Chrome拡張popupは本番schema APIを優先します。APIが失敗した場�
 
 - Worker実装、AI binding設定、D1 entitlement migrationはrepo内にある
 - `wrangler` CLIはdevDependencyとして追加済み
-- Cloudflare login済み: `local Cloudflare operator account`
+- Cloudflare login済み: `dd.1107.11107@gmail.com`
 - D1 `ai-form-autofill-prod` 作成済み: `895767fa-8bc7-4811-9801-63d879eeb194`
 - D1 migration適用済み
 - Cloudflare Worker本番deploy済み: `https://ai-form-autofill.dd-1107-11107.workers.dev`

@@ -1,11 +1,11 @@
 # Chrome Web Store Submission Packet
 
 作成日: 2026-06-01
-状態: `dashboard_filled_submit_for_review_pending`
+状態: `published_update_package_ready`
 
 ## 使うファイル
 
-- 拡張ZIP: `dist/ai-form-autofill-0.1.0.zip`
+- 拡張ZIP: `dist/ai-form-autofill-0.1.1.zip`
 - アイコン: `store-assets/icon-128.png`
 - 小プロモ画像: `store-assets/promo-small-440x280.png`
 - スクリーンショット:
@@ -27,7 +27,7 @@ FormPilot Vault
 Short description:
 
 ```text
-Multilingual form autofill with a local profile vault and user confirmation.
+Reduce repeated name, address, and email typing. Check the current form and fill only fields that match your saved info.
 ```
 
 Category:
@@ -51,17 +51,28 @@ English, English UK, Japanese, Spanish, Spanish Latin America, French, German, I
 Detailed description:
 
 ```text
-FormPilot Vault is a multilingual Chrome extension that reduces repetitive form-filling work for signups, contact forms, applications, event registrations, and trial forms.
+FormPilot Vault helps you avoid typing the same information again and again.
 
-It reads form labels, placeholders, autocomplete hints, options, and nearby text to understand what each field means. Profile values such as name, address, phone number, email, and company details are encrypted at rest in the user's local Vault and filled only after user action.
+When you sign up for a service, request a trial, register for an event, or fill in a contact form, you often have to enter the same name, email, phone number, address, and company details. This extension is built for that moment.
 
-The AI receives form structure only. It does not receive raw profile values, existing input values, cookies, authorization data, verification codes, or passwords.
+How it works:
 
-FormPilot Vault does not click submit buttons. The user always reviews the filled form before submitting. It does not bypass CAPTCHA, SMS verification, email verification, identity checks, or create accounts in bulk.
+1. Save the information you often type.
+2. Open a form.
+3. Click the extension button.
+4. Click "Check this form".
+5. Review the fields it found.
+6. Click "Fill matching fields".
 
-The extension UI is localized for 21 Chrome package locales across the Americas, Europe, the Middle East, and Asia. The form understanding layer uses the production schema API first, then falls back to local rules. It covers common labels across major global signup markets, including country and country-code fields.
+FormPilot Vault only fills fields that match your saved information. If a field is unclear, it leaves the field for you to enter manually.
 
-Free includes 5 fills per month. Plus, Pro, and Team plans unlock higher usage, multiple profiles, company profiles, and learned site mappings.
+It does not click submit buttons. You always review the page before sending anything. It does not bypass CAPTCHA, SMS checks, email checks, identity checks, payment pages, or create accounts in bulk.
+
+Use it for signups, trial registrations, contact forms, event forms, application forms, and business inquiry forms.
+
+Saved information stays in your browser. FormPilot Vault reads and fills the current page only after you click the extension button and start the action.
+
+Free includes 5 fills per month. Paid plans add more fills, multiple saved information sets, and site-specific learning.
 ```
 
 ## Privacy Practices
@@ -150,7 +161,7 @@ Team: 1,500円/人/月
 Publishing:
 
 ```text
-Automatic publish after review is acceptable for MVP unless the project owner wants staged publishing.
+Automatic publish after review is acceptable for MVP unless DD wants staged publishing.
 ```
 
 ## Localization Notes
@@ -158,7 +169,7 @@ Automatic publish after review is acceptable for MVP unless the project owner wa
 Chrome extension package localization:
 
 ```text
-The submitted ZIP includes default_locale: en and _locales for en, en_GB, ja, es, es_419, fr, de, it, nl, pl, pt_BR, ru, tr, ar, hi, id, th, vi, ko, zh_CN, and zh_TW. As of 2026-06-01 13:28 JST, the package has 65 localized message keys per locale and the rebuilt ZIP size is 69309 bytes.
+The latest built ZIP includes default_locale: en and _locales for en, en_GB, ja, es, es_419, fr, de, it, nl, pl, pt_BR, ru, tr, ar, hi, id, th, vi, ko, zh_CN, and zh_TW. As of 2026-06-02 09:47 JST, the package has 152 localized message keys per locale, a clearer non-selectable 3-step popup flow, clearer "will autofill" status copy, tabbed saved info / ledger / plan settings, a user-friendly registration ledger used as a personal dictionary, ledger search, row categories, quick-add dictionary rows for customer IDs, spreadsheet terms, and internal IDs, aliases for custom matching, an in-scan action to add newly detected fields to the ledger with a highlighted saved row, blank initial values with examples as placeholders, split phone-number inputs, ZipCloud postal-code address lookup for Japanese addresses, a visible "Registered." save confirmation, Free 5 fills per month, and the rebuilt ZIP size is 105168 bytes.
 ```
 
 Recommended first Store Listing locales:
@@ -189,11 +200,10 @@ No test account is required.
 1. Install the extension.
 2. Open https://httpbin.org/forms/post or https://www.selenium.dev/selenium/web/web-form.html.
 3. Open the FormPilot Vault extension popup.
-4. Click "Load sample" if the sample profile is not already visible.
-5. Click "Save profile".
-6. Click "Scan page".
+4. Open "Saved Info / Saved info ledger / Plan" only if you need to edit saved information, add ledger rows, or check the plan.
+5. Click "Check this form".
 7. Confirm that fields are listed as ready or needing review.
-8. Click "Fill page".
+8. Click "Fill matching fields".
 9. Confirm that supported fields are filled.
 10. Do not submit the form. The extension intentionally does not click submit buttons.
 
@@ -203,18 +213,21 @@ The extension uses only activeTab, so it reads and fills the current page only a
 ## Dashboard入力済み
 
 - Item ID: `kmlcabffhmenjajmlnkkglphjnbaahlf`
-- 多言語ZIP upload済み。2026-06-01 13:35 JSTに最新ZIP `69309 bytes` をPackage画面から再upload済み
-- Store Listing保存済み
+- 多言語ZIP upload済み。2026-06-02 08:36 JSTの公開URL確認で `published: true`
+- 2026-06-02 09:47 JSTにUIUX改善/辞書登録強化/住所自動検索/電話番号3分割/空の初期値/Free月5回版ZIP `0.1.1` / `105168 bytes` をCWS Dashboardへuploadし、更新審査へ送信済み
+- Dashboard読み戻しは `ステータス: 審査待ち`、ドラフト `0.1.1`、公開済み `0.1.0`
+- `store-assets/screenshot-popup-1280x800.png` は辞書登録UI版へ更新済み
+- Store Listing保存済み。短い説明と詳細説明は「repeated name/address/email typing」「saved info」「Check this form」「Fill matching fields」に統一済み
 - Privacy保存済み
 - Distribution: Public / Worldwide / In-app purchases
-- Test instructions保存済み
-- 2026-06-01 13:54 JST時点のDashboardステータスは `審査待ち`
-- `審査のため送信` ボタンはdisabled。最終提出は完了済み。
+- Test instructions保存済み。次回更新時は最新UIの `Saved info / Saved info ledger / Plan`, non-selectable 3-step flow, and dictionary ledger controlsに合わせて確認する
+- 2026-06-02 08:36 JST時点の公開URLは `published: true`
+- 2026-06-02 09:47 JSTに `0.1.1` をDashboardへuploadし、更新審査へ送信済み。Dashboard読み戻しは `ステータス: 審査待ち`、ドラフト `0.1.1`、公開済み `0.1.0`
 
 ## 人間操作が必要な停止点
 
-- 審査後の公開確認または差し戻し対応
-- Stripe実購入/入金確認
+- `0.1.1` 更新審査の通過後公開確認、または差し戻し対応
+- 実購入/入金確認
 
 ## 公式確認元
 

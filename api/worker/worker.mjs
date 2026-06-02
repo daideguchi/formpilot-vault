@@ -3,6 +3,7 @@ import {
   applyStripeEvent,
   checkEntitlement,
   createCheckoutSession,
+  normalizeEntitlementResponse,
   verifyStripeSignature
 } from "../entitlement/entitlement.js";
 import { checkStripeEntitlement } from "../entitlement/stripe-source.js";
@@ -45,7 +46,8 @@ export async function handleWorkerRequest(request, env = {}, _ctx = null) {
       if (bridgeBaseUrl) {
         const bridgeUrl = new URL(`${bridgeBaseUrl}/entitlement`);
         bridgeUrl.searchParams.set("license_key", licenseKey || "");
-        return json(await proxyJson({ url: bridgeUrl.toString(), fetchImpl: env.fetchImpl || fetch }));
+        const entitlement = await proxyJson({ url: bridgeUrl.toString(), fetchImpl: env.fetchImpl || fetch });
+        return json(normalizeEntitlementResponse(entitlement));
       }
       return json(await checkLicenseWithDb({ licenseKey, env }));
     }
@@ -56,7 +58,8 @@ export async function handleWorkerRequest(request, env = {}, _ctx = null) {
       if (bridgeBaseUrl) {
         const bridgeUrl = new URL(`${bridgeBaseUrl}/entitlement`);
         bridgeUrl.searchParams.set("license_key", body.license_key || "");
-        return json(await proxyJson({ url: bridgeUrl.toString(), fetchImpl: env.fetchImpl || fetch }));
+        const entitlement = await proxyJson({ url: bridgeUrl.toString(), fetchImpl: env.fetchImpl || fetch });
+        return json(normalizeEntitlementResponse(entitlement));
       }
       return json(await checkLicenseWithDb({ licenseKey: body.license_key, env }));
     }

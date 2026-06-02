@@ -1,6 +1,6 @@
 {
   "name": "ai-form-autofill",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -33,6 +33,7 @@
     "check:paid-license": "node scripts/check-paid-license-live.mjs",
     "check:launch": "node scripts/check-launch-status.mjs",
     "check:seo": "node scripts/check-seo.mjs",
+    "novus:install": "node scripts/install_pendo_snippet.mjs",
     "novus:verify": "python3 scripts/verify_novus_installed.py",
     "novus:public": "node scripts/verify-novus-public.mjs",
     "i18n:sync": "node scripts/sync-extension-locales.mjs",

@@ -91,6 +91,12 @@ test("worker checkout and entitlement can proxy to the production Stripe bridge"
         json: async () => ({ license_key: "afa_bridge", plan: "plus", active: true })
       };
     }
+    if (url === "https://bridge.example.test/entitlement?license_key=afa_free") {
+      return {
+        ok: true,
+        json: async () => ({ license_key: "afa_free", plan: "free", active: false, limits: { monthly_fills: 5 } })
+      };
+    }
     throw new Error(`unexpected_bridge_url:${url}`);
   };
 
@@ -108,7 +114,13 @@ test("worker checkout and entitlement can proxy to the production Stripe bridge"
   const entitlement = await handleWorkerRequest(new Request("https://app.example.test/api/entitlement/check?license_key=afa_bridge"), env);
   assert.equal(entitlement.status, 200);
   assert.equal((await entitlement.json()).plan, "plus");
-  assert.equal(calls.length, 2);
+
+  const freeEntitlement = await handleWorkerRequest(new Request("https://app.example.test/api/entitlement/check?license_key=afa_free"), env);
+  assert.equal(freeEntitlement.status, 200);
+  const freeJson = await freeEntitlement.json();
+  assert.equal(freeJson.plan, "free");
+  assert.equal(freeJson.limits.monthly_fills, 5);
+  assert.equal(calls.length, 3);
 });
 
 test("worker Stripe webhook verifies raw body and persists entitlement", async () => {

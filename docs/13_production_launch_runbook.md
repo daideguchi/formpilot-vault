@@ -1,11 +1,11 @@
 # Production Launch Runbook
 
 作成日: 2026-06-01
-状態: `vercel_live_checkout_ready`
+状態: `published_update_package_ready`
 
 ## ゴール
 
-Chrome拡張を公開し、Plus/Pro/Teamの課金がプロジェクトオーナーのStripeへ入り、拡張側のLicense checkで有料権利が解除される状態にする。
+Chrome拡張を公開し、Plus/Pro/Teamの課金がDDのStripeへ入り、拡張側のLicense checkで有料権利が解除される状態にする。
 
 ## いま達成済み
 
@@ -23,17 +23,20 @@ Chrome拡張を公開し、Plus/Pro/Teamの課金がプロジェクトオーナ�
 - Chrome Web Store素材
 - 提出用ZIP
 - 21 locale extension package i18n
-- 65キー x 21 locale extension package i18n
+- 152キー x 21 locale extension package i18n
 - Extension schema API client
 - 実ブラウザ拡張E2E
 - release readiness check
 - Vercel本番LP/API: `https://formpilot-vault-api.vercel.app/`
-- 既存のStripe本番ブリッジ: `production-stripe-bridge/*`
+- Kurogane Stripe本番ブリッジ: `https://kurogane-edge-core-lp.vercel.app/api/formpilot/*`
 - 本番Stripe Checkout Session作成
 - 本番License check Free/月5回応答
 - AI schema proxyの `rules_fallback`
 - GitHub Pages静的公開LP: `https://daideguchi.github.io/formpilot-vault/`
 - 公開Privacy URL: `https://daideguchi.github.io/formpilot-vault/privacy.html`
+- Chrome Web Store公開URL: `https://chromewebstore.google.com/detail/formpilot-vault/kmlcabffhmenjajmlnkkglphjnbaahlf`
+- 更新用Chrome拡張ZIP: `dist/ai-form-autofill-0.1.1.zip` / `105168 bytes`
+- ZipCloud郵便番号住所検索、電話番号3分割、空の初期値とプレースホルダー、保存完了表示
 
 注意: 2026-06-01時点のChrome Web Store提出用本番はVercelを正にします。Cloudflare Worker/D1は6/7以降の無料枠移行先として本番検証済みですが、現在のChrome Web Store提出を止める条件ではありません。
 
@@ -44,11 +47,11 @@ Chrome拡張を公開し、Plus/Pro/Teamの課金がプロジェクトオーナ�
 - LP/API: `https://formpilot-vault-api.vercel.app/`
 - Checkout: `POST https://formpilot-vault-api.vercel.app/api/stripe/checkout-session`
 - Entitlement: `POST https://formpilot-vault-api.vercel.app/api/entitlement/check`
-- Stripe bridge: `production-stripe-bridge`
+- Stripe bridge: `https://kurogane-edge-core-lp.vercel.app/api/formpilot`
 - Extension config: `extension/src/release-config.js`
-- Extension ZIP: `dist/ai-form-autofill-0.1.0.zip`
+- Extension ZIP: `dist/ai-form-autofill-0.1.1.zip`
 - Cloudflare Worker: `https://ai-form-autofill.dd-1107-11107.workers.dev`
-- Latest Vercel deployment: `dpl_BkXLM2QPbuNSj159j2NQ1cgSgxTD`
+- Latest Vercel deployment: `dpl_8pHFLoNoSJc7YYcAHsDRmcwZrUuF`
 
 ## 現行本番の再デプロイ
 
@@ -62,7 +65,7 @@ vercel deploy --prod --yes --scope daideguchis-projects
 
 環境変数:
 
-- `FORMPILOT_STRIPE_BRIDGE_BASE_URL=production-stripe-bridge`
+- `FORMPILOT_STRIPE_BRIDGE_BASE_URL=https://kurogane-edge-core-lp.vercel.app/api/formpilot`
 - `PUBLIC_SITE_URL=https://formpilot-vault-api.vercel.app`
 - `ENTITLEMENT_SOURCE=stripe_bridge`
 
@@ -136,7 +139,7 @@ npm run release:check
 
 使うもの:
 
-- `dist/ai-form-autofill-0.1.0.zip`
+- `dist/ai-form-autofill-0.1.1.zip`
 - `store-assets/icon-128.png`
 - `store-assets/promo-small-440x280.png`
 - `store-assets/screenshot-main-1280x800.png`
@@ -144,6 +147,8 @@ npm run release:check
 - `store-assets/screenshot-pricing-1280x800.png`
 - `docs/12_chrome_store_listing_copy.md`
 - Privacy URL: `https://formpilot-vault-api.vercel.app/privacy.html`
+
+2026-06-02 09:47 JST時点のローカル更新用ZIPは `dist/ai-form-autofill-0.1.1.zip` / `105168 bytes`。Chrome Web Store初版は公開済みで、この `0.1.1` 版はDashboardへuploadし、更新審査へ送信済み。Dashboard読み戻しは `ステータス: 審査待ち`、ドラフト `0.1.1`、公開済み `0.1.0`。
 
 ## Cloudflare移行/再確認
 
@@ -159,7 +164,7 @@ npm run check:cloudflare:live
 
 現在のCloudflare本番:
 
-- Account: `local Cloudflare operator account`
+- Account: `dd.1107.11107@gmail.com`
 - D1: `ai-form-autofill-prod`
 - database_id: `895767fa-8bc7-4811-9801-63d879eeb194`
 - Worker URL: `https://ai-form-autofill.dd-1107-11107.workers.dev`
@@ -183,8 +188,8 @@ npm run deploy:worker
 
 ## 現在のブロッカー
 
-- Chrome Web Storeは `審査待ち`。次の停止点は審査結果確認、公開確認、または差し戻し対応。
-- Stripeの実購入/入金確認はプロジェクトオーナーの決済操作またはDashboard確認が必要
+- Chrome Web Storeは2026-06-02 08:36 JST時点で公開済み。`0.1.1` 更新版は2026-06-02 09:47 JSTに更新審査へ送信済み。次の停止点は審査通過後の公開版 `0.1.1` 読み戻し、または差し戻し対応。
+- Stripeの実購入/入金確認はDDの決済操作またはDashboard確認が必要
 - Azure DeepSeek V4のdeployment作成は `ReadOnlyDisabledSubscription` で停止。Azure利用を続けるならsubscription再有効化が必要
 
 ## 現在の非ブロッカー

@@ -6,37 +6,37 @@
     "message": "FormPilot"
   },
   "extDescription": {
-    "message": "Multilingual form autofill with a local profile vault and user confirmation."
+    "message": "Reduce repeated name, address, and email typing. Check the current form and fill only fields that match your saved info."
   },
   "eyebrow": {
-    "message": "Local profile / Schema-only AI"
+    "message": "Less typing on signup forms"
   },
   "appTitle": {
     "message": "FormPilot Vault"
   },
   "profileVault": {
-    "message": "Profile Vault"
+    "message": "Saved Info"
   },
   "sample": {
     "message": "Sample"
   },
   "memoryLoading": {
-    "message": "Vault memory: loading"
+    "message": "Saved info: loading"
   },
   "save": {
-    "message": "Save"
+    "message": "Save info"
   },
   "scanForm": {
-    "message": "Scan Form"
+    "message": "Check this form"
   },
   "inputPlan": {
-    "message": "Input Plan"
+    "message": "Fields this can fill"
   },
   "fill": {
-    "message": "Fill"
+    "message": "Fill matching fields"
   },
   "openFormPrompt": {
-    "message": "Open a form page and click Scan Form."
+    "message": "Open a signup form and use this button to see what can be filled."
   },
   "plan": {
     "message": "Plan"
@@ -54,19 +54,19 @@
     "message": "Check"
   },
   "upgradeCopy": {
-    "message": "Free is limited to 5 fills per month. Upgrade unlocks unlimited fills, multiple profiles, and learned site mappings."
+    "message": "Free is limited to 5 fills per month. Upgrade for more fills, multiple saved info sets, and site-specific learning."
   },
   "footnote": {
-    "message": "No submit click. Personal values stay local."
+    "message": "This never clicks submit. You can review before anything is sent."
   },
   "profileSaved": {
-    "message": "Profile saved to local Vault."
+    "message": "Saved info updated. Open a signup form and check it."
   },
   "freeLimitReached": {
-    "message": "Free monthly limit reached. Upgrade to continue filling forms."
+    "message": "Free monthly limit reached. Upgrade to keep filling forms."
   },
   "filledReview": {
-    "message": "Filled $1 fields. Please review before submit."
+    "message": "Filled $1 matching fields. Review the page before submit."
   },
   "licenseActive": {
     "message": "$1 license active."
@@ -84,19 +84,19 @@
     "message": "No active tab"
   },
   "planSummary": {
-    "message": "$1 fields scanned / $2 ready / $3 need review"
+    "message": "$1 fields checked / $2 can be filled / $3 need manual entry"
   },
   "sourceMemory": {
-    "message": "Memory"
+    "message": "Learned"
   },
   "sourceRules": {
-    "message": "Rules"
+    "message": "Matched"
   },
   "uncertainManual": {
-    "message": "Uncertain. User should answer manually."
+    "message": "No matching saved info. Enter this manually."
   },
   "profileKey": {
-    "message": "Profile key"
+    "message": "Saved info field"
   },
   "rememberAs": {
     "message": "Remember as..."
@@ -105,16 +105,16 @@
     "message": "Learn"
   },
   "memoryUpdated": {
-    "message": "Memory updated. Review the refreshed input plan."
+    "message": "Learned. Review the fields this can fill."
   },
   "memorySummary": {
-    "message": "$1 profile / $2 learned mappings / $3 hits on this form"
+    "message": "$1 saved info set / $2 learned items / $3 hits on this form"
   },
   "paidUsage": {
     "message": "$1 plan / $2 fills this month"
   },
   "freeUsage": {
-    "message": "Free usage: $1/$2 fills this month"
+    "message": "Free: $1/$2 fills this month"
   },
   "semantic_person_name_full": {
     "message": "Full name"
@@ -193,5 +193,266 @@
   },
   "semantic_account_password_generated": {
     "message": "Generated password"
+  },
+  "profileName": {
+    "message": "Name"
+  },
+  "profileContact": {
+    "message": "Contact"
+  },
+  "profileAddress": {
+    "message": "Address"
+  },
+  "profileWork": {
+    "message": "Work"
+  },
+  "lastName": {
+    "message": "Last name"
+  },
+  "firstName": {
+    "message": "First name"
+  },
+  "lastKana": {
+    "message": "Last kana"
+  },
+  "firstKana": {
+    "message": "First kana"
+  },
+  "email": {
+    "message": "Email"
+  },
+  "phone": {
+    "message": "Phone"
+  },
+  "postalCode": {
+    "message": "Postal code"
+  },
+  "prefecture": {
+    "message": "State / prefecture"
+  },
+  "city": {
+    "message": "City"
+  },
+  "addressLine1": {
+    "message": "Address line 1"
+  },
+  "addressLine2": {
+    "message": "Address line 2"
+  },
+  "company": {
+    "message": "Company"
+  },
+  "jobTitle": {
+    "message": "Job title"
+  },
+  "noFormFound": {
+    "message": "No form found on this page."
+  },
+  "noFormHint": {
+    "message": "Open a page with name, email, address, or other input fields, then check the form again."
+  },
+  "formSide": {
+    "message": "Form field"
+  },
+  "savedSide": {
+    "message": "Saved info"
+  },
+  "manualEntry": {
+    "message": "Manual entry"
+  },
+  "profileCustom": {
+    "message": "Saved info ledger"
+  },
+  "customLedgerHint": {
+    "message": "Use this like a personal dictionary. Add IDs, spreadsheet terms, internal codes, and alternate labels so unusual forms can still match."
+  },
+  "customKey": {
+    "message": "Name"
+  },
+  "customValue": {
+    "message": "Value to fill"
+  },
+  "customAliases": {
+    "message": "Aliases"
+  },
+  "addCustomField": {
+    "message": "Add row"
+  },
+  "customKeyPlaceholder": {
+    "message": "e.g. Member ID"
+  },
+  "customValuePlaceholder": {
+    "message": "e.g. MEMBER-001 or Approved"
+  },
+  "customAliasPlaceholder": {
+    "message": "e.g. Customer number, Member number"
+  },
+  "removeCustomField": {
+    "message": "Remove row"
+  },
+  "detectedLedgerTitle": {
+    "message": "Add detected field to ledger"
+  },
+  "addDetectedField": {
+    "message": "Save this field"
+  },
+  "stepSavedInfo": {
+    "message": "Saved info"
+  },
+  "stepCheckForm": {
+    "message": "Check form"
+  },
+  "stepFill": {
+    "message": "Fill"
+  },
+  "fillAfterCheck": {
+    "message": "Check first"
+  },
+  "checkingForm": {
+    "message": "Checking..."
+  },
+  "checkAgain": {
+    "message": "Check again"
+  },
+  "fillCount": {
+    "message": "Fill $1 fields"
+  },
+  "filledButton": {
+    "message": "Filled $1 fields"
+  },
+  "fieldsFoundShort": {
+    "message": "$1 found"
+  },
+  "canFillShort": {
+    "message": "$1 will fill"
+  },
+  "needsCheckShort": {
+    "message": "$1 manual"
+  },
+  "noFormShort": {
+    "message": "No form"
+  },
+  "inputOk": {
+    "message": "Will fill"
+  },
+  "needsManual": {
+    "message": "Check"
+  },
+  "detectedLedgerHint": {
+    "message": "Enter a value and save it to use this field next time."
+  },
+  "settingsTitle": {
+    "message": "Saved info settings"
+  },
+  "ledgerSearchPlaceholder": {
+    "message": "Search ledger, aliases, IDs, sheet terms"
+  },
+  "ledgerPresetTitle": {
+    "message": "Quick dictionary rows"
+  },
+  "presetCustomerId": {
+    "message": "Customer ID"
+  },
+  "presetSheetTerm": {
+    "message": "Sheet term"
+  },
+  "presetInternalId": {
+    "message": "Internal ID"
+  },
+  "presetCustomerIdLabel": {
+    "message": "Customer ID"
+  },
+  "presetCustomerIdAliases": {
+    "message": "Member ID, Customer number, Account number"
+  },
+  "presetSheetTermLabel": {
+    "message": "Spreadsheet item"
+  },
+  "presetSheetTermAliases": {
+    "message": "Column name, Sheet item, Management item, Row ID"
+  },
+  "presetInternalIdLabel": {
+    "message": "Project ID"
+  },
+  "presetInternalIdAliases": {
+    "message": "Project number, Management number, Task ID, Internal code"
+  },
+  "customCategory": {
+    "message": "Type"
+  },
+  "customCategoryBasic": {
+    "message": "Basic"
+  },
+  "customCategoryId": {
+    "message": "ID"
+  },
+  "customCategorySheet": {
+    "message": "Sheet term"
+  },
+  "customCategoryWork": {
+    "message": "Work term"
+  },
+  "customCategoryOther": {
+    "message": "Other"
+  },
+  "profileSavedShort": {
+    "message": "Registered."
+  },
+  "lastNamePlaceholder": {
+    "message": "Example: Yamada"
+  },
+  "firstNamePlaceholder": {
+    "message": "Example: Taro"
+  },
+  "lastKanaPlaceholder": {
+    "message": "Example: YAMADA"
+  },
+  "firstKanaPlaceholder": {
+    "message": "Example: TARO"
+  },
+  "emailPlaceholder": {
+    "message": "Example: taro@example.com"
+  },
+  "phonePart1Placeholder": {
+    "message": "090"
+  },
+  "phonePart2Placeholder": {
+    "message": "1234"
+  },
+  "phonePart3Placeholder": {
+    "message": "5678"
+  },
+  "postalCodePlaceholder": {
+    "message": "Example: 150-0001"
+  },
+  "prefecturePlaceholder": {
+    "message": "Example: Tokyo"
+  },
+  "cityPlaceholder": {
+    "message": "Example: Shibuya City"
+  },
+  "addressLine1Placeholder": {
+    "message": "Example: Jingumae 1-2-3"
+  },
+  "addressLine2Placeholder": {
+    "message": "Example: Sample Heights 101"
+  },
+  "companyPlaceholder": {
+    "message": "Example: Sample Inc."
+  },
+  "jobTitlePlaceholder": {
+    "message": "Example: Manager"
+  },
+  "postalLookupSearching": {
+    "message": "Looking up address from postal code."
+  },
+  "postalLookupFilled": {
+    "message": "Address filled from postal code."
+  },
+  "postalLookupNotFound": {
+    "message": "No address found for this postal code."
+  },
+  "postalLookupFailed": {
+    "message": "Address lookup failed. Enter the address manually."
   }
 }

@@ -51,6 +51,24 @@ try {
       })
     });
   });
+  await context.route("https://zipcloud.ibsnet.co.jp/api/search**", async (route) => {
+    await route.fulfill({
+      contentType: "application/json",
+      headers: { "access-control-allow-origin": "*" },
+      body: JSON.stringify({
+        status: 200,
+        message: null,
+        results: [
+          {
+            zipcode: "1500001",
+            address1: "東京都",
+            address2: "渋谷区",
+            address3: "神宮前"
+          }
+        ]
+      })
+    });
+  });
 
   const signupPage = await context.newPage();
   await signupPage.goto(server.url);
@@ -76,13 +94,17 @@ try {
     return chrome.tabs.sendMessage(tab.id, { type: "AFA_FILL_FIELDS", plan: inputPlan });
   }, plan);
 
-  assert.equal(fields.fields.length, 12);
-  assert.equal(fillResult.filled, 12);
+  assert.equal(fields.fields.length, 14);
+  assert.equal(fillResult.filled, 14);
 
   const popup = await context.newPage();
   await popup.goto(`chrome-extension://${extensionId}/popup.html`);
-  await popup.waitForSelector("#memoryStatus");
+  await popup.waitForSelector("#scanPage");
   assert.equal(await popup.locator("h1").textContent(), "FormPilot Vault");
+  assert.equal(await popup.locator(".workflow-step").count(), 3);
+  assert.equal(await popup.locator(".workflow-strip").evaluate((node) => getComputedStyle(node).userSelect), "none");
+  assert.equal(await popup.locator(".workflow-step").first().evaluate((node) => getComputedStyle(node).pointerEvents), "none");
+  assert.match(await popup.locator("#fillPage").textContent(), /確認後に入力/);
   const storedVault = await serviceWorker.evaluate(async () => {
     for (let attempt = 0; attempt < 20; attempt += 1) {
       const stored = await chrome.storage.local.get(null);
@@ -127,7 +149,45 @@ try {
   assert.equal(await signupPage.locator("#postal").inputValue(), "150-0001");
   assert.equal(await signupPage.locator("#prefecture").inputValue(), "東京都");
   assert.equal(await signupPage.locator("#company").inputValue(), "株式会社サンプル");
+  assert.equal(await signupPage.locator("#memberId").inputValue(), "MEMBER-001");
+  assert.equal(await signupPage.locator("#referralCode").inputValue(), "FORMPILOT");
 
+  await popup.locator("#settingsToggle").click();
+  await expectExpandedSettings(popup);
+  assert.equal(await popup.locator("#profileLast").inputValue(), "");
+  assert.match(await popup.locator("#profileLast").getAttribute("placeholder"), /山田/);
+  assert.equal(await popup.locator("#profilePhone1").inputValue(), "");
+  assert.equal(await popup.locator("#profilePhone1").getAttribute("placeholder"), "090");
+  await popup.locator("#profilePostal").fill("1500001");
+  await popup.waitForFunction(() => document.querySelector("#profilePrefecture")?.value === "東京都");
+  assert.equal(await popup.locator("#profilePostal").inputValue(), "150-0001");
+  assert.equal(await popup.locator("#profileCity").inputValue(), "渋谷区");
+  assert.equal(await popup.locator("#profileAddress1").inputValue(), "神宮前");
+  assert.match(await popup.locator("#postalLookupStatus").textContent(), /住所を自動入力/);
+  await popup.locator("#saveProfile").click();
+  await popup.waitForFunction(() => document.querySelector("#saveStatus")?.textContent?.includes("登録しました"));
+  await popup.screenshot({ path: path.join(evidenceDir, "real-extension-popup-profile.png"), fullPage: true });
+  await popup.locator("#loadSample").click();
+  assert.equal(await popup.locator("#profilePhone1").inputValue(), "090");
+  assert.equal(await popup.locator("#profilePhone2").inputValue(), "1234");
+  assert.equal(await popup.locator("#profilePhone3").inputValue(), "5678");
+  await popup.locator("[data-settings-tab='ledger']").click();
+  await popup.waitForSelector(".custom-field-row");
+  assert.match(await popup.locator("#settingsToggle").textContent(), /登録台帳/);
+  assert.equal(await popup.locator("[data-settings-tab='ledger']").getAttribute("aria-selected"), "true");
+  assert.match(await popup.locator("[data-i18n='customLedgerHint']").textContent(), /個人用の辞書/);
+  assert.match(await popup.locator("#ledgerSearch").getAttribute("placeholder"), /台帳を検索/);
+  assert.equal(await popup.locator(".custom-category-input").first().inputValue(), "id");
+  assert.equal(await popup.locator(".custom-field-row").count(), 2);
+  await popup.locator("[data-ledger-preset='sheet_term']").click();
+  assert.equal(await popup.locator(".custom-field-row").count(), 3);
+  assert.equal(await popup.locator(".custom-field-row").last().locator(".custom-category-input").inputValue(), "sheet");
+  await popup.locator("#ledgerSearch").fill("会員");
+  assert.equal(await popup.locator(".custom-field-row:visible").count(), 1);
+  await popup.locator("#ledgerSearch").fill("");
+  await popup.evaluate(() => document.activeElement?.blur?.());
+  await popup.screenshot({ path: path.join(evidenceDir, "real-extension-popup-ledger.png"), fullPage: true });
+  await popup.locator("[data-settings-tab='plan']").click();
   await popup.locator("#licenseKey").fill("lic_real_browser_demo");
   await popup.locator("#checkLicense").click();
   await popup.waitForFunction(() => document.querySelector("#usageStatus")?.textContent?.includes("PLUS"));
@@ -141,6 +201,8 @@ try {
     usage_status: await popup.locator("#usageStatus").textContent(),
     evidence: [
       "site/assets/real-extension-popup-loaded.png",
+      "site/assets/real-extension-popup-profile.png",
+      "site/assets/real-extension-popup-ledger.png",
       "site/assets/real-extension-popup-license.png",
       "site/assets/real-extension-filled-form.png"
     ]
@@ -151,6 +213,10 @@ try {
   await fs.rm(userDataDir, { recursive: true, force: true });
   await fs.rm(tempExtensionPath, { recursive: true, force: true });
   await new Promise((resolve) => server.close(resolve));
+}
+
+async function expectExpandedSettings(popup) {
+  assert.equal(await popup.locator("#settingsToggle").getAttribute("aria-expanded"), "true");
 }
 
 async function getExtensionServiceWorker(context) {

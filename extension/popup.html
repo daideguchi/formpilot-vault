@@ -9,46 +9,120 @@
   <body>
     <main class="app-shell">
       <header class="app-header">
+        <img class="app-icon" src="icons/icon48.png" alt="">
         <div>
           <p class="eyebrow" data-i18n="eyebrow">Local profile / Schema-only AI</p>
           <h1 data-i18n="appTitle">FormPilot Vault</h1>
         </div>
-        <span class="status-pill" id="providerStatus">checking</span>
+        <button class="help-button" type="button" title="No submit click. Values stay local.">?</button>
       </header>
 
-      <section class="panel">
-        <div class="panel-heading">
-          <h2 data-i18n="profileVault">Profile Vault</h2>
-          <button id="loadSample" type="button" data-i18n="sample">Sample</button>
-        </div>
-        <div id="memoryStatus" class="memory-status" data-i18n="memoryLoading">Vault memory: loading</div>
-        <textarea id="profileJson" spellcheck="false"></textarea>
-        <div class="button-row">
-          <button id="saveProfile" type="button" data-i18n="save">Save</button>
-          <button id="scanPage" type="button" class="primary" data-i18n="scanForm">Scan Form</button>
-        </div>
-      </section>
-
-      <section class="panel">
+      <section class="panel action-panel">
         <div class="panel-heading">
           <h2 data-i18n="inputPlan">Input Plan</h2>
-          <button id="fillPage" type="button" disabled data-i18n="fill">Fill</button>
+          <span class="status-pill" id="providerStatus">checking</span>
         </div>
         <div id="planSummary" class="muted" data-i18n="openFormPrompt">Open a form page and click Scan Form.</div>
-        <div id="planList" class="plan-list"></div>
+        <div class="workflow-strip" id="workflowStrip" aria-label="Workflow">
+          <span class="workflow-step is-done" data-step="profile"><span class="step-number">1</span><span data-i18n="stepSavedInfo">Saved info</span></span>
+          <span class="workflow-step is-active" data-step="scan"><span class="step-number">2</span><span data-i18n="stepCheckForm">Check form</span></span>
+          <span class="workflow-step" data-step="fill"><span class="step-number">3</span><span data-i18n="stepFill">Fill</span></span>
+        </div>
+        <div id="planStats" class="plan-stats" hidden></div>
+        <div class="primary-actions">
+          <button id="scanPage" type="button" class="primary action-button" data-i18n="scanForm">Scan Form</button>
+          <button id="fillPage" type="button" class="action-button" disabled data-i18n="fill">Fill</button>
+        </div>
+        <div id="planList" class="plan-list compact"></div>
       </section>
 
-      <section class="panel monetization-panel">
-        <div class="panel-heading">
-          <h2 data-i18n="plan">Plan</h2>
-          <button id="upgradePlan" type="button" data-i18n="upgrade">Upgrade</button>
+      <section class="panel settings-panel">
+        <button id="settingsToggle" class="settings-toggle" type="button">Vault / Plan settings</button>
+        <div id="settingsContent" class="settings-content" hidden>
+          <div class="panel-heading">
+            <h2 data-i18n="settingsTitle">Saved info settings</h2>
+            <button id="loadSample" type="button" data-i18n="sample">Sample</button>
+          </div>
+          <div id="memoryStatus" class="memory-status" data-i18n="memoryLoading">Vault memory: loading</div>
+          <div class="settings-tabs" role="tablist" aria-label="Saved information sections">
+            <button type="button" class="settings-tab is-active" data-settings-tab="profile" data-i18n="profileVault">Saved Info</button>
+            <button type="button" class="settings-tab" data-settings-tab="ledger" data-i18n="profileCustom">Saved info ledger</button>
+            <button type="button" class="settings-tab" data-settings-tab="plan" data-i18n="plan">Plan</button>
+          </div>
+          <form id="profileForm" class="profile-form">
+            <section class="settings-section" data-settings-section="profile">
+              <div class="form-section-title" data-i18n="profileName">Name</div>
+              <div class="form-grid two">
+                <label><span data-i18n="lastName">Last name</span><input id="profileLast" autocomplete="family-name" data-i18n-placeholder="lastNamePlaceholder"></label>
+                <label><span data-i18n="firstName">First name</span><input id="profileFirst" autocomplete="given-name" data-i18n-placeholder="firstNamePlaceholder"></label>
+                <label><span data-i18n="lastKana">Last kana</span><input id="profileLastKana" data-i18n-placeholder="lastKanaPlaceholder"></label>
+                <label><span data-i18n="firstKana">First kana</span><input id="profileFirstKana" data-i18n-placeholder="firstKanaPlaceholder"></label>
+              </div>
+
+              <div class="form-section-title" data-i18n="profileContact">Contact</div>
+              <label><span data-i18n="email">Email</span><input id="profileEmail" type="email" autocomplete="email" data-i18n-placeholder="emailPlaceholder"></label>
+              <div>
+                <div class="field-label" data-i18n="phone">Phone</div>
+                <div class="phone-grid">
+                  <input id="profilePhone1" inputmode="numeric" autocomplete="tel-national" data-i18n-placeholder="phonePart1Placeholder">
+                  <span class="phone-separator" aria-hidden="true">-</span>
+                  <input id="profilePhone2" inputmode="numeric" autocomplete="tel-national" data-i18n-placeholder="phonePart2Placeholder">
+                  <span class="phone-separator" aria-hidden="true">-</span>
+                  <input id="profilePhone3" inputmode="numeric" autocomplete="tel-national" data-i18n-placeholder="phonePart3Placeholder">
+                </div>
+              </div>
+
+              <div class="form-section-title" data-i18n="profileAddress">Address</div>
+              <div class="form-grid two">
+                <label><span data-i18n="postalCode">Postal code</span><input id="profilePostal" autocomplete="postal-code" inputmode="numeric" data-i18n-placeholder="postalCodePlaceholder"></label>
+                <label><span data-i18n="prefecture">State / prefecture</span><input id="profilePrefecture" autocomplete="address-level1" data-i18n-placeholder="prefecturePlaceholder"></label>
+              </div>
+              <div id="postalLookupStatus" class="lookup-status" aria-live="polite"></div>
+              <label><span data-i18n="city">City</span><input id="profileCity" autocomplete="address-level2" data-i18n-placeholder="cityPlaceholder"></label>
+              <label><span data-i18n="addressLine1">Address line 1</span><input id="profileAddress1" autocomplete="address-line1" data-i18n-placeholder="addressLine1Placeholder"></label>
+              <label><span data-i18n="addressLine2">Address line 2</span><input id="profileAddress2" autocomplete="address-line2" data-i18n-placeholder="addressLine2Placeholder"></label>
+
+              <div class="form-section-title" data-i18n="profileWork">Work</div>
+              <label><span data-i18n="company">Company</span><input id="profileCompany" autocomplete="organization" data-i18n-placeholder="companyPlaceholder"></label>
+              <label><span data-i18n="jobTitle">Job title</span><input id="profileTitle" autocomplete="organization-title" data-i18n-placeholder="jobTitlePlaceholder"></label>
+            </section>
+
+            <section class="settings-section" data-settings-section="ledger" hidden>
+              <div class="form-section-title" data-i18n="profileCustom">Saved info ledger</div>
+              <p class="form-section-hint" data-i18n="customLedgerHint">Add any saved info as ledger rows. Aliases help match different form labels.</p>
+              <div class="ledger-tools">
+                <input id="ledgerSearch" class="ledger-search" autocomplete="off" data-i18n-placeholder="ledgerSearchPlaceholder" placeholder="Search ledger">
+                <div class="ledger-presets" aria-label="Dictionary presets">
+                  <span data-i18n="ledgerPresetTitle">Quick add</span>
+                  <button type="button" data-ledger-preset="customer_id" data-i18n="presetCustomerId">Customer ID</button>
+                  <button type="button" data-ledger-preset="sheet_term" data-i18n="presetSheetTerm">Spreadsheet term</button>
+                  <button type="button" data-ledger-preset="internal_id" data-i18n="presetInternalId">Internal ID</button>
+                </div>
+              </div>
+              <div id="customFieldList" class="custom-field-list"></div>
+              <button id="addCustomField" type="button" class="small-button" data-i18n="addCustomField">Add item</button>
+            </section>
+          </form>
+          <div class="button-row" id="saveProfileRow">
+            <button id="saveProfile" type="button" data-i18n="save">Save</button>
+            <div id="saveStatus" class="save-status" aria-live="polite"></div>
+          </div>
+
+          <section class="settings-section" data-settings-section="plan" hidden>
+            <div class="settings-divider"></div>
+
+            <div class="panel-heading">
+              <h2 data-i18n="plan">Plan</h2>
+              <button id="upgradePlan" type="button" data-i18n="upgrade">Upgrade</button>
+            </div>
+            <div id="usageStatus" class="usage-status" data-i18n="freeUsageLoading">Free usage: loading</div>
+            <div class="license-row">
+              <input id="licenseKey" type="password" autocomplete="off" placeholder="License key" data-i18n-placeholder="licenseKey">
+              <button id="checkLicense" type="button" data-i18n="check">Check</button>
+            </div>
+            <p class="muted" data-i18n="upgradeCopy">Free is limited to 5 fills per month. Upgrade unlocks unlimited fills, multiple profiles, and learned site mappings.</p>
+          </section>
         </div>
-        <div id="usageStatus" class="usage-status" data-i18n="freeUsageLoading">Free usage: loading</div>
-        <div class="license-row">
-          <input id="licenseKey" type="password" autocomplete="off" placeholder="License key" data-i18n-placeholder="licenseKey">
-          <button id="checkLicense" type="button" data-i18n="check">Check</button>
-        </div>
-        <p class="muted" data-i18n="upgradeCopy">Free is limited to 5 fills per month. Upgrade unlocks unlimited fills, multiple profiles, and learned site mappings.</p>
       </section>
 
       <footer class="footnote" data-i18n="footnote">

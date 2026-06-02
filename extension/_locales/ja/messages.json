@@ -6,37 +6,37 @@
     "message": "FormPilot"
   },
   "extDescription": {
-    "message": "端末内プロフィールVaultから、ユーザー確認つきで多言語フォームを自動入力します。"
+    "message": "名前、住所、メールなどを何度も入力する手間を減らす拡張機能です。今開いているフォームを見て、登録情報と合う項目だけ入力します。"
   },
   "eyebrow": {
-    "message": "端末内プロフィール / フォーム構造だけAI"
+    "message": "登録フォームの入力を減らす"
   },
   "appTitle": {
     "message": "FormPilot Vault"
   },
   "profileVault": {
-    "message": "プロフィールVault"
+    "message": "登録情報"
   },
   "sample": {
     "message": "サンプル"
   },
   "memoryLoading": {
-    "message": "Vaultメモリ: 読み込み中"
+    "message": "登録情報: 読み込み中"
   },
   "save": {
-    "message": "保存"
+    "message": "登録情報を保存"
   },
   "scanForm": {
-    "message": "フォーム解析"
+    "message": "このフォームを確認"
   },
   "inputPlan": {
-    "message": "入力プラン"
+    "message": "入力できる項目"
   },
   "fill": {
-    "message": "入力"
+    "message": "合う項目を入力"
   },
   "openFormPrompt": {
-    "message": "フォームページを開いて、フォーム解析を押してください。"
+    "message": "登録フォームを開いて、このボタンで入力できる項目を確認します。"
   },
   "plan": {
     "message": "プラン"
@@ -54,19 +54,19 @@
     "message": "確認"
   },
   "upgradeCopy": {
-    "message": "Freeは月5回まで。アップグレードで無制限入力、複数プロフィール、サイト別学習が使えます。"
+    "message": "無料版は月5回まで。アップグレードで入力回数、複数の登録情報、サイト別の学習を増やせます。"
   },
   "footnote": {
-    "message": "送信ボタンは押しません。個人情報の実値は端末内に残します。"
+    "message": "送信ボタンは押しません。入力前に必ず確認できます。"
   },
   "profileSaved": {
-    "message": "プロフィールを端末内Vaultへ保存しました。"
+    "message": "登録情報を保存しました。登録フォームを開いて確認してください。"
   },
   "freeLimitReached": {
-    "message": "Freeの月間上限に達しました。続けるにはアップグレードしてください。"
+    "message": "無料版の月間上限に達しました。続けるにはアップグレードしてください。"
   },
   "filledReview": {
-    "message": "$1項目を入力しました。送信前に確認してください。"
+    "message": "合う項目を$1件入力しました。送信前に確認してください。"
   },
   "licenseActive": {
     "message": "$1ライセンスが有効です。"
@@ -84,19 +84,19 @@
     "message": "有効なタブがありません"
   },
   "planSummary": {
-    "message": "$1項目を解析 / $2項目入力可能 / $3項目は確認が必要"
+    "message": "$1項目を確認 / $2項目を入力できます / $3項目は手入力です"
   },
   "sourceMemory": {
-    "message": "メモリ"
+    "message": "学習"
   },
   "sourceRules": {
-    "message": "ルール"
+    "message": "判断"
   },
   "uncertainManual": {
-    "message": "未確定です。ユーザーが手動で確認してください。"
+    "message": "合う登録情報が見つかりません。手入力してください。"
   },
   "profileKey": {
-    "message": "プロフィールキー"
+    "message": "登録情報の項目"
   },
   "rememberAs": {
     "message": "次回から..."
@@ -105,16 +105,16 @@
     "message": "学習"
   },
   "memoryUpdated": {
-    "message": "メモリを更新しました。入力プランを確認してください。"
+    "message": "学習しました。入力できる項目を確認してください。"
   },
   "memorySummary": {
-    "message": "$1プロフィール / $2学習済みマッピング / このフォームで$3ヒット"
+    "message": "$1件の登録情報 / $2件の学習 / このフォームで$3件ヒット"
   },
   "paidUsage": {
     "message": "$1プラン / 今月$2回入力"
   },
   "freeUsage": {
-    "message": "Free利用: 今月$1/$2回"
+    "message": "無料版: 今月$1/$2回"
   },
   "semantic_person_name_full": {
     "message": "氏名"
@@ -193,5 +193,266 @@
   },
   "semantic_account_password_generated": {
     "message": "生成パスワード"
+  },
+  "profileName": {
+    "message": "名前"
+  },
+  "profileContact": {
+    "message": "連絡先"
+  },
+  "profileAddress": {
+    "message": "住所"
+  },
+  "profileWork": {
+    "message": "仕事"
+  },
+  "lastName": {
+    "message": "姓"
+  },
+  "firstName": {
+    "message": "名"
+  },
+  "lastKana": {
+    "message": "セイ"
+  },
+  "firstKana": {
+    "message": "メイ"
+  },
+  "email": {
+    "message": "メール"
+  },
+  "phone": {
+    "message": "電話番号"
+  },
+  "postalCode": {
+    "message": "郵便番号"
+  },
+  "prefecture": {
+    "message": "都道府県"
+  },
+  "city": {
+    "message": "市区町村"
+  },
+  "addressLine1": {
+    "message": "番地"
+  },
+  "addressLine2": {
+    "message": "建物名・部屋番号"
+  },
+  "company": {
+    "message": "会社名"
+  },
+  "jobTitle": {
+    "message": "役職"
+  },
+  "noFormFound": {
+    "message": "フォームが見つかりません。"
+  },
+  "noFormHint": {
+    "message": "名前、メール、住所などの入力欄があるページを開いて、もう一度確認してください。"
+  },
+  "formSide": {
+    "message": "フォーム側"
+  },
+  "savedSide": {
+    "message": "入る情報"
+  },
+  "manualEntry": {
+    "message": "手入力"
+  },
+  "profileCustom": {
+    "message": "登録台帳"
+  },
+  "customLedgerHint": {
+    "message": "個人用の辞書として使えます。会員ID、スプレッドシートの列名、社内コード、別名を登録しておくと、一般的でないフォームにも合わせやすくなります。"
+  },
+  "customKey": {
+    "message": "登録名"
+  },
+  "customValue": {
+    "message": "入力する値"
+  },
+  "customAliases": {
+    "message": "呼び名"
+  },
+  "addCustomField": {
+    "message": "台帳に追加"
+  },
+  "customKeyPlaceholder": {
+    "message": "例: 会員ID"
+  },
+  "customValuePlaceholder": {
+    "message": "例: MEMBER-001、対応済み"
+  },
+  "customAliasPlaceholder": {
+    "message": "例: お客様番号, 会員番号"
+  },
+  "removeCustomField": {
+    "message": "行を削除"
+  },
+  "detectedLedgerTitle": {
+    "message": "見つけた項目を台帳に追加"
+  },
+  "addDetectedField": {
+    "message": "この項目を登録"
+  },
+  "stepSavedInfo": {
+    "message": "登録"
+  },
+  "stepCheckForm": {
+    "message": "確認"
+  },
+  "stepFill": {
+    "message": "入力"
+  },
+  "fillAfterCheck": {
+    "message": "確認後に入力"
+  },
+  "checkingForm": {
+    "message": "確認中..."
+  },
+  "checkAgain": {
+    "message": "もう一度確認"
+  },
+  "fillCount": {
+    "message": "$1件を入力"
+  },
+  "filledButton": {
+    "message": "$1件入力済み"
+  },
+  "fieldsFoundShort": {
+    "message": "$1項目あり"
+  },
+  "canFillShort": {
+    "message": "自動入力 $1件"
+  },
+  "needsCheckShort": {
+    "message": "$1件手入力"
+  },
+  "noFormShort": {
+    "message": "フォームなし"
+  },
+  "inputOk": {
+    "message": "自動入力"
+  },
+  "needsManual": {
+    "message": "確認"
+  },
+  "detectedLedgerHint": {
+    "message": "値を入れて登録すると、次回から自動入力候補になります。"
+  },
+  "settingsTitle": {
+    "message": "登録管理"
+  },
+  "ledgerSearchPlaceholder": {
+    "message": "台帳を検索（会員ID、列名、案件IDなど）"
+  },
+  "ledgerPresetTitle": {
+    "message": "よく使う辞書を追加"
+  },
+  "presetCustomerId": {
+    "message": "会員番号"
+  },
+  "presetSheetTerm": {
+    "message": "シート用語"
+  },
+  "presetInternalId": {
+    "message": "案件ID"
+  },
+  "presetCustomerIdLabel": {
+    "message": "お客様番号"
+  },
+  "presetCustomerIdAliases": {
+    "message": "会員ID, 顧客番号, カスタマー番号, アカウント番号"
+  },
+  "presetSheetTermLabel": {
+    "message": "スプレッドシート項目"
+  },
+  "presetSheetTermAliases": {
+    "message": "列名, 管理項目, シート項目, 行ID"
+  },
+  "presetInternalIdLabel": {
+    "message": "案件ID"
+  },
+  "presetInternalIdAliases": {
+    "message": "案件番号, 管理番号, タスクID, 社内コード"
+  },
+  "customCategory": {
+    "message": "種類"
+  },
+  "customCategoryBasic": {
+    "message": "基本"
+  },
+  "customCategoryId": {
+    "message": "ID系"
+  },
+  "customCategorySheet": {
+    "message": "シート用語"
+  },
+  "customCategoryWork": {
+    "message": "仕事用語"
+  },
+  "customCategoryOther": {
+    "message": "その他"
+  },
+  "profileSavedShort": {
+    "message": "登録しました"
+  },
+  "lastNamePlaceholder": {
+    "message": "例: 山田"
+  },
+  "firstNamePlaceholder": {
+    "message": "例: 太郎"
+  },
+  "lastKanaPlaceholder": {
+    "message": "例: ヤマダ"
+  },
+  "firstKanaPlaceholder": {
+    "message": "例: タロウ"
+  },
+  "emailPlaceholder": {
+    "message": "例: taro@example.com"
+  },
+  "phonePart1Placeholder": {
+    "message": "090"
+  },
+  "phonePart2Placeholder": {
+    "message": "1234"
+  },
+  "phonePart3Placeholder": {
+    "message": "5678"
+  },
+  "postalCodePlaceholder": {
+    "message": "例: 150-0001"
+  },
+  "prefecturePlaceholder": {
+    "message": "例: 東京都"
+  },
+  "cityPlaceholder": {
+    "message": "例: 渋谷区"
+  },
+  "addressLine1Placeholder": {
+    "message": "例: 神宮前1-2-3"
+  },
+  "addressLine2Placeholder": {
+    "message": "例: サンプルマンション101"
+  },
+  "companyPlaceholder": {
+    "message": "例: 株式会社サンプル"
+  },
+  "jobTitlePlaceholder": {
+    "message": "例: 代表"
+  },
+  "postalLookupSearching": {
+    "message": "郵便番号から住所を検索しています"
+  },
+  "postalLookupFilled": {
+    "message": "住所を自動入力しました"
+  },
+  "postalLookupNotFound": {
+    "message": "住所が見つかりませんでした"
+  },
+  "postalLookupFailed": {
+    "message": "住所検索に失敗しました。手入力してください"
   }
 }

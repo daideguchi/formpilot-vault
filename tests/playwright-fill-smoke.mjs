@@ -29,8 +29,9 @@ try {
   assert.equal(await page.locator("#postal").inputValue(), "150-0001");
   assert.equal(await page.locator("#prefecture").inputValue(), "東京都");
   assert.equal(await page.locator("#company").inputValue(), "株式会社サンプル");
+  assert.equal(await page.locator("#memberId").inputValue(), "MEMBER-001");
+  assert.equal(await page.locator("#referralCode").inputValue(), "FORMPILOT");
   console.log(`Playwright smoke passed: ${fields.length} fields scanned, ${filled} filled`);
 } finally {
   await browser.close();
 }
-

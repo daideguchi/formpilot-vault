@@ -82,6 +82,25 @@ export function checkEntitlement({ license_key, store = {} }) {
   return createEntitlement(record);
 }
 
+export function normalizeEntitlementResponse(entitlement = {}) {
+  if (!entitlement || typeof entitlement !== "object") return entitlement;
+  const normalizedPlan = normalizePlan(entitlement.plan || "free");
+  if (normalizedPlan !== "free") return entitlement;
+
+  const localFree = createEntitlement({
+    license_key: entitlement.license_key || null,
+    plan: "free",
+    status: entitlement.status || "not_found",
+    customer_id: entitlement.customer_id || null,
+    current_period_end: entitlement.current_period_end || null
+  });
+  return {
+    ...entitlement,
+    plan: "free",
+    limits: localFree.limits
+  };
+}
+
 export function applyStripeEvent({ event, store = {}, pricePlanMap = {} }) {
   const type = event?.type || "";
   const object = event?.data?.object || {};

@@ -1,4 +1,4 @@
-import { getProfileValue } from "./profile-formatters.js";
+import { getCustomProfileEntries, getCustomProfileLabel, getProfileValue } from "./profile-formatters.js";
 
 export const SEMANTIC_LABELS = {
   "person.name.full": "氏名",
@@ -113,7 +113,9 @@ export function buildSchema(fields, { memoryContext = null } = {}) {
 
 export function buildInputPlan({ fields, schema, profile }) {
   return fields.map((field) => {
-    const inference = schema[field.field_id] || { semantic_key: null, confidence: 0 };
+    const ruleInference = schema[field.field_id] || { semantic_key: null, confidence: 0 };
+    const customInference = inferCustomProfileField(field, profile);
+    const inference = pickInference(ruleInference, customInference);
     if (!inference.semantic_key || inference.confidence < 0.68) {
       return {
         field_id: field.field_id,
@@ -127,12 +129,13 @@ export function buildInputPlan({ fields, schema, profile }) {
     }
 
     const value = getProfileValue(profile, inference.semantic_key, field);
+    const customLabel = getCustomProfileLabel(profile, inference.semantic_key);
     if (value === undefined || value === null || value === "") {
       return {
         field_id: field.field_id,
         action: "ask",
         profile_key: inference.semantic_key,
-        display_label: displayLabel(field),
+        display_label: customLabel || SEMANTIC_LABELS[inference.semantic_key] || displayLabel(field),
         value_preview: "",
         confidence: Math.min(inference.confidence, 0.66),
         source: inference.source || "unknown"
@@ -143,7 +146,7 @@ export function buildInputPlan({ fields, schema, profile }) {
       field_id: field.field_id,
       action: field.tag === "select" || field.role === "radio-group" ? "select" : "fill",
       profile_key: inference.semantic_key,
-      display_label: SEMANTIC_LABELS[inference.semantic_key] || displayLabel(field),
+      display_label: customLabel || SEMANTIC_LABELS[inference.semantic_key] || displayLabel(field),
       value: normalizeForField(value, field),
       value_preview: normalizeForField(value, field),
       confidence: inference.confidence,
@@ -199,6 +202,61 @@ export function inferField(field) {
   return { semantic_key: null, confidence: 0.25, source: "unknown" };
 }
 
+function inferCustomProfileField(field, profile = {}) {
+  const entries = getCustomProfileEntries(profile).filter((entry) => entry.value !== undefined && entry.value !== null && entry.value !== "");
+  if (entries.length === 0) return null;
+
+  const directText = normalizeSearchText([
+    field.label,
+    field.aria_label,
+    field.placeholder
+  ].filter(Boolean).join(" "));
+  const structuralText = normalizeSearchText([
+    field.name,
+    field.id
+  ].filter(Boolean).join(" "));
+  const contextText = normalizeSearchText([
+    field.nearby_text,
+    field.section_title
+  ].filter(Boolean).join(" "));
+  const allText = [directText, structuralText, contextText].filter(Boolean).join(" ");
+
+  let best = null;
+  for (const entry of entries) {
+    const candidates = [
+      entry.label,
+      entry.key,
+      ...(Array.isArray(entry.aliases) ? entry.aliases : [])
+    ].map((value) => normalizeSearchText(value)).filter(Boolean);
+
+    for (const candidate of candidates) {
+      const directMatch = includesPhrase(directText, candidate);
+      const structuralMatch = includesPhrase(structuralText, candidate);
+      const contextMatch = includesPhrase(contextText, candidate);
+      const tokenMatch = candidateTokens(candidate).length > 1
+        && candidateTokens(candidate).every((token) => allText.includes(token));
+
+      const confidence = directMatch ? 0.95 : structuralMatch ? 0.92 : tokenMatch ? 0.88 : contextMatch ? 0.72 : 0;
+      if (confidence > (best?.confidence || 0)) {
+        best = {
+          semantic_key: entry.profile_key,
+          confidence,
+          source: "custom_profile"
+        };
+      }
+    }
+  }
+
+  return best;
+}
+
+function pickInference(ruleInference, customInference) {
+  if (!customInference) return ruleInference;
+  if (!ruleInference?.semantic_key || (ruleInference.confidence || 0) < 0.68) return customInference;
+  if ((customInference.confidence || 0) > (ruleInference.confidence || 0) + 0.03) return customInference;
+  return ruleInference;
+}
+
 function normalizeAutocomplete(value = "") {
   return String(value)
     .toLowerCase()
@@ -219,4 +277,22 @@ function normalizeForField(value, field) {
 
 function displayLabel(field) {
   return field.label || field.placeholder || field.name || field.id || field.field_id;
+}
+
+function normalizeSearchText(value = "") {
+  return String(value)
+    .normalize("NFKC")
+    .toLowerCase()
+    .replace(/[_\-./:]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function includesPhrase(source, phrase) {
+  if (!source || !phrase) return false;
+  return source === phrase || source.includes(phrase) || (source.length >= 4 && phrase.includes(source));
+}
+
+function candidateTokens(candidate) {
+  return candidate.split(" ").map((token) => token.trim()).filter((token) => token.length >= 2);
 }

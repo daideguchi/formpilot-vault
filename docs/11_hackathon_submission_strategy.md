@@ -197,7 +197,7 @@ npm run test:public-probe
 
 - ルール/Memoryで日本語フォームをプロフィールキーへ対応づける
 - AI safe payloadが実値を含まない
-- Chrome拡張E2Eで12項目収集/12項目入力
+- Chrome拡張E2Eで14項目収集/14項目入力。登録台帳の会員ID/紹介コードも入力確認済み
 - 公開フォーム2件で送信なしの実ブラウザ検証
 - Plus license表示
 - LP checkout smoke

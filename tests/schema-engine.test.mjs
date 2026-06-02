@@ -11,6 +11,11 @@ import {
   recordCorrectionEvent
 } from "../extension/src/profile-memory.js";
 import { buildSchemaInferencePayload, payloadContainsProfileValues } from "../extension/src/ai-payload.js";
+import {
+  formatPostalCode,
+  lookupJapaneseAddressByPostalCode,
+  normalizePostalCode
+} from "../extension/src/postal-code-client.js";
 
 test("maps common Japanese signup fields to profile keys", () => {
   const fields = [
@@ -126,6 +131,78 @@ test("maps country and dialing code fields for worldwide signup forms", () => {
   const plan = buildInputPlan({ fields, schema, profile: SAMPLE_PROFILE });
   assert.equal(plan[0].value, "JP");
   assert.equal(plan[1].value, "+81");
+});
+
+test("matches user-added key value items to unknown form fields", () => {
+  const profile = {
+    ...SAMPLE_PROFILE,
+    custom: {
+      member_id: "MEMBER-001",
+      favorite_store: "渋谷店",
+      customer_number: "CUST-2026"
+    },
+    custom_labels: {
+      member_id: "会員ID",
+      favorite_store: "希望店舗",
+      customer_number: "お客様番号"
+    },
+	    custom_aliases: {
+	      customer_number: ["顧客番号", "会員番号", "カスタマー番号"]
+	    },
+	    custom_categories: {
+	      member_id: "id",
+	      favorite_store: "basic",
+	      customer_number: "id"
+	    },
+	    custom_order: ["member_id", "favorite_store", "customer_number"]
+	  };
+  const fields = [
+    { field_id: "member", tag: "input", type: "text", label: "会員ID", visible: true },
+    { field_id: "store", tag: "input", type: "text", label: "希望店舗", visible: true },
+    { field_id: "customer", tag: "input", type: "text", label: "顧客番号", visible: true }
+  ];
+
+  const schema = buildSchema(fields);
+  const plan = buildInputPlan({ fields, schema, profile });
+
+  assert.equal(schema.member.semantic_key, null);
+  assert.equal(plan[0].profile_key, "custom.member_id");
+  assert.equal(plan[0].display_label, "会員ID");
+  assert.equal(plan[0].value, "MEMBER-001");
+  assert.equal(plan[1].profile_key, "custom.favorite_store");
+  assert.equal(plan[1].value, "渋谷店");
+  assert.equal(plan[2].profile_key, "custom.customer_number");
+	  assert.equal(plan[2].display_label, "お客様番号");
+	  assert.equal(plan[2].value, "CUST-2026");
+	});
+
+test("keeps dictionary categories while matching spreadsheet-specific terms", () => {
+  const profile = {
+    ...SAMPLE_PROFILE,
+    custom: {
+      sheet_status: "要確認"
+    },
+    custom_labels: {
+      sheet_status: "スプレッドシート項目"
+    },
+    custom_aliases: {
+      sheet_status: ["列名", "管理項目", "シート項目"]
+    },
+    custom_categories: {
+      sheet_status: "sheet"
+    },
+    custom_order: ["sheet_status"]
+  };
+  const fields = [
+    { field_id: "sheet_term", tag: "input", type: "text", label: "管理項目", visible: true }
+  ];
+
+  const schema = buildSchema(fields);
+  const plan = buildInputPlan({ fields, schema, profile });
+
+  assert.equal(plan[0].profile_key, "custom.sheet_status");
+  assert.equal(plan[0].display_label, "スプレッドシート項目");
+  assert.equal(plan[0].value, "要確認");
 });
 
 test("enforces free monthly fill limit and tracks safe usage events", () => {
@@ -285,4 +362,41 @@ test("AI schema payload includes memory context but excludes raw profile values"
   assert.equal(payload.memory_context.locale_context.ui_language, "ja-JP");
   assert.equal(payload.memory_context.mapping_cache.length, 2);
   assert.equal(payloadContainsProfileValues(payload, profile), false);
+});
+
+test("postal code lookup normalizes ZipCloud responses", async () => {
+  const requestedUrls = [];
+  const address = await lookupJapaneseAddressByPostalCode({
+    postalCode: "150-0001",
+    fetchImpl: async (url) => {
+      requestedUrls.push(url);
+      return {
+        ok: true,
+        async json() {
+          return {
+            status: 200,
+            results: [
+              {
+                zipcode: "1500001",
+                address1: "東京都",
+                address2: "渋谷区",
+                address3: "神宮前"
+              }
+            ]
+          };
+        }
+      };
+    }
+  });
+
+  assert.equal(normalizePostalCode("〒150-0001"), "1500001");
+  assert.equal(formatPostalCode("1500001"), "150-0001");
+  assert.match(requestedUrls[0], /zipcode=1500001/);
+  assert.deepEqual(address, {
+    postal_code: "150-0001",
+    prefecture: "東京都",
+    city: "渋谷区",
+    line1: "神宮前",
+    source: "zipcloud"
+  });
 });

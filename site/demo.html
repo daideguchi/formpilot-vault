@@ -6,32 +6,32 @@
     <title>FormPilot Vault Demo</title>
     <link rel="stylesheet" href="style.css">
     <!-- Pendo / Novus install: start -->
-    <script>
-      (function(apiKey) {
-        (function(p, e, n, d, o) {
-          var v, w, x, y, z;
-          o = p[d] = p[d] || {};
-          o._q = o._q || [];
-          v = ['initialize', 'identify', 'updateOptions', 'pageLoad', 'track'];
-          for (w = 0, x = v.length; w < x; ++w) (function(method) {
-            o[method] = o[method] || function() {
-              o._q[method === 'initialize' ? 'unshift' : 'push']([method].concat([].slice.call(arguments, 0)));
-            };
-          })(v[w]);
-          y = e.createElement(n);
-          y.async = true;
-          y.src = 'https://cdn.pendo.io/agent/static/' + apiKey + '/pendo.js';
-          z = e.getElementsByTagName(n)[0];
-          z.parentNode.insertBefore(y, z);
-        })(window, document, 'script', 'pendo');
+<script>
+  (function(apiKey) {
+    (function(p, e, n, d, o) {
+      var v, w, x, y, z;
+      o = p[d] = p[d] || {};
+      o._q = o._q || [];
+      v = ['initialize', 'identify', 'updateOptions', 'pageLoad', 'track'];
+      for (w = 0, x = v.length; w < x; ++w) (function(method) {
+        o[method] = o[method] || function() {
+          o._q[method === 'initialize' ? 'unshift' : 'push']([method].concat([].slice.call(arguments, 0)));
+        };
+      })(v[w]);
+      y = e.createElement(n);
+      y.async = true;
+      y.src = 'https://cdn.pendo.io/agent/static/' + apiKey + '/pendo.js';
+      z = e.getElementsByTagName(n)[0];
+      z.parentNode.insertBefore(y, z);
+    })(window, document, 'script', 'pendo');
 
-        pendo.initialize({
-          visitor: { id: "formpilot-public-demo-video" },
-          account: { id: "formpilot-vault" }
-        });
-      })("b147308a-8db6-4ecb-ba89-29c921a8ca58");
-    </script>
-    <!-- Pendo / Novus install: end -->
+    pendo.initialize({
+      visitor: { id: "formpilot-public-demo-video" },
+      account: { id: "formpilot-vault" }
+    });
+  })("b147308a-8db6-4ecb-ba89-29c921a8ca58");
+</script>
+<!-- Pendo / Novus install: end -->
   </head>
   <body class="doc-page">
     <header class="doc-header">

@@ -1,6 +1,6 @@
 # Current Truth
 
-更新日: 2026-06-01
+更新日: 2026-06-02
 事業名: `AIフォームオートフィル`
 TASK候補: `BIZ-FORM-AUTOFILL-001`
 
@@ -19,6 +19,7 @@ MVPは `Chrome拡張 + content script入力` を本線にします。Playwright�
 - Chrome拡張MVP: `extension/`
 - フォーム認識エンジン: `extension/src/schema-engine.js`
 - DOM収集/入力実行: `extension/src/collector.js`
+- 郵便番号住所検索: `extension/src/postal-code-client.js`
 - API切替方針: `extension/src/provider-router.js`
 - AI安全ペイロード: `extension/src/ai-payload.js`
 - Extension schema API client: `extension/src/schema-client.js`
@@ -34,7 +35,7 @@ MVPは `Chrome拡張 + content script入力` を本線にします。Playwright�
 - Vault実値暗号化: `extension/src/vault-crypto.js`
 - Chrome Web Store素材: `store-assets/`
 - 拡張アイコン: `extension/icons/`
-- 提出用ZIP: `dist/ai-form-autofill-0.1.0.zip`
+- 提出用ZIP: `dist/ai-form-autofill-0.1.1.zip`
 - ストア掲載文面: `docs/12_chrome_store_listing_copy.md`
 - Chrome Web Store提出パケット: `docs/14_chrome_web_store_submission_packet.md`
 - プライバシー/利用規約下書き: `site/privacy.html`, `site/terms.html`
@@ -51,7 +52,7 @@ MVPは `Chrome拡張 + content script入力` を本線にします。Playwright�
 - 本番LP/API: `https://formpilot-vault-api.vercel.app/`
 - 日本語SEOページ: `https://formpilot-vault-api.vercel.app/ja`
 - SEO sitemap: `https://formpilot-vault-api.vercel.app/sitemap.xml`
-- Stripe本番Checkoutブリッジ: `production-stripe-bridge/*`
+- Stripe本番Checkoutブリッジ: `https://kurogane-edge-core-lp.vercel.app/api/formpilot/*`
 - Extension UI locales: `en`, `en_GB`, `ja`, `es`, `es_419`, `fr`, `de`, `it`, `nl`, `pl`, `pt_BR`, `ru`, `tr`, `ar`, `hi`, `id`, `th`, `vi`, `ko`, `zh_CN`, `zh_TW`
 - Worldwide distribution方針
 - Chrome Web Store draft item: `kmlcabffhmenjajmlnkkglphjnbaahlf`
@@ -66,9 +67,9 @@ AIへ渡すschema inference payloadも実装済みです。フォーム構造、
 
 リリース/課金に必要なAPI土台も実装済みです。`api/schema-proxy/` はAzure DeepSeek V4からCloudflare Workers AIへ日付で切替し、`api/entitlement/` はStripe webhookとlicense checkを扱います。popupにはLicense key確認欄を追加済みです。2026-06-01 13:28 JSTに、拡張popup本体も `extension/src/schema-client.js` 経由で本番schema APIを優先利用する形へ変更しました。API失敗時はローカルルールへfallbackします。
 
-初期のプロダクト思想は実際のschema proxyプロンプトへ入れました。`buildSchemaPrompt()` は、フォーム入力の細かな手間をなくす、Personal Vault + Profile RAG/Memory Spaceを核にする、実値を扱わない、不確定項目はユーザー確認へ残す、送信/認証突破/大量作成はしない、世界市場のフォームでは `locale_context` を補助情報として使う、という方針を含みます。
+DDの初期思想は実際のschema proxyプロンプトへ入れました。`buildSchemaPrompt()` は、フォーム入力の細かな手間をなくす、Personal Vault + Profile RAG/Memory Spaceを核にする、実値を扱わない、不確定項目はユーザー確認へ残す、送信/認証突破/大量作成はしない、世界市場のフォームでは `locale_context` を補助情報として使う、という方針を含みます。
 
-Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/Teamボタンから `POST /api/stripe/checkout-session` を呼び、Checkout成功後にLicense keyを表示します。2026-06-01時点では、FormPilot本番APIが既存のStripe本番ブリッジへ中継し、Stripe Checkout Session作成まで本番で成功しています。2026-06-01 13:40 JSTにPlus/Pro/Teamの3プランすべてで `cs_live_` Checkout Session作成を確認しました。購入前のlicense checkはFree/月5回で返り、購入後はStripe subscription metadataの `license_key` / `plan` を照会して有料権利を返す設計です。
+Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/Teamボタンから `POST /api/stripe/checkout-session` を呼び、Checkout成功後にLicense keyを表示します。2026-06-01時点では、FormPilot本番APIがKurogane側のStripe本番secretを使う専用ブリッジへ中継し、Stripe Checkout Session作成まで本番で成功しています。2026-06-01 13:40 JSTにPlus/Pro/Teamの3プランすべてで `cs_live_` Checkout Session作成を確認しました。購入前のlicense checkはFree/月5回で返り、購入後はStripe subscription metadataの `license_key` / `plan` を照会して有料権利を返す設計です。
 
 実購入後の有料権利確認用に `npm run check:paid-license` を追加しました。`AFA_LICENSE_KEY=afa_xxx AFA_EXPECTED_PLAN=plus npm run check:paid-license` で、Vercel本番とCloudflare Worker本番の両方に対して、有料plan、active状態、月間fills権利を確認できます。
 
@@ -82,29 +83,33 @@ Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/
 
 AI schema proxyは、Azure/Cloudflareの実環境変数が未投入でも停止しないように `rules_fallback` を実装済みです。2026-06-06まではprovider_idは `azure_deepseek_v4` のまま、Azure環境変数が未設定の場合はローカルのフォーム理解ルールでsemantic keyを返します。Azure値が投入されたらlive modeへ戻せます。
 
-多言語対応も初回提出前に強化しました。manifestは `default_locale: en` と `_locales` を使うChrome公式i18n構成で、21 localeに対応します。対象は英語、英語UK、日本語、スペイン語、ラテンアメリカスペイン語、フランス語、ドイツ語、イタリア語、オランダ語、ポーランド語、ブラジルポルトガル語、ロシア語、トルコ語、アラビア語、ヒンディー語、インドネシア語、タイ語、ベトナム語、韓国語、中国語簡体、中国語繁体です。2026-06-01 13:28 JST時点でExtension UIは65キー x 21 localeで欠落なしです。フォーム認識ルールも主要グローバル市場の氏名、メール、電話、国番号、郵便番号、国、住所、会社、部署、役職、パスワードに広げています。世界配信の販売戦略は `docs/15_global_language_distribution_plan.md` を正本にし、UI翻訳だけでなく国別フォーム理解、`locale_context`、Memory学習までを言語対応に含めます。
+多言語対応も初回提出前に強化しました。manifestは `default_locale: en` と `_locales` を使うChrome公式i18n構成で、21 localeに対応します。対象は英語、英語UK、日本語、スペイン語、ラテンアメリカスペイン語、フランス語、ドイツ語、イタリア語、オランダ語、ポーランド語、ブラジルポルトガル語、ロシア語、トルコ語、アラビア語、ヒンディー語、インドネシア語、タイ語、ベトナム語、韓国語、中国語簡体、中国語繁体です。2026-06-02 08:36 JST時点でExtension UIは152キー x 21 localeで欠落なしです。フォーム認識ルールも主要グローバル市場の氏名、メール、電話、国番号、郵便番号、国、住所、会社、部署、役職、パスワードに広げています。世界配信の販売戦略は `docs/15_global_language_distribution_plan.md` を正本にし、UI翻訳だけでなく国別フォーム理解、`locale_context`、Memory学習までを言語対応に含めます。
 
-2026-06-01のプロダクト判断として、世界配信は初期戦略に昇格しました。日本語フォームの強さは残しつつ、英語Primary、全155地域配信、21 locale拡張UI、英語初期LP、国別フォーム理解、Free月5回からの有料転換をセットで進めます。
+2026-06-01のDD判断として、世界配信は初期戦略に昇格しました。日本語フォームの強さは残しつつ、英語Primary、全155地域配信、21 locale拡張UI、英語初期LP、国別フォーム理解、Free月5回からの有料転換をセットで進めます。
 
-Chrome Web Store提出向けのロゴ、manifestアイコン、小プロモ画像、1280x800スクリーンショット3枚、提出用ZIPを作成済みです。素材生成は `npm run assets:store`、ZIP作成は `npm run package:extension` で再現できます。2026-06-01 13:28 JST時点の提出用ZIPは、本番schema API優先、21 locale/65キー、国/国番号semantic key、拡張 `locale_context` 収集入りで `69309 bytes` です。
+Chrome Web Store提出向けのロゴ、manifestアイコン、小プロモ画像、1280x800スクリーンショット3枚、提出用ZIPを作成済みです。素材生成は `npm run assets:store`、ZIP作成は `npm run package:extension` で再現できます。2026-06-02 09:47 JST時点の更新用ZIPは、JSONではない登録情報フォーム、初期値を空にしてプレースホルダーで例を出すUI、電話番号3分割、郵便番号から住所を検索するZipCloud連携、保存後の `登録しました` 表示、自由追加できる登録台帳、3ステップ導線 `登録 / 確認 / 入力` の選択不可表示、登録台帳の見つけやすいタブUI、辞書検索、種類、よく使う辞書追加ボタン、フォーム確認で見つけた未登録項目をその場で台帳登録し追加行へ移動・強調する導線、Free月5回、フォーム未検出時の明示メッセージ、対応値が分かる解析結果表示、小さいpopup UI、平易な説明文、本番schema API優先、21 locale/152キー、国/国番号semantic key、拡張 `locale_context` 収集入りで `105168 bytes` です。
 
-Chrome Web Store Dashboardにはitem `kmlcabffhmenjajmlnkkglphjnbaahlf` を作成済みです。21 locale ZIPをアップロードし、Store Listing、Privacy、販売地域、テスト手順を入力保存済みです。Primary languageは英語、UI localeは21 locale、カテゴリは `Workflow and Planning`、販売地域は全155地域、決済表示はStripe有料導線に合わせて `In-app purchases`、公開設定は `Public` です。2026-06-01 13:35 JSTに最新ZIP `69309 bytes` をPackage画面から再uploadし、Package画面でversion `0.1.0`、21言語、権限 `activeTab, scripting, storage` を確認しました。2026-06-01 13:54 JSTのDashboard実測でもステータスは `審査待ち` です。`審査のため送信` はdisabledになっており、最終提出は完了済みです。
+Chrome Web Store Dashboardにはitem `kmlcabffhmenjajmlnkkglphjnbaahlf` を作成済みです。21 locale ZIPをアップロードし、Store Listing、Privacy、販売地域、テスト手順を入力保存済みです。Primary languageは英語、UI localeは21 locale、カテゴリは `Workflow and Planning`、販売地域は全155地域、決済表示はStripe有料導線に合わせて `In-app purchases`、公開設定は `Public` です。Store Listingの短い説明/詳細説明とTest instructionsも、`repeated name/address/email typing`, `saved info`, `Check this form`, `Fill matching fields` へ統一済みです。2026-06-02 08:36 JSTの `npm run check:launch -- --require-published` 実測でChrome Web Store公開URLは `published: true`、final_urlは `https://chromewebstore.google.com/detail/formpilot-vault/kmlcabffhmenjajmlnkkglphjnbaahlf`、ブロッカー0です。Dashboard tabは未検出のためDashboard内Package版は未確認です。
 
-Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry-run通過済みです。現行本番はFormPilot専用Stripe bridgeでPlus/Pro/Teamの本番Checkout Sessionを作る構成です。実購入/入金確認だけは未実行で、プロジェクトオーナーの決済操作またはStripe Dashboard確認が必要です。
+2026-06-02 09:40 JSTに、DDの「Freeは月5回で課金させたい」という方針へ戻すため、拡張内usage meter、API entitlement、LP/Terms、Chrome Store文面、検証スクリプト、正本をFree月5回へ統一しました。2026-06-01 18:10 JST以降に進んでいた登録台帳のプレースホルダー、3ステップ導線、設定内タブ、台帳検索、種類、よく使う辞書追加ボタン、ZipCloud住所検索、電話番号3分割、空の初期値とプレースホルダー、保存後の `登録しました` 表示は維持します。公開済みChrome Web Storeの更新用にmanifest/package versionを `0.1.1` へ上げ、`npm test`、`npm run assets:store`、`npm run package:extension`、`npm run release:check` を通過しました。
 
-本番APIの置き場としてCloudflare Workerを実装済みです。`/api/schema/infer`、`/api/stripe/checkout-session`、`/api/stripe/webhook`、`/api/entitlement/check`、`/api/health` を同じWorkerで扱います。Stripe entitlementはD1に保存する設計です。Workers AI binding `env.AI.run()` がある場合はCloudflare API tokenなしで推論できます。Cloudflare CLIは `local Cloudflare operator account` でlogin済み、D1 `ai-form-autofill-prod` はAPACに作成済み、database_idは `895767fa-8bc7-4811-9801-63d879eeb194` です。D1 migration適用済みで、Worker本番URLは `https://ai-form-autofill.dd-1107-11107.workers.dev` です。
+Chrome Web Storeは、2026-06-02 08:36 JST時点で公開済みです。公開URLは `https://chromewebstore.google.com/detail/formpilot-vault/kmlcabffhmenjajmlnkkglphjnbaahlf`。2026-06-02 09:47 JSTに更新用ZIP `dist/ai-form-autofill-0.1.1.zip` をDashboardへアップロードし、更新審査へ送信済みです。Dashboard読み戻しでは、全体ステータスは `審査待ち`、ドラフトは `0.1.1`、公開済み版は `0.1.0` です。審査通過後に `0.1.1` が公開反映されます。
+
+Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry-run通過済みです。現行本番はFormPilot専用Stripe bridgeでPlus/Pro/Teamの本番Checkout Sessionを作る構成です。実購入/入金確認だけは未実行で、DDの決済操作またはStripe Dashboard確認が必要です。
+
+本番APIの置き場としてCloudflare Workerを実装済みです。`/api/schema/infer`、`/api/stripe/checkout-session`、`/api/stripe/webhook`、`/api/entitlement/check`、`/api/health` を同じWorkerで扱います。Stripe entitlementはD1に保存する設計です。Workers AI binding `env.AI.run()` がある場合はCloudflare API tokenなしで推論できます。Cloudflare CLIは `dd.1107.11107@gmail.com` でlogin済み、D1 `ai-form-autofill-prod` はAPACに作成済み、database_idは `895767fa-8bc7-4811-9801-63d879eeb194` です。D1 migration適用済みで、Worker本番URLは `https://ai-form-autofill.dd-1107-11107.workers.dev` です。2026-06-02 09:47 JST時点のCloudflare Worker version idは `a1c1eca3-084f-4a44-a5e1-1264227ab73e` です。
 
 `npm run release:check` も追加済みです。Vercel本番APIを使う通常リリース判定ではブロッカー0です。Cloudflare用は `npm run check:cloudflare:live` で、Worker health、Workers AI live schema、Stripe Checkout bridge、Free entitlement bridgeを検証します。
 
-`npm run check:production` も追加済みです。本番 `https://formpilot-vault-api.vercel.app` に対して、health、schema inference、Plus/Pro/Team Stripe Checkout sessions、Free entitlement、Privacy、Support、Termsを一括確認します。2026-06-01 13:40 JSTの確認ではブロッカー0、Plus/Pro/Team Stripe Checkoutはいずれも `cs_live_` セッションを返し、AI schema inferenceのみ `azure_env_missing` による `rules_fallback` warningです。`npm run check:production:strict-ai` では、このAI live未投入をブロッカーとして検出できます。
+`npm run check:production` も追加済みです。本番 `https://formpilot-vault-api.vercel.app` に対して、health、schema inference、Plus/Pro/Team Stripe Checkout sessions、Free entitlement、Privacy、Support、Termsを一括確認します。2026-06-02 09:47 JSTの確認ではブロッカー0、Plus/Pro/Team Stripe Checkoutはいずれも `cs_live_` セッションを返し、Free entitlementは月5回で返っています。AI schema inferenceのみ `azure_env_missing` による `rules_fallback` warningです。`npm run check:production:strict-ai` では、このAI live未投入をブロッカーとして検出できます。
 
-公開用LPは `FormPilot Vault` としてVercel本番へ反映済みです。`https://formpilot-vault-api.vercel.app/` はHTTP 200を確認済みです。2026-06-01 13:32 JSTにVercel deployment `dpl_BkXLM2QPbuNSj159j2NQ1cgSgxTD` を本番aliasへ反映し、最新schema proxyとStripe bridge経路を本番へ反映しました。GitHub Pages版 `https://daideguchi.github.io/formpilot-vault/` も公開ミラーとして維持しています。
+公開用LPは `FormPilot Vault` としてVercel本番へ反映済みです。`https://formpilot-vault-api.vercel.app/` はHTTP 200を確認済みです。2026-06-02 09:47 JSTにVercel deployment `dpl_8pHFLoNoSJc7YYcAHsDRmcwZrUuF` を本番aliasへ反映し、Free月5回、SEOページ、schema proxy、Stripe bridge経路を本番へ反映しました。GitHub Pages版 `https://daideguchi.github.io/formpilot-vault/` も公開ミラーとして維持しています。
 
-Cloudflare移行用に `npm run check:cloudflare` と `npm run check:cloudflare:live` を追加済みです。2026-06-01確認時点でCloudflare login、D1 database作成、migration、Worker deploy、Workers AI binding本番確認、Stripe bridge secret設定まで完了しています。現在のChrome Web Store提出用本番は引き続きVercel + Stripeブリッジですが、Cloudflare Workerへ切り替え可能な本番経路も検証済みです。
+Cloudflare移行用に `npm run check:cloudflare` と `npm run check:cloudflare:live` を追加済みです。2026-06-02 09:47 JST確認時点でCloudflare login、D1 database作成、migration、Worker deploy、Workers AI binding本番確認、Stripe bridge secret設定まで完了しています。`npm run check:cloudflare:live` はブロッカー0で、Cloudflare schema live、Stripe checkout bridge、Free entitlement月5回を確認済みです。現在のChrome Web Store提出用本番は引き続きVercel + Stripeブリッジですが、Cloudflare Workerへ切り替え可能な本番経路も検証済みです。
 
-Azure CLIは `local Azure operator account` でログイン済みです。既存Azure AI Servicesは `azure-ai-resource-a` と `azure-ai-resource-b` の2つが見えますが、2026-06-01確認時点では両方ともmodel deploymentが空です。Azure側では `DeepSeek-V4-Pro` と `DeepSeek-V4-Flash` のmodel listは見えますが、deployment作成は subscription `8bf38da5-83a9-4f59-b2f9-1b7cc66fc64d` が `ReadOnlyDisabledSubscription` のため失敗しました。Azureを6/6までlive利用するには、Azure subscriptionの再有効化が人間停止点です。
+Azure CLIは `degutidai@gmail.com` でログイン済みです。既存Azure AI Servicesは `degutidai-1418-resource` と `degutidai-5815-resource` の2つが見えますが、2026-06-01確認時点では両方ともmodel deploymentが空です。Azure側では `DeepSeek-V4-Pro` と `DeepSeek-V4-Flash` のmodel listは見えますが、deployment作成は subscription `8bf38da5-83a9-4f59-b2f9-1b7cc66fc64d` が `ReadOnlyDisabledSubscription` のため失敗しました。Azureを6/6までlive利用するには、Azure subscriptionの再有効化が人間停止点です。
 
-実ブラウザ検証も通過済みです。Chromiumに拡張を `--load-extension` で読み込み、extension service worker / content script / DOM入力まで実行しました。12項目収集、12項目入力、Plus license表示、`locale_context` 収集、IndexedDB内の非exportable Vault鍵、`chrome.storage.local` に鍵/実値なしまで確認済みです。証跡は `docs/10_real_browser_verification.md` と `site/assets/real-extension-*.png` にあります。
+実ブラウザ検証も通過済みです。Chromiumに拡張を `--load-extension` で読み込み、extension service worker / content script / DOM入力まで実行しました。14項目収集、14項目入力、初期登録情報が空でプレースホルダーだけ表示されること、郵便番号 `1500001` から住所が自動入力されること、保存後に `登録しました` が表示されること、電話番号が `090 / 1234 / 5678` の3分割で表示されること、3ステップ導線の選択不可表示、登録台帳タブ、台帳検索、辞書追加ボタン、登録台帳の `会員ID` / `紹介コード` / `スプレッドシート項目`、設定ボタン内の `登録台帳` 表示、台帳説明文、Plus license表示、`locale_context` 収集、IndexedDB内の非exportable Vault鍵、`chrome.storage.local` に鍵/実値なしまで確認済みです。フォーム確認で見つけた未登録項目を、その場で台帳へ追加する導線も入っています。証跡は `docs/10_real_browser_verification.md` と `site/assets/real-extension-*.png` にあります。
 
 公開デモフォームでも実ブラウザ検証済みです。`httpbin.org/forms/post` は12項目収集、4項目入力。`selenium.dev/selenium/web/web-form.html` は14項目収集、1項目入力。送信はしていません。不確定項目をaskへ残す挙動も確認しました。
 
@@ -137,16 +142,15 @@ Azure CLIは `local Azure operator account` でログイン済みです。既存
 
 ## 未完了
 
-- Chrome Web Store審査対応
+- Chrome Web Store `0.1.1` 更新審査の結果確認と公開反映確認
 - Azure subscription再有効化、またはAzure期間をrules fallbackで運用する最終判断
-- Chrome Web Store審査完了後の公開確認
 - Stripeの実購入/入金確認
 - サイト別マッピングUI
 - 入力判断用RAG/Memory Spaceの実サイト評価
 
 ## 2026-06-01 ハッカソン転用確認
 
-プロジェクトオーナーから、今作っている入力フォーム自動入力プロダクトを、賞金化しやすいハッカソンへ使いたいという方針を受けた。
+DDから、今作っている入力フォーム自動入力プロダクトを、賞金化しやすいハッカソンへ使いたいという方針を受けた。
 
 確認結果:
 
@@ -167,7 +171,7 @@ Mind the Product向けの別提出候補として、公開用パッケージを�
 
 - 公開URL: `https://daideguchi.github.io/formpilot-vault/`
 - GitHub: `https://github.com/daideguchi/formpilot-vault`
-- 公開パッケージ作業場所: `local public repo checkout`
+- 公開パッケージ作業場所: `/Users/dd/000_AI組織/__hackason/formpilot-vault-public`
 - 公開repoは継続更新中。提出前は `git log --oneline -5` と公開URLで最新状態を再確認する。
 
 公開前に削った/直したこと:
@@ -193,7 +197,7 @@ Mind the Product向けの別提出候補として、公開用パッケージを�
 
 ## 2026-06-01 自動再生デモと使い回し境界
 
-プロジェクトオーナーの指摘を受け、すでに公開されているページをそのまま別ハッカソンへ使い回す方針は採らない。
+DDの指摘を受け、すでに公開されているページをそのまま別ハッカソンへ使い回す方針は採らない。
 使い回すのは中核エンジンと証拠であり、提出ごとにユーザー、課題、必要技術、見せ方を分ける。
 
 公開LPには2分の無音自動再生デモを追加した。
@@ -225,13 +229,154 @@ Mind the Product向けに、既存のNovus/Pendoアカウントの公開Web inst
 - 公開URL上でPendo/Novus scriptとdata requestが発火することをPlaywrightで確認済み。
 - `npm run novus:verify` は `formpilot_novus_live_proof_ok`。
 
+## 2026-06-01 Comet導入と拡張UI確認
+
+DDの「拡張機能ボタンからUIを出し、そのUIで今の入力フォームを解析し、登録済み情報と一致した項目だけ埋める」という指定に合わせて、FormPilot VaultをCometへローカル導入した。
+
+- Comet導入元: `extension/`
+- Comet extension ID: `fmkfadfdehcffceokoehokjmhhgppcag`
+- Comet上の状態: `enabled=true`, version `0.1.0`
+- Chrome Web Store公開URLは未公開状態のため、現時点のComet導入はunpacked local extension
+- popupを、拡張機能ボタンから出る小さい操作UIへ変更した。通常表示は「このフォームを確認」→「合う項目を入力」に絞り、登録情報/プランは折りたたみへ移した
+- 文言を「登録フォームの入力を減らす」「登録情報」「合う項目を入力」に統一した
+- Comet popup direct loadで新UI文言を確認済み
+- `npm run test:i18n` 通過
+- `npm run test:schema` 通過
+- `npm run test:extension` 通過。12項目解析、12項目入力を確認
+- `npm run package:extension` 通過。`dist/ai-form-autofill-0.1.0.zip` は `77204 bytes`
+- 証跡: `site/assets/real-extension-popup-loaded.png`, `site/assets/real-extension-filled-form.png`
+
+## 2026-06-01 Chrome Web Store 小さいUI版再提出
+
+DDの「何かのサービスに登録するとき、また名前の入力か、となる入力手間を減らす専用拡張機能」という意図に合わせて、CWS提出物も小さいpopup UI版へ差し替えた。
+
+- 旧審査待ちをキャンセルしてドラフトへ戻した
+- `dist/ai-form-autofill-0.1.0.zip` `69774 bytes` をPackage画面へ再upload
+- manifest英語説明文はChrome Web Store上限132文字以内の120文字へ短縮
+- Store Listingの短い説明/詳細説明を、平易な言葉へ変更
+- Test instructionsを新UI文言へ変更
+- 最終確認で `ステータス: 審査待ち`
+- `npm run check:launch` はブロッカー0
+- `npm run release:check` はブロッカー0
+
+## 2026-06-01 登録フォームUIと対応値表示
+
+DDの追加指定を受け、popupの登録情報編集をJSON textareaから通常フォームへ変更した。姓/名/カナ/メール/電話/住所/会社/役職を、そのまま入力できる。
+
+フォーム解析結果は、各カードで `フォーム側` と `入る情報` を分けて表示する。たとえばページ側の「メールアドレス」に対して、登録情報の「メール: taro@example.com」が入ることが分かる形にした。
+
+フォーム入力欄がないページでは、`フォームが見つかりません。` と表示し、入力ボタンは有効化しない。
+
+確認結果:
+
+- Comet unpacked extensionへ再読み込み済み
+- `npm run test:i18n` 通過
+- `npm run test:schema` 通過
+- `npm run test:extension` 通過。13項目解析、13項目入力
+- `npm run release:check` 通過
+- `npm run check:launch` 通過。Dashboardは `審査待ち`
+- Chrome Web Storeへ `77204 bytes` ZIPを再uploadし、審査へ再送信済み
+
+## 2026-06-01 1対1追加情報版
+
+DDの追加指定を受け、固定の姓/名/住所/会社だけでなく、任意の「項目名」と「値」を1対1で追加できるUIへ拡張した。登録画面の `追加情報` で、会員ID、紹介コード、希望店舗、SNS IDなどを自由に増やせる。
+
+保存形式はユーザーにはJSONを見せず、内部では `custom.<key>` としてVaultへ保存する。フォーム側のラベル、placeholder、name、id、周辺テキストと、追加情報の項目名を照合し、合えば通常項目と同じ入力計画に乗せる。
+
+確認結果:
+
+- `npm run test:schema` 通過。`会員ID` / `希望店舗` の追加情報マッチを確認
+- `npm run test:i18n` 通過。21 locale / 94キーで欠落なし
+- `npm run test:playwright` 通過。13項目解析、13項目入力
+- `npm run test:extension` 通過。13項目解析、13項目入力、`会員ID` 入力確認
+- `npm run package:extension` 通過。`dist/ai-form-autofill-0.1.0.zip` は `80982 bytes`
+- `npm run release:check` 通過。ブロッカー0
+- `npm run check:launch` 通過。Dashboardは `審査待ち`
+- 2026-06-01 17:28 JSTにChrome Web Storeへ `80982 bytes` ZIPを再uploadし、審査へ再送信済み
+
+## 2026-06-01 未登録項目の台帳追加
+
+DDの追加指定を受け、フォーム確認で見つけた未登録項目を、その場で登録台帳に追加できるUIを入れた。手入力扱いになった項目カードに `見つけた項目を台帳に追加` を表示し、登録名、入力する値、呼び名を編集して `この項目を登録` できる。
+
+登録すると `custom.<key>` としてVaultへ保存し、そのフォーム項目との対応も学習する。つまり、先に台帳へ登録していなくても、フォーム側で新しい入力欄を見つけたタイミングで台帳を増やし、次回以降の自動入力へつなげられる。
+
+確認結果:
+
+- `npm run test:schema` 通過。登録台帳の呼び名マッチを確認
+- `npm run test:i18n` 通過。21 locale / 99キーで欠落なし
+- `npm run test:playwright` 通過。14項目解析、14項目入力
+- `npm run test:extension` 通過。14項目解析、14項目入力
+- `npm run package:extension` 通過。`dist/ai-form-autofill-0.1.0.zip` は `84363 bytes`
+- `npm run release:check` 通過。ブロッカー0
+- `npm run check:launch` 通過。Dashboardは `審査待ち`
+- 2026-06-01 18:00 JSTにChrome Web Storeへ `84363 bytes` ZIPを再uploadし、審査へ再送信済み
+
+## 2026-06-01 登録台帳UIの見つけやすさ改善
+
+DDの追加指定を受け、登録台帳がどこにあるか分かりにくい問題を直した。設定ボタンの表示を `登録情報 / 登録台帳 / プラン` にし、台帳欄の下へ「1行ずつ追加でき、呼び名でフォーム表記の違いにも合わせる」説明を追加した。
+
+フォーム確認で見つけた未登録項目を台帳へ追加した時は、設定画面を開いて保存された行へ移動し、追加行を短時間ハイライトする。これで「AIが見つけた新しい項目を台帳へ増やす」流れが目で追える。
+
+2026-06-01 20:38 JSTにUIUX優先で追加磨きを行った。第一画面に `登録 / 確認 / 入力` の3ステップを常時表示し、入力ボタンは確認前に `確認後に入力` と表示する。設定内は `登録情報 / 登録台帳 / プラン` のタブに分け、狭いpopup内で台帳とプランを探しやすくした。Chrome Web Store用の `store-assets/screenshot-popup-1280x800.png` も登録台帳UIを見せる画像へ更新済み。
+
+2026-06-02 05:19 JSTに、3ステップ表示がテキスト選択できてしまう問題を修正した。`登録 / 確認 / 入力` は表示専用として `user-select: none` / `pointer-events: none` にした。確認結果の `入力OK` は意味が曖昧だったため、`自動入力` へ変更した。
+
+登録台帳は、単なる追加情報リストではなく辞書登録として強化した。台帳検索、行ごとの種類、`会員番号` / `シート用語` / `案件ID` のクイック追加ボタンを追加した。スプレッドシートの列名、管理項目、社内コード、案件IDなど、標準プロフィール項目では拾えない固有語を1対1で育てる前提にした。
+
+確認結果:
+
+- `npm run test:schema` 通過。辞書カテゴリつきのスプレッドシート固有項目マッチを確認
+- `npm run test:i18n` 通過。21 locale / 132キーで欠落なし
+- `npm run test:extension` 通過。14項目解析、14項目入力、3ステップ表示の選択不可、台帳検索、辞書追加ボタン、`登録台帳` タブ、台帳説明文を確認
+- `npm run test` 通過。schema / i18n / Vault暗号化 / API / Worker / Checkout site / Playwright smokeを確認
+- `npm run assets:store` 通過。登録台帳UIのCWS用スクリーンショットを更新
+- `npm run package:extension` 通過。`dist/ai-form-autofill-0.1.0.zip` は `97171 bytes`
+- `npm run release:check` 通過。ブロッカー0
+- `npm run check:launch -- --require-published` 通過。Chrome Web Store公開URLは `published: true`、ブロッカー0
+- この時点のUIUX版 `97171 bytes` はCWS更新候補として未uploadだった。現在の最新は後続の `105168 bytes` / `0.1.1` 版。
+
+## 2026-06-02 住所自動検索と登録フォーム初期値改善
+
+DDの追加指定を受け、住所欄はZipCloudの郵便番号検索APIで、郵便番号から都道府県・市区町村・町名を自動入力する初期設定にした。郵便番号欄に7桁が入ると検索し、結果があれば `150-0001` のように整形して住所欄へ反映する。フォームに値を入れる前の登録情報は空にし、`山田` などの例は値ではなくプレースホルダーで表示する。
+
+電話番号は `090 / 1234 / 5678` の3欄に分けた。保存ボタンを押した後は、下に `登録しました` と出して完了が分かるようにした。
+
+確認結果:
+
+- `npm run test:schema` 通過。ZipCloud返却形式の正規化テストを追加
+- `npm run test:i18n` 通過。21 locale / 152キーで欠落なし
+- `npm run test:extension` 通過。空の初期値、プレースホルダー、郵便番号住所検索、保存完了表示、電話3分割、台帳UIを実ブラウザで確認
+- `npm run test` 通過。schema / i18n / Vault暗号化 / API / Worker / Checkout site / Playwright smokeを確認
+- `npm run assets:store` 通過
+- `npm run package:extension` 通過。`dist/ai-form-autofill-0.1.0.zip` は `105140 bytes`
+- `npm run release:check` 通過。ブロッカー0、21 locale / 152キー
+- `npm run check:launch -- --require-published` 通過。Chrome Web Store公開URLは `published: true`、ブロッカー0
+- この後、Free月5回へ戻した `0.1.1` / `105168 bytes` をCWS更新審査へ送信済み
+
+## 2026-06-02 Free月5回・CWS 0.1.1 更新審査
+
+DDの「Freeは月5回で課金させたい」という方針を、コード、API、LP、Terms、Chrome Store文面、検証スクリプトへ戻した。公開済みCWS版との差分を明確にするため、manifest/package versionは `0.1.1` へ上げた。
+
+確認結果:
+
+- `npm test` 通過。schema / i18n / Vault暗号化 / API / Worker / Checkout site / Playwright smokeを確認
+- `npm run assets:store` 通過。Store用スクリーンショットもFree月5回表記へ更新
+- `npm run package:extension` 通過。`dist/ai-form-autofill-0.1.1.zip` は `105168 bytes`
+- `npm run release:check` 通過。ブロッカー0、21 locale / 152キー
+- `npm run deploy:vercel` 通過。deployment id `dpl_8pHFLoNoSJc7YYcAHsDRmcwZrUuF`
+- `npm run deploy:worker` 通過。Cloudflare Worker version id `a1c1eca3-084f-4a44-a5e1-1264227ab73e`
+- `npm run check:production` 通過。Vercel本番Free entitlementは月5回、Plus/Pro/Teamは `cs_live_` Checkout Sessionを返す
+- `npm run check:cloudflare:live` 通過。Cloudflare本番schema live、Stripe bridge、Free月5回を確認
+- `npm run check:seo -- --live` 通過
+- `npm run check:launch -- --require-published` 通過。CWS公開URLはpublished
+- CWS Dashboardへ `0.1.1` ZIPをアップロードし、更新審査へ送信済み。Dashboard読み戻しでは `ステータス: 審査待ち`、ドラフト `0.1.1`、公開済み `0.1.0`
+
 ## 次の一歩
 
 1. Mind the Product: Devpostが外部動画URLを要求する場合、埋め込み済み2分デモを元に提出用動画を作る
-2. Devpostが外部動画URLを要求する場合、埋め込み済み2分デモを元に提出用動画を作る
-3. Chrome Web Storeは `審査待ち`。審査完了後に公開URLとインストール導線を確認する
+2. Chrome Web Storeは公開済み。`0.1.1` は更新審査待ちなので、審査通過後に公開版が `0.1.1` になったことを読み戻す
+3. Stripeの実購入/入金確認を行い、購入済みLicense keyが有料activeになることを確認する
 4. UiPath AgentHack: `Form Intake Case Room` のUiPath証拠を作る
 5. Google Rapid Agent: `FormOps Agent` のGemini / Agent Builder / Partner MCP証拠が作れるか判定する
-6. Stripeの実購入/入金確認を行い、購入済みLicense keyが有料activeになることを確認する
-7. 日本語の公開/許可済みデモフォームを増やして認識率を測る
-8. mapping cacheの2回目成功率を測る
+6. 日本語の公開/許可済みデモフォームを増やして認識率を測る
+7. mapping cacheの2回目成功率を測る

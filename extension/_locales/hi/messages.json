@@ -54,7 +54,7 @@
     "message": "जांचें"
   },
   "upgradeCopy": {
-    "message": "Free में हर महीने 5 ऑटोफिल की सीमा है. Upgrade से असीमित ऑटोफिल, कई प्रोफाइल और सीखी हुई साइट मैपिंग मिलती है."
+    "message": "Free में हर महीने 20 ऑटोफिल की सीमा है. Upgrade से असीमित ऑटोफिल, कई प्रोफाइल और सीखी हुई साइट मैपिंग मिलती है."
   },
   "footnote": {
     "message": "सबमिट क्लिक नहीं. निजी मान स्थानीय रहते हैं."
@@ -193,5 +193,266 @@
   },
   "semantic_account_password_generated": {
     "message": "बनाया गया पासवर्ड"
+  },
+  "profileName": {
+    "message": "Name"
+  },
+  "profileContact": {
+    "message": "Contact"
+  },
+  "profileAddress": {
+    "message": "Address"
+  },
+  "profileWork": {
+    "message": "Work"
+  },
+  "lastName": {
+    "message": "Last name"
+  },
+  "firstName": {
+    "message": "First name"
+  },
+  "lastKana": {
+    "message": "Last kana"
+  },
+  "firstKana": {
+    "message": "First kana"
+  },
+  "email": {
+    "message": "Email"
+  },
+  "phone": {
+    "message": "Phone"
+  },
+  "postalCode": {
+    "message": "Postal code"
+  },
+  "prefecture": {
+    "message": "State / prefecture"
+  },
+  "city": {
+    "message": "City"
+  },
+  "addressLine1": {
+    "message": "Address line 1"
+  },
+  "addressLine2": {
+    "message": "Address line 2"
+  },
+  "company": {
+    "message": "Company"
+  },
+  "jobTitle": {
+    "message": "Job title"
+  },
+  "noFormFound": {
+    "message": "No form found on this page."
+  },
+  "noFormHint": {
+    "message": "Open a page with name, email, address, or other input fields, then check the form again."
+  },
+  "formSide": {
+    "message": "Form field"
+  },
+  "savedSide": {
+    "message": "Saved info"
+  },
+  "manualEntry": {
+    "message": "Manual entry"
+  },
+  "profileCustom": {
+    "message": "Saved info ledger"
+  },
+  "customKey": {
+    "message": "Name"
+  },
+  "customValue": {
+    "message": "Value to fill"
+  },
+  "addCustomField": {
+    "message": "Add row"
+  },
+  "customKeyPlaceholder": {
+    "message": "e.g. Member ID"
+  },
+  "customValuePlaceholder": {
+    "message": "e.g. MEMBER-001 or Approved"
+  },
+  "removeCustomField": {
+    "message": "Remove row"
+  },
+  "customLedgerHint": {
+    "message": "Use this like a personal dictionary. Add IDs, spreadsheet terms, internal codes, and alternate labels so unusual forms can still match."
+  },
+  "customAliases": {
+    "message": "Aliases"
+  },
+  "customAliasPlaceholder": {
+    "message": "e.g. Customer number, Member number"
+  },
+  "detectedLedgerTitle": {
+    "message": "Add detected field to ledger"
+  },
+  "addDetectedField": {
+    "message": "Save this field"
+  },
+  "stepSavedInfo": {
+    "message": "Saved info"
+  },
+  "stepCheckForm": {
+    "message": "Check form"
+  },
+  "stepFill": {
+    "message": "Fill"
+  },
+  "fillAfterCheck": {
+    "message": "Check first"
+  },
+  "checkingForm": {
+    "message": "Checking..."
+  },
+  "checkAgain": {
+    "message": "Check again"
+  },
+  "fillCount": {
+    "message": "Fill $1 fields"
+  },
+  "filledButton": {
+    "message": "Filled $1 fields"
+  },
+  "fieldsFoundShort": {
+    "message": "$1 found"
+  },
+  "canFillShort": {
+    "message": "$1 will fill"
+  },
+  "needsCheckShort": {
+    "message": "$1 manual"
+  },
+  "noFormShort": {
+    "message": "No form"
+  },
+  "inputOk": {
+    "message": "Will fill"
+  },
+  "needsManual": {
+    "message": "Check"
+  },
+  "detectedLedgerHint": {
+    "message": "Enter a value and save it to use this field next time."
+  },
+  "settingsTitle": {
+    "message": "Saved info settings"
+  },
+  "ledgerSearchPlaceholder": {
+    "message": "Search ledger, aliases, IDs, sheet terms"
+  },
+  "ledgerPresetTitle": {
+    "message": "Quick dictionary rows"
+  },
+  "presetCustomerId": {
+    "message": "Customer ID"
+  },
+  "presetSheetTerm": {
+    "message": "Sheet term"
+  },
+  "presetInternalId": {
+    "message": "Internal ID"
+  },
+  "presetCustomerIdLabel": {
+    "message": "Customer ID"
+  },
+  "presetCustomerIdAliases": {
+    "message": "Member ID, Customer number, Account number"
+  },
+  "presetSheetTermLabel": {
+    "message": "Spreadsheet item"
+  },
+  "presetSheetTermAliases": {
+    "message": "Column name, Sheet item, Management item, Row ID"
+  },
+  "presetInternalIdLabel": {
+    "message": "Project ID"
+  },
+  "presetInternalIdAliases": {
+    "message": "Project number, Management number, Task ID, Internal code"
+  },
+  "customCategory": {
+    "message": "Type"
+  },
+  "customCategoryBasic": {
+    "message": "Basic"
+  },
+  "customCategoryId": {
+    "message": "ID"
+  },
+  "customCategorySheet": {
+    "message": "Sheet term"
+  },
+  "customCategoryWork": {
+    "message": "Work term"
+  },
+  "customCategoryOther": {
+    "message": "Other"
+  },
+  "profileSavedShort": {
+    "message": "Registered."
+  },
+  "lastNamePlaceholder": {
+    "message": "Example: Yamada"
+  },
+  "firstNamePlaceholder": {
+    "message": "Example: Taro"
+  },
+  "lastKanaPlaceholder": {
+    "message": "Example: YAMADA"
+  },
+  "firstKanaPlaceholder": {
+    "message": "Example: TARO"
+  },
+  "emailPlaceholder": {
+    "message": "Example: taro@example.com"
+  },
+  "phonePart1Placeholder": {
+    "message": "090"
+  },
+  "phonePart2Placeholder": {
+    "message": "1234"
+  },
+  "phonePart3Placeholder": {
+    "message": "5678"
+  },
+  "postalCodePlaceholder": {
+    "message": "Example: 150-0001"
+  },
+  "prefecturePlaceholder": {
+    "message": "Example: Tokyo"
+  },
+  "cityPlaceholder": {
+    "message": "Example: Shibuya City"
+  },
+  "addressLine1Placeholder": {
+    "message": "Example: Jingumae 1-2-3"
+  },
+  "addressLine2Placeholder": {
+    "message": "Example: Sample Heights 101"
+  },
+  "companyPlaceholder": {
+    "message": "Example: Sample Inc."
+  },
+  "jobTitlePlaceholder": {
+    "message": "Example: Manager"
+  },
+  "postalLookupSearching": {
+    "message": "Looking up address from postal code."
+  },
+  "postalLookupFilled": {
+    "message": "Address filled from postal code."
+  },
+  "postalLookupNotFound": {
+    "message": "No address found for this postal code."
+  },
+  "postalLookupFailed": {
+    "message": "Address lookup failed. Enter the address manually."
   }
 }

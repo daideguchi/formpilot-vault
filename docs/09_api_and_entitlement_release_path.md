@@ -42,7 +42,7 @@ Chrome拡張にAPIキーや課金秘密情報を入れず、リリース時に�
   - Free/Plus/Pro/Teamの権利を返す
 - Stripe webhookからlicense entitlementを更新する
 - Stripe署名を `STRIPE_WEBHOOK_SECRET` で検証する
-- Vercel本番では `FORMPILOT_STRIPE_BRIDGE_BASE_URL` がある場合、既存のStripe本番ブリッジへ中継する
+- Vercel本番では `FORMPILOT_STRIPE_BRIDGE_BASE_URL` がある場合、Kurogane側のStripe本番ブリッジへ中継する
 
 ### Cloudflare Worker
 
@@ -71,7 +71,7 @@ Chrome拡張にAPIキーや課金秘密情報を入れず、リリース時に�
   - `POST /api/entitlement/check`
   - `POST /api/stripe/webhook`
 - 本番環境変数:
-  - `FORMPILOT_STRIPE_BRIDGE_BASE_URL=production-stripe-bridge`
+  - `FORMPILOT_STRIPE_BRIDGE_BASE_URL=https://kurogane-edge-core-lp.vercel.app/api/formpilot`
   - `PUBLIC_SITE_URL=https://formpilot-vault-api.vercel.app`
   - `ENTITLEMENT_SOURCE=stripe_bridge`
 - 2026-06-01確認:
@@ -106,7 +106,7 @@ Chrome拡張にAPIキーや課金秘密情報を入れず、リリース時に�
   - Team: 1,500円/人/月
 - 出力された `STRIPE_PLAN_PRICE_MAP` と `STRIPE_PRICE_PLAN_MAP` を本番環境変数へ入れる
 - 2026-06-01時点では、FormPilot専用の独立Stripe商品/price id作成は未実行。
-- ただし本番課金導線は、既存のStripe本番ブリッジでCheckout Session作成まで成功。
+- ただし本番課金導線は、Kurogane Vercel runtimeのStripe live secretを使うFormPilot専用ブリッジでCheckout Session作成まで成功。
 
 ### Store / Public Pages
 
@@ -117,7 +117,7 @@ Chrome拡張にAPIキーや課金秘密情報を入れず、リリース時に�
 - Terms draft: `site/terms.html`
 - Store listing copy: `docs/12_chrome_store_listing_copy.md`
 - Store assets: `store-assets/`
-- Extension package: `dist/ai-form-autofill-0.1.0.zip`
+- Extension package: `dist/ai-form-autofill-0.1.1.zip`
 - Production runbook: `docs/13_production_launch_runbook.md`
 - Release check: `npm run release:check`
 - Production connection check: `npm run check:production`

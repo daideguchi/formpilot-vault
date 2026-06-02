@@ -9,25 +9,36 @@ FormPilot Vault
 
 ## 短い説明
 
-Multilingual form autofill with a local profile vault and user confirmation.
+Reduce repeated name, address, and email typing. Check the current form and fill only fields that match your saved info.
 
 ## Global short description
 
-Multilingual form autofill with a local profile vault and user confirmation.
+Reduce repeated name, address, and email typing. Check the current form and fill only fields that match your saved info.
 
 ## 詳細説明
 
-FormPilot Vault is a multilingual Chrome extension that reduces repetitive form-filling work for signups, contact forms, applications, event registrations, and trial forms.
+FormPilot Vault helps you avoid typing the same information again and again.
 
-It reads form labels, placeholders, autocomplete hints, options, and nearby text to understand what each field means. Profile values such as name, address, phone number, email, and company details are encrypted at rest in the user's local Vault and filled only after user action.
+When you sign up for a service, request a trial, register for an event, or fill in a contact form, you often have to enter the same name, email, phone number, address, and company details. This extension is built for that moment.
 
-The AI receives form structure only. It does not receive raw profile values, existing input values, cookies, authorization data, verification codes, or passwords.
+How it works:
 
-FormPilot Vault does not click submit buttons. The user always reviews the filled form before submitting. It does not bypass CAPTCHA, SMS verification, email verification, identity checks, or create accounts in bulk.
+1. Save the information you often type.
+2. Open a form.
+3. Click the extension button.
+4. Click "Check this form".
+5. Review the fields it found.
+6. Click "Fill matching fields".
 
-The extension UI is localized for 21 Chrome package locales across the Americas, Europe, the Middle East, and Asia. The form understanding layer uses the production schema API first, then falls back to local rules. It covers common labels in the major launch languages, including English, Japanese, Spanish, French, German, Portuguese, Korean, Chinese, Italian, Dutch, Polish, Russian, Turkish, Arabic, Hindi, Indonesian, Thai, and Vietnamese, with support for country and country-code fields.
+FormPilot Vault only fills fields that match your saved information. If a field is unclear, it leaves the field for you to enter manually.
 
-Free includes 5 fills per month. Plus, Pro, and Team plans unlock higher usage, multiple profiles, company profiles, and learned site mappings.
+It does not click submit buttons. You always review the page before sending anything. It does not bypass CAPTCHA, SMS checks, email checks, identity checks, payment pages, or create accounts in bulk.
+
+Use it for signups, trial registrations, contact forms, event forms, application forms, and business inquiry forms.
+
+Saved information stays in your browser. FormPilot Vault reads and fills the current page only after you click the extension button and start the action.
+
+Free includes 5 fills per month. Paid plans add more fills, multiple saved information sets, and site-specific learning.
 
 ## 単一目的
 

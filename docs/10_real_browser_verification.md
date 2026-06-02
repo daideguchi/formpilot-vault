@@ -23,6 +23,10 @@ npm run test:extension
 - ルール/プロフィールDBから入力プランを作成
 - `AFA_FILL_FIELDS` で実DOMに入力
 - extension popupページを開き、License key確認UIを操作
+- 登録情報の初期値が空で、例がプレースホルダーに出ることを確認
+- 郵便番号から住所を自動入力するUIを確認
+- 保存後に `登録しました` が表示されることを確認
+- 電話番号が3分割欄で表示されることを確認
 - Plus entitlementの表示を確認
 - `chrome.storage.local` 内のVault保存状態を確認し、プロフィール実値が平文で残らないことを検証
 - IndexedDB内のVault暗号鍵が非exportable `CryptoKey` として存在し、`chrome.storage.local` には鍵が残らないことを検証
@@ -34,11 +38,14 @@ npm run test:extension
 
 ```json
 {
-  "fields_scanned": 12,
-  "fields_filled": 12,
-  "usage_status": "PLUS plan / 0 fills this month",
+  "fields_scanned": 14,
+  "fields_filled": 14,
+  "usage_status": "PLUSプラン / 今月0回入力",
   "vault_storage": "AES-GCM encrypted_values, no plaintext profile values, no storage-local key",
   "vault_key": "IndexedDB non-exportable CryptoKey",
+  "postal_lookup": "1500001 -> 東京都 / 渋谷区 / 神宮前",
+  "save_status": "登録しました",
+  "phone_parts": ["090", "1234", "5678"],
   "locale_context": {
     "page_language": "ja",
     "text_direction": "ltr"
@@ -64,6 +71,8 @@ npm run test:extension
 ## 証跡
 
 - `site/assets/real-extension-popup-loaded.png`
+- `site/assets/real-extension-popup-profile.png`
+- `site/assets/real-extension-popup-ledger.png`
 - `site/assets/real-extension-popup-license.png`
 - `site/assets/real-extension-filled-form.png`
 
@@ -110,10 +119,10 @@ npm run test:extension
     "field_001": "person.email.primary"
   },
   "checkout_host": "checkout.stripe.com",
-  "entitlement_before_purchase": {
-    "plan": "free",
-    "monthly_fills": 5
-  }
+	  "entitlement_before_purchase": {
+	    "plan": "free",
+	    "monthly_fills": 5
+	  }
 }
 ```
 
@@ -125,7 +134,7 @@ Playwrightで本番LPを開き、Plusボタンをクリックして `checkout.st
 
 ## 次
 
-1. Chrome手動読み込みで人間確認なしのローカル実サイト検証
+1. Chrome手動読み込みでDD確認なしのローカル実サイト検証
 2. 実サイト5件で `fields_scanned / ready / ask / filled` を記録
 3. mapping cacheの再利用率を見る
 4. Azure live投入後に `rules_fallback` ではなくlive応答で同じE2Eを再実行する

@@ -53,7 +53,7 @@ test("schema proxy ignores provider keys that are not submitted field ids", asyn
       AFA_SCHEMA_PROVIDER_ID: "cloudflare_workers_ai_free",
       AI: {
         run: async () => ({
-          response: "{\"UNSUBMITTED_PROVIDER_KEY\":{\"semantic_key\":\"person.name.last\",\"confidence\":0.99}}"
+          response: "{\"DD_CORE_PROMPT\":{\"semantic_key\":\"person.name.last\",\"confidence\":0.99}}"
         })
       }
     },

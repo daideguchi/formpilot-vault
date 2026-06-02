@@ -42,6 +42,23 @@ export const SAMPLE_PROFILE = {
     title: "代表",
     website: "https://example.com"
   },
+  custom: {
+    member_id: "MEMBER-001",
+    referral_code: "FORMPILOT"
+  },
+  custom_labels: {
+    member_id: "会員ID",
+    referral_code: "紹介コード"
+  },
+  custom_aliases: {
+    member_id: ["メンバーID", "顧客番号"],
+    referral_code: ["招待コード", "キャンペーンコード"]
+  },
+  custom_categories: {
+    member_id: "id",
+    referral_code: "sheet"
+  },
+  custom_order: ["member_id", "referral_code"],
   account: {
     default_password_policy: "generate"
   }
@@ -73,8 +90,38 @@ export function getProfileValue(profile, key, field = {}) {
   return readPath(profile, key);
 }
 
+export function getCustomProfileEntries(profile = {}) {
+  const values = profile?.custom && typeof profile.custom === "object" ? profile.custom : {};
+  const labels = profile?.custom_labels && typeof profile.custom_labels === "object" ? profile.custom_labels : {};
+  const aliases = profile?.custom_aliases && typeof profile.custom_aliases === "object" ? profile.custom_aliases : {};
+  const categories = profile?.custom_categories && typeof profile.custom_categories === "object" ? profile.custom_categories : {};
+  const orderedKeys = Array.isArray(profile?.custom_order) ? profile.custom_order : [];
+  const keys = [...orderedKeys, ...Object.keys(values)].filter(unique);
+
+  return keys
+    .map((key) => ({
+      key,
+      profile_key: `custom.${key}`,
+	      label: labels[key] || key,
+	      value: values[key],
+	      aliases: Array.isArray(aliases[key]) ? aliases[key] : [],
+	      category: categories[key] || "basic"
+	    }))
+    .filter((entry) => entry.label || entry.value);
+}
+
+export function getCustomProfileLabel(profile = {}, profileKey = "") {
+  if (!profileKey.startsWith("custom.")) return "";
+  const key = profileKey.slice("custom.".length);
+  return profile?.custom_labels?.[key] || key;
+}
+
 export function readPath(source, path) {
   return path.split(".").reduce((value, part) => value?.[part], source);
+}
+
+function unique(value, index, array) {
+  return value && array.indexOf(value) === index;
 }
 
 function getOrCreatePassword(profile) {
