@@ -51,7 +51,7 @@ Chrome拡張を公開し、Plus/Pro/Teamの課金がDDのStripeへ入り、拡�
 - Extension config: `extension/src/release-config.js`
 - Extension ZIP: `dist/ai-form-autofill-0.1.1.zip`
 - Cloudflare Worker: `https://ai-form-autofill.dd-1107-11107.workers.dev`
-- Latest Vercel deployment: `dpl_8pHFLoNoSJc7YYcAHsDRmcwZrUuF`
+- Latest Vercel deployment: `dpl_2XQexJK5PBV6c7W3XPq48hqsuVSF`
 
 ## 現行本番の再デプロイ
 
@@ -127,7 +127,7 @@ npm run check:seo
 npm run check:seo -- --live
 ```
 
-`check:seo` は英語トップ、日本語 `/ja`、canonical、hreflang、meta description、SoftwareApplication構造化データ、`robots.txt`、`sitemap.xml`、フォーム入力/AI form autofill系の本文コピーを確認する。Google Search Consoleへsitemapを登録できる場合は `https://formpilot-vault-api.vercel.app/sitemap.xml` を提出する。
+`check:seo` は英語トップ、日本語 `/ja`、canonical、hreflang、meta description、SoftwareApplication構造化データ、`robots.txt`、`sitemap.xml`、フォーム入力/AI form autofill系の本文コピーを確認する。Google Search Consoleは2026-06-02 10:07 JSTに `https://formpilot-vault-api.vercel.app/` のURL prefix所有権確認済み。`/sitemap.xml` は送信済みだが、初回読み込みステータスは `取得できませんでした`。外部HTTPではGooglebot UAでも200/`application/xml` のため、後続でSearch Consoleの再取得結果を読み戻す。
 
 ## Chrome Web Store提出
 

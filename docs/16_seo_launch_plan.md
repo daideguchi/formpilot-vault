@@ -27,6 +27,14 @@
 - 日本語本文に自然な検索意図コピーを追加
 - 英語本文に自然な検索意図コピーを追加
 - `npm run check:seo` で検証
+- Google Search Console URL prefix所有権確認
+- Google Search Console sitemap送信
+
+## Search Console 状態
+
+2026-06-02 10:07 JSTに `https://formpilot-vault-api.vercel.app/` をURL prefixで追加し、HTML file `google429836ef33603a29.html` で所有権確認済み。
+
+`/sitemap.xml` はSearch Consoleへ送信済み。ただし初回読み込みステータスは `取得できませんでした`。外部HTTP確認では、Googlebot User-Agentでも `https://formpilot-vault-api.vercel.app/sitemap.xml` はHTTP 200 / `application/xml`。後続でSearch Console側の再取得結果を確認する。
 
 ## 重要キーワード
 

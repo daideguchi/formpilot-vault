@@ -79,7 +79,9 @@ Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/
 
 2026-06-01 15:56 JST時点でSEO公開面を強化済みです。英語トップに `AI form autofill Chrome extension` 向けのtitle/meta/本文/JSON-LDを追加し、日本語は `https://formpilot-vault-api.vercel.app/ja` を作って `フォーム入力`、`フォーム自動入力`、`Chrome拡張`、`AI自動入力` の検索意図へ合わせました。`robots.txt` と `sitemap.xml` も追加し、canonical/hreflangはVercelの最終到達URLに合わせています。`npm run check:seo -- --live`、`npm run check:production`、`npm run release:check` はブロッカー0です。Playwright実ブラウザでも英語desktopと日本語mobileの横スクロールなしを確認しました。公開repo `daideguchi/formpilot-vault` へcommit `0fa2cc8 Add SEO launch surfaces` をpushし、GitHub Pages build/deploy成功、`/`、`/ja.html`、`/robots.txt`、`/sitemap.xml` のHTTP 200とSEO head/Pendo snippet配信を確認済みです。
 
-2026-06-02 10:01 JSTに、公開repo `daideguchi/formpilot-vault` へFree月5回、`0.1.1`、CWS更新審査待ち、登録台帳/ZipCloud/電話番号3分割UI、SEO、Pendo/Novus維持を同期しました。commitは `486b44f Ship Free limit and CWS review update` と `d02e772 Fix public demo overflow` です。GitHub Pages build/deployは最新commitで成功し、`https://daideguchi.github.io/formpilot-vault/`、`/ja.html`、`/demo.html`、`/robots.txt`、`/sitemap.xml` はHTTP 200です。公開トップ/日本語ページはPendo snippet、Free月5回、SEO語句を確認済みで、`npm run novus:public` はトップとdemoのPendo request、`pendo.initialize`、横スクロールなしを確認して通過しました。
+2026-06-02 10:01 JSTに、公開repo `daideguchi/formpilot-vault` へFree月5回、`0.1.1`、CWS更新審査待ち、登録台帳/ZipCloud/電話番号3分割UI、SEO、Pendo/Novus維持を同期しました。commitは `486b44f Ship Free limit and CWS review update`、`d02e772 Fix public demo overflow`、`4cf1301 Record public release sync` です。GitHub Pages build/deployは最新commitで成功し、`https://daideguchi.github.io/formpilot-vault/`、`/ja.html`、`/demo.html`、`/robots.txt`、`/sitemap.xml` はHTTP 200です。公開トップ/日本語ページはPendo snippet、Free月5回、SEO語句を確認済みで、`npm run novus:public` はトップとdemoのPendo request、`pendo.initialize`、横スクロールなしを確認して通過しました。
+
+2026-06-02 10:07 JSTにGoogle Search Consoleへ本番URL prefix `https://formpilot-vault-api.vercel.app/` を追加し、HTML file `google429836ef33603a29.html` で所有権確認を通しました。確認ファイルはVercel本番でHTTP 200です。Search Consoleへ `/sitemap.xml` を送信し、送信自体は成功しましたが、初回読み込みステータスは `取得できませんでした` です。外部確認ではGooglebot UAでも `https://formpilot-vault-api.vercel.app/sitemap.xml` はHTTP 200 / `application/xml` なので、Search Console側の再取得を後続確認対象にします。
 
 公開LPは世界配信向けに、非日本語ブラウザでは英語を初期表示します。日本語は `?lang=ja` または言語ボタンで表示できます。2026-06-01 12:45 JSTの本番確認では、英語初期表示、英語Plusボタン、日本語モバイル表示、横スクロールなし、Stripe Checkout導線が通っています。
 
@@ -105,7 +107,7 @@ Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry
 
 `npm run check:production` も追加済みです。本番 `https://formpilot-vault-api.vercel.app` に対して、health、schema inference、Plus/Pro/Team Stripe Checkout sessions、Free entitlement、Privacy、Support、Termsを一括確認します。2026-06-02 09:47 JSTの確認ではブロッカー0、Plus/Pro/Team Stripe Checkoutはいずれも `cs_live_` セッションを返し、Free entitlementは月5回で返っています。AI schema inferenceのみ `azure_env_missing` による `rules_fallback` warningです。`npm run check:production:strict-ai` では、このAI live未投入をブロッカーとして検出できます。
 
-公開用LPは `FormPilot Vault` としてVercel本番へ反映済みです。`https://formpilot-vault-api.vercel.app/` はHTTP 200を確認済みです。2026-06-02 09:47 JSTにVercel deployment `dpl_8pHFLoNoSJc7YYcAHsDRmcwZrUuF` を本番aliasへ反映し、Free月5回、SEOページ、schema proxy、Stripe bridge経路を本番へ反映しました。GitHub Pages版 `https://daideguchi.github.io/formpilot-vault/` も公開ミラーとして維持しています。
+公開用LPは `FormPilot Vault` としてVercel本番へ反映済みです。`https://formpilot-vault-api.vercel.app/` はHTTP 200を確認済みです。2026-06-02 10:07 JSTにVercel deployment `dpl_2XQexJK5PBV6c7W3XPq48hqsuVSF` を本番aliasへ反映し、Free月5回、SEOページ、Search Console確認ファイル、schema proxy、Stripe bridge経路を本番へ反映しました。GitHub Pages版 `https://daideguchi.github.io/formpilot-vault/` も公開ミラーとして維持しています。
 
 Cloudflare移行用に `npm run check:cloudflare` と `npm run check:cloudflare:live` を追加済みです。2026-06-02 09:47 JST確認時点でCloudflare login、D1 database作成、migration、Worker deploy、Workers AI binding本番確認、Stripe bridge secret設定まで完了しています。`npm run check:cloudflare:live` はブロッカー0で、Cloudflare schema live、Stripe checkout bridge、Free entitlement月5回を確認済みです。現在のChrome Web Store提出用本番は引き続きVercel + Stripeブリッジですが、Cloudflare Workerへ切り替え可能な本番経路も検証済みです。
 
@@ -365,7 +367,7 @@ DDの「Freeは月5回で課金させたい」という方針を、コード、A
 - `npm run assets:store` 通過。Store用スクリーンショットもFree月5回表記へ更新
 - `npm run package:extension` 通過。`dist/ai-form-autofill-0.1.1.zip` は `105168 bytes`
 - `npm run release:check` 通過。ブロッカー0、21 locale / 152キー
-- `npm run deploy:vercel` 通過。deployment id `dpl_8pHFLoNoSJc7YYcAHsDRmcwZrUuF`
+- `npm run deploy:vercel` 通過。2026-06-02 09:47 JST時点のdeployment idは `dpl_8pHFLoNoSJc7YYcAHsDRmcwZrUuF`。2026-06-02 10:07 JSTにSearch Console確認ファイル追加で `dpl_2XQexJK5PBV6c7W3XPq48hqsuVSF` へ更新
 - `npm run deploy:worker` 通過。Cloudflare Worker version id `a1c1eca3-084f-4a44-a5e1-1264227ab73e`
 - `npm run check:production` 通過。Vercel本番Free entitlementは月5回、Plus/Pro/Teamは `cs_live_` Checkout Sessionを返す
 - `npm run check:cloudflare:live` 通過。Cloudflare本番schema live、Stripe bridge、Free月5回を確認
