@@ -48,10 +48,12 @@ Chrome拡張を公開し、Plus/Pro/Teamの課金がDDのStripeへ入り、拡�
 - Checkout: `POST https://formpilot-vault-api.vercel.app/api/stripe/checkout-session`
 - Entitlement: `POST https://formpilot-vault-api.vercel.app/api/entitlement/check`
 - Stripe bridge: `https://kurogane-edge-core-lp.vercel.app/api/formpilot`
+- Checkout success: `https://formpilot-vault-api.vercel.app/success?license_key=...`
+- GitHub Pages mirror checkout: `github.io` 上ではVercel本番APIへ接続
 - Extension config: `extension/src/release-config.js`
 - Extension ZIP: `dist/ai-form-autofill-0.1.1.zip`
 - Cloudflare Worker: `https://ai-form-autofill.dd-1107-11107.workers.dev`
-- Latest Vercel deployment: `dpl_o8Jak85iGAF83QBBFmBswq4r2GQE`
+- Latest Vercel deployment: `dpl_6G3NQHHE4BhuenCtkZqcXvMqqYF9`
 
 ## 現行本番の再デプロイ
 
@@ -109,6 +111,14 @@ AFA_LICENSE_KEY=afa_xxx AFA_EXPECTED_PLAN=plus npm run check:paid-license
 ```
 
 このコマンドはVercel本番とCloudflare Worker本番の両方で、有料plan、active状態、月間fills権利を確認する。購入前のlicenseでは失敗するのが正しい。
+
+Checkout成功ページも確認する:
+
+```bash
+curl -Ls 'https://formpilot-vault-api.vercel.app/success?license_key=afa_probe' | rg 'ライセンスを確認|権利を再確認|entitlementStatus'
+```
+
+成功ページはLicense key表示、コピー、`/api/entitlement/check` による有料権利確認、反映待ち時の再確認ボタンを持つ。実購入後は、このページ上の表示と `check:paid-license` の両方でactive確認する。
 
 審査中/公開後/購入後をまとめて見る:
 

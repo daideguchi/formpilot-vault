@@ -93,6 +93,9 @@ Chrome拡張にAPIキーや課金秘密情報を入れず、リリース時に�
 - 実装: `site/success.html`
 - Plus/Pro/Teamのボタンから `POST /api/stripe/checkout-session` を呼ぶ
 - Checkout成功後、License keyをsuccessページに表示する
+- successページは `GET /api/entitlement/check?license_key=...` を呼び、有料active/反映待ち/確認失敗を表示する
+- successページにはLicense keyコピーと、権利反映待ち時の再確認ボタンを置く
+- GitHub Pages公開ミラーでは、`pricing.js` と `success.js` が `github.io` を検出して `https://formpilot-vault-api.vercel.app` の本番APIへ接続する
 - 拡張のUpgradeボタンはLicense keyを生成してpricingへ渡す
 
 ### Stripe商品/価格セットアップ
@@ -107,6 +110,7 @@ Chrome拡張にAPIキーや課金秘密情報を入れず、リリース時に�
 - 出力された `STRIPE_PLAN_PRICE_MAP` と `STRIPE_PRICE_PLAN_MAP` を本番環境変数へ入れる
 - 2026-06-01時点では、FormPilot専用の独立Stripe商品/price id作成は未実行。
 - ただし本番課金導線は、Kurogane Vercel runtimeのStripe live secretを使うFormPilot専用ブリッジでCheckout Session作成まで成功。
+- 2026-06-02 10:45 JST時点では、Checkout successページの有料権利確認UI、GitHub Pages公開ミラーからVercel本番APIへ接続するCheckout/Entitlement導線、成功ページPendo/Novus計測も本番反映済み。
 
 ### Store / Public Pages
 

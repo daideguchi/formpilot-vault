@@ -70,7 +70,7 @@ AIへ渡すschema inference payloadも実装済みです。フォーム構造、
 
 DDの初期思想は実際のschema proxyプロンプトへ入れました。`buildSchemaPrompt()` は、フォーム入力の細かな手間をなくす、Personal Vault + Profile RAG/Memory Spaceを核にする、実値を扱わない、不確定項目はユーザー確認へ残す、送信/認証突破/大量作成はしない、世界市場のフォームでは `locale_context` を補助情報として使う、という方針を含みます。
 
-Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/Teamボタンから `POST /api/stripe/checkout-session` を呼び、Checkout成功後にLicense keyを表示します。2026-06-01時点では、FormPilot本番APIがKurogane側のStripe本番secretを使う専用ブリッジへ中継し、Stripe Checkout Session作成まで本番で成功しています。2026-06-01 13:40 JSTにPlus/Pro/Teamの3プランすべてで `cs_live_` Checkout Session作成を確認しました。購入前のlicense checkはFree/月5回で返り、購入後はStripe subscription metadataの `license_key` / `plan` を照会して有料権利を返す設計です。
+Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/Teamボタンから `POST /api/stripe/checkout-session` を呼び、Checkout成功後にLicense keyを表示します。2026-06-01時点では、FormPilot本番APIがKurogane側のStripe本番secretを使う専用ブリッジへ中継し、Stripe Checkout Session作成まで本番で成功しています。2026-06-01 13:40 JSTにPlus/Pro/Teamの3プランすべてで `cs_live_` Checkout Session作成を確認しました。購入前のlicense checkはFree/月5回で返り、購入後はStripe subscription metadataの `license_key` / `plan` を照会して有料権利を返す設計です。2026-06-02 10:45 JST時点で、Checkout successページはLicense key表示だけでなく `/api/entitlement/check` を即時確認し、有料active/反映待ち/確認失敗を表示する導線へ強化済みです。
 
 実購入後の有料権利確認用に `npm run check:paid-license` を追加しました。`AFA_LICENSE_KEY=afa_xxx AFA_EXPECTED_PLAN=plus npm run check:paid-license` で、Vercel本番とCloudflare Worker本番の両方に対して、有料plan、active状態、月間fills権利を確認できます。
 
@@ -89,6 +89,8 @@ Stripe Checkout作成APIとLP側の決済導線も実装済みです。Plus/Pro/
 2026-06-02 10:27 JSTに、公開repo `daideguchi/formpilot-vault` へ `/form-input.html` と `site/form-input.html` を同期しました。commitは `51a452e Add form input SEO page` です。GitHub Pages build/deploy run `26792599595` は成功し、`https://daideguchi.github.io/formpilot-vault/form-input.html` と `/sitemap.xml` はHTTP 200です。`npm run novus:public` は `/`、`/form-input.html`、`/demo.html` でPendo request、`pendo.initialize`、横スクロールなしを確認して通過しました。
 
 2026-06-02 10:33 JSTに、SEO内部リンクを追加しました。Vercel本番のトップ/日本語ページから `form-input` へ、GitHub Pages公開ミラーのトップ/日本語ページから `form-input.html` へ自然なテキストリンクを張っています。Vercel deploymentは `dpl_GY7n8bUsLzMUn4hbFeJnPoNLTnXm` です。公開repo commitは `cce223c Link home pages to form input SEO page`、GitHub Pages deploy runは `26792823545` です。`npm run check:seo -- --live`、`npm run check:production`、`npm run novus:public` はブロッカー0で通過しました。
+
+2026-06-02 10:45 JSTに、課金成功後のライセンス導線を強化しました。`site/success.html` / `site/success.js` は、License keyを表示し、コピーし、`/api/entitlement/check` で有料権利のactive状態を即時確認し、反映待ちの場合は再確認できるようにしています。GitHub Pages公開ミラーからも本番Vercel APIへ届くよう、`pricing.js` と `success.js` は `github.io` 上では `https://formpilot-vault-api.vercel.app` をAPI baseにします。Vercel deploymentは `dpl_6G3NQHHE4BhuenCtkZqcXvMqqYF9` です。公開repo commitは `d83584b Harden paid license success flow`、GitHub Pages deploy runは `26793230495` です。`npm test`、`npm run test:checkout-site`、`npm run check:production`、`npm run check:seo -- --live`、`npm run novus:public` は通過済みです。`npm run novus:public` は `/success.html?license_key=afa_public_probe_success` でもPendo request、`pendo.initialize`、横スクロールなしを確認しています。
 
 公開LPは世界配信向けに、非日本語ブラウザでは英語を初期表示します。日本語は `?lang=ja` または言語ボタンで表示できます。2026-06-01 12:45 JSTの本番確認では、英語初期表示、英語Plusボタン、日本語モバイル表示、横スクロールなし、Stripe Checkout導線が通っています。
 
@@ -114,7 +116,7 @@ Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry
 
 `npm run check:production` も追加済みです。本番 `https://formpilot-vault-api.vercel.app` に対して、health、schema inference、Plus/Pro/Team Stripe Checkout sessions、Free entitlement、Privacy、Support、Termsを一括確認します。2026-06-02 09:47 JSTの確認ではブロッカー0、Plus/Pro/Team Stripe Checkoutはいずれも `cs_live_` セッションを返し、Free entitlementは月5回で返っています。AI schema inferenceのみ `azure_env_missing` による `rules_fallback` warningです。`npm run check:production:strict-ai` では、このAI live未投入をブロッカーとして検出できます。
 
-公開用LPは `FormPilot Vault` としてVercel本番へ反映済みです。`https://formpilot-vault-api.vercel.app/` はHTTP 200を確認済みです。2026-06-02 10:21 JSTにVercel deployment `dpl_o8Jak85iGAF83QBBFmBswq4r2GQE` を本番aliasへ反映し、Free月5回、SEOページ、Search Console確認ファイル、`/form-input` SEOページ、schema proxy、Stripe bridge経路を本番へ反映しました。GitHub Pages版 `https://daideguchi.github.io/formpilot-vault/` も公開ミラーとして維持しています。
+公開用LPは `FormPilot Vault` としてVercel本番へ反映済みです。`https://formpilot-vault-api.vercel.app/` はHTTP 200を確認済みです。2026-06-02 10:45 JSTにVercel deployment `dpl_6G3NQHHE4BhuenCtkZqcXvMqqYF9` を本番aliasへ反映し、Free月5回、SEOページ、Search Console確認ファイル、`/form-input` SEOページ、schema proxy、Stripe bridge経路、Checkout success上の有料権利確認を本番へ反映しました。GitHub Pages版 `https://daideguchi.github.io/formpilot-vault/` も公開ミラーとして維持し、`github.io` 上のCheckout/Entitlement API呼び出しはVercel本番へ向けています。
 
 Cloudflare移行用に `npm run check:cloudflare` と `npm run check:cloudflare:live` を追加済みです。2026-06-02 09:47 JST確認時点でCloudflare login、D1 database作成、migration、Worker deploy、Workers AI binding本番確認、Stripe bridge secret設定まで完了しています。`npm run check:cloudflare:live` はブロッカー0で、Cloudflare schema live、Stripe checkout bridge、Free entitlement月5回を確認済みです。現在のChrome Web Store提出用本番は引き続きVercel + Stripeブリッジですが、Cloudflare Workerへ切り替え可能な本番経路も検証済みです。
 
