@@ -1,8 +1,20 @@
-# AIフォームオートフィル
+# FormPilot Vault
 
-状態: `vercel_live_checkout_ready`
+状態: `mind_the_product_submitted`
 作成日: 2026-06-01
 最終ゴール: `Chrome拡張のリリースと課金開始`
+
+## 提出・公開状況
+
+- Devpost提出: `Mind the Product presents World Product Day: Everyone Ships Now` に提出済み
+- Devpost project: https://devpost.com/software/formpilot-vault
+- Live app: https://daideguchi.github.io/formpilot-vault/
+- Demo page: https://daideguchi.github.io/formpilot-vault/demo.html
+- YouTube demo: https://youtu.be/q-HreuLw5F8
+- Chrome Web Store listing: https://chromewebstore.google.com/detail/formpilot-vault/kmlcabffhmenjajmlnkkglphjnbaahlf
+- Production API/LP: https://formpilot-vault-api.vercel.app/
+
+Devpost提出前に、本文は英語、日本語混入0文字、英語スクリーンショット、Novus/Pendo証拠、YouTube英語サムネイルを確認しました。提出後はDevpost上で `Project submitted!` を確認しています。
 
 ## 事業の芯
 
@@ -52,7 +64,7 @@ Freeは月20回までの自動入力に制限し、Plus/Pro/Teamで無制限入�
 
 優先順位:
 
-1. Mind the Product: `FormPilot Vault`
+1. Mind the Product: `FormPilot Vault` - 提出済み
 2. UiPath AgentHack: `Form Intake Case Room`
 3. Google Cloud Rapid Agent: `FormOps Agent`
 
@@ -69,15 +81,19 @@ Freeは月20回までの自動入力に制限し、Plus/Pro/Teamで無制限入�
 ## 実行コマンド
 
 ```bash
-cd /Users/dd/000_AI組織/10_事業記録/事業別/90_AIフォームオートフィル
+cd /Users/dd/000_AI組織/__hackason/formpilot-vault-public
 npm test
 npm run test:checkout-site
 npm run test:extension
 npm run test:public-probe
+npm run novus:verify
+npm run novus:public
 npm run assets:store
 npm run package:extension
 npm run setup:stripe:dry
 npm run release:check
+npm run check:production:strict-ai
+npm run check:launch -- --require-published
 npm run dev:schema-proxy
 npm run dev:entitlement
 ```

@@ -1,12 +1,22 @@
 # Current Truth
 
-更新日: 2026-06-02
+更新日: 2026-06-03
 事業名: `AIフォームオートフィル`
 TASK候補: `BIZ-FORM-AUTOFILL-001`
 
 ## 現在地
 
 新規事業として起動しました。最終ゴールは `リリース` と `マネタイズ` です。
+
+## 2026-06-03 Mind the Product 提出完了
+
+2026-06-03 09:03 JSTに、Devpost `Mind the Product presents World Product Day: Everyone Ships Now` へ `FormPilot Vault` を最終提出しました。公開ページは `https://devpost.com/software/formpilot-vault` です。提出後のDevpost画面で `Project submitted!` を確認し、`DRAFT` 表示が消えたことを確認しました。
+
+提出前の最終確認では、Devpost本文の日本語混入は0文字、必須シグナル `FormPilot Vault`、`Finish repetitive forms with human review`、`Live app`、`Novus`、YouTube demo、GitHub Pages公開URLを確認しました。最初に見えるYouTube動画サムネイルが日本語フォームに見えていたため、提出直前にYouTube APIで英語サムネイルへ差し替えました。YouTube thumbnail APIはHTTP 200で通過し、`https://img.youtube.com/vi/q-HreuLw5F8/maxresdefault.jpg` が英語サムネイルを返すことを確認済みです。
+
+提出直前に通した検証は `npm test`、`npm run test:extension`、`npm run test:public-probe`、`npm run novus:verify`、`npm run novus:public`、`npm run release:check`、`npm run check:production:strict-ai`、`npm run check:launch -- --require-published` です。Novus/Pendoの公開導入確認はトップ、各SEOページ、success、demoで `pendo.initialize`、`pendo.track`、Pendo request、横スクロールなしを確認しています。
+
+Devpostに出した中心説明は、`AIで多くのプロダクトを出す人や小チームが、毎回の登録・問い合わせ・リード・イベント・無料トライアルフォーム入力を、人間確認つきで速く終わらせるChrome拡張` です。境界は引き続き、AIはフォーム構造理解を助けるだけ、実値はLocal Vaultに残す、送信ボタンは押さない、CAPTCHA/本人確認/決済/大量アカウント作成は自動化しない、です。
 
 事業の中心は、フォームを入力する人たちの細かな手間を、自動入力で解決することです。AIは前面に出す主役ではなく、バラバラなフォーム項目を理解して正しいプロフィール値へ対応づけるための裏側の力です。
 

@@ -1,6 +1,12 @@
 # FormPilot Vault - Mind the Product Devpost Draft
 
-Status: `ready_for_human_review`
+Status: `final_devpost_submitted`
+
+Submitted: `2026-06-03 09:03 JST`
+
+Devpost project: https://devpost.com/software/formpilot-vault
+
+Final submit proof: Devpost showed `Project submitted!` after the submit click, and the `DRAFT` state was gone.
 
 Live app: https://daideguchi.github.io/formpilot-vault/
 
@@ -91,6 +97,7 @@ Current status:
 - Novus/Pendo frontend snippet is installed in the repository.
 - Dashboard screenshot is attached.
 - Public page smoke confirms Pendo/Novus script and event requests are firing.
+- Devpost final submission is complete.
 
 Evidence:
 
@@ -129,8 +136,8 @@ npm run release:check
 
 Mind the Product submission blockers:
 
-- Human review of final Devpost form
-- None known after final human review; YouTube demo is uploaded and Novus proof is attached
+- None known after final Devpost submission.
+- YouTube demo is uploaded, the YouTube thumbnail was corrected to an English FormPilot Vault thumbnail, and Novus proof is attached.
 
 Known release blockers before Chrome Web Store / full production launch:
 

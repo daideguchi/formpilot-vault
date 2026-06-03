@@ -31,6 +31,9 @@
 ## 1. Mind the Product
 
 優先度: `P0`
+状態: `提出済み`
+提出日時: `2026-06-03 09:03 JST`
+提出URL: `https://devpost.com/software/formpilot-vault`
 
 公式確認:
 
@@ -77,18 +80,22 @@ For people who fill out the same forms every week, FormPilot Vault turns repeate
 
 必要な追加作業:
 
-- 公開URL
-- Novus.ai導入
-- 2〜3分デモ動画
-- 英語/日本語の完全切替
-- 30秒で分かる証拠導線
-- プライバシー方針の公開
+- 完了: 公開URL
+- 完了: Novus.ai導入
+- 完了: 2〜3分デモ動画
+- 完了: 英語/日本語の完全切替
+- 完了: 30秒で分かる証拠導線
+- 完了: プライバシー方針の公開
+- 完了: Devpost最終提出
 
 現状:
 
-- 公開LP内に2分の無音自動再生デモを追加済み。
+- Devpostへ `FormPilot Vault` として最終提出済み。
+- 公開LP内に2分の自動再生デモを追加済み。
 - 日本語表示は `assets/autoplay-demo-ja.mp4`、英語表示は `assets/autoplay-demo-en.mp4`。
-- Devpost側で動画URL提出が必須の場合は、この埋め込み動画を元にYouTube等へ最終版を載せる。
+- Devpost動画欄にはYouTube demo `https://youtu.be/q-HreuLw5F8` を設定済み。
+- 提出直前にYouTubeサムネイルを英語のFormPilot Vaultサムネイルへ差し替え済み。
+- Devpostプレビュー本文は日本語混入0文字で確認済み。
 
 ## 2. UiPath AgentHack
 

@@ -1,6 +1,12 @@
 # FormPilot Vault - Mind the Product Submit Packet
 
-Status: `ready_for_human_review`
+Status: `final_devpost_submitted`
+
+Submitted: `2026-06-03 09:03 JST`
+
+Devpost project: https://devpost.com/software/formpilot-vault
+
+Final submit proof: Devpost showed `Project submitted!` after the submit click, and the `DRAFT` state was gone.
 
 ## Paste-Ready Links
 
@@ -12,6 +18,23 @@ Status: `ready_for_human_review`
 - Novus/Pendo proof: `submission/evidence/novus-dashboard.png`
 
 Paste the YouTube demo URL into the Devpost video field.
+
+Final Devpost field values used:
+
+- Project name: `FormPilot Vault`
+- Tagline: `Finish repetitive forms with human review.`
+- Public URL: https://daideguchi.github.io/formpilot-vault/
+- YouTube demo: https://youtu.be/q-HreuLw5F8
+- Novus/Pendo proof URL: https://raw.githubusercontent.com/daideguchi/formpilot-vault/main/submission/evidence/novus-dashboard.png
+- Started: `June 1, 2026`
+- Likelihood: `Pretty likely`
+- Eligibility answer: `Yes. I meet the eligibility criteria outlined in the hackathon rules.`
+
+Final visual fix before submit:
+
+- Replaced the Devpost overview thumbnail with `assets/verify-en-desktop.png`.
+- Replaced the YouTube custom thumbnail for `q-HreuLw5F8` with an English-only FormPilot Vault thumbnail.
+- Rechecked the Devpost preview: body text had `0` Japanese characters and all required English signals were present.
 
 ## Project Name
 
@@ -79,6 +102,8 @@ npm run test:public-probe
 npm run novus:verify
 npm run novus:public
 npm run release:check
+npm run check:production:strict-ai
+npm run check:launch -- --require-published
 ```
 
 ## Honest Boundaries

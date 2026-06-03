@@ -10,3 +10,4 @@ deploy/
 dist/
 tmp/
 submission/*.local.json
+submission/evidence/devpost/

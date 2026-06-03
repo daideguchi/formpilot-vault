@@ -13,9 +13,23 @@ async function checkPage(browser, path, interactions = []) {
     if (reqUrl.includes('pendo.io')) requests.push(reqUrl);
   });
 
-  await page.goto(`${url}${url.includes('?') ? '&' : '?'}novus_verify=${Date.now()}`, {
-    waitUntil: 'domcontentloaded',
-  });
+  const verifyUrl = `${url}${url.includes('?') ? '&' : '?'}novus_verify=${Date.now()}`;
+  let lastError;
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      await page.goto(verifyUrl, { waitUntil: 'domcontentloaded' });
+      lastError = undefined;
+      break;
+    } catch (error) {
+      lastError = error;
+      const message = error instanceof Error ? error.message : String(error);
+      if (!/ERR_NETWORK_CHANGED|ERR_INTERNET_DISCONNECTED|Navigation timeout/i.test(message) || attempt === 3) {
+        throw error;
+      }
+      await page.waitForTimeout(1000 * attempt);
+    }
+  }
+  if (lastError) throw lastError;
 
   for (const selector of interactions) {
     const target = page.locator(selector).first();
