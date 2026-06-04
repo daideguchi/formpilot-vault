@@ -73,7 +73,7 @@ Chrome Web Storeは2026-06-02 08:36 JST実測で公開済み。公開URLは `htt
 
 2026-06-02 11:48 JSTに、Free月20回を再固定したローカル最新ZIP `dist/ai-form-autofill-0.1.1.zip` / `105172 bytes` を再生成し、`npm test`、`npm run assets:store`、`npm run package:extension`、`npm run release:check` を通過した。11:52 JSTに実ブラウザでCWS Package画面を確認したところ、審査待ち中は `新しいパッケージをアップロード` ボタンがdisabledで、Package差し替えは不可。審査通過後、必要なら後続の `0.1.3` で再提出する。
 
-2026-06-02 14:40 JSTに専門UI/UX最終レビューの追加P0実装を入れた次回候補 `dist/ai-form-autofill-0.1.3.zip` / `152862 bytes` を生成した。popupは `検出 -> 確認 -> 入力`、Trustバッジ、送信しない約束、AI送信payload preview、育成バー、Vault Manager導線を持つ。full-page Vault ManagerはDashboard/Ledger/Profiles/Capture Inbox/Sites/Receipts/Plan/Security/Languageを持つ。追加で、Sensitivity Tier、パスワード/高機密項目スキップ、Safe Fill Mode、30秒Undo、値を保存しないReceipts、Delete Everything、AI fallback表示、231キー x 21 localeを持つ。`npm test`、`npm run test:extension`、`npm run assets:store`、`npm run package:extension`、`npm run release:check` は通過済み。CWSは0.1.1審査待ち中のため、0.1.3は未アップロードの次回提出候補。
+2026-06-05 07:36 JST頃に、CWS Dashboardで `0.1.1` が `公開済み - 一般公開` になっていることを確認した。その後、専門UI/UX最終レビューの追加P0実装を入れた `dist/ai-form-autofill-0.1.3.zip` / `152862 bytes` を再生成し、CWSへuploadして更新審査へ送信済み。popupは `検出 -> 確認 -> 入力`、Trustバッジ、送信しない約束、AI送信payload preview、育成バー、Vault Manager導線を持つ。full-page Vault ManagerはDashboard/Ledger/Profiles/Capture Inbox/Sites/Receipts/Plan/Security/Languageを持つ。追加で、Sensitivity Tier、パスワード/高機密項目スキップ、Safe Fill Mode、30秒Undo、値を保存しないReceipts、Delete Everything、AI fallback表示、231キー x 21 localeを持つ。`npm test`、`npm run test:extension`、`npm run release:check`、`npm run check:production:strict-ai`、`npm run check:cloudflare:live`、`npm run check:seo -- --live`、`npm run check:launch -- --require-published --require-dashboard` は通過済み。Dashboard読み戻しは `ステータス: 審査待ち`、ドラフト `0.1.3`、公開済み `0.1.1`。
 
 ## 提出前の停止条件
 
@@ -88,6 +88,5 @@ Chrome Web Storeは2026-06-02 08:36 JST実測で公開済み。公開URLは `htt
 ## 現在の人間停止点
 
 - Chrome Web Storeは公開済み
-- `0.1.1` 更新審査の差し戻し対応、または審査通過後の公開版読み戻し
-- 0.1.1反映後、必要なら0.1.3 Vault Manager/Trust UX/Safe Fill版を再提出
+- `0.1.3` 更新審査の差し戻し対応、または審査通過後の公開版読み戻し
 - Stripeの実購入/入金確認

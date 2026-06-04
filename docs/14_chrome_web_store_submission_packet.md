@@ -1,7 +1,7 @@
 # Chrome Web Store Submission Packet
 
 作成日: 2026-06-01
-状態: `next_update_package_ready`
+状態: `submitted_for_review_0.1.3`
 
 ## 使うファイル
 
@@ -170,7 +170,7 @@ Automatic publish after review is acceptable for MVP unless DD wants staged publ
 Chrome extension package localization:
 
 ```text
-The latest local candidate ZIP includes default_locale: en and _locales for en, en_GB, ja, es, es_419, fr, de, it, nl, pl, pt_BR, ru, tr, ar, hi, id, th, vi, ko, zh_CN, and zh_TW. As of 2026-06-02 14:40 JST, the package has 231 localized message keys per locale, a focused Detect / Review / Fill popup flow, Trust badges, a no-submit promise, an AI payload preview that excludes saved values and marks values as [NEVER SENT], a growth bar for ledger entries / learned sites / monthly usage / saved time, Safe Fill Mode, 30-second Undo, default skipping for password/payment/bank/government ID/verification fields, and a full-page Vault Manager for Dashboard, Ledger, Profiles, Capture Inbox, Sites, Receipts, Plan, Security, and Language. It also keeps the existing registration ledger, ZipCloud address lookup, split phone-number inputs, blank initial values with examples as placeholders, and Free 20 fills per month. The rebuilt ZIP size is 152862 bytes. Chrome Web Store is still reviewing 0.1.1, so this 0.1.3 ZIP is the next update candidate and has not been uploaded yet.
+The submitted 0.1.3 ZIP includes default_locale: en and _locales for en, en_GB, ja, es, es_419, fr, de, it, nl, pl, pt_BR, ru, tr, ar, hi, id, th, vi, ko, zh_CN, and zh_TW. The package has 231 localized message keys per locale, a focused Detect / Review / Fill popup flow, Trust badges, a no-submit promise, an AI payload preview that excludes saved values and marks values as [NEVER SENT], a growth bar for ledger entries / learned sites / monthly usage / saved time, Safe Fill Mode, 30-second Undo, default skipping for password/payment/bank/government ID/verification fields, and a full-page Vault Manager for Dashboard, Ledger, Profiles, Capture Inbox, Sites, Receipts, Plan, Security, and Language. It also keeps the existing registration ledger, ZipCloud address lookup, split phone-number inputs, blank initial values with examples as placeholders, and Free 20 fills per month. The rebuilt ZIP size is 152862 bytes. As of 2026-06-05 07:36 JST, Chrome Web Store has draft 0.1.3 under review while published version 0.1.1 remains live.
 ```
 
 Recommended first Store Listing locales:
@@ -216,20 +216,20 @@ The extension uses only activeTab, so it reads and fills the current page only a
 - Item ID: `kmlcabffhmenjajmlnkkglphjnbaahlf`
 - 多言語ZIP upload済み。2026-06-02 08:36 JSTの公開URL確認で `published: true`
 - 2026-06-02 09:47 JSTにUIUX改善/辞書登録強化/住所自動検索/電話番号3分割/空の初期値/Free月20回版ZIP `0.1.1` / `105168 bytes` をCWS Dashboardへuploadし、更新審査へ送信済み
-- Dashboard読み戻しは `ステータス: 審査待ち`、ドラフト `0.1.1`、公開済み `0.1.0`
-- 2026-06-02 14:40 JSTに0.1.3候補ZIP `152862 bytes` をローカル生成し、Vault Manager/Trust UX、Safe Fill Mode、30秒Undo、Receipts、Delete Everything、Sensitivity Tier、231キー x 21 locale、実ブラウザE2E込みで検証済み。ただしCWSへは未アップロード。
+- 2026-06-05 07:36 JST頃に `0.1.1` が `公開済み - 一般公開` になっていることを確認
+- 2026-06-05 07:36 JST頃に0.1.3 ZIP `152862 bytes` をCWS Dashboardへuploadし、更新審査へ送信済み
+- Dashboard読み戻しは `ステータス: 審査待ち`、ドラフト `0.1.3`、公開済み `0.1.1`
 - `store-assets/screenshot-popup-1280x800.png` は辞書登録UI版へ更新済み
 - Store Listing保存済み。短い説明と詳細説明は「repeated name/address/email typing」「saved info」「Check this form」「Fill matching fields」に統一済み
 - Privacy保存済み
 - Distribution: Public / Worldwide / In-app purchases
 - Test instructions保存済み。次回更新時は最新UIの `Saved info / Saved info ledger / Plan`, non-selectable 3-step flow, and dictionary ledger controlsに合わせて確認する
 - 2026-06-02 08:36 JST時点の公開URLは `published: true`
-- 2026-06-02 09:47 JSTに `0.1.1` をDashboardへuploadし、更新審査へ送信済み。Dashboard読み戻しは `ステータス: 審査待ち`、ドラフト `0.1.1`、公開済み `0.1.0`
+- 2026-06-05 07:36 JST頃に `0.1.3` をDashboardへuploadし、更新審査へ送信済み。Dashboard読み戻しは `ステータス: 審査待ち`、ドラフト `0.1.3`、公開済み `0.1.1`
 
 ## 人間操作が必要な停止点
 
-- `0.1.1` 更新審査の通過後公開確認、または差し戻し対応
-- 0.1.1反映後、必要なら0.1.3 Vault Manager/Trust UX/Safe Fill版を再提出
+- `0.1.3` 更新審査の通過後公開確認、または差し戻し対応
 - 実購入/入金確認
 
 ## 公式確認元

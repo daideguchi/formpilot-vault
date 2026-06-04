@@ -1,7 +1,7 @@
 # Production Launch Runbook
 
 作成日: 2026-06-01
-状態: `published_update_package_ready`
+状態: `cws_0.1.3_pending_review`
 
 ## ゴール
 
@@ -37,7 +37,7 @@ Chrome拡張を公開し、Plus/Pro/Teamの課金がDDのStripeへ入り、拡�
 - GitHub Pages静的公開LP: `https://daideguchi.github.io/formpilot-vault/`
 - 公開Privacy URL: `https://daideguchi.github.io/formpilot-vault/privacy.html`
 - Chrome Web Store公開URL: `https://chromewebstore.google.com/detail/formpilot-vault/kmlcabffhmenjajmlnkkglphjnbaahlf`
-- 更新用Chrome拡張ZIP: `dist/ai-form-autofill-0.1.1.zip` / `105172 bytes`（11:48 JSTローカル最新。CWSへ09:47 JSTに送信済みの審査中artifactは `105168 bytes`）
+- 更新審査中Chrome拡張ZIP: `dist/ai-form-autofill-0.1.3.zip` / `152862 bytes`（2026-06-05 07:27 JST再生成、07:36 JST頃にCWSへ送信済み）
 - ZipCloud郵便番号住所検索、電話番号3分割、空の初期値とプレースホルダー、保存完了表示
 
 注意: 2026-06-01時点のChrome Web Store提出用本番はVercelを正にします。Cloudflare Worker/D1は6/7以降の無料枠移行先として本番検証済みですが、現在のChrome Web Store提出を止める条件ではありません。
@@ -53,7 +53,7 @@ Chrome拡張を公開し、Plus/Pro/Teamの課金がDDのStripeへ入り、拡�
 - Checkout success: `https://formpilot-vault-api.vercel.app/success?license_key=...`
 - GitHub Pages mirror checkout: `github.io` 上ではVercel本番APIへ接続
 - Extension config: `extension/src/release-config.js`
-- Extension ZIP: `dist/ai-form-autofill-0.1.1.zip`
+- Extension ZIP: `dist/ai-form-autofill-0.1.3.zip`
 - Cloudflare Worker: `https://ai-form-autofill.dd-1107-11107.workers.dev`
 - Latest Vercel deployment: `dpl_HMAXzQgody4kr7zCQ6CLSCHo97US`
 
@@ -167,7 +167,7 @@ npm run release:check
 
 使うもの:
 
-- `dist/ai-form-autofill-0.1.1.zip`
+- `dist/ai-form-autofill-0.1.3.zip`
 - `store-assets/icon-128.png`
 - `store-assets/promo-small-440x280.png`
 - `store-assets/screenshot-main-1280x800.png`
@@ -176,9 +176,9 @@ npm run release:check
 - `docs/12_chrome_store_listing_copy.md`
 - Privacy URL: `https://formpilot-vault-api.vercel.app/privacy.html`
 
-2026-06-02 09:47 JST時点のローカル更新用ZIPは `dist/ai-form-autofill-0.1.1.zip` / `105168 bytes`。Chrome Web Store初版は公開済みで、この `0.1.1` 版はDashboardへuploadし、更新審査へ送信済み。Dashboard読み戻しは `ステータス: 審査待ち`、ドラフト `0.1.1`、公開済み `0.1.0`。
+2026-06-05 07:36 JST頃に、Chrome Web Store Dashboardで `0.1.1` が `公開済み - 一般公開` になっていることを確認した。続けて `dist/ai-form-autofill-0.1.3.zip` / `152862 bytes` をDashboardへuploadし、更新審査へ送信済み。Dashboard読み戻しは `ステータス: 審査待ち`、ドラフト `0.1.3`、公開済み `0.1.1`。
 
-2026-06-02 11:48 JSTに、DDの最新指定としてFreeは月20回を再固定した。ローカル最新ZIPは `dist/ai-form-autofill-0.1.1.zip` / `105172 bytes`、Vercel deploymentは `dpl_2Sz1QfJmP7DYE44VU2zguRTvPYob`、Cloudflare Worker version idは `dfffe4e1-856b-4768-8125-97aaea970e0b`。`npm run check:production` はVercel本番Free月20回とPlus/Pro/Team `cs_live_` Checkout Sessionを確認し、`npm run check:cloudflare:live` はCloudflare schema live / Stripe bridge / Free月20回を確認した。公開repo commit `6c7ad36`、GitHub Pages run `26795204977` も成功。11:52 JSTに実ブラウザでCWS Package画面を確認し、審査待ち中は `新しいパッケージをアップロード` ボタンがdisabledで差し替え不可と確認した。審査通過後、必要なら `0.1.2` で再提出する。
+2026-06-05の `0.1.3` 再提出前後に `npm test`、`npm run test:extension`、`npm run release:check`、`npm run check:production:strict-ai`、`npm run check:cloudflare:live`、`npm run check:seo -- --live`、`npm run check:launch -- --require-published`、`npm run check:launch -- --require-published --require-dashboard` はブロッカー0で通過した。公開版は審査通過まで `0.1.1` のままで、承認後に `0.1.3` が自動公開される想定。
 
 ## Cloudflare移行/再確認
 
@@ -218,7 +218,7 @@ npm run deploy:worker
 
 ## 現在のブロッカー
 
-- Chrome Web Storeは2026-06-02 08:36 JST時点で公開済み。`0.1.1` 更新版は2026-06-02 09:47 JSTに更新審査へ送信済み。次の停止点は審査通過後の公開版 `0.1.1` 読み戻し、または差し戻し対応。
+- Chrome Web Storeは公開済み。`0.1.3` 更新版は2026-06-05 07:36 JST頃に更新審査へ送信済み。次の停止点は審査通過後の公開版 `0.1.3` 読み戻し、または差し戻し対応。
 - 0円CheckoutのPlus active確認は完了。即時入金確認は無料プロモーションなしの有料決済またはStripe Dashboard上の売上確認が必要
 - 0円Plus subscriptionの将来請求回避確認。次回請求を発生させない場合は、2026-07-02T03:02:05.000Zより前にStripe Dashboardでキャンセルまたは割引継続設定を確認する
 - Kurogane bridge直接本番URLのFree月20回反映。FormPilot本番は正規化済みで月20回を返すが、bridge直叩きは未デプロイのため月5回を返す。汚れた作業ディレクトリを巻き込むローカルデプロイは避け、安全なbridge反映手順で進める

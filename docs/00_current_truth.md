@@ -1,12 +1,20 @@
 # Current Truth
 
-更新日: 2026-06-03
+更新日: 2026-06-05
 事業名: `AIフォームオートフィル`
 TASK候補: `BIZ-FORM-AUTOFILL-001`
 
 ## 現在地
 
 新規事業として起動しました。最終ゴールは `リリース` と `マネタイズ` です。
+
+## 2026-06-05 Chrome Web Store 0.1.3 再提出完了
+
+2026-06-05 07:36 JST頃に、Chrome Web Store Dashboard上で `0.1.1` が `公開済み - 一般公開` になっていることを確認しました。その後、専門UI/UX最終レビューの追加P0を含む `0.1.3` ZIPを再生成し、Chrome Web Storeへアップロードして `審査のため送信` まで完了しました。
+
+提出したZIPは `dist/ai-form-autofill-0.1.3.zip` / `152862 bytes` です。Package画面の読み戻しでは、ドラフトが `0.1.3`、公開済み版が `0.1.1`、全体ステータスが `審査待ち` です。公開URL `https://chromewebstore.google.com/detail/formpilot-vault/kmlcabffhmenjajmlnkkglphjnbaahlf` は引き続き公開中で、`0.1.3` が承認されるまでは公開版 `0.1.1` が配信されます。承認後は自動公開設定により `0.1.3` が公開反映される想定です。
+
+再提出前後に通した検証は `npm test`、`npm run test:extension`、`npm run release:check`、`npm run check:production:strict-ai`、`npm run check:cloudflare:live`、`npm run check:seo -- --live`、`npm run check:launch -- --require-published`、`npm run check:launch -- --require-published --require-dashboard` です。実ブラウザ拡張E2Eでは14項目収集、13項目入力、Plus表示、証跡画像 `site/assets/real-extension-*.png` の再生成まで確認しました。
 
 ## 2026-06-03 Mind the Product 提出完了
 
@@ -48,7 +56,7 @@ MVPは `Chrome拡張 + content script入力` を本線にします。Playwright�
 - Full-page Vault Manager: `extension/manager.html`, `extension/manager.js`, `extension/manager.css`
 - Chrome Web Store素材: `store-assets/`
 - 拡張アイコン: `extension/icons/`
-- 次回提出候補ZIP: `dist/ai-form-autofill-0.1.3.zip`
+- CWS 0.1.3更新審査中ZIP: `dist/ai-form-autofill-0.1.3.zip`
 - ストア掲載文面: `docs/12_chrome_store_listing_copy.md`
 - Chrome Web Store提出パケット: `docs/14_chrome_web_store_submission_packet.md`
 - プライバシー/利用規約下書き: `site/privacy.html`, `site/terms.html`
@@ -140,7 +148,7 @@ Chrome Web Store Dashboardにはitem `kmlcabffhmenjajmlnkkglphjnbaahlf` を作�
 
 Chrome Web Storeは、2026-06-02 08:36 JST時点で公開済みです。公開URLは `https://chromewebstore.google.com/detail/formpilot-vault/kmlcabffhmenjajmlnkkglphjnbaahlf`。2026-06-02 09:47 JSTに更新用ZIP `dist/ai-form-autofill-0.1.1.zip` をDashboardへアップロードし、更新審査へ送信済みです。Dashboard読み戻しでは、全体ステータスは `審査待ち`、ドラフトは `0.1.1`、公開済み版は `0.1.0` です。審査通過後に `0.1.1` が公開反映されます。
 
-2026-06-02 14:40 JST時点で、CWSへはまだ0.1.3をアップロードしていません。審査待ち中の0.1.1を差し替えられないため、0.1.3は次回提出候補としてローカル生成・検証済みです。通過確認は `npm test`、`npm run test:extension`、`npm run assets:store`、`npm run package:extension`、`npm run release:check` です。
+2026-06-05 07:36 JST頃に、CWS Dashboardで `0.1.1` の公開反映を確認し、続けて `0.1.3` をアップロードして更新審査へ送信しました。Dashboard読み戻しは `ステータス: 審査待ち`、ドラフト `0.1.3`、公開済み `0.1.1` です。通過確認は `npm test`、`npm run test:extension`、`npm run release:check`、`npm run check:production:strict-ai`、`npm run check:cloudflare:live`、`npm run check:seo -- --live`、`npm run check:launch -- --require-published --require-dashboard` です。
 
 Stripe商品/価格の作成スクリプトは `npm run setup:stripe:dry` でdry-run通過済みです。現行本番はFormPilot専用Stripe bridgeでPlus/Pro/Teamの本番Checkout Sessionを作る構成です。実購入/入金確認だけは未実行で、DDの決済操作またはStripe Dashboard確認が必要です。
 
@@ -195,8 +203,7 @@ Azure CLIは `degutidai@gmail.com` でログイン済みです。既存Azure AI 
 
 ## 未完了
 
-- Chrome Web Store `0.1.1` 更新審査の結果確認と公開反映確認
-- `0.1.1` 公開反映または差し戻し後、必要なら `0.1.3` のVault Manager/Trust UX/Safe Fill版をCWSへ再提出する
+- Chrome Web Store `0.1.3` 更新審査の結果確認と公開反映確認
 - Azure subscription再有効化、またはAzure期間をCloudflare live委譲で運用し続ける最終判断
 - Stripeの実購入/入金確認。0円Plus Checkoutは実機検証として完了済みだが、実売上ではない
 - 0円Plus subscriptionの将来請求回避確認。次回請求を発生させない場合は、2026-07-02T03:02:05.000Zより前にStripe Dashboardでキャンセルまたは割引継続設定を確認する
@@ -448,14 +455,14 @@ DDの最新指定「月20回だよ、フリー」を正として、Free制限を
 - `npm run novus:public` 通過。`/`、`/form-input.html`、`/form-autofill.html`、`/signup-autofill.html`、`/contact-form-autofill.html`、`/success.html?license_key=afa_public_probe_success`、`/demo.html` でPendo request、`pendo.initialize`、横スクロールなしを確認
 - Vercel本番とGitHub Pages公開ミラーの主要SEOページはHTTP 200、`月20回` / `20 fills` あり、`月5回` / `5 fills` なしを実測
 
-Chrome Web Storeは引き続き公開済みで、Dashboard読み戻しは `ステータス: 審査待ち`、ドラフト `0.1.1`、公開済み `0.1.0`。今回11:48 JSTのローカル最新ZIP `105172 bytes` は再生成済み。11:52 JSTに実ブラウザでDashboard Package画面を確認したところ、`新しいパッケージをアップロード` ボタンはdisabledで、審査待ち中の差し替えuploadは不可だった。審査通過後、必要なら後続の `0.1.3` として再提出する。
+この時点ではChrome Web Storeが引き続き公開済みで、Dashboard読み戻しは `ステータス: 審査待ち`、ドラフト `0.1.1`、公開済み `0.1.0` だった。今回11:48 JSTのローカル最新ZIP `105172 bytes` は再生成済み。11:52 JSTに実ブラウザでDashboard Package画面を確認したところ、`新しいパッケージをアップロード` ボタンはdisabledで、審査待ち中の差し替えuploadは不可だった。後続で0.1.1の公開反映を確認し、2026-06-05に `0.1.3` を再提出済み。
 
 2026-06-02 12:06 JST時点のSearch Console URL検査では、`https://formpilot-vault-api.vercel.app/form-input` はまだ `URL が Google に登録されていません`、理由は `URL が Google に認識されていません`。`インデックス登録をリクエスト` は表示されているが、画面下部に `割り当て量を超えています`、`1日の割り当て量を超えたため、リクエストを処理できませんでした。明日、もう一度お試しください。` が出ている。外部HTTPではVercel本番とsitemapは200確認済みなので、残作業は翌日以降の再リクエスト。
 
 ## 次の一歩
 
-1. Mind the Product: Devpostが外部動画URLを要求する場合、埋め込み済み2分デモを元に提出用動画を作る
-2. Chrome Web Storeは公開済み。`0.1.1` は更新審査待ちなので、審査通過後に公開版が `0.1.1` になったことを読み戻す
+1. Chrome Web Store: `0.1.3` は更新審査待ちなので、審査通過後に公開版が `0.1.3` になったことを読み戻す。差し戻しが来た場合は、その理由をCWS Dashboardから回収して修正する
+2. Mind the Product: Devpostが外部動画URLを要求する場合、埋め込み済み2分デモを元に提出用動画を作る
 3. 0円CheckoutでPlus activeは確認済み。実売上の入金確認は、無料プロモーションなしの有料決済またはStripe Dashboard上の売上確認で行う
 4. UiPath AgentHack: `Form Intake Case Room` のUiPath証拠を作る
 5. Google Rapid Agent: `FormOps Agent` のGemini / Agent Builder / Partner MCP証拠が作れるか判定する
