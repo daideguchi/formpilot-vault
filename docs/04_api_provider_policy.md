@@ -7,6 +7,7 @@
 
 - 2026-06-06 までは `Azure DeepSeek V4`
 - 2026-06-07 以降は `Cloudflare Workers AI` の無料枠モデル
+- 2026-06-05 10:34 JSTの本番実測では、Azure環境変数が未投入のためVercel本番はCloudflare Worker live schemaへ委譲している。提出物ではAzure直実行と過大表現しない。
 
 ## 実装上のルール
 
@@ -74,6 +75,7 @@ Chrome拡張popupは本番schema APIを優先します。APIが失敗した場�
 - Vercel本番にも `AZURE_DEEPSEEK_ENDPOINT` / `AZURE_DEEPSEEK_API_KEY` は未投入
 - 現在のVercel本番は、Azure env未投入時に `AFA_SCHEMA_LIVE_FALLBACK_URL` 経由でCloudflare Workerのlive schema APIへ委譲する
 - 2026-06-02 12:17 JSTに `npm run check:production:strict-ai` で、Vercel schema inferenceが `provider_id: cloudflare_workers_ai_free`、`mode: live`、`delegated_from_provider_id: azure_deepseek_v4`、`delegated_from_error: azure_env_missing` で通過した
+- 2026-06-05 10:34 JSTにも `npm run check:production:strict-ai` で、同じCloudflare live委譲経路が通過した
 - `rules_fallback` は、AzureとCloudflare live委譲の両方が使えない時の最後の継続手段として残す
 
 ## Cloudflare期間

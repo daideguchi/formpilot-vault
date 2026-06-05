@@ -16,6 +16,29 @@ TASK候補: `BIZ-FORM-AUTOFILL-001`
 
 再提出前後に通した検証は `npm test`、`npm run test:extension`、`npm run release:check`、`npm run check:production:strict-ai`、`npm run check:cloudflare:live`、`npm run check:seo -- --live`、`npm run check:launch -- --require-published`、`npm run check:launch -- --require-published --require-dashboard` です。実ブラウザ拡張E2Eでは14項目収集、13項目入力、Plus表示、証跡画像 `site/assets/real-extension-*.png` の再生成まで確認しました。
 
+## 2026-06-05 10:34 JST 最新版再監査
+
+DDから「古い版ではなく最新版を見てよい」と許可を受けたため、`__hackason/formpilot-vault-public` の `0.1.3` を正として再監査しました。事業側の古い `0.1.1` ではなく、公開提出用repoの最新commit `6d803a1 Record CWS 0.1.3 resubmission` を基準にしています。
+
+通過した検証:
+
+- `npm test`: schema/i18n/vault/api/worker/checkout-site/playwright smoke が通過。通常フォームsmokeは14項目収集、13項目入力。高機密項目を避ける設計のため、13入力は安全側の期待挙動。
+- `npm run test:extension`: 実ブラウザChrome拡張E2E通過。14項目収集、13項目入力、Plus表示、Vault Manager系証跡画像を再生成。
+- `npm run test:public-probe`: 公開フォーム2件で送信なしのDOM収集/入力反映を確認。`httpbin` は12項目収集/4入力、`selenium` は14項目収集/2入力。
+- `npm run novus:verify`: Novus/Pendo dashboard proof `submission/evidence/novus-dashboard.png` を確認。
+- `npm run novus:public`: GitHub Pagesのトップ、SEOページ、success、demoでPendo request、`pendo.initialize`、横スクロールなしを確認。
+- `npm run release:check`: CWS 0.1.3 ZIP、21 locales、231 keys、ストア画像、privacy/terms/support、placeholderなしを確認。
+- `npm run check:production:strict-ai`: Vercel本番、AI schema inference、Stripe Checkout session、Free entitlement、SEO/terms/support/robots/sitemapが通過。
+- `npm run check:cloudflare:live`: Cloudflare Worker health、Workers AI live schema、Stripe bridge、Free entitlementが通過。
+- `npm run check:seo -- --live`: 英語/日本語/SEO各ページ、構造化データ、robots、sitemapが通過。
+- `npm run check:launch -- --require-published`: Vercel、Cloudflare、GitHub Pages、Chrome Web Store公開URL、CWS Dashboard statusが通過。CWS Dashboardの実測は `published` / `ステータス: 公開済み - 一般公開`。ただし公開版は `0.1.1`、`0.1.3` は更新審査中。
+
+AIプロバイダー境界:
+
+- 設計上のprimary routeは2026-06-06まで `azure_deepseek_v4`。
+- 2026-06-05 10:34 JSTの本番実測では、Vercel本番は `azure_env_missing` を返し、Cloudflare Worker live schemaへ委譲して `provider_id: cloudflare_workers_ai_free`, `mode: live`, `delegated_from_provider_id: azure_deepseek_v4` で通過。
+- そのため、現時点の提出/審査証拠では「Azure DeepSeekが本番で直接動いている」とは書かない。正しい言い方は「Azure routeを持つが、現本番はCloudflare Workers AI live fallbackでAI schema inferenceが通っている」。
+
 ## 2026-06-03 Mind the Product 提出完了
 
 2026-06-03 09:03 JSTに、Devpost `Mind the Product presents World Product Day: Everyone Ships Now` へ `FormPilot Vault` を最終提出しました。公開ページは `https://devpost.com/software/formpilot-vault` です。提出後のDevpost画面で `Project submitted!` を確認し、`DRAFT` 表示が消えたことを確認しました。
@@ -181,6 +204,7 @@ Azure CLIは `degutidai@gmail.com` でログイン済みです。既存Azure AI 
 - Chrome拡張にAPIキーを入れない
 - APIはサーバー/Worker側のプロキシで呼ぶ
 - AIへ送るのはDOM由来のフォーム構造だけ
+- 2026-06-05の実測本番は、Azure環境変数未投入のためCloudflare Workers AI liveへ委譲している。Azureを直接動かすにはAzure subscription / deployment / env反映の再確認が必要。
 
 ## MVPの公開範囲
 
