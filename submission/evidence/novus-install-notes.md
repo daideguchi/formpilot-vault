@@ -1,10 +1,12 @@
 # Novus / Pendo Install Notes
 
-Recorded: 2026-06-01 JST
+Recorded: 2026-06-11 JST
 
 ## Current State
 
-Novus/Pendo frontend snippet is installed in the public FormPilot Vault page.
+Novus/Pendo frontend snippet is installed in the public FormPilot Vault pages.
+The 2026-06-11 proof screenshot was captured from Novus after connecting GitHub
+and scanning the `daideguchi/formpilot-vault` repository.
 
 Installed surfaces:
 
@@ -12,6 +14,16 @@ Installed surfaces:
 - `site/index.html`
 - `demo.html`
 - `site/demo.html`
+- `form-autofill.html`
+- `site/form-autofill.html`
+- `signup-autofill.html`
+- `site/signup-autofill.html`
+- `contact-form-autofill.html`
+- `site/contact-form-autofill.html`
+- `form-input.html`
+- `site/form-input.html`
+- `success.html`
+- `site/success.html`
 
 Public URL:
 
@@ -30,7 +42,7 @@ The page can send these product-language events:
 
 ## Boundary
 
-Dashboard proof is attached at `submission/evidence/novus-dashboard.png`.
+Novus scan proof is attached at `submission/evidence/novus-dashboard.png`.
 The local verifier now passes.
 
 ## Commands

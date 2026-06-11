@@ -1,7 +1,11 @@
 import { chromium } from 'playwright';
+import { existsSync } from 'node:fs';
 
 const baseUrl = process.env.FORMPILOT_PUBLIC_URL || 'https://daideguchi.github.io/formpilot-vault/';
 const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+const chromeExecutable =
+  process.env.CHROME_EXECUTABLE ||
+  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 
 async function checkPage(browser, path, interactions = []) {
   const requests = [];
@@ -59,7 +63,19 @@ async function checkPage(browser, path, interactions = []) {
   };
 }
 
-const browser = await chromium.launch({ headless: true });
+async function launchBrowser() {
+  try {
+    return await chromium.launch({ headless: true });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    if (!message.includes("Executable doesn't exist") || !existsSync(chromeExecutable)) {
+      throw error;
+    }
+    return chromium.launch({ headless: true, executablePath: chromeExecutable });
+  }
+}
+
+const browser = await launchBrowser();
 const results = [];
 try {
   results.push(await checkPage(browser, '/', [

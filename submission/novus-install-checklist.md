@@ -1,6 +1,6 @@
 # Novus.ai Install Checklist
 
-Status: `dashboard_proof_attached`
+Status: `novus_scan_proof_attached`
 
 Mind the Product requires Novus.ai to be installed before submission. Projects without the Novus install are ineligible.
 
@@ -14,7 +14,7 @@ Official references:
 
 1. Novus account/project access. `done via existing Novus/Pendo account`
 2. Novus installed on `https://daideguchi.github.io/formpilot-vault/` or on the final production URL. `snippet installed in repo`
-3. Screenshot of the Novus dashboard showing the install state. `attached`
+3. Screenshot of the Novus scan/install screen showing the install state. `attached 2026-06-11`
 4. Public smoke command confirming the live pages send Pendo/Novus requests. `npm run novus:public`
 5. Short proof note explaining what Novus sees:
    - page view
@@ -51,4 +51,4 @@ submission/evidence/novus-install-notes.md
 
 ## Current Decision
 
-The product can continue without paid resources. The frontend snippet is installed, the public page fires Pendo/Novus requests, and the dashboard proof screenshot is attached.
+The product can continue without paid resources. The frontend snippet is installed, the public pages fire Pendo/Novus requests, and the Novus scan proof screenshot is attached.
