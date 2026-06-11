@@ -25,7 +25,7 @@ test("worker schema route accepts safe payloads in mock mode", async () => {
   const response = await handleWorkerRequest(new Request("https://app.example.test/api/schema/infer", {
     method: "POST",
     body: JSON.stringify(payload)
-  }), { AFA_SCHEMA_PROXY_MODE: "mock" });
+  }), { AFA_SCHEMA_PROXY_MODE: "mock", AFA_SCHEMA_PROVIDER_ID: "azure_deepseek_v4" });
   assert.equal(response.status, 200);
   const json = await response.json();
   assert.equal(json.provider_id, "azure_deepseek_v4");

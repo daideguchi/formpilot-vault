@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
@@ -9,8 +10,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const fixturePath = path.join(root, "tests/fixtures/signup.html");
 const collectorPath = path.join(root, "extension/src/collector.js");
+const chromeExecutable =
+  process.env.CHROME_EXECUTABLE ||
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 
-const browser = await chromium.launch({ headless: true });
+const browser = await launchBrowser();
 const page = await browser.newPage({ viewport: { width: 980, height: 820 } });
 
 try {
@@ -49,4 +53,16 @@ try {
   console.log(`Playwright smoke passed: ${fields.length} fields scanned, ${fillResult.filled} filled`);
 } finally {
   await browser.close();
+}
+
+async function launchBrowser() {
+  try {
+    return await chromium.launch({ headless: true });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    if (!message.includes("Executable doesn't exist") || !existsSync(chromeExecutable)) {
+      throw error;
+    }
+    return chromium.launch({ headless: true, executablePath: chromeExecutable });
+  }
 }

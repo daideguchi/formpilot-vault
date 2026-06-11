@@ -102,6 +102,8 @@ Current status:
 Evidence:
 
 - Screenshot of Novus/Pendo install state: `submission/evidence/novus-dashboard.png`
+- 2026-06-11 resubmission proof: `submission/evidence/novus-resubmission-proof-2026-06-11.md`
+- 2026-06-11 Novus recheck screenshot: `submission/evidence/novus-dashboard-recheck-2026-06-11.png`
 - Install notes: `submission/evidence/novus-install-notes.md`
 - Public smoke command: `npm run novus:public`
 

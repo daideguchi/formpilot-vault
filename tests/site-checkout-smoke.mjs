@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { existsSync } from "node:fs";
 import fs from "node:fs/promises";
 import http from "node:http";
 import path from "node:path";
@@ -8,6 +9,9 @@ import { chromium } from "playwright";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const sitePath = path.join(root, "site");
+const chromeExecutable =
+  process.env.CHROME_EXECUTABLE ||
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 
 const pricingSource = await fs.readFile(path.join(sitePath, "pricing.js"), "utf8");
 const successSource = await fs.readFile(path.join(sitePath, "success.js"), "utf8");
@@ -52,8 +56,9 @@ const server = http.createServer(async (request, response) => {
   try {
     const ext = path.extname(filePath);
     const type = ext === ".js" ? "text/javascript" : ext === ".css" ? "text/css" : "text/html";
+    const body = await fs.readFile(filePath);
     response.writeHead(200, { "content-type": `${type}; charset=utf-8` });
-    response.end(await fs.readFile(filePath));
+    response.end(body);
   } catch {
     response.writeHead(404);
     response.end();
@@ -63,10 +68,10 @@ const server = http.createServer(async (request, response) => {
 await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
 server.baseUrl = `http://127.0.0.1:${server.address().port}`;
 
-const browser = await chromium.launch({ headless: true });
+const browser = await launchBrowser();
 try {
   const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
-  await page.goto(`${server.baseUrl}/`);
+  await page.goto(`${server.baseUrl}/?lang=en`);
   assert.equal(await page.locator("html").getAttribute("lang"), "en");
   assert.equal(await page.getByRole("button", { name: "Start Pro" }).isVisible(), true);
   assert.equal(await page.getByRole("button", { name: "Start Team" }).isVisible(), true);
@@ -125,4 +130,16 @@ function readBody(request) {
     request.on("end", () => resolve(body));
     request.on("error", reject);
   });
+}
+
+async function launchBrowser() {
+  try {
+    return await chromium.launch({ headless: true });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    if (!message.includes("Executable doesn't exist") || !existsSync(chromeExecutable)) {
+      throw error;
+    }
+    return chromium.launch({ headless: true, executablePath: chromeExecutable });
+  }
 }

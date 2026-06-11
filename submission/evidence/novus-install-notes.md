@@ -43,6 +43,7 @@ The page can send these product-language events:
 ## Boundary
 
 Novus scan proof is attached at `submission/evidence/novus-dashboard.png`.
+The 2026-06-11 resubmission recheck is attached at `submission/evidence/novus-dashboard-recheck-2026-06-11.png` and summarized in `submission/evidence/novus-resubmission-proof-2026-06-11.md`.
 The local verifier now passes.
 
 ## Commands
@@ -56,3 +57,5 @@ npm run novus:public
 ## Latest Public Smoke
 
 `npm run novus:public` opens the public app and demo page, confirms the `pendo` object exists, confirms `pendo.track` is available, observes `pendo.io` requests, and checks that the pages have no horizontal overflow.
+
+The latest recheck covered `/`, `/form-input.html`, `/form-autofill.html`, `/signup-autofill.html`, `/contact-form-autofill.html`, `/success.html?license_key=afa_public_probe_success`, and `/demo.html`. All checked pages returned `hasPendo=true`, `hasTrack=true`, `hasInitialize=true`, and no horizontal overflow; live requests included `cdn.pendo.io` and `data.pendo.io`.
